@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>מסלול הדרגות – Juice Plus+</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header>
+    <h1>מסלול הדרגות – Juice Plus+</h1>
+    <p class="subtitle">
+      חוברת דיגיטלית לזכיין חדש – הסבר וידאו לכל דרגה
+    </p>
+  </header>
+
+  <main>
+    <ul class="rank-list" id="rankList">
+      <!-- נטען אוטומטית מ-data.js -->
+    </ul>
+  </main>
+
+  <footer>
+    <p>© Juice Plus+ | חומר לימודי לזכיינים</p>
+  </footer>
+
+  <script src="data.js"></script>
+  <script>
+    const list = document.getElementById("rankList");
+
+    RANKS.forEach(rank => {
+      const li = document.createElement("li");
+      li.innerHTML = `
+        <a href="rank.html?rank=${rank.id}">
+          ${rank.title}
+        </a>
+      `;
+      list.appendChild(li);
+    });
+  </script>
+
+</body>
+</html>

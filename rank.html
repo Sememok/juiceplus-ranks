@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>דרגה – Juice Plus+</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="back-link">⬅ חזרה לכל הדרגות</a>
+    <h1 id="rankTitle">טוען…</h1>
+  </header>
+
+  <main>
+    <div class="video-container">
+      <iframe
+        id="videoFrame"
+        src=""
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+    </div>
+
+    <div class="actions">
+      <a id="youtubeLink" target="_blank" class="btn">
+        פתח ביוטיוב
+      </a>
+    </div>
+
+    <div class="qr-note">
+      <p>
+        ניתן להדפיס עמוד זה ולסרוק את קוד ה-QR  
+        כדי לצפות בהסבר הווידאו בכל זמן.
+      </p>
+    </div>
+  </main>
+
+  <footer>
+    <p>© Juice Plus+ | הדרכה לזכיינים</p>
+  </footer>
+
+  <script src="data.js"></script>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const rankId = params.get("rank");
+
+    const rank = RANKS.find(r => r.id === rankId);
+
+    if (!rank) {
+      document.getElementById("rankTitle").innerText = "דרגה לא נמצאה";
+    } else {
+      document.getElementById("rankTitle").innerText = rank.title;
+
+      const videoUrl = `https://www.youtube.com/embed/${rank.youtube}`;
+      document.getElementById("videoFrame").src = videoUrl;
+
+      document.getElementById("youtubeLink").href =
+        `https://youtu.be/${rank.youtube}`;
+    }
+  </script>
+
+</body>
+</html>
