@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>הגדרות מיתוג</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand-left">
+      <div class="brand-logo">
+        <img data-brand="logo" alt="לוגו">
+        <span class="fallback" data-brand="logoFallback">LOGO</span>
+      </div>
+      <div class="brand-text">
+        <h1 data-brand="groupName">המסע המשותף שלנו</h1>
+        <div class="tagline" data-brand="tagline">מיתוג לחוברת ולמערכת</div>
+      </div>
+    </div>
+    <div class="actions">
+      <a class="btn ghost" href="index.html">חזרה</a>
+      <a class="btn" href="booklet.html">חוברת להדפסה</a>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <section class="card">
+    <h2 style="margin-top:0;">הגדרות מיתוג לארגון</h2>
+    <p class="muted">כאן כל ארגון יכול להגדיר שם קבוצה, שורת משנה ולוגו — וזה ישפיע על האתר ועל החוברת להדפסה.</p>
+
+    <label style="display:block; font-weight:900; margin-top:10px;">שם הקבוצה</label>
+    <input id="groupName" class="input" type="text" placeholder="שם הקבוצה" />
+
+    <label style="display:block; font-weight:900; margin-top:10px;">שורת משנה</label>
+    <input id="tagline" class="input" type="text" placeholder="שורת משנה" />
+
+    <label style="display:block; font-weight:900; margin-top:10px;">לוגו (PNG/JPG)</label>
+    <input id="logoFile" type="file" accept="image/*" />
+
+    <div class="actions" style="margin-top:14px;">
+      <button id="saveBtn" class="btn">שמור מיתוג</button>
+      <button id="resetBtn" class="btn secondary">איפוס</button>
+    </div>
+
+    <p class="muted small" style="margin-top:12px;">
+      המיתוג נשמר בדפדפן (localStorage). כדי שארגון אחר ישתמש — הוא פשוט ייכנס לעמוד הזה ויגדיר מיתוג משלו.
+    </p>
+  </section>
+</main>
+
+<script src="brand.js"></script>
+<script>
+  const b = brandRender();
+
+  const groupName = document.getElementById("groupName");
+  const tagline = document.getElementById("tagline");
+  const logoFile = document.getElementById("logoFile");
+
+  groupName.value = b.groupName;
+  tagline.value = b.tagline;
+
+  document.getElementById("saveBtn").addEventListener("click", async () => {
+    const next = brandLoad();
+    next.groupName = groupName.value.trim() || next.groupName;
+    next.tagline = tagline.value.trim() || next.tagline;
+
+    if (logoFile.files && logoFile.files[0]) {
+      const file = logoFile.files[0];
+      const dataUrl = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+      next.logoDataUrl = dataUrl;
+    }
+    brandSave(next);
+    brandRender();
+    alert("המיתוג נשמר.");
+  });
+
+  document.getElementById("resetBtn").addEventListener("click", () => {
+    brandReset();
+    brandRender();
+    const n = brandLoad();
+    groupName.value = n.groupName;
+    tagline.value = n.tagline;
+    logoFile.value = "";
+    alert("בוצע איפוס.");
+  });
+</script>
+
+</body>
+</html>
