@@ -164,3 +164,60 @@ a{color:inherit; text-decoration:none}
   .card{box-shadow:none}
   .page-break{break-after:page;}
 }
+
+/* ===== Rank Tree ===== */
+.tree-header { display:flex; justify-content:space-between; align-items:flex-end; gap:12px; flex-wrap:wrap; }
+.tree-title { font-weight:900; font-size:18px; }
+.tree-subtitle { color:#6b7280; font-size:13px; }
+
+.tree-grid { margin-top:14px; display:flex; flex-direction:column; gap:10px; }
+.tree-row { display:flex; gap:12px; align-items:flex-start; }
+.tree-row-label { width:64px; flex:0 0 64px; color:#6b7280; font-size:13px; padding-top:8px; }
+
+.tree-nodes { display:flex; flex-wrap:wrap; gap:14px; }
+.tree-node-wrap { display:flex; flex-direction:column; align-items:center; gap:6px; min-width:72px; }
+
+.tree-node {
+  width:46px; height:46px; border-radius:999px;
+  display:flex; align-items:center; justify-content:center;
+  font-weight:900; border:2px solid rgba(201,79,163,.45);
+  background:#fff; color:#111827;
+  box-shadow: 0 6px 16px rgba(0,0,0,.06);
+}
+.tree-points { font-size:12px; color:#374151; }
+.tree-note { font-size:11px; color:#6b7280; text-align:center; max-width:110px; line-height:1.2; }
+
+.tree-info { margin-top:14px; display:flex; gap:10px; flex-wrap:wrap; }
+.tree-pill {
+  border:1px solid #e5e7eb; background:#fff; border-radius:999px;
+  padding:8px 12px; font-size:13px; color:#111827;
+}
+.tree-disclaimer { margin-top:10px; color:#6b7280; font-size:12px; line-height:1.4; }
+.tree-missing { padding:12px; border:1px dashed #e5e7eb; border-radius:14px; color:#6b7280; }
+
+/* Node color themes (simple, print-friendly) */
+.rank-p { border-color:#b6b6b6; background:#f7f7f7; }
+.rank-partner { border-color:#b6b6b6; background:#f7f7f7; }
+
+.rank-pp, .rank-pplus, .rank-partnerplus { border-color:#34d399; background:#eafaf2; }
+
+.rank-sp, .rank-seniorpartner { border-color:#fb7185; background:#ffe9ee; }
+
+.rank-sc, .rank-salescoordinator { border-color:#60a5fa; background:#eaf2ff; }
+
+.rank-qssc { border-color:#a78bfa; background:#f1ecff; }
+.rank-ssc { border-color:#8b5cf6; background:#eee9ff; }
+
+.rank-qnmd { border-color:#f59e0b; background:#fff4df; }
+.rank-nmd { border-color:#f97316; background:#fff0e6; }
+
+.rank-imd { border-color:#ef4444; background:#ffecec; }
+.rank-emd { border-color:#dc2626; background:#ffe6e6; }
+.rank-pmd { border-color:#b91c1c; background:#ffe1e1; }
+.rank-pmdplus { border-color:#7f1d1d; background:#ffdada; }
+
+/* Print: keep blocks together */
+@media print {
+  .tree-row { break-inside: avoid; page-break-inside: avoid; }
+  .tree-node { box-shadow:none; }
+}
