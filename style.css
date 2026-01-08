@@ -376,3 +376,13 @@ a{ color:inherit; }
   object-fit:contain;
   padding:8px;
 }
+
+.lbl{display:block;font-weight:900;margin-top:10px;}
+.preview{margin-top:12px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;}
+#previewImg{
+  width:140px;height:140px;border:1px solid #ddd;border-radius:14px;
+  background:#fff;display:none;object-fit:contain;padding:8px;
+}
+.brand-logo img{width:56px;height:56px;object-fit:contain;}
+.fallback{display:none;}
+.breakall{word-break:break-all;}
