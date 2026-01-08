@@ -1,90 +1,97 @@
-// הדאטה של הדרגות + סרטונים + תוכן לימודי
-const RANKS = [
-  { id:"pplus", title:"Partner Plus (P+)", youtube:"M293NdN7Sok",
-    intro:"נקודת ההתחלה של ההתקדמות: בניית הרגלים נכונים, היכרות עם המוצרים, והנחת תשתית לפעילות עקבית.",
-    goals:["להבין את היעד הקרוב ומה הפעולות שמייצרות התקדמות.","לבנות שגרה שבועית: למידה + יצירת קשרים + מעקב.","לאסוף סיפורי שימוש/ערך בצורה מסודרת."],
-    checklist:["צפייה בסרטון ורישום 3 פעולות.","רשימת 20 אנשים רלוונטיים (רק רשימה).","משפט פתיחה קצר לשיחה.","2 שיחות היכרות השבוע + 1 מעקב."],
-    mistakes:["לחכות ‘להיות מוכן’ במקום להתחיל קטן.","לדבר רק על כסף במקום על ערך ותהליך.","להסביר יותר מדי במקום לשאול ולתאם צעד הבא."],
-    nextWeek:"השבוע: 2 שיחות היכרות + 1 שיחת מעקב, הכול מתועד (מי/מתי/מה הצעד הבא)."
-  },
+// Brand settings page logic (uses brand-core.js functions)
+async function fileToSmallDataUrl(file, maxSize = 420, quality = 0.82) {
+  const dataUrl = await new Promise((resolve, reject) => {
+    const r = new FileReader();
+    r.onload = () => resolve(r.result);
+    r.onerror = reject;
+    r.readAsDataURL(file);
+  });
 
-  { id:"sp", title:"Senior Partner", youtube:"fnG6Eld0SPk",
-    intro:"מעבר מפעילות ‘על הדרך’ לתהליך עסקי קטן: עקביות, מעקב ושיפור מסרים.",
-    goals:["לחדד מסר פשוט: מה זה, למי מתאים, מה הצעד הבא.","לעבוד עם תבנית שיחה קבועה.","להגדיל תנועה יציבה בצינור (פניות/שיחות/הצגות)."],
-    checklist:["תסריט שיחה 30–60 שניות.","5 שאלות גילוי צורך.","3–5 חלונות פעילות בשבוע (15–30 דק׳).","מעקב לכל שיחה: תאריך צעד הבא."],
-    mistakes:["לרדוף אחרי כולם במקום להתמקד במוכנים.","חוסר מעקב שמפיל שיחות.","להתפזר בכלים במקום שיטה אחת פשוטה."],
-    nextWeek:"השבוע: 5 פניות קצרות + 2 שיחות עומק. מטרה: תנועה עקבית, לא שלמות."
-  },
+  const img = new Image();
+  img.src = dataUrl;
+  await new Promise((res, rej) => { img.onload = res; img.onerror = rej; });
 
-  { id:"sc", title:"Sales Coordinator (SC)", youtube:"cyJb_ecWjyA",
-    intro:"כאן מתחילים לחשוב ‘צוות’: לקוחות + זכיינים, ושגרה שמייצרת נפח.",
-    goals:["לבנות צינור קבוע (פניה→הצגה→סגירה→שירות).","להתחיל שכפול: חדשים עושים צעדים בסיסיים.","להבין מושגים מרכזיים בלי להסתבך."],
-    checklist:["דף מעקב פשוט לכל התהליך.","ערכת התחלה לזכיין חדש: 3 קישורים + שיחת התנעה.","שיחת צוות שבועית קצרה.","ליווי לקוח (Onboarding)."],
-    mistakes:["לעשות הכל לבד במקום לבזר משימות.","להתמקד בגיוס בלי שירות לקוחות.","להפוך מסרים למסובכים."],
-    nextWeek:"השבוע: קבע/י שיחת צוות ביומן ובנה/י צ׳קליסט 7 ימים למצטרף חדש."
-  },
+  const scale = Math.min(1, maxSize / Math.max(img.width, img.height));
+  const canvas = document.createElement("canvas");
+  canvas.width = Math.round(img.width * scale);
+  canvas.height = Math.round(img.height * scale);
 
-  { id:"qssc", title:"Qualifying Senior Sales Coordinator (QSSC)", youtube:"ru06kEc9kqE",
-    intro:"שלב ההכנה ל-SSC: חיזוק 2–3 מוקדים בצוות, ומעבר לשכפול עקבי.",
-    goals:["לחזק מובילים שמבצעים פעולות שבועיות.","להטמיע מסלול 7–30 יום למצטרף חדש.","לשפר איכות: פחות רעש, יותר התאמה."],
-    checklist:["זיהוי 2 מובילים עם רצון אמיתי.","ליווי שבועי קצר לכל מוביל.","מסלול 30 יום כתוב לזכיין חדש.","קהילה עם כללים (קבוצת וואטסאפ)."],
-    mistakes:["להניח ש’יסתדר’ בלי מעקב.","להשקיע באנשים שלא רוצים.","להחליף שיטה כל שבוע."],
-    nextWeek:"השבוע: בחר/י 2 מובילים ותכנית 14 יום עם מטרות יומיות קטנות."
-  },
+  const ctx = canvas.getContext("2d");
+  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+  return canvas.toDataURL("image/jpeg", quality);
+}
 
-  { id:"ssc", title:"Senior Sales Coordinator (SSC)", youtube:"xPwmFecZ8Ms",
-    intro:"העסק הופך ל’מערכת’: גיוס/חניכה/שירות שמייצרים תוצאות גם בלי תלות מלאה בך.",
-    goals:["שגרות צוות קבועות.","ספריית משאבים מסודרת.","יציבות דרך לקוחות פעילים + זכיינים פעילים."],
-    checklist:["שיחת צוות שבועית קבועה.","חבילת Onboarding למצטרף.","לוח מעקב צוותי בשלבים.","מסרים אחידים ופשוטים."],
-    mistakes:["לנהל לפי מצב רוח במקום לוח זמנים.","להעמיס מידע על חדשים.","להזניח שירות לקוחות."],
-    nextWeek:"השבוע: בנה/י ‘חבילת התחלה’ אחת (קישור אחד שמרכז הכל)."
-  },
+function initBrandSettingsPage() {
+  const b = loadBrand();
+  applyBrandToPage();
 
-  { id:"qnmd", title:"Qualifying National Marketing Director (QNMD)", youtube:"W8Wm_c4kMUo",
-    intro:"מעבר לניהול צוות רחב: מנהיגות, תקשורת, וסטנדרטים ברורים.",
-    goals:["פיתוח מנהיגים שמובילים אחרים.","סטנדרט מינימום שבועי לצוות.","מדידה של פעילות ושיפור."],
-    checklist:["פגישת מובילים קבועה.","2 מדדי KPI פשוטים.","טבלת ‘מי צריך עזרה’.","טקס הכרה והוקרה."],
-    mistakes:["לעבוד רק עם ‘כוכבים’ ולהזניח שכבה אמצעית.","חוסר בהירות מה מצופה השבוע.","להתמקד רק בהכנסות."],
-    nextWeek:"השבוע: הגדיר/י 2 מדדים (למשל הצגות+מצטרפים) ועדכון שבועי קבוע."
-  },
+  const groupName = document.getElementById("groupName");
+  const tagline = document.getElementById("tagline");
+  const logoFile = document.getElementById("logoFile");
+  const preview = document.getElementById("previewImg");
+  const msg = document.getElementById("msg");
+  const checkUrl = document.getElementById("logoCheckUrl");
 
-  { id:"nmd", title:"National Marketing Director (NMD)", youtube:"muieHSXIocI",
-    intro:"יציבות ארגונית: שדרה של מובילים, תהליכי חניכה וחיזוק שימור.",
-    goals:["מובילים שמובילים מיקרו-צוותים.","שימור גבוה דרך ליווי.","שגרות: הדרכה/הצגה/הצלחות."],
-    checklist:["2 אירועים קבועים בחודש.","מסלול ‘72 שעות ראשונות’.","מיפוי צוות לפי רמות.","ספריית משאבים מסודרת."],
-    mistakes:["להסתמך על ‘זרימה’ בלי מערכת.","להעמיס תוכן בלי סדר.","להזניח בסיס הכשרה."],
-    nextWeek:"השבוע: כתוב/י מסמך ‘72 שעות’ ובקש/י מכל מוביל ליישם עם מצטרף חדש."
-  },
+  const url = `${location.origin}/${location.pathname.split("/")[1]}/assets/ourway.jpg`;
+  if (checkUrl) checkUrl.textContent = url;
 
-  { id:"imd", title:"International Marketing Director (IMD)", youtube:"WeEZlCjHAtU",
-    intro:"ניהול ארגון: זמן, האצלת סמכויות, ושכפול מנהיגות.",
-    goals:["סקייל בלי עומס אישי.","חלוקת אחריות ברורה.","מנהיגים שמכשירים מנהיגים."],
-    checklist:["פגישת מובילים קבועה.","חלוקת תפקידים: onboarding/תוכן/תמיכה.","תיעוד תהליכים (‘איך עושים X’).","מערכת מעקב קלה."],
-    mistakes:["להישאר בביצוע במקום בהובלה.","להגיב כל היום במקום תכנית.","חוסר תיעוד."],
-    nextWeek:"השבוע: האצל/י תפקיד אחד קטן אבל קבוע למוביל/ה."
-  },
+  if (groupName) groupName.value = b.groupName;
+  if (tagline) tagline.value = b.tagline;
 
-  { id:"emd", title:"Executive Marketing Director (EMD)", youtube:"KpKDNIc8R7k",
-    intro:"מערכת מנהיגות: תרבות, סטנדרטים והכשרה עקבית שמייצרים יציבות.",
-    goals:["תרבות צוות וסטנדרטים.","הכשרה איכותית ושימור.","שכפול עמוק."],
-    checklist:["‘ספר הנהלה’ קצר לצוות.","לוח הדרכות רבעוני.","מסלול התקדמות למובילים.","מנגנון פידבק ושיפור."],
-    mistakes:["להחליף כיוון לעיתים קרובות.","להתמקד רק באירועים גדולים.","תקשורת לא עקבית."],
-    nextWeek:"השבוע: כתוב/י ‘סטנדרט שבועי’ ב-5 שורות ושלח/י למובילים."
-  },
+  const setMsg = (t) => { if (msg) msg.textContent = t; };
 
-  { id:"pmd", title:"Presidential Marketing Director (PMD)", youtube:"2i3sVTpFxts",
-    intro:"הובלת ארגון גדול: יציבות, מנהיגות, ופיתוח דור מנהיגים חדש.",
-    goals:["שדרה חזקה שמתפתחת.","סנכרון בין צוותים.","דרך ברורה שמייצרת שימור."],
-    checklist:["שיחת אסטרטגיה חודשית.","הכשרת מאמנים פנימיים.","תכנית Recognition.","זמן הובלה חסום ביומן."],
-    mistakes:["להניח שהארגון רץ לבד ולהתרחק.","לא לפתור צווארי בקבוק (onboarding/מעקב).","תקשורת מעטה."],
-    nextWeek:"השבוע: שיחת אסטרטגיה עם 2 מובילים + 3 מטרות ל-30 יום."
-  },
-
-  { id:"pmdplus", title:"Presidential Marketing Director Plus (PMD+)", youtube:"MVxQ4LPsj6w",
-    intro:"מערכת יציבה שממשיכה לגדול: קיימות, העברת ידע, ושמירה על איכות.",
-    goals:["תכנון שנתי והמשכיות.","מנהיגי-על שמכפילים את המערכת.","איכות ושירות לאורך זמן."],
-    checklist:["תכנית שנתית (הדרכות/אירועים/יעדים).","חניכה רב-שלבית: חדש→פעיל→מוביל→מאמן.","מדידה רבעונית ושיפור.","מסרים אחידים ופשוטים."],
-    mistakes:["יותר מדי יוזמות במקביל.","להזניח onboarding ושירות.","לא לזהות חולשה בשדרה בזמן."],
-    nextWeek:"השבוע: בחר/י תחום מערכת אחד לשיפור ויישם/י שינוי קטן שמתקבע."
+  if (logoFile) {
+    logoFile.addEventListener("change", async () => {
+      if (!logoFile.files || !logoFile.files[0]) return;
+      try {
+        setMsg("טוען Preview...");
+        const small = await fileToSmallDataUrl(logoFile.files[0]);
+        preview.src = small;
+        preview.style.display = "block";
+        setMsg("Preview מוכן. לחצי 'שמור'.");
+      } catch (e) {
+        setMsg("שגיאה בקריאת הקובץ. נסי JPG/PNG קטן יותר.");
+      }
+    });
   }
-];
+
+  const saveBtn = document.getElementById("saveBtn");
+  if (saveBtn) {
+    saveBtn.addEventListener("click", async () => {
+      try {
+        const next = loadBrand();
+        next.groupName = (groupName?.value || "").trim() || next.groupName;
+        next.tagline = (tagline?.value || "").trim() || next.tagline;
+
+        if (logoFile?.files && logoFile.files[0]) {
+          setMsg("דוחס ושומר לוגו...");
+          next.logoDataUrl = await fileToSmallDataUrl(logoFile.files[0]);
+        }
+
+        saveBrand(next);
+        applyBrandToPage();
+        setMsg("נשמר. עברי לעמוד הבית/חוברת ובדקי.");
+      } catch {
+        setMsg("לא הצליח לשמור. נסי תמונה קטנה יותר.");
+      }
+    });
+  }
+
+  const resetBtn = document.getElementById("resetBtn");
+  if (resetBtn) {
+    resetBtn.addEventListener("click", () => {
+      resetBrand();
+      const d = loadBrand();
+
+      if (groupName) groupName.value = d.groupName;
+      if (tagline) tagline.value = d.tagline;
+      if (logoFile) logoFile.value = "";
+      if (preview) { preview.removeAttribute("src"); preview.style.display = "none"; }
+
+      applyBrandToPage();
+      setMsg("איפוס בוצע. אמור להופיע לוגו ברירת המחדל assets/ourway.jpg");
+    });
+  }
+}
+
+document.addEventListener("DOMContentLoaded", initBrandSettingsPage);
