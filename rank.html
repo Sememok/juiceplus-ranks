@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>דרגה – Juice Plus+</title>
+  <title>דרגה</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -16,10 +16,8 @@
         <span class="fallback" data-brand="logoFallback">LOGO</span>
       </div>
       <div class="brand-text">
-        <h1 id="rankTitle" style="margin:0; font-size:20px;">טוען…</h1>
-        <div class="tagline">
-          <span data-brand="groupName"></span> · <span data-brand="tagline"></span>
-        </div>
+        <h1 data-brand="groupName">המסע המשותף שלנו</h1>
+        <div class="tagline" data-brand="tagline">חוברת הדרגות – מדריך וידאו לזכיין חדש</div>
       </div>
     </div>
 
@@ -31,111 +29,64 @@
 </header>
 
 <main class="container">
+
   <section class="card">
-    <p class="muted" id="rankIntro" style="margin-top:0;"></p>
-
-    <div class="video-container">
-      <iframe id="videoFrame" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    </div>
-
-    <div class="actions" style="margin-top:14px;">
-      <a id="youtubeLink" target="_blank" class="btn">פתח ביוטיוב</a>
-      <button class="btn secondary" onclick="window.print()">הדפס / שמור כ-PDF</button>
-      <a class="btn ghost" href="brand.html">מיתוג</a>
-    </div>
+    <h2 id="rankTitle" style="margin-top:0;">דרגה</h2>
+    <p class="muted" id="rankIntro"></p>
   </section>
 
-  <section class="grid">
-    <section class="card">
-      <h2 style="margin-top:0;">מטרות עיקריות</h2>
-      <ul id="goals"></ul>
-    </section>
-
-    <section class="card">
-      <h2 style="margin-top:0;">צ׳קליסט לביצוע</h2>
-      <ul id="checklist"></ul>
-    </section>
-
-    <section class="card">
-      <h2 style="margin-top:0;">טעויות נפוצות</h2>
-      <ul id="mistakes"></ul>
-    </section>
-
-    <section class="card">
-      <h2 style="margin-top:0;">מה לעשות השבוע</h2>
-      <p id="nextWeek" style="margin:0; line-height:1.6;"></p>
-    </section>
+  <section class="card" id="videoCard">
+    <h3 style="margin-top:0;">סרטון הדרכה</h3>
+    <div class="video" id="videoBox"></div>
+    <div class="muted small" id="videoLinkBox" style="margin-top:10px;"></div>
   </section>
 
   <section class="card">
-    <h2 style="margin-top:0;">QR לעמוד הזה</h2>
-    <p class="muted small">סרקו את ה-QR כדי לפתוח את עמוד הדרגה באתר (קבוע גם אם מחליפים סרטון בעתיד).</p>
-    <div class="qr-wrap">
-      <img id="qrImg" alt="QR" />
-      <div class="qr-meta">
-        <div><b>קישור:</b> <span id="pageUrlText"></span></div>
-        <div class="muted small">מומלץ להדפיס QR בגודל 3–4 ס״מ לפחות.</div>
-      </div>
-    </div>
+    <h3 style="margin-top:0;">מה חשוב ללמוד בדרגה הזו</h3>
+    <ul class="steps" id="learnList"></ul>
   </section>
 
-  <section class="nav-row">
-    <a id="prevBtn" class="nav-btn" href="#">⬅ הקודם</a>
-    <a id="nextBtn" class="nav-btn" href="#">הבא ➡</a>
-  </section>
 </main>
 
-<script src="brand.js"></script>
+<script src="brand-core.js"></script>
 <script src="data.js"></script>
 <script>
-  brandRender();
+  const params = new URLSearchParams(location.search);
+  const id = params.get("id") || "partner";
+  const rank = getRankById(id);
 
-  const params = new URLSearchParams(window.location.search);
-  const rankId = params.get("rank");
-
-  const idx = RANKS.findIndex(r => r.id === rankId);
-  const rank = idx >= 0 ? RANKS[idx] : null;
-
-  const $ = (id) => document.getElementById(id);
-
-  function fillList(elId, items) {
-    const ul = $(elId);
-    ul.innerHTML = "";
-    (items || []).forEach(t => {
-      const li = document.createElement("li");
-      li.textContent = t;
-      ul.appendChild(li);
-    });
-  }
+  const titleEl = document.getElementById("rankTitle");
+  const introEl = document.getElementById("rankIntro");
+  const learnEl = document.getElementById("learnList");
+  const videoBox = document.getElementById("videoBox");
+  const videoCard = document.getElementById("videoCard");
+  const videoLinkBox = document.getElementById("videoLinkBox");
 
   if (!rank) {
-    $("rankTitle").innerText = "דרגה לא נמצאה";
-    $("rankIntro").innerText = "בדקו שהקישור תקין.";
+    titleEl.textContent = "לא נמצאה דרגה";
+    introEl.textContent = "חזר/י לעמוד הבית ובחר/י דרגה מהרשימה.";
+    videoCard.style.display = "none";
   } else {
-    $("rankTitle").innerText = rank.title;
-    $("rankIntro").innerText = rank.intro || "";
+    document.title = `דרגה: ${rank.title}`;
+    titleEl.textContent = rank.title;
+    introEl.textContent = rank.intro || "";
 
-    $("videoFrame").src = `https://www.youtube.com/embed/${rank.youtube}`;
-    $("youtubeLink").href = `https://youtu.be/${rank.youtube}`;
+    learnEl.innerHTML = "";
+    (rank.learn || []).forEach(t => {
+      const li = document.createElement("li");
+      li.textContent = t;
+      learnEl.appendChild(li);
+    });
 
-    fillList("goals", rank.goals);
-    fillList("checklist", rank.checklist);
-    fillList("mistakes", rank.mistakes);
-    $("nextWeek").innerText = rank.nextWeek || "";
-
-    const pageUrl = `${SITE_BASE}rank.html?rank=${rank.id}`;
-    $("pageUrlText").innerText = pageUrl;
-    $("qrImg").src = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${encodeURIComponent(pageUrl)}`;
-
-    if (idx > 0) $("prevBtn").href = `rank.html?rank=${RANKS[idx - 1].id}`;
-    else { $("prevBtn").classList.add("disabled"); $("prevBtn").href = "#"; }
-
-    if (idx < RANKS.length - 1) $("nextBtn").href = `rank.html?rank=${RANKS[idx + 1].id}`;
-    else { $("nextBtn").classList.add("disabled"); $("nextBtn").href = "#"; }
+    if (rank.video) {
+      const embed = toYouTubeEmbed(rank.video);
+      videoBox.innerHTML = `<iframe src="${embed}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+      videoLinkBox.innerHTML = `לינק לסרטון: <a href="${rank.video}" target="_blank" rel="noreferrer">${rank.video}</a>`;
+    } else {
+      videoCard.innerHTML = `<h3 style="margin-top:0;">סרטון הדרכה</h3><p class="muted">אין סרטון זמין לדרגה זו כרגע.</p>`;
+    }
   }
 </script>
-<script src="brand-core.js"></script>
 
 </body>
 </html>
-
