@@ -3,130 +3,79 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>חוברת הדרגות – להדפסה</title>
+  <title>חוברת הדרגות להדפסה</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-<body class="booklet">
+<body>
 
-<div class="print-actions no-print">
-  <a class="btn ghost" href="index.html">חזרה לאתר</a>
-  <a class="btn ghost" href="brand.html">מיתוג</a>
-  <button class="btn" onclick="window.print()">הדפס / שמור כ-PDF</button>
-</div>
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand-left">
+      <div class="brand-logo">
+        <img data-brand="logo" alt="לוגו">
+        <span class="fallback" data-brand="logoFallback">LOGO</span>
+      </div>
+      <div class="brand-text">
+        <h1 data-brand="groupName">המסע המשותף שלנו</h1>
+        <div class="tagline" data-brand="tagline">חוברת הדרגות – מדריך וידאו לזכיין חדש</div>
+      </div>
+    </div>
 
-<section class="sheet cover">
-  <div class="brandbar">
-    <div class="logo-placeholder">
-      <img data-brand="logo" alt="לוגו">
-      <span class="logo-fallback" data-brand="logoFallback">LOGO</span>
-    </div>
-    <div class="brandtitle">
-      <h1 data-brand="groupName" style="margin:0 0 6px;">המסע המשותף שלנו</h1>
-      <p data-brand="tagline" style="margin:0 0 6px;">חוברת הדרגות – מדריך וידאו לזכיין חדש</p>
-      <p class="muted" style="margin:0;">כל דרגה כוללת סרטון, הסבר מפורט, צ׳קליסט ו-QR לעמוד באתר.</p>
-    </div>
-  </div>
-
-  <div class="cover-grid">
-    <div class="cover-card">
-      <h2 style="margin-top:0;">איך משתמשים</h2>
-      <ol style="line-height:1.7; margin:8px 0 0; padding-right:18px;">
-        <li>בחר/י דרגה בחוברת</li>
-        <li>סרוק/י QR לצפייה בסרטון</li>
-        <li>יישם/י את הצ׳קליסט</li>
-        <li>חזור/י למעקב שבועי</li>
-      </ol>
-    </div>
-    <div class="cover-card">
-      <h2 style="margin-top:0;">תוכן עניינים</h2>
-      <ul id="toc" style="margin:0; padding-right:18px; line-height:1.7;"></ul>
+    <div class="actions">
+      <a class="btn ghost" href="index.html">חזרה</a>
+      <a class="btn ghost" href="brand.html">מיתוג</a>
+      <button class="btn" onclick="window.print()">הדפס / שמור כ-PDF</button>
     </div>
   </div>
+</header>
 
-  <div class="footerline">
-    <span>sememok.github.io/juiceplus-ranks</span>
-    <span>גרסת ניסוי</span>
-  </div>
-</section>
+<main class="container">
 
-<div id="pages"></div>
+  <section class="card">
+    <h2 style="margin-top:0;">חוברת הדרגות (להדפסה)</h2>
+    <p class="muted">
+      טיפ: כדי “לשמור כ-PDF” לחצי על הדפס ובחרי יעד “Save as PDF”.
+      ההדפסה תהיה רציפה לכל הדפים.
+    </p>
+    <div class="printbar">
+      <button class="btn" onclick="window.print()">הדפס / PDF</button>
+      <a class="btn ghost" href="index.html">חזרה לרשימת דרגות</a>
+    </div>
+  </section>
 
-<script src="brand.js"></script>
+  <div id="booklet"></div>
+
+</main>
+
+<script src="brand-core.js"></script>
 <script src="data.js"></script>
 <script>
-  brandRender();
+  const root = document.getElementById("booklet");
 
-  const toc = document.getElementById("toc");
-  const pages = document.getElementById("pages");
+  RANKS.forEach((rank, idx) => {
+    const card = document.createElement("section");
+    card.className = "card page-break";
 
-  RANKS.forEach((rank, i) => {
-    const li = document.createElement("li");
-    li.textContent = `${i+1}. ${rank.title}`;
-    toc.appendChild(li);
+    const videoPart = rank.video
+      ? `<div class="muted small">וידאו: <a href="${rank.video}" target="_blank" rel="noreferrer">${rank.video}</a></div>`
+      : `<div class="muted small">וידאו: אין סרטון זמין כרגע.</div>`;
 
-    const pageUrl = `${SITE_BASE}rank.html?rank=${rank.id}`;
-    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${encodeURIComponent(pageUrl)}`;
+    const learn = (rank.learn || []).map(x => `<li>${x}</li>`).join("");
 
-    const section = document.createElement("section");
-    section.className = "sheet";
-
-    section.innerHTML = `
-      <div class="page-header">
-        <div class="brand-logo" style="width:56px;height:56px;">
-          <img data-brand="logo" alt="לוגו">
-          <span class="fallback" data-brand="logoFallback">LOGO</span>
-        </div>
-
-        <div>
-          <div class="pagetop"><span data-brand="groupName"></span> · חוברת הדרגות</div>
-          <h2 class="rank-h">${rank.title}</h2>
-          <p class="rank-intro">${rank.intro || ""}</p>
-        </div>
-
-        <div class="page-num">עמוד ${i+2}</div>
-      </div>
-
-      <div class="three">
-        <div class="box">
-          <h3>מטרות עיקריות</h3>
-          <ul>${(rank.goals||[]).map(x=>`<li>${x}</li>`).join("")}</ul>
-        </div>
-        <div class="box">
-          <h3>צ׳קליסט לביצוע</h3>
-          <ul>${(rank.checklist||[]).map(x=>`<li>${x}</li>`).join("")}</ul>
-        </div>
-        <div class="box">
-          <h3>טעויות נפוצות</h3>
-          <ul>${(rank.mistakes||[]).map(x=>`<li>${x}</li>`).join("")}</ul>
-        </div>
-      </div>
-
-      <div class="bottom-row">
-        <div class="week box">
-          <h3>מה לעשות השבוע</h3>
-          <p style="margin:0; line-height:1.6;">${rank.nextWeek || ""}</p>
-        </div>
-
-        <div class="qr box">
-          <h3>סריקה לסרטון והעמוד</h3>
-          <img src="${qrUrl}" alt="QR">
-          <div class="small muted breakall">${pageUrl}</div>
-        </div>
-      </div>
-
-      <div class="footerline">
-        <span>סרקו כדי לצפות בסרטון</span>
-        <span>${SITE_BASE.replace("https://","")}</span>
+    card.innerHTML = `
+      <h2 style="margin-top:0;">${rank.title}</h2>
+      <p class="muted">${rank.intro || ""}</p>
+      ${videoPart}
+      <h3>מה עושים בפועל בדרגה</h3>
+      <ul class="steps">${learn}</ul>
+      <div class="muted small" style="margin-top:10px;">
+        הערה: החוברת מיועדת ללימוד ולשכפול. המספרים/דרישות רשמיות יש לבדוק מול המסמכים המעודכנים של החברה.
       </div>
     `;
 
-    pages.appendChild(section);
-
-    // אחרי שהוספנו את העמוד, נרנדר שוב מיתוג (כדי לעדכן לוגו/שם בעמודים שנוצרו דינמית)
-    brandRender();
+    root.appendChild(card);
   });
 </script>
-<script src="brand-core.js"></script>
 
 </body>
 </html>
