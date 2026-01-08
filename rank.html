@@ -8,139 +8,132 @@
 </head>
 <body>
 
-  <header class="topbar">
-    <a href="index.html" class="back-link">⬅ חזרה לכל הדרגות</a>
-    <h1 id="rankTitle">טוען…</h1>
-    <p class="subtitle" id="rankIntro"></p>
-  </header>
-
-  <main class="container">
-    <section class="card">
-      <div class="video-container">
-        <iframe
-          id="videoFrame"
-          src=""
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen>
-        </iframe>
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand-left">
+      <div class="brand-logo">
+        <img data-brand="logo" alt="לוגו">
+        <span class="fallback" data-brand="logoFallback">LOGO</span>
       </div>
-
-      <div class="actions">
-        <a id="youtubeLink" target="_blank" class="btn">פתח ביוטיוב</a>
-        <button class="btn secondary" onclick="window.print()">הדפס עמוד</button>
-      </div>
-    </section>
-
-    <section class="grid">
-      <section class="card">
-        <h2>מטרות עיקריות</h2>
-        <ul id="goals"></ul>
-      </section>
-
-      <section class="card">
-        <h2>צ׳קליסט לביצוע</h2>
-        <ul id="checklist"></ul>
-      </section>
-
-      <section class="card">
-        <h2>טעויות נפוצות</h2>
-        <ul id="mistakes"></ul>
-      </section>
-
-      <section class="card">
-        <h2>מה לעשות השבוע</h2>
-        <p id="nextWeek"></p>
-      </section>
-    </section>
-
-    <section class="card qr-card">
-      <h2>QR לעמוד הזה (להדפסה בחוברת)</h2>
-      <p class="muted">
-        סרקו את ה-QR כדי לפתוח את עמוד הדרגה באתר (לא יוטיוב). כך ה-QR נשאר קבוע גם אם מחליפים סרטון בעתיד.
-      </p>
-      <div class="qr-wrap">
-        <img id="qrImg" alt="QR" />
-        <div class="qr-meta">
-          <div><b>קישור:</b> <span id="pageUrlText"></span></div>
-          <div class="muted small">טיפ הדפסה: מומלץ להדפיס בגודל QR של 3–4 ס״מ לפחות.</div>
+      <div class="brand-text">
+        <h1 id="rankTitle" style="margin:0; font-size:20px;">טוען…</h1>
+        <div class="tagline">
+          <span data-brand="groupName"></span> · <span data-brand="tagline"></span>
         </div>
       </div>
+    </div>
+
+    <div class="actions">
+      <a class="btn ghost" href="index.html">חזרה</a>
+      <a class="btn" href="booklet.html">חוברת להדפסה</a>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <section class="card">
+    <p class="muted" id="rankIntro" style="margin-top:0;"></p>
+
+    <div class="video-container">
+      <iframe id="videoFrame" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+
+    <div class="actions" style="margin-top:14px;">
+      <a id="youtubeLink" target="_blank" class="btn">פתח ביוטיוב</a>
+      <button class="btn secondary" onclick="window.print()">הדפס / שמור כ-PDF</button>
+      <a class="btn ghost" href="brand.html">מיתוג</a>
+    </div>
+  </section>
+
+  <section class="grid">
+    <section class="card">
+      <h2 style="margin-top:0;">מטרות עיקריות</h2>
+      <ul id="goals"></ul>
     </section>
 
-    <section class="nav-row">
-      <a id="prevBtn" class="nav-btn" href="#">⬅ הקודם</a>
-      <a id="nextBtn" class="nav-btn" href="#">הבא ➡</a>
+    <section class="card">
+      <h2 style="margin-top:0;">צ׳קליסט לביצוע</h2>
+      <ul id="checklist"></ul>
     </section>
-  </main>
 
-  <footer class="footer">
-    <p>© Juice Plus+ | הדרכה לזכיינים</p>
-  </footer>
+    <section class="card">
+      <h2 style="margin-top:0;">טעויות נפוצות</h2>
+      <ul id="mistakes"></ul>
+    </section>
 
-  <script src="data.js"></script>
-  <script>
-    const params = new URLSearchParams(window.location.search);
-    const rankId = params.get("rank");
+    <section class="card">
+      <h2 style="margin-top:0;">מה לעשות השבוע</h2>
+      <p id="nextWeek" style="margin:0; line-height:1.6;"></p>
+    </section>
+  </section>
 
-    const idx = RANKS.findIndex(r => r.id === rankId);
-    const rank = idx >= 0 ? RANKS[idx] : null;
+  <section class="card">
+    <h2 style="margin-top:0;">QR לעמוד הזה</h2>
+    <p class="muted small">סרקו את ה-QR כדי לפתוח את עמוד הדרגה באתר (קבוע גם אם מחליפים סרטון בעתיד).</p>
+    <div class="qr-wrap">
+      <img id="qrImg" alt="QR" />
+      <div class="qr-meta">
+        <div><b>קישור:</b> <span id="pageUrlText"></span></div>
+        <div class="muted small">מומלץ להדפיס QR בגודל 3–4 ס״מ לפחות.</div>
+      </div>
+    </div>
+  </section>
 
-    const $ = (id) => document.getElementById(id);
+  <section class="nav-row">
+    <a id="prevBtn" class="nav-btn" href="#">⬅ הקודם</a>
+    <a id="nextBtn" class="nav-btn" href="#">הבא ➡</a>
+  </section>
+</main>
 
-    function fillList(elId, items) {
-      const ul = $(elId);
-      ul.innerHTML = "";
-      (items || []).forEach(t => {
-        const li = document.createElement("li");
-        li.textContent = t;
-        ul.appendChild(li);
-      });
-    }
+<script src="brand.js"></script>
+<script src="data.js"></script>
+<script>
+  brandRender();
 
-    if (!rank) {
-      $("rankTitle").innerText = "דרגה לא נמצאה";
-      $("rankIntro").innerText = "בדקו שהקישור תקין.";
-      $("videoFrame").style.display = "none";
-      $("prevBtn").style.display = "none";
-      $("nextBtn").style.display = "none";
-    } else {
-      // כותרת ותיאור
-      $("rankTitle").innerText = rank.title;
-      $("rankIntro").innerText = rank.intro || "";
+  const params = new URLSearchParams(window.location.search);
+  const rankId = params.get("rank");
 
-      // וידאו
-      $("videoFrame").src = `https://www.youtube.com/embed/${rank.youtube}`;
-      $("youtubeLink").href = `https://youtu.be/${rank.youtube}`;
+  const idx = RANKS.findIndex(r => r.id === rankId);
+  const rank = idx >= 0 ? RANKS[idx] : null;
 
-      // תוכן לימודי
-      fillList("goals", rank.goals);
-      fillList("checklist", rank.checklist);
-      fillList("mistakes", rank.mistakes);
-      $("nextWeek").innerText = rank.nextWeek || "";
+  const $ = (id) => document.getElementById(id);
 
-      // QR לעמוד באתר
-      const pageUrl = `${SITE_BASE}rank.html?rank=${rank.id}`;
-      $("pageUrlText").innerText = pageUrl;
+  function fillList(elId, items) {
+    const ul = $(elId);
+    ul.innerHTML = "";
+    (items || []).forEach(t => {
+      const li = document.createElement("li");
+      li.textContent = t;
+      ul.appendChild(li);
+    });
+  }
 
-      // שימוש בשירות QR פשוט להטמעת תמונה (אין צורך בקבצי QR נפרדים)
-      $("qrImg").src = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${encodeURIComponent(pageUrl)}`;
+  if (!rank) {
+    $("rankTitle").innerText = "דרגה לא נמצאה";
+    $("rankIntro").innerText = "בדקו שהקישור תקין.";
+  } else {
+    $("rankTitle").innerText = rank.title;
+    $("rankIntro").innerText = rank.intro || "";
 
-      // ניווט קודם/הבא
-      if (idx > 0) {
-        $("prevBtn").href = `rank.html?rank=${RANKS[idx - 1].id}`;
-      } else {
-        $("prevBtn").classList.add("disabled");
-        $("prevBtn").href = "#";
-      }
+    $("videoFrame").src = `https://www.youtube.com/embed/${rank.youtube}`;
+    $("youtubeLink").href = `https://youtu.be/${rank.youtube}`;
 
-      if (idx < RANKS.length - 1) {
-        $("nextBtn").href = `rank.html?rank=${RANKS[idx + 1].id}`;
-      } else {
-        $("nextBtn").classList.add("disabled");
-        $("nextBtn").href = "#";
-      }
-    }
-  </script>
+    fillList("goals", rank.goals);
+    fillList("checklist", rank.checklist);
+    fillList("mistakes", rank.mistakes);
+    $("nextWeek").innerText = rank.nextWeek || "";
+
+    const pageUrl = `${SITE_BASE}rank.html?rank=${rank.id}`;
+    $("pageUrlText").innerText = pageUrl;
+    $("qrImg").src = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${encodeURIComponent(pageUrl)}`;
+
+    if (idx > 0) $("prevBtn").href = `rank.html?rank=${RANKS[idx - 1].id}`;
+    else { $("prevBtn").classList.add("disabled"); $("prevBtn").href = "#"; }
+
+    if (idx < RANKS.length - 1) $("nextBtn").href = `rank.html?rank=${RANKS[idx + 1].id}`;
+    else { $("nextBtn").classList.add("disabled"); $("nextBtn").href = "#"; }
+  }
+</script>
 
 </body>
 </html>
