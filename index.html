@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>מסלול הדרגות – Juice Plus+</title>
+  <title>חוברת הדרגות – Juice Plus</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -22,47 +22,48 @@
     </div>
 
     <div class="actions">
-      <a class="btn ghost" href="brand.html">הגדרות מיתוג</a>
+      <a class="btn ghost" href="brand.html">מיתוג</a>
       <a class="btn" href="booklet.html">חוברת להדפסה</a>
     </div>
   </div>
 </header>
 
 <main class="container">
+
   <section class="card">
-    <h2 style="margin-top:0;">איך משתמשים באתר</h2>
-    <ol class="muted" style="line-height:1.7; margin:8px 0 0; padding-right:18px;">
-      <li>בחר/י דרגה מהרשימה.</li>
-      <li>צפה/י בסרטון וקרא/י את ההסבר והצ׳קליסט.</li>
-      <li>ליצירת PDF חוברת מלאה: עברו ל״חוברת להדפסה״ → הדפס/שמור כ-PDF.</li>
-    </ol>
+    <h2 style="margin-top:0;">מדריך דיגיטלי לפי דרגות</h2>
+    <p class="muted">
+      בחר/י דרגה כדי לקבל הסבר קצר + סרטון. מטרת האתר: להפוך את ההתקדמות ליותר ברורה, עקבית ומדידה.
+    </p>
   </section>
 
   <section class="card">
-    <h2 style="margin-top:0;">תוכן עניינים – דרגות</h2>
+    <h2 style="margin-top:0;">רשימת הדרגות</h2>
     <ul class="rank-list" id="rankList"></ul>
   </section>
+
 </main>
 
-<script src="brand.js"></script>
+<script src="brand-core.js"></script>
 <script src="data.js"></script>
 <script>
-  brandRender();
-
   const list = document.getElementById("rankList");
-  RANKS.forEach(rank => {
-    const li = document.createElement("li");
-    li.innerHTML = `
-      <a class="rank-link" href="rank.html?rank=${rank.id}">
-        <div class="rank-title">${rank.title}</div>
-        <div class="rank-sub">${rank.intro || ""}</div>
-      </a>
-    `;
-    list.appendChild(li);
-  });
+  if (list && typeof RANKS !== "undefined") {
+    RANKS.forEach(rank => {
+      const li = document.createElement("li");
+      li.innerHTML = `
+        <a class="rank-link" href="rank.html?id=${encodeURIComponent(rank.id)}">
+          <div>
+            <div class="rank-title">${rank.title}</div>
+            <div class="rank-sub">${rank.intro || ""}</div>
+          </div>
+          <div class="chev">›</div>
+        </a>
+      `;
+      list.appendChild(li);
+    });
+  }
 </script>
-<script src="brand-core.js"></script>
 
 </body>
 </html>
-
