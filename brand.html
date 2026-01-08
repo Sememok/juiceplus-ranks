@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>הגדרות מיתוג</title>
+  <title>מיתוג לארגון</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -12,12 +12,12 @@
   <div class="topbar-inner">
     <div class="brand-left">
       <div class="brand-logo">
-        <img id="brandLogoImg" alt="לוגו">
-        <span class="fallback" id="brandLogoFallback">LOGO</span>
+        <img data-brand="logo" alt="לוגו">
+        <span class="fallback" data-brand="logoFallback">LOGO</span>
       </div>
       <div class="brand-text">
-        <h1 id="brandGroupName">המסע המשותף שלנו</h1>
-        <div class="tagline" id="brandTagline">מיתוג לחוברת ולמערכת</div>
+        <h1 data-brand="groupName">המסע המשותף שלנו</h1>
+        <div class="tagline" data-brand="tagline">חוברת הדרגות – מדריך וידאו לזכיין חדש</div>
       </div>
     </div>
 
@@ -29,17 +29,20 @@
 </header>
 
 <main class="container">
+
   <section class="card">
     <h2 style="margin-top:0;">הגדרות מיתוג לארגון</h2>
-    <p class="muted">העלאת לוגו כאן נשמרת בדפדפן (localStorage). אם לא מעלים—נטען לוגו ברירת מחדל: assets/ourway.jpg</p>
+    <p class="muted">
+      ההעלאה נשמרת בדפדפן (localStorage). אם לא מעלים—נטען לוגו ברירת מחדל: assets/ourway.jpg
+    </p>
 
     <label class="lbl">שם הקבוצה</label>
-    <input id="groupName" class="input" type="text" placeholder="שם הקבוצה" />
+    <input id="groupName" class="input" type="text" />
 
     <label class="lbl">שורת משנה</label>
-    <input id="tagline" class="input" type="text" placeholder="שורת משנה" />
+    <input id="tagline" class="input" type="text" />
 
-    <label class="lbl">לוגו (JPG/PNG)</label>
+    <label class="lbl">(JPG/PNG) לוגו</label>
     <input id="logoFile" type="file" accept="image/*" />
 
     <div class="preview">
@@ -56,18 +59,14 @@
   </section>
 
   <section class="card">
-    <h2 style="margin-top:0;">בדיקת קובץ הלוגו ב־Pages</h2>
+    <h2 style="margin-top:0;">בדיקת קובץ הלוגו ב-Pages</h2>
     <p class="muted small">הקישור הזה חייב להיפתח ללא 404:</p>
     <div class="breakall" id="logoCheckUrl"></div>
   </section>
+
 </main>
 
-<!-- חשוב: אצלך הקובץ נקרא brands.js -->
+<script src="brand-core.js"></script>
 <script src="brands.js"></script>
-<script>
-  const logoUrl = `${location.origin}/${location.pathname.split("/")[1]}/assets/ourway.jpg`;
-  document.getElementById("logoCheckUrl").textContent = logoUrl;
-</script>
-
 </body>
 </html>
