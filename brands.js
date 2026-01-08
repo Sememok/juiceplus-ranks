@@ -1,43 +1,4 @@
-const DEFAULT_LOGO_URL = "assets/ourway.jpg";
-const STORAGE_KEY = "jp_brand";
-
-const BRAND_DEFAULT = {
-  groupName: "המסע המשותף שלנו",
-  tagline: "חוברת הדרגות – מדריך וידאו לזכיין חדש",
-  logoDataUrl: "" // אם מעלים דרך האתר נשמור פה DataURL קטן
-};
-
-function basePath() {
-  // /juiceplus-ranks/
-  const repo = location.pathname.split("/")[1];
-  return `/${repo}/`;
-}
-
-function resolveUrl(path) {
-  if (!path) return "";
-  if (path.startsWith("data:") || path.startsWith("http://") || path.startsWith("https://")) return path;
-  return basePath() + path.replace(/^\/+/, "");
-}
-
-function loadBrand() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return { ...BRAND_DEFAULT };
-    return { ...BRAND_DEFAULT, ...JSON.parse(raw) };
-  } catch {
-    return { ...BRAND_DEFAULT };
-  }
-}
-
-function saveBrand(b) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(b));
-}
-
-function resetBrand() {
-  localStorage.removeItem(STORAGE_KEY);
-}
-
-// דחיסה אגרסיבית כדי שלא ניפול על מגבלת localStorage
+// Brand settings page logic (uses brand-core.js functions)
 async function fileToSmallDataUrl(file, maxSize = 420, quality = 0.82) {
   const dataUrl = await new Promise((resolve, reject) => {
     const r = new FileReader();
@@ -54,57 +15,31 @@ async function fileToSmallDataUrl(file, maxSize = 420, quality = 0.82) {
   const canvas = document.createElement("canvas");
   canvas.width = Math.round(img.width * scale);
   canvas.height = Math.round(img.height * scale);
+
   const ctx = canvas.getContext("2d");
   ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-
   return canvas.toDataURL("image/jpeg", quality);
 }
 
-function setTopBrandUI(brand) {
-  const logoImg = document.getElementById("brandLogoImg");
-  const logoFallback = document.getElementById("brandLogoFallback");
-  const groupNameEl = document.getElementById("brandGroupName");
-  const taglineEl = document.getElementById("brandTagline");
+function initBrandSettingsPage() {
+  const b = loadBrand();
+  applyBrandToPage();
 
-  if (groupNameEl) groupNameEl.textContent = brand.groupName;
-  if (taglineEl) taglineEl.textContent = brand.tagline;
-
-  const src = brand.logoDataUrl && brand.logoDataUrl.trim()
-    ? brand.logoDataUrl
-    : resolveUrl(DEFAULT_LOGO_URL);
-
-  if (logoImg) {
-    logoImg.onload = () => {
-      logoImg.style.display = "block";
-      if (logoFallback) logoFallback.style.display = "none";
-    };
-    logoImg.onerror = () => {
-      logoImg.style.display = "none";
-      if (logoFallback) logoFallback.style.display = "block";
-    };
-    logoImg.src = src;
-  }
-}
-
-function initBrandPage() {
-  const brand = loadBrand();
-
-  // UI ראשי
-  setTopBrandUI(brand);
-
-  // טופס
   const groupName = document.getElementById("groupName");
   const tagline = document.getElementById("tagline");
   const logoFile = document.getElementById("logoFile");
   const preview = document.getElementById("previewImg");
   const msg = document.getElementById("msg");
+  const checkUrl = document.getElementById("logoCheckUrl");
 
-  if (groupName) groupName.value = brand.groupName;
-  if (tagline) tagline.value = brand.tagline;
+  const url = `${location.origin}/${location.pathname.split("/")[1]}/assets/ourway.jpg`;
+  if (checkUrl) checkUrl.textContent = url;
 
-  function setMsg(t) { if (msg) msg.textContent = t; }
+  if (groupName) groupName.value = b.groupName;
+  if (tagline) tagline.value = b.tagline;
 
-  // Preview
+  const setMsg = (t) => { if (msg) msg.textContent = t; };
+
   if (logoFile) {
     logoFile.addEventListener("change", async () => {
       if (!logoFile.files || !logoFile.files[0]) return;
@@ -115,12 +50,11 @@ function initBrandPage() {
         preview.style.display = "block";
         setMsg("Preview מוכן. לחצי 'שמור'.");
       } catch (e) {
-        setMsg("שגיאה בקריאת קובץ. נסי JPG/PNG קטן יותר.");
+        setMsg("שגיאה בקריאת הקובץ. נסי JPG/PNG קטן יותר.");
       }
     });
   }
 
-  // Save
   const saveBtn = document.getElementById("saveBtn");
   if (saveBtn) {
     saveBtn.addEventListener("click", async () => {
@@ -135,30 +69,29 @@ function initBrandPage() {
         }
 
         saveBrand(next);
-        setTopBrandUI(next);
-        setMsg("נשמר. עברי לחוברת/דף הבית ובדקי.");
-      } catch (e) {
+        applyBrandToPage();
+        setMsg("נשמר. עברי לעמוד הבית/חוברת ובדקי.");
+      } catch {
         setMsg("לא הצליח לשמור. נסי תמונה קטנה יותר.");
       }
     });
   }
 
-  // Reset
   const resetBtn = document.getElementById("resetBtn");
   if (resetBtn) {
     resetBtn.addEventListener("click", () => {
       resetBrand();
-      const b = loadBrand();
+      const d = loadBrand();
 
-      if (groupName) groupName.value = b.groupName;
-      if (tagline) tagline.value = b.tagline;
+      if (groupName) groupName.value = d.groupName;
+      if (tagline) tagline.value = d.tagline;
       if (logoFile) logoFile.value = "";
       if (preview) { preview.removeAttribute("src"); preview.style.display = "none"; }
 
-      setTopBrandUI(b);
-      setMsg("אופס. איפוס בוצע. אמור להופיע לוגו ברירת מחדל (ourway.jpg).");
+      applyBrandToPage();
+      setMsg("איפוס בוצע. אמור להופיע לוגו ברירת המחדל assets/ourway.jpg");
     });
   }
 }
 
-document.addEventListener("DOMContentLoaded", initBrandPage);
+document.addEventListener("DOMContentLoaded", initBrandSettingsPage);
