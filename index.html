@@ -5,63 +5,62 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>מסלול הדרגות – Juice Plus+</title>
   <link rel="stylesheet" href="style.css" />
-  <script src="brand.js"></script>
 </head>
 <body>
 
-  <header class="topbar">
-    <h1>מסלול הדרגות – Juice Plus+</h1>
-    <p class="subtitle">
-      <p class="subtitle">
-  <span data-brand="groupName"></span> ·
-  <span data-brand="tagline"></span>
-</p>
-      חוברת דיגיטלית לזכיין חדש: לכל דרגה יש סרטון + הסבר מפורט + צ׳קליסט.
-    </p>
-  </header>
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand-left">
+      <div class="brand-logo">
+        <img data-brand="logo" alt="לוגו">
+        <span class="fallback" data-brand="logoFallback">LOGO</span>
+      </div>
+      <div class="brand-text">
+        <h1 data-brand="groupName">המסע המשותף שלנו</h1>
+        <div class="tagline" data-brand="tagline">חוברת הדרגות – מדריך וידאו לזכיין חדש</div>
+      </div>
+    </div>
 
-  <main class="container">
-    <section class="card">
-      <h2>איך משתמשים בחוברת</h2>
-      <ol class="steps">
-        <li>בחר/י דרגה מהרשימה.</li>
-        <li>צפה/י בסרטון ויישם/י את הצ׳קליסט.</li>
-        <li>הדפס/י עמוד דרגה ושילב/י אותו בחוברת פיזית יחד עם ה-QR.</li>
-      </ol>
-      <p class="muted">
-        הערה: ה-QR בכל עמוד מפנה לעמוד הדרגה באתר, ולכן ניתן לעדכן סרטונים בעתיד בלי להדפיס מחדש.
-      </p>
-    </section>
+    <div class="actions">
+      <a class="btn ghost" href="brand.html">הגדרות מיתוג</a>
+      <a class="btn" href="booklet.html">חוברת להדפסה</a>
+    </div>
+  </div>
+</header>
 
-    <section class="card">
-      <h2>תוכן עניינים – דרגות</h2>
-      <ul class="rank-list" id="rankList"></ul>
-    </section>
-  </main>
+<main class="container">
+  <section class="card">
+    <h2 style="margin-top:0;">איך משתמשים באתר</h2>
+    <ol class="muted" style="line-height:1.7; margin:8px 0 0; padding-right:18px;">
+      <li>בחר/י דרגה מהרשימה.</li>
+      <li>צפה/י בסרטון וקרא/י את ההסבר והצ׳קליסט.</li>
+      <li>ליצירת PDF חוברת מלאה: עברו ל״חוברת להדפסה״ → הדפס/שמור כ-PDF.</li>
+    </ol>
+  </section>
 
-  <footer class="footer">
-    <p>© Juice Plus+ | חומר לימודי לזכיינים</p>
-  </footer>
+  <section class="card">
+    <h2 style="margin-top:0;">תוכן עניינים – דרגות</h2>
+    <ul class="rank-list" id="rankList"></ul>
+  </section>
+</main>
 
-  <script src="data.js"></script>
-  <script>
-    const list = document.getElementById("rankList");
-
-    RANKS.forEach(rank => {
-      const li = document.createElement("li");
-      li.innerHTML = `
-        <a class="rank-link" href="rank.html?rank=${rank.id}">
-          <div class="rank-title">${rank.title}</div>
-          <div class="rank-sub">${rank.intro || ""}</div>
-        </a>
-      `;
-      list.appendChild(li);
-    });
-  </script>
+<script src="brand.js"></script>
+<script src="data.js"></script>
 <script>
   brandRender();
+
+  const list = document.getElementById("rankList");
+  RANKS.forEach(rank => {
+    const li = document.createElement("li");
+    li.innerHTML = `
+      <a class="rank-link" href="rank.html?rank=${rank.id}">
+        <div class="rank-title">${rank.title}</div>
+        <div class="rank-sub">${rank.intro || ""}</div>
+      </a>
+    `;
+    list.appendChild(li);
+  });
 </script>
 
 </body>
 </html>
-
