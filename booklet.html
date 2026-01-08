@@ -25,13 +25,16 @@
     </div>
   </header>
 
+  <!-- DEBUG BOX: יראה לך למה QR לא מופיע -->
+  <section id="debugBox" class="card debug print-hide" style="display:none"></section>
+
   <main class="container booklet">
     <section class="card booklet-cover">
       <div class="cover-row">
         <div>
           <h1 class="cover-title">חוברת דרגות דיגיטלית</h1>
           <p class="muted">
-            בכל עמוד דרגה תמצא: הסבר קצר, סרטון, QR לסריקה מהירה, ועץ התקדמות.
+            בכל עמוד דרגה: הסבר קצר, QR לסרטון, ועץ התקדמות.
           </p>
         </div>
         <div class="cover-logo">
@@ -44,231 +47,122 @@
     <div id="bookletPages"></div>
   </main>
 
+  <!-- חשוב: סדר טעינה -->
   <script src="brand-core.js"></script>
   <script src="data.js"></script>
   <script src="rank-tree.js"></script>
 
-  <!-- QR generator (pure JS, no external requests) -->
   <script>
-  /*! qrcode-generator v1.4.4 (minified subset) */
-  (function(){function qrcode(a,b){this.typeNumber=a;this.errorCorrectLevel=b;this.modules=null;this.moduleCount=0;this.dataCache=null;this.dataList=[]}
-  var QRMode={MODE_8BIT_BYTE:2};var QRErrorCorrectLevel={L:1,M:0,Q:3,H:2};
-  function QR8bitByte(a){this.mode=QRMode.MODE_8BIT_BYTE;this.data=a;this.parsed=[];for(var i=0;i<this.data.length;i++)this.parsed.push(this.data.charCodeAt(i))}
-  QR8bitByte.prototype={getLength:function(){return this.parsed.length},write:function(a){for(var i=0;i<this.parsed.length;i++)a.put(this.parsed[i],8)}};
-  function QRBitBuffer(){this.buffer=[];this.length=0}
-  QRBitBuffer.prototype={get:function(a){var b=Math.floor(a/8);return((this.buffer[b]>>>7-a%8)&1)==1},put:function(a,b){for(var i=0;i<b;i++)this.putBit(((a>>>b-i-1)&1)==1)},putBit:function(a){var b=Math.floor(this.length/8);if(this.buffer.length<=b)this.buffer.push(0);if(a)this.buffer[b]|=(0x80>>>this.length%8);this.length++}};
-  function QRPolynomial(a,b){if(a.length==undefined)throw new Error(a.length+"/"+b);var offset=0;while(offset<a.length&&a[offset]==0)offset++;this.num=new Array(a.length-offset+b);for(var i=0;i<a.length-offset;i++)this.num[i]=a[i+offset]}
-  QRPolynomial.prototype={get:function(a){return this.num[a]},getLength:function(){return this.num.length},multiply:function(a){var num=new Array(this.getLength()+a.getLength()-1);for(var i=0;i<num.length;i++)num[i]=0;for(var i=0;i<this.getLength();i++)for(var j=0;j<a.getLength();j++)num[i+j]^=QRMath.gexp(QRMath.glog(this.get(i))+QRMath.glog(a.get(j)));return new QRPolynomial(num,0)},mod:function(a){if(this.getLength()-a.getLength()<0)return this;var ratio=QRMath.glog(this.get(0))-QRMath.glog(a.get(0));var num=new Array(this.getLength());for(var i=0;i<this.getLength();i++)num[i]=this.get(i);for(var i=0;i<a.getLength();i++)num[i]^=QRMath.gexp(QRMath.glog(a.get(i))+ratio);return new QRPolynomial(num,0).mod(a)}};
-  var QRMath={glog:function(a){if(a<1)throw new Error("glog");return QRMath.LOG_TABLE[a]},gexp:function(a){while(a<0)a+=255;while(a>=256)a-=255;return QRMath.EXP_TABLE[a]},EXP_TABLE:new Array(256),LOG_TABLE:new Array(256)};
-  for(var i=0;i<8;i++)QRMath.EXP_TABLE[i]=1<<i;for(var i=8;i<256;i++)QRMath.EXP_TABLE[i]=QRMath.EXP_TABLE[i-4]^QRMath.EXP_TABLE[i-5]^QRMath.EXP_TABLE[i-6]^QRMath.EXP_TABLE[i-8];
-  for(var i=0;i<255;i++)QRMath.LOG_TABLE[QRMath.EXP_TABLE[i]]=i;
-
-  var QRRSBlock={getRSBlocks:function(typeNumber,errorCorrectLevel){var rs=QRRSBlock.RS_BLOCK_TABLE[(typeNumber-1)*4+errorCorrectLevel];if(rs==undefined)throw new Error("bad rs block");var list=[];for(var i=0;i<rs.length/3;i++){var count=rs[i*3+0],total=rs[i*3+1],data=rs[i*3+2];for(var j=0;j<count;j++)list.push({totalCount:total,dataCount:data})}return list},
-  RS_BLOCK_TABLE:[
-    // type 1
-    [1,26,19],[1,26,16],[1,26,13],[1,26,9],
-    // type 2
-    [1,44,34],[1,44,28],[1,44,22],[1,44,16],
-    // type 3
-    [1,70,55],[1,70,44],[2,35,17],[2,35,13],
-    // type 4
-    [1,100,80],[2,50,32],[2,50,24],[4,25,9]
-  ]};
-
-  function QRUtil() {}
-  QRUtil.getBCHTypeInfo=function(data){var d=data<<10;while(QRUtil.getBCHDigit(d)-QRUtil.getBCHDigit(0x537)>=0)d^=(0x537<<(QRUtil.getBCHDigit(d)-QRUtil.getBCHDigit(0x537)));return((data<<10)|d)^0x5412};
-  QRUtil.getBCHDigit=function(data){var digit=0;while(data!=0){digit++;data>>>=1}return digit};
-  QRUtil.getPatternPosition=function(typeNumber){return [[],[6,18],[6,22],[6,26],[6,30]][typeNumber]};
-  QRUtil.getMask=function(maskPattern,i,j){switch(maskPattern){case 0:return(i+j)%2==0;case 1:return i%2==0;case 2:return j%3==0;case 3:return(i+j)%3==0;default:return false}};
-  QRUtil.getErrorCorrectPolynomial=function(errorCorrectLength){var a=new QRPolynomial([1],0);for(var i=0;i<errorCorrectLength;i++)a=a.multiply(new QRPolynomial([1,QRMath.gexp(i)],0));return a};
-  QRUtil.getLengthInBits=function(mode,type){return (type<10)?8:16};
-
-  qrcode.prototype.addData=function(data){this.dataList.push(new QR8bitByte(data));this.dataCache=null};
-  qrcode.prototype.make=function(){this.makeImpl(false,this.getBestMaskPattern())};
-  qrcode.prototype.getBestMaskPattern=function(){return 0};
-  qrcode.prototype.makeImpl=function(test,maskPattern){
-    this.moduleCount=this.typeNumber*4+17;
-    this.modules=new Array(this.moduleCount);
-    for(var row=0;row<this.moduleCount;row++){this.modules[row]=new Array(this.moduleCount);for(var col=0;col<this.moduleCount;col++)this.modules[row][col]=null}
-    this.setupPositionProbePattern(0,0);this.setupPositionProbePattern(this.moduleCount-7,0);this.setupPositionProbePattern(0,this.moduleCount-7);
-    this.setupTimingPattern();this.setupTypeInfo(test,maskPattern);
-    if(this.dataCache==null)this.dataCache=this.createData(this.typeNumber,this.errorCorrectLevel,this.dataList);
-    this.mapData(this.dataCache,maskPattern);
-  };
-  qrcode.prototype.setupPositionProbePattern=function(row,col){
-    for(var r=-1;r<=7;r++)for(var c=-1;c<=7;c++){
-      if(row+r<=-1||this.moduleCount<=row+r||col+c<=-1||this.moduleCount<=col+c)continue;
-      if((0<=r&&r<=6&&(c==0||c==6))||(0<=c&&c<=6&&(r==0||r==6))||(2<=r&&r<=4&&2<=c&&c<=4))this.modules[row+r][col+c]=true;
-      else this.modules[row+r][col+c]=false;
-    }
-  };
-  qrcode.prototype.setupTimingPattern=function(){
-    for(var i=8;i<this.moduleCount-8;i++){
-      if(this.modules[i][6]!=null)continue;
-      this.modules[i][6]=(i%2==0);
-      if(this.modules[6][i]!=null)continue;
-      this.modules[6][i]=(i%2==0);
-    }
-  };
-  qrcode.prototype.setupTypeInfo=function(test,maskPattern){
-    var data=(this.errorCorrectLevel<<3)|maskPattern;
-    var bits=QRUtil.getBCHTypeInfo(data);
-    for(var i=0;i<15;i++){
-      var mod=(!test&&((bits>>i)&1)==1);
-      if(i<6)this.modules[i][8]=mod;
-      else if(i<8)this.modules[i+1][8]=mod;
-      else this.modules[this.moduleCount-15+i][8]=mod;
-      if(i<8)this.modules[8][this.moduleCount-i-1]=mod;
-      else if(i<9)this.modules[8][15-i-1+1]=mod;
-      else this.modules[8][15-i-1]=mod;
-    }
-    this.modules[this.moduleCount-8][8]=(!test);
-  };
-  qrcode.prototype.mapData=function(data,maskPattern){
-    var inc=-1,row=this.moduleCount-1,bitIndex=7,byteIndex=0;
-    for(var col=this.moduleCount-1;col>0;col-=2){
-      if(col==6)col--;
-      while(true){
-        for(var c=0;c<2;c++){
-          if(this.modules[row][col-c]==null){
-            var dark=false;
-            if(byteIndex<data.length)dark=(((data[byteIndex]>>>bitIndex)&1)==1);
-            var mask=QRUtil.getMask(maskPattern,row,col-c);
-            if(mask)dark=!dark;
-            this.modules[row][col-c]=dark;
-            bitIndex--;
-            if(bitIndex==-1){byteIndex++;bitIndex=7}
-          }
-        }
-        row+=inc;
-        if(row<0||this.moduleCount<=row){row-=inc;inc=-inc;break}
-      }
-    }
-  };
-  qrcode.prototype.createData=function(typeNumber,errorCorrectLevel,dataList){
-    var rsBlocks=QRRSBlock.getRSBlocks(typeNumber,errorCorrectLevel);
-    var buffer=new QRBitBuffer();
-    for(var i=0;i<dataList.length;i++){
-      var data=dataList[i];
-      buffer.put(data.mode,4);
-      buffer.put(data.getLength(),QRUtil.getLengthInBits(data.mode,typeNumber));
-      data.write(buffer);
-    }
-    var totalDataCount=0;for(var i=0;i<rsBlocks.length;i++)totalDataCount+=rsBlocks[i].dataCount;
-    if(buffer.length+4<=totalDataCount*8)buffer.put(0,4);
-    while(buffer.length%8!=0)buffer.putBit(false);
-    while(true){
-      if(buffer.length>=totalDataCount*8)break;
-      buffer.put(0xec,8);
-      if(buffer.length>=totalDataCount*8)break;
-      buffer.put(0x11,8);
-    }
-    // no ECC for our small types (good enough for printing QR to YouTube)
-    var dataBytes=[];
-    for(var i=0;i<buffer.buffer.length;i++)dataBytes.push(buffer.buffer[i]);
-    return dataBytes;
-  };
-  qrcode.prototype.isDark=function(row,col){return this.modules[row][col]};
-  qrcode.prototype.getModuleCount=function(){return this.moduleCount};
-  window.QRCodeMini = function(text){
-    // type 3 gives decent density for URLs
-    var qr=new qrcode(3,QRErrorCorrectLevel.M);
-    qr.addData(text);
-    qr.make();
-    return qr;
-  };
-  })();
-  </script>
-
-  <script>
-    // Brand
-    if (typeof brandRender === "function") brandRender();
-    // cover logo mirrors brand logo
-    const coverLogo = document.getElementById("coverLogo");
-    const brandLogo = document.getElementById("brandLogo");
-    if (brandLogo && coverLogo) {
-      // after brandRender runs, brandLogo.src should be set
-      setTimeout(() => { coverLogo.src = brandLogo.src || ""; }, 0);
+    // ===== Debug helper =====
+    function showDebug(lines){
+      const box = document.getElementById("debugBox");
+      box.style.display = "block";
+      box.innerHTML = `
+        <h3 style="margin-top:0">בדיקת טעינה (Debug)</h3>
+        <ul style="margin:0; padding-right:18px">
+          ${lines.map(l => `<li>${escapeHtml(l)}</li>`).join("")}
+        </ul>
+        <div class="muted" style="margin-top:8px">
+          אם אתה רואה כאן שגיאה, צלם מסך ושלח לי.
+        </div>
+      `;
     }
 
+    // ===== Brand =====
+    try {
+      if (typeof brandRender === "function") brandRender();
+      const coverLogo = document.getElementById("coverLogo");
+      const brandLogo = document.getElementById("brandLogo");
+      setTimeout(() => { if (coverLogo) coverLogo.src = (brandLogo && brandLogo.src) ? brandLogo.src : ""; }, 0);
+    } catch (e) {
+      showDebug([`שגיאה ב-brandRender: ${e.message}`]);
+    }
+
+    // ===== Validate data =====
+    const debug = [];
+    if (!window.RANKS) debug.push("window.RANKS לא נטען. בדוק ש-data.js קיים ושלא שינית לו שם.");
+    else if (!Array.isArray(window.RANKS)) debug.push("window.RANKS נטען אבל אינו מערך (Array). בדוק את data.js.");
+    else if (window.RANKS.length === 0) debug.push("window.RANKS הוא מערך ריק – אין דרגות להצגה.");
+    else debug.push(`RANKS נטען: ${window.RANKS.length} דרגות.`);
+
+    if (typeof window.renderRankTree !== "function") {
+      debug.push("renderRankTree לא קיים. rank-tree.js לא נטען או יש בו שגיאה.");
+    } else {
+      debug.push("rank-tree.js נטען: renderRankTree זמין.");
+    }
+
+    // אם יש בעיות – להציג debug ולהמשיך בכל זאת
+    if (debug.some(x => x.includes("לא"))) showDebug(debug);
+
+    // ===== Build pages =====
     const pagesRoot = document.getElementById("bookletPages");
     pagesRoot.innerHTML = "";
 
-    (window.RANKS || []).forEach((rank, idx) => {
-      const page = document.createElement("section");
-      page.className = "card booklet-page";
-      page.innerHTML = `
-        <div class="page-header">
-          <div>
-            <div class="page-kicker">דף דרגה ${idx + 1} מתוך ${(window.RANKS || []).length}</div>
-            <h2 class="page-title">${rank.title}</h2>
-            <p class="muted">${rank.intro || ""}</p>
+    if (Array.isArray(window.RANKS)) {
+      window.RANKS.forEach((rank, idx) => {
+        const page = document.createElement("section");
+        page.className = "card booklet-page";
+        page.innerHTML = `
+          <div class="page-header">
+            <div>
+              <div class="page-kicker">דף דרגה ${idx + 1} מתוך ${window.RANKS.length}</div>
+              <h2 class="page-title">${escapeHtml(rank.title || "")}</h2>
+              <p class="muted">${escapeHtml(rank.intro || "")}</p>
+            </div>
+
+            <div class="qr-block">
+              <div class="qr-title">סריקה לסרטון</div>
+              <div class="qr-img-wrap">
+                <img
+                  class="qr-img"
+                  alt="QR לסרטון"
+                  src="${qrUrl(rank.videoUrl)}"
+                  onerror="this.closest('.qr-block').querySelector('.qr-error').style.display='block';"
+                />
+              </div>
+              <div class="qr-error muted" style="display:none; margin-top:8px;">
+                QR לא נטען. בדוק חיבור אינטרנט / חסימת רשת / כתובת סרטון.
+              </div>
+              <div class="qr-url muted">${escapeHtml(rank.videoUrl || "")}</div>
+            </div>
           </div>
-          <div class="qr-block">
-            <div class="qr-title">סריקה לסרטון</div>
-            <div class="qr-canvas" id="qr_${rank.id}"></div>
-            <div class="qr-url muted">${rank.videoUrl}</div>
+
+          <div class="page-section">
+            <h3>מה חשוב ללמוד בדרגה הזו</h3>
+            <ul class="bullets">
+              ${(rank.bullets || []).map(b => `<li>${escapeHtml(b)}</li>`).join("")}
+            </ul>
           </div>
-        </div>
 
-        <div class="page-section">
-          <h3>מה חשוב ללמוד בדרגה הזו</h3>
-          <ul class="bullets">
-            ${(rank.bullets || []).map(b => `<li>${escapeHtml(b)}</li>`).join("")}
-          </ul>
-        </div>
+          <div class="page-section">
+            <h3>עץ התקדמות (דורות + נקודות)</h3>
+            <div id="tree_${escapeId(rank.id)}"></div>
+          </div>
 
-        <div class="page-section">
-          <h3>עץ התקדמות (דורות + נקודות)</h3>
-          <div id="tree_${rank.id}"></div>
-        </div>
+          <div class="page-footer muted">המסע המשותף שלנו • חוברת להדפסה</div>
+        `;
+        pagesRoot.appendChild(page);
 
-        <div class="page-footer muted">המסע המשותף שלנו • חוברת להדפסה</div>
-      `;
-      pagesRoot.appendChild(page);
-
-      // QR
-      renderQrToDiv(`qr_${rank.id}`, rank.videoUrl);
-
-      // Tree
-      renderRankTree({
-        rankKey: rank.title,
-        containerId: `tree_${rank.id}`,
-        currentNodeCode: rank.nodeCode,
-        title: ""
-      });
-    });
-
-    function renderQrToDiv(divId, text) {
-      const root = document.getElementById(divId);
-      if (!root) return;
-
-      const qr = window.QRCodeMini(text);
-      const count = qr.getModuleCount();
-
-      const size = 160; // px
-      const cell = Math.floor(size / count);
-      const realSize = cell * count;
-
-      const canvas = document.createElement("canvas");
-      canvas.width = realSize;
-      canvas.height = realSize;
-
-      const ctx = canvas.getContext("2d");
-      ctx.fillStyle = "#ffffff";
-      ctx.fillRect(0, 0, realSize, realSize);
-
-      ctx.fillStyle = "#000000";
-      for (let r = 0; r < count; r++) {
-        for (let c = 0; c < count; c++) {
-          if (qr.isDark(r, c)) {
-            ctx.fillRect(c * cell, r * cell, cell, cell);
+        // Tree render (אם קיים)
+        try {
+          if (typeof window.renderRankTree === "function") {
+            window.renderRankTree({
+              rankKey: rank.title,
+              containerId: `tree_${rank.id}`,
+              currentNodeCode: rank.nodeCode,
+              title: ""
+            });
           }
+        } catch (e) {
+          showDebug([`שגיאה ב-renderRankTree עבור ${rank.title}: ${e.message}`].concat(debug));
         }
-      }
+      });
+    }
 
-      root.innerHTML = "";
-      root.appendChild(canvas);
+    function qrUrl(text){
+      // Google Chart QR - יציב מאוד, טוב להדפסה
+      const t = encodeURIComponent(text || "");
+      return `https://chart.googleapis.com/chart?cht=qr&chs=220x220&chld=M|1&chl=${t}`;
     }
 
     function escapeHtml(str) {
@@ -279,6 +173,9 @@
         '"': "&quot;",
         "'": "&#039;"
       }[m]));
+    }
+    function escapeId(str){
+      return String(str || "").replace(/[^a-zA-Z0-9_-]/g, "_");
     }
   </script>
 </body>
