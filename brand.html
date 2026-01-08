@@ -12,12 +12,12 @@
   <div class="topbar-inner">
     <div class="brand-left">
       <div class="brand-logo">
-        <img data-brand="logo" alt="לוגו">
-        <span class="fallback" data-brand="logoFallback">LOGO</span>
+        <img id="brandLogoImg" alt="לוגו">
+        <span class="fallback" id="brandLogoFallback">LOGO</span>
       </div>
       <div class="brand-text">
-        <h1 data-brand="groupName">המסע המשותף שלנו</h1>
-        <div class="tagline" data-brand="tagline">מיתוג לחוברת ולמערכת</div>
+        <h1 id="brandGroupName">המסע המשותף שלנו</h1>
+        <div class="tagline" id="brandTagline">מיתוג לחוברת ולמערכת</div>
       </div>
     </div>
 
@@ -29,10 +29,9 @@
 </header>
 
 <main class="container">
-
   <section class="card">
     <h2 style="margin-top:0;">הגדרות מיתוג לארגון</h2>
-    <p class="muted">כאן ניתן לשנות שם קבוצה, שורת משנה ולוגו. הלוגו יופיע באתר ובחוברת.</p>
+    <p class="muted">העלאת לוגו כאן נשמרת בדפדפן (localStorage). אם לא מעלים—נטען לוגו ברירת מחדל: assets/ourway.jpg</p>
 
     <label class="lbl">שם הקבוצה</label>
     <input id="groupName" class="input" type="text" placeholder="שם הקבוצה" />
@@ -44,7 +43,7 @@
     <input id="logoFile" type="file" accept="image/*" />
 
     <div class="preview">
-      <div class="muted small">תצוגה מקדימה:</div>
+      <div class="muted small">Preview:</div>
       <img id="previewImg" alt="preview" />
     </div>
 
@@ -57,99 +56,17 @@
   </section>
 
   <section class="card">
-    <h2 style="margin-top:0;">בדיקת לוגו ברירת מחדל</h2>
-    <p class="muted small">אם הלוגו ברירת המחדל לא נטען, פתח/י את הקישור הזה ובדקי שאין 404:</p>
-    <div class="breakall" id="defaultUrl"></div>
+    <h2 style="margin-top:0;">בדיקת קובץ הלוגו ב־Pages</h2>
+    <p class="muted small">הקישור הזה חייב להיפתח ללא 404:</p>
+    <div class="breakall" id="logoCheckUrl"></div>
   </section>
-
 </main>
 
-<script src="brand.js"></script>
+<!-- חשוב: אצלך הקובץ נקרא brands.js -->
+<script src="brands.js"></script>
 <script>
-  function setMsg(t){ document.getElementById("msg").textContent = t; }
-
-  // מקטין תמונה כדי שתיכנס ל-localStorage בלי להיכשל
-  async function compressToDataURL(file, maxSize=420, quality=0.82){
-    const img = new Image();
-    const dataUrl = await new Promise((resolve, reject) => {
-      const r = new FileReader();
-      r.onload = () => resolve(r.result);
-      r.onerror = reject;
-      r.readAsDataURL(file);
-    });
-    img.src = dataUrl;
-    await new Promise((res, rej) => { img.onload=res; img.onerror=rej; });
-
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
-
-    const scale = Math.min(1, maxSize / Math.max(img.width, img.height));
-    canvas.width = Math.round(img.width * scale);
-    canvas.height = Math.round(img.height * scale);
-
-    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-    return canvas.toDataURL("image/jpeg", quality);
-  }
-
-  // רינדור ראשוני
-  const b = brandRender();
-
-  const groupName = document.getElementById("groupName");
-  const tagline   = document.getElementById("tagline");
-  const logoFile  = document.getElementById("logoFile");
-  const preview   = document.getElementById("previewImg");
-
-  groupName.value = b.groupName;
-  tagline.value = b.tagline;
-
-  // ברירת מחדל לוגו - נציג את ה-URL המחושב
-  const base = window.location.origin + "/" + window.location.pathname.split("/")[1] + "/";
-  document.getElementById("defaultUrl").textContent = base + "assets/ourway.jpg";
-
-  // Preview כשבוחרים קובץ
-  logoFile.addEventListener("change", async () => {
-    if (!logoFile.files || !logoFile.files[0]) return;
-    try{
-      setMsg("מכין תצוגה מקדימה...");
-      const smallData = await compressToDataURL(logoFile.files[0]);
-      preview.src = smallData;
-      preview.style.display = "block";
-      setMsg("מוכן. לחצי 'שמור' כדי להחיל על האתר.");
-    }catch(e){
-      setMsg("שגיאה בקריאת הקובץ. נסי JPG/PNG קטן יותר.");
-    }
-  });
-
-  document.getElementById("saveBtn").addEventListener("click", async () => {
-    try{
-      const next = brandLoad();
-      next.groupName = groupName.value.trim() || next.groupName;
-      next.tagline   = tagline.value.trim() || next.tagline;
-
-      if (logoFile.files && logoFile.files[0]) {
-        setMsg("דוחס ושומר את הלוגו...");
-        next.logoDataUrl = await compressToDataURL(logoFile.files[0]);
-      }
-
-      brandSave(next);
-      brandRender();
-      setMsg("נשמר בהצלחה. עברי לעמוד הבית/חוברת ובדקי.");
-    }catch(e){
-      setMsg("לא הצליח לשמור (יתכן שהקובץ גדול מדי). נסי תמונה קטנה יותר.");
-    }
-  });
-
-  document.getElementById("resetBtn").addEventListener("click", () => {
-    brandReset();
-    const n = brandLoad();
-    groupName.value = n.groupName;
-    tagline.value = n.tagline;
-    logoFile.value = "";
-    preview.removeAttribute("src");
-    preview.style.display = "none";
-    brandRender();
-    setMsg("אופס. בוצע איפוס. כעת אמור להופיע לוגו ברירת המחדל (assets/ourway.jpg).");
-  });
+  const logoUrl = `${location.origin}/${location.pathname.split("/")[1]}/assets/ourway.jpg`;
+  document.getElementById("logoCheckUrl").textContent = logoUrl;
 </script>
 
 </body>
