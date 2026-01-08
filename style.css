@@ -257,3 +257,120 @@ a{color:inherit; text-decoration:none}
   font-size: 14px;
   color: #555;
 }
+
+/* ===== Rank Tree (with connectors + print A4) ===== */
+
+#treeCard { page-break-inside: avoid; }
+
+.tree-header h3{
+  margin: 0 0 10px;
+}
+
+.tree-grid{
+  position: relative;
+  padding: 18px 10px 8px;
+}
+
+.tree-row{
+  display:flex;
+  justify-content:center;
+  gap:14px;
+  margin:16px 0;
+  position: relative;
+  z-index: 2;
+}
+
+.tree-node{
+  width:52px;
+  height:52px;
+  border-radius:999px;
+  border:2px solid #c94fa3;
+  background:#f6f6f6;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:800;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+.node-label{ font-size: 14px; }
+
+.tree-info{
+  margin-top:12px;
+  text-align:center;
+  font-size:14px;
+  color:#555;
+}
+
+.tree-error{
+  padding:12px;
+  border:1px solid #f0b4c6;
+  background:#fff5f8;
+  border-radius:12px;
+}
+
+/* Lines overlay */
+.tree-lines{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  z-index:1;
+  pointer-events:none;
+}
+
+.tree-line{
+  fill:none;
+  stroke: rgba(201,79,163,0.55);
+  stroke-width: 2.2;
+}
+
+.tree-line.is-current-line{
+  stroke: rgba(16,185,129,0.9); /* green highlight */
+  stroke-width: 3.5;
+}
+
+/* Highlight "אתה כאן" */
+.tree-node.is-current{
+  outline: 4px solid rgba(16,185,129,0.35);
+  border-color: rgba(16,185,129,0.95);
+  transform: scale(1.06);
+  position: relative;
+}
+
+.tree-node.is-current::after{
+  content: "אתה כאן";
+  position:absolute;
+  top:-18px;
+  font-size: 12px;
+  font-weight: 800;
+  color: rgba(16,185,129,0.95);
+}
+
+/* Rank colors */
+.rank-P { background:#eeeeee; }
+.rank-Pplus { background:#dff3ea; } /* P+ */
+.rank-SP { background:#f7c6d9; }
+.rank-SC { background:#bfe3dc; }
+.rank-QSSC { background:#d7c8ee; }
+.rank-SSC { background:#c4b5e8; }
+.rank-QNMD { background:#dbeafe; }
+.rank-NMD { background:#fde68a; }
+.rank-IMD { background:#fecaca; }
+.rank-EMD { background:#fed7aa; }
+.rank-PMD { background:#fdba74; }
+.rank-PMDplus { background:#fb923c; }
+
+/* ===== Print (A4) ===== */
+@media print {
+  /* Hide buttons/nav that waste space */
+  .actions, .btn { display:none !important; }
+  header.topbar { position: static; box-shadow: none; }
+  body { background: #fff !important; }
+  .card { break-inside: avoid; page-break-inside: avoid; }
+
+  /* Make tree larger for print */
+  .tree-node { width:60px; height:60px; }
+  .node-label { font-size: 15px; }
+  .tree-grid { padding: 10px 0 0; }
+}
