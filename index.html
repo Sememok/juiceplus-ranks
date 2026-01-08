@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>חוברת הדרגות – Juice Plus</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css?v=3" />
 </head>
 <body>
 
@@ -33,8 +33,9 @@
   <section class="card">
     <h2 style="margin-top:0;">מדריך דיגיטלי לפי דרגות</h2>
     <p class="muted">
-      בחר/י דרגה כדי לקבל הסבר קצר + סרטון. מטרת האתר: להפוך את ההתקדמות ליותר ברורה, עקבית ומדידה.
+      בחר/י דרגה כדי לקבל הסבר קצר + סרטון.
     </p>
+    <div id="statusBox" class="muted small" style="margin-top:10px;"></div>
   </section>
 
   <section class="card">
@@ -44,24 +45,51 @@
 
 </main>
 
-<script src="brand-core.js"></script>
-<script src="data.js"></script>
+<!-- חשוב: קודם data.js כדי ש-RANKS יהיה זמין -->
+<script src="data.js?v=3"></script>
+<script src="brand-core.js?v=3"></script>
+
 <script>
+  const statusBox = document.getElementById("statusBox");
   const list = document.getElementById("rankList");
-  if (list && typeof RANKS !== "undefined") {
-    RANKS.forEach(rank => {
-      const li = document.createElement("li");
-      li.innerHTML = `
-        <a class="rank-link" href="rank.html?id=${encodeURIComponent(rank.id)}">
-          <div>
-            <div class="rank-title">${rank.title}</div>
-            <div class="rank-sub">${rank.intro || ""}</div>
-          </div>
-          <div class="chev">›</div>
-        </a>
-      `;
-      list.appendChild(li);
-    });
+
+  function setStatus(msg) {
+    if (statusBox) statusBox.textContent = msg;
+  }
+
+  try {
+    if (!list) {
+      setStatus("שגיאה: לא נמצא rankList בעמוד.");
+    } else if (typeof RANKS === "undefined") {
+      // data.js לא נטען או נכשל
+      setStatus("שגיאה: data.js לא נטען (RANKS לא קיים). בדקי שהקובץ data.js נמצא בשורש הריפו ושאין בו שגיאת תחביר.");
+      list.innerHTML = `
+        <li class="muted small">
+          בדיקה מהירה: נסי לפתוח את הקובץ ישירות:
+          <a href="data.js" target="_blank" rel="noreferrer">data.js</a>
+        </li>`;
+    } else if (!Array.isArray(RANKS) || RANKS.length === 0) {
+      setStatus("שגיאה: RANKS נטען אבל ריק/לא מערך.");
+    } else {
+      setStatus(`נטען בהצלחה: ${RANKS.length} דרגות`);
+      list.innerHTML = "";
+
+      RANKS.forEach(rank => {
+        const li = document.createElement("li");
+        li.innerHTML = `
+          <a class="rank-link" href="rank.html?id=${encodeURIComponent(rank.id)}">
+            <div>
+              <div class="rank-title">${rank.title}</div>
+              <div class="rank-sub">${rank.intro || ""}</div>
+            </div>
+            <div class="chev">›</div>
+          </a>
+        `;
+        list.appendChild(li);
+      });
+    }
+  } catch (e) {
+    setStatus("שגיאת JS שמונעת מהאתר לעבוד: " + (e && e.message ? e.message : e));
   }
 </script>
 
