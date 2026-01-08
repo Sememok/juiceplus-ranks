@@ -1,7 +1,7 @@
 const SITE_BASE = "https://sememok.github.io/juiceplus-ranks/";
 
 // ברירת מחדל ללוגו מקומי בריפו (במקום DataURL)
-const DEFAULT_LOGO_URL = "assets/המסע.jpg";
+const DEFAULT_LOGO_URL = "assets/ourway.jpg";
 
 const BRAND_DEFAULT = {
   groupName: "המסע המשותף שלנו",
