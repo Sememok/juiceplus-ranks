@@ -158,3 +158,56 @@
     }
   };
 })();
+
+const RANK_TREES = {
+  "Partner": {
+    generations: [
+      ["P"]
+    ],
+    info: "400 נקודות אישיות"
+  },
+
+  "Partner Plus": {
+    generations: [
+      ["P+"],
+      ["P", "P"]
+    ],
+    info: "400 נקודות אישיות"
+  },
+
+  "Senior Partner": {
+    generations: [
+      ["SP"],
+      ["P+", "P+"],
+      ["P", "P"]
+    ],
+    info: "12,000 נקודות בפייליין"
+  },
+
+  "Sales Coordinator": {
+    generations: [
+      ["SC"],
+      ["P+", "P+"],
+      ["P", "P", "P"]
+    ],
+    info: "28,000 נקודות בפייליין"
+  },
+
+  "Qualifying Senior Sales Coordinator": {
+    generations: [
+      ["QSSC"],
+      ["SC", "SC"],
+      ["P+", "P+"]
+    ],
+    info: "28,000 נקודות בפייליין"
+  },
+
+  "Senior Sales Coordinator": {
+    generations: [
+      ["SSC"],
+      ["QSSC", "QSSC"],
+      ["SC", "SC"]
+    ],
+    info: "56,000 נקודות בפייליין"
+  }
+};
