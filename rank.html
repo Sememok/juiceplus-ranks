@@ -1,111 +1,114 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="he" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>דרגה</title>
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
-
-<header class="topbar">
-  <div class="topbar-inner">
-    <div class="brand-left">
-      <div class="brand-logo">
-        <img data-brand="logo" alt="לוגו">
-        <span class="fallback" data-brand="logoFallback">LOGO</span>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand-left">
+        <img id="brandLogo" class="brand-logo" alt="לוגו" />
+        <div class="brand-text">
+          <div id="brandGroupName" class="brand-title">המסע המשותף שלנו</div>
+          <div id="brandTagline" class="brand-subtitle">חוברת הדרגות – מדריך וידאו לזכיין חדש</div>
+        </div>
       </div>
-      <div class="brand-text">
-        <h1 data-brand="groupName">המסע המשותף שלנו</h1>
-        <div class="tagline" data-brand="tagline">חוברת הדרגות – מדריך וידאו לזכיין חדש</div>
+
+      <div class="actions">
+        <a class="btn" href="index.html">חזרה</a>
+        <a class="btn btn-green" href="booklet.html">חוברת להדפסה</a>
+        <a class="btn" href="brand.html">מיתוג</a>
+        <button class="btn" onclick="window.print()">הדפס / שמירה כ-PDF</button>
       </div>
     </div>
+  </header>
 
-    <div class="actions">
-      <a class="btn ghost" href="index.html">חזרה</a>
-      <a class="btn" href="booklet.html">חוברת להדפסה</a>
-    </div>
-  </div>
-</header>
+  <main class="container">
+    <section class="card">
+      <h1 id="rankTitle">דרגה</h1>
+      <p id="rankIntro" class="muted"></p>
+    </section>
 
-<main class="container">
+    <section class="card">
+      <h2>סרטון דרגה</h2>
+      <div class="video-wrap">
+        <iframe id="rankVideo" class="video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen></iframe>
+      </div>
+      <div class="small muted" id="rankVideoUrl"></div>
+    </section>
 
-  <section class="card">
-    <h2 id="rankTitle" style="margin-top:0;">דרגה</h2>
-    <p class="muted" id="rankIntro"></p>
-  </section>
+    <section class="card">
+      <h2>מה חשוב ללמוד בדרגה הזו</h2>
+      <ul id="rankBullets" class="bullets"></ul>
+    </section>
 
-  <section class="card" id="videoCard">
-    <h3 style="margin-top:0;">סרטון הדרכה</h3>
-    <div class="video" id="videoBox"></div>
-    <div class="muted small" id="videoLinkBox" style="margin-top:10px;"></div>
-  </section>
+    <section class="card" id="treeCard">
+      <!-- tree injected here -->
+      <div id="rankTree"></div>
+    </section>
+  </main>
 
-  <section class="card">
-  <div id="rankTree"></div>
-</section>
-
-  <section class="card">
-    <h3 style="margin-top:0;">מה חשוב ללמוד בדרגה הזו</h3>
-    <ul class="steps" id="learnList"></ul>
-  </section>
-<section class="card">
-  <h3>עץ התקדמות לדרגה</h3>
-  <div id="rankTree"></div>
-</section>
-
-</main>
-
-<script src="brand-core.js"></script>
-<script src="data.js"></script>
+  <script src="brand-core.js"></script>
+  <script src="data.js"></script>
   <script src="rank-tree.js"></script>
 
   <script>
-  if (typeof rank !== "undefined") {
-    renderRankTree(rank.title, "rankTree");
-  }
-</script>
+    // Brand
+    if (typeof brandRender === "function") brandRender();
 
-<script>
-  const params = new URLSearchParams(location.search);
-  const id = params.get("id") || "partner";
-  const rank = getRankById(id);
+    // Pick rank by query param
+    const url = new URL(window.location.href);
+    const id = url.searchParams.get("id") || "partner_plus";
 
-  const titleEl = document.getElementById("rankTitle");
-  const introEl = document.getElementById("rankIntro");
-  const learnEl = document.getElementById("learnList");
-  const videoBox = document.getElementById("videoBox");
-  const videoCard = document.getElementById("videoCard");
-  const videoLinkBox = document.getElementById("videoLinkBox");
-
-  if (!rank) {
-    titleEl.textContent = "לא נמצאה דרגה";
-    introEl.textContent = "חזר/י לעמוד הבית ובחר/י דרגה מהרשימה.";
-    videoCard.style.display = "none";
-  } else {
-    document.title = `דרגה: ${rank.title}`;
-    titleEl.textContent = rank.title;
-    introEl.textContent = rank.intro || "";
-
-    learnEl.innerHTML = "";
-    (rank.learn || []).forEach(t => {
-      const li = document.createElement("li");
-      li.textContent = t;
-      learnEl.appendChild(li);
-    });
-
-    if (rank.video) {
-      const embed = toYouTubeEmbed(rank.video);
-      videoBox.innerHTML = `<iframe src="${embed}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-      videoLinkBox.innerHTML = `לינק לסרטון: <a href="${rank.video}" target="_blank" rel="noreferrer">${rank.video}</a>`;
+    const rank = (window.RANKS || []).find(r => r.id === id);
+    if (!rank) {
+      document.getElementById("rankTitle").textContent = "שגיאה: דרגה לא נמצאה";
+      document.getElementById("rankIntro").textContent = "בדוק שהקישור כולל ?id=...";
     } else {
-      videoCard.innerHTML = `<h3 style="margin-top:0;">סרטון הדרכה</h3><p class="muted">אין סרטון זמין לדרגה זו כרגע.</p>`;
-    }
-  }
-</script>
+      document.title = rank.title;
+      document.getElementById("rankTitle").textContent = rank.title;
+      document.getElementById("rankIntro").textContent = rank.intro;
 
+      // YouTube embed
+      const videoId = extractYouTubeId(rank.videoUrl);
+      const embed = videoId ? `https://www.youtube.com/embed/${videoId}` : "";
+      document.getElementById("rankVideo").src = embed;
+      document.getElementById("rankVideoUrl").textContent = rank.videoUrl;
+
+      // Bullets
+      const ul = document.getElementById("rankBullets");
+      ul.innerHTML = "";
+      (rank.bullets || []).forEach(t => {
+        const li = document.createElement("li");
+        li.textContent = t;
+        ul.appendChild(li);
+      });
+
+      // Tree (highlight “אתה כאן”)
+      renderRankTree({
+        rankKey: rank.title,
+        containerId: "rankTree",
+        currentNodeCode: rank.nodeCode,
+        title: "עץ התקדמות לדרגה (דורות + נקודות)"
+      });
+    }
+
+    function extractYouTubeId(url) {
+      try {
+        const u = new URL(url);
+        // youtu.be/<id>
+        if (u.hostname.includes("youtu.be")) return u.pathname.replace("/", "");
+        // youtube.com/watch?v=<id>
+        return u.searchParams.get("v");
+      } catch (e) {
+        return null;
+      }
+    }
+  </script>
 </body>
 </html>
-
-
-
