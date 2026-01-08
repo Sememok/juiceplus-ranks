@@ -1,3 +1,4 @@
+// Shared branding loader for all pages
 const DEFAULT_LOGO_URL = "assets/ourway.jpg";
 const STORAGE_KEY = "jp_brand";
 
@@ -8,6 +9,7 @@ const BRAND_DEFAULT = {
 };
 
 function basePath() {
+  // /juiceplus-ranks/
   const repo = location.pathname.split("/")[1];
   return `/${repo}/`;
 }
@@ -28,23 +30,41 @@ function loadBrand() {
   }
 }
 
+function saveBrand(b) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(b));
+}
+
+function resetBrand() {
+  localStorage.removeItem(STORAGE_KEY);
+}
+
 function applyBrandToPage() {
   const b = loadBrand();
 
-  // טקסטים (אם קיימים בעמוד)
-  document.querySelectorAll("[data-brand='groupName']").forEach(el => el.textContent = b.groupName);
-  document.querySelectorAll("[data-brand='tagline']").forEach(el => el.textContent = b.tagline);
+  // Texts
+  document.querySelectorAll("[data-brand='groupName']").forEach(el => (el.textContent = b.groupName));
+  document.querySelectorAll("[data-brand='tagline']").forEach(el => (el.textContent = b.tagline));
 
-  // לוגו (אם קיים בעמוד)
-  const logoSrc = (b.logoDataUrl && b.logoDataUrl.trim())
-    ? b.logoDataUrl
-    : resolveUrl(DEFAULT_LOGO_URL);
+  // Logo
+  const chosen = b.logoDataUrl && b.logoDataUrl.trim() ? b.logoDataUrl : DEFAULT_LOGO_URL;
+  const src = resolveUrl(chosen);
 
   document.querySelectorAll("[data-brand='logo']").forEach(img => {
-    img.onerror = () => { img.style.display = "none"; };
-    img.onload  = () => { img.style.display = "block"; };
-    img.src = logoSrc;
+    img.onload = () => (img.style.display = "block");
+    img.onerror = () => (img.style.display = "none");
+    img.src = src;
   });
+
+  // fallback visibility
+  const anyLogo = document.querySelector("[data-brand='logo']");
+  const fallback = document.querySelector("[data-brand='logoFallback']");
+  if (anyLogo && fallback) {
+    anyLogo.addEventListener("load", () => (fallback.style.display = "none"));
+    anyLogo.addEventListener("error", () => (fallback.style.display = "block"));
+  }
+
+  // Save defaults once (optional, harmless)
+  try { saveBrand(b); } catch {}
 }
 
 document.addEventListener("DOMContentLoaded", applyBrandToPage);
