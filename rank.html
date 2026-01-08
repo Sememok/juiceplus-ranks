@@ -49,12 +49,22 @@
     <h3 style="margin-top:0;">מה חשוב ללמוד בדרגה הזו</h3>
     <ul class="steps" id="learnList"></ul>
   </section>
+<section class="card">
+  <h3>עץ התקדמות לדרגה</h3>
+  <div id="rankTree"></div>
+</section>
 
 </main>
 
 <script src="brand-core.js"></script>
 <script src="data.js"></script>
   <script src="rank-tree.js"></script>
+
+  <script>
+  if (typeof rank !== "undefined") {
+    renderRankTree(rank.title, "rankTree");
+  }
+</script>
 
 <script>
   const params = new URLSearchParams(location.search);
@@ -96,5 +106,6 @@
 
 </body>
 </html>
+
 
 
