@@ -2,25 +2,39 @@
 <html lang="he" dir="rtl">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>מסלול הדרגות – Juice Plus+</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <header>
+  <header class="topbar">
     <h1>מסלול הדרגות – Juice Plus+</h1>
     <p class="subtitle">
-      חוברת דיגיטלית לזכיין חדש – הסבר וידאו לכל דרגה
+      חוברת דיגיטלית לזכיין חדש: לכל דרגה יש סרטון + הסבר מפורט + צ׳קליסט.
     </p>
   </header>
 
-  <main>
-    <ul class="rank-list" id="rankList">
-      <!-- נטען אוטומטית מ-data.js -->
-    </ul>
+  <main class="container">
+    <section class="card">
+      <h2>איך משתמשים בחוברת</h2>
+      <ol class="steps">
+        <li>בחר/י דרגה מהרשימה.</li>
+        <li>צפה/י בסרטון ויישם/י את הצ׳קליסט.</li>
+        <li>הדפס/י עמוד דרגה ושילב/י אותו בחוברת פיזית יחד עם ה-QR.</li>
+      </ol>
+      <p class="muted">
+        הערה: ה-QR בכל עמוד מפנה לעמוד הדרגה באתר, ולכן ניתן לעדכן סרטונים בעתיד בלי להדפיס מחדש.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>תוכן עניינים – דרגות</h2>
+      <ul class="rank-list" id="rankList"></ul>
+    </section>
   </main>
 
-  <footer>
+  <footer class="footer">
     <p>© Juice Plus+ | חומר לימודי לזכיינים</p>
   </footer>
 
@@ -31,8 +45,9 @@
     RANKS.forEach(rank => {
       const li = document.createElement("li");
       li.innerHTML = `
-        <a href="rank.html?rank=${rank.id}">
-          ${rank.title}
+        <a class="rank-link" href="rank.html?rank=${rank.id}">
+          <div class="rank-title">${rank.title}</div>
+          <div class="rank-sub">${rank.intro || ""}</div>
         </a>
       `;
       list.appendChild(li);
