@@ -1,15 +1,27 @@
-const SITE_BASE = "https://sememok.github.io/juiceplus-ranks/";
 const DEFAULT_LOGO_URL = "assets/ourway.jpg";
+const STORAGE_KEY = "jp_brand";
 
 const BRAND_DEFAULT = {
   groupName: "המסע המשותף שלנו",
   tagline: "חוברת הדרגות – מדריך וידאו לזכיין חדש",
-  logoDataUrl: "" // יכיל DataURL קטן (לא ענק)
+  logoDataUrl: "" // אם מעלים דרך האתר נשמור פה DataURL קטן
 };
 
-function brandLoad() {
+function basePath() {
+  // /juiceplus-ranks/
+  const repo = location.pathname.split("/")[1];
+  return `/${repo}/`;
+}
+
+function resolveUrl(path) {
+  if (!path) return "";
+  if (path.startsWith("data:") || path.startsWith("http://") || path.startsWith("https://")) return path;
+  return basePath() + path.replace(/^\/+/, "");
+}
+
+function loadBrand() {
   try {
-    const raw = localStorage.getItem("jp_brand");
+    const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return { ...BRAND_DEFAULT };
     return { ...BRAND_DEFAULT, ...JSON.parse(raw) };
   } catch {
@@ -17,84 +29,136 @@ function brandLoad() {
   }
 }
 
-function brandSave(next) {
-  localStorage.setItem("jp_brand", JSON.stringify(next));
+function saveBrand(b) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(b));
 }
 
-function brandReset() {
-  localStorage.removeItem("jp_brand");
+function resetBrand() {
+  localStorage.removeItem(STORAGE_KEY);
 }
 
-function brandApplyUrlOverrides(brand) {
-  const p = new URLSearchParams(window.location.search);
-  const name = p.get("group");
-  const tag = p.get("tagline");
-  if (name) brand.groupName = name;
-  if (tag) brand.tagline = tag;
-  return brand;
-}
-
-// מחשב base path אוטומטי (עוזר כשעובדים ב-GitHub Pages תחת repo)
-function computeBasePath() {
-  // לדוגמה: /juiceplus-ranks/brand.html => /juiceplus-ranks/
-  const parts = window.location.pathname.split("/");
-  if (parts.length >= 2) {
-    const repo = parts[1];
-    return `/${repo}/`;
-  }
-  return "/";
-}
-
-function resolveUrl(path) {
-  // אם זה כבר http / data: מחזירים כמות שהוא
-  if (!path) return "";
-  if (path.startsWith("http://") || path.startsWith("https://") || path.startsWith("data:")) return path;
-
-  // path יחסי => נכניס base path של הריפו
-  const base = computeBasePath(); // /juiceplus-ranks/
-  return base + path.replace(/^\/+/, "");
-}
-
-function setLogo(imgEl, fallbackEl, src) {
-  if (!imgEl) return;
-
-  imgEl.onerror = () => {
-    imgEl.style.display = "none";
-    if (fallbackEl) fallbackEl.style.display = "block";
-  };
-
-  imgEl.onload = () => {
-    imgEl.style.display = "block";
-    if (fallbackEl) fallbackEl.style.display = "none";
-  };
-
-  imgEl.src = src;
-}
-
-function brandRender() {
-  let b = brandLoad();
-  b = brandApplyUrlOverrides(b);
-
-  const nameEls = document.querySelectorAll("[data-brand='groupName']");
-  const tagEls  = document.querySelectorAll("[data-brand='tagline']");
-  const logoEls = document.querySelectorAll("[data-brand='logo']");
-  const fallbackEls = document.querySelectorAll("[data-brand='logoFallback']");
-
-  nameEls.forEach(el => el.textContent = b.groupName);
-  tagEls.forEach(el => el.textContent = b.tagline);
-
-  const chosen = (b.logoDataUrl && b.logoDataUrl.trim())
-    ? b.logoDataUrl
-    : DEFAULT_LOGO_URL;
-
-  const resolved = resolveUrl(chosen);
-
-  logoEls.forEach((imgEl, i) => {
-    const fb = fallbackEls[i] || document.querySelector("[data-brand='logoFallback']");
-    setLogo(imgEl, fb, resolved);
+// דחיסה אגרסיבית כדי שלא ניפול על מגבלת localStorage
+async function fileToSmallDataUrl(file, maxSize = 420, quality = 0.82) {
+  const dataUrl = await new Promise((resolve, reject) => {
+    const r = new FileReader();
+    r.onload = () => resolve(r.result);
+    r.onerror = reject;
+    r.readAsDataURL(file);
   });
 
-  // נשמור (כדי שברירת המחדל תתיישב פעם אחת)
-  try { brandSave(b); } catch {}
-  return b;
+  const img = new Image();
+  img.src = dataUrl;
+  await new Promise((res, rej) => { img.onload = res; img.onerror = rej; });
+
+  const scale = Math.min(1, maxSize / Math.max(img.width, img.height));
+  const canvas = document.createElement("canvas");
+  canvas.width = Math.round(img.width * scale);
+  canvas.height = Math.round(img.height * scale);
+  const ctx = canvas.getContext("2d");
+  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+  return canvas.toDataURL("image/jpeg", quality);
 }
+
+function setTopBrandUI(brand) {
+  const logoImg = document.getElementById("brandLogoImg");
+  const logoFallback = document.getElementById("brandLogoFallback");
+  const groupNameEl = document.getElementById("brandGroupName");
+  const taglineEl = document.getElementById("brandTagline");
+
+  if (groupNameEl) groupNameEl.textContent = brand.groupName;
+  if (taglineEl) taglineEl.textContent = brand.tagline;
+
+  const src = brand.logoDataUrl && brand.logoDataUrl.trim()
+    ? brand.logoDataUrl
+    : resolveUrl(DEFAULT_LOGO_URL);
+
+  if (logoImg) {
+    logoImg.onload = () => {
+      logoImg.style.display = "block";
+      if (logoFallback) logoFallback.style.display = "none";
+    };
+    logoImg.onerror = () => {
+      logoImg.style.display = "none";
+      if (logoFallback) logoFallback.style.display = "block";
+    };
+    logoImg.src = src;
+  }
+}
+
+function initBrandPage() {
+  const brand = loadBrand();
+
+  // UI ראשי
+  setTopBrandUI(brand);
+
+  // טופס
+  const groupName = document.getElementById("groupName");
+  const tagline = document.getElementById("tagline");
+  const logoFile = document.getElementById("logoFile");
+  const preview = document.getElementById("previewImg");
+  const msg = document.getElementById("msg");
+
+  if (groupName) groupName.value = brand.groupName;
+  if (tagline) tagline.value = brand.tagline;
+
+  function setMsg(t) { if (msg) msg.textContent = t; }
+
+  // Preview
+  if (logoFile) {
+    logoFile.addEventListener("change", async () => {
+      if (!logoFile.files || !logoFile.files[0]) return;
+      try {
+        setMsg("טוען Preview...");
+        const small = await fileToSmallDataUrl(logoFile.files[0]);
+        preview.src = small;
+        preview.style.display = "block";
+        setMsg("Preview מוכן. לחצי 'שמור'.");
+      } catch (e) {
+        setMsg("שגיאה בקריאת קובץ. נסי JPG/PNG קטן יותר.");
+      }
+    });
+  }
+
+  // Save
+  const saveBtn = document.getElementById("saveBtn");
+  if (saveBtn) {
+    saveBtn.addEventListener("click", async () => {
+      try {
+        const next = loadBrand();
+        next.groupName = (groupName?.value || "").trim() || next.groupName;
+        next.tagline = (tagline?.value || "").trim() || next.tagline;
+
+        if (logoFile?.files && logoFile.files[0]) {
+          setMsg("דוחס ושומר לוגו...");
+          next.logoDataUrl = await fileToSmallDataUrl(logoFile.files[0]);
+        }
+
+        saveBrand(next);
+        setTopBrandUI(next);
+        setMsg("נשמר. עברי לחוברת/דף הבית ובדקי.");
+      } catch (e) {
+        setMsg("לא הצליח לשמור. נסי תמונה קטנה יותר.");
+      }
+    });
+  }
+
+  // Reset
+  const resetBtn = document.getElementById("resetBtn");
+  if (resetBtn) {
+    resetBtn.addEventListener("click", () => {
+      resetBrand();
+      const b = loadBrand();
+
+      if (groupName) groupName.value = b.groupName;
+      if (tagline) tagline.value = b.tagline;
+      if (logoFile) logoFile.value = "";
+      if (preview) { preview.removeAttribute("src"); preview.style.display = "none"; }
+
+      setTopBrandUI(b);
+      setMsg("אופס. איפוס בוצע. אמור להופיע לוגו ברירת מחדל (ourway.jpg).");
+    });
+  }
+}
+
+document.addEventListener("DOMContentLoaded", initBrandPage);
