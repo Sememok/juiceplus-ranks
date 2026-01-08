@@ -60,7 +60,7 @@
   try {
     if (!list) {
       setStatus("שגיאה: לא נמצא rankList בעמוד.");
-    } else if (typeof RANKS === "undefined") {
+    } else if (typeof window.RANKS === "undefined") {
       // data.js לא נטען או נכשל
       setStatus("שגיאה: data.js לא נטען (RANKS לא קיים). בדקי שהקובץ data.js נמצא בשורש הריפו ושאין בו שגיאת תחביר.");
       list.innerHTML = `
@@ -68,13 +68,15 @@
           בדיקה מהירה: נסי לפתוח את הקובץ ישירות:
           <a href="data.js" target="_blank" rel="noreferrer">data.js</a>
         </li>`;
-    } else if (!Array.isArray(RANKS) || RANKS.length === 0) {
+    } else if (!Array.isArray(window.RANKS) || window.RANKS.length === 0) {
+
       setStatus("שגיאה: RANKS נטען אבל ריק/לא מערך.");
     } else {
       setStatus(`נטען בהצלחה: ${RANKS.length} דרגות`);
       list.innerHTML = "";
 
-      RANKS.forEach(rank => {
+      window.RANKS.forEach(rank => {
+
         const li = document.createElement("li");
         li.innerHTML = `
           <a class="rank-link" href="rank.html?id=${encodeURIComponent(rank.id)}">
@@ -95,3 +97,4 @@
 
 </body>
 </html>
+
