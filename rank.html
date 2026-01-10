@@ -34,7 +34,6 @@
     </nav>
 
     <div id="rankPrintLayout">
-      
       <div class="rank-text-area">
         <section class="card" style="margin-bottom:10px;">
           <h1 id="rankTitle" class="rankTitle">דרגה</h1>
@@ -60,7 +59,6 @@
           <div class="yt-sub">סרוק לצפייה בוידאו</div>
         </div>
       </div>
-
     </div>
 
     <section class="card">
@@ -89,9 +87,7 @@
           id = u.searchParams.get("v") || "";
         }
         return id ? ("https://www.youtube.com/embed/" + id) : "";
-      } catch (e) {
-        return "";
-      }
+      } catch (e) { return ""; }
     }
 
     function qrUrl(text){
@@ -103,7 +99,6 @@
       const id = getRankId();
       const rank = (window.RANKS || []).find(r => r.id === id);
 
-      // בניית ניווט
       const navContainer = document.getElementById("rankNav");
       if (window.RANKS && navContainer) {
         navContainer.innerHTML = "";
@@ -126,14 +121,25 @@
       document.getElementById("rankTitle").textContent = rank.title;
       document.getElementById("rankIntro").textContent = rank.intro || "";
 
-      // וידאו למסך
       const iframe = document.getElementById("rankVideo");
       const embed = toEmbedUrl(rank.videoUrl);
       iframe.src = embed;
 
-      // QR להדפסה
+      // === QR IMAGE LOGIC ===
       const qrImg = document.getElementById("printQR");
-      if(qrImg) qrImg.src = qrUrl(rank.videoUrl);
+      if(qrImg) {
+        // אם התמונה נשברת (קובץ חסר), טען QR רגיל במקום
+        qrImg.onerror = function() {
+            this.onerror = null; 
+            this.src = qrUrl(rank.videoUrl);
+        };
+
+        if (rank.qrFile) {
+           qrImg.src = "assets/" + rank.qrFile;
+        } else {
+           qrImg.src = qrUrl(rank.videoUrl);
+        }
+      }
 
       const linkBox = document.getElementById("rankVideoLink");
       linkBox.innerHTML = rank.videoUrl
