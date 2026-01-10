@@ -1,6 +1,7 @@
 /* data.js
    FULL REPLACEMENT
-   - Updated Senior Partner tree based on manual diagram
+   - Includes custom trees for Partner Plus & Senior Partner
+   - Supports text coloring in notes
 */
 
 window.RANKS = [
@@ -149,11 +150,11 @@ window.RANKS = [
   }
 ];
 
-/* Trees logic remains unchanged */
+/* Trees logic */
 window.RANK_TREES = {
   partner_plus: {
     title: "עץ התקדמות – Partner Plus (P+)",
-    description: "מותאם לפי הדוגמה מהבק־אופיס + השרטוט הידני שלך (כולל נקודות בעיגול אדום).",
+    description: "סימולציה מותאמת לשרטוט הידני (הדגשת נקודות אישיות).",
     highlightId: "you",
     nodes: [
       { id: "you",   label: "אתה",     code: "P+", pv: 866,  generation: 0, column: 1 },
@@ -167,8 +168,7 @@ window.RANK_TREES = {
       { from: "you", to: "right" }
     ],
     notes: [
-      "PV בכל כרטיס משקף את הנקודות שסימנת בעיגול אדום.",
-      "זהו עץ דרגה P+ בלבד."
+      "PV בכל כרטיס משקף את הנקודות שסימנת בעיגול אדום בשרטוט."
     ]
   },
 
@@ -180,14 +180,14 @@ window.RANK_TREES = {
       // Root: You (Total Group PV)
       { id: "you", label: "אתה (SP)", code: "SP", pv: 12090, generation: 0, column: 1 },
       
-      // Left Leg (Partner)
-      { id: "left", label: "זכיין (קו שמאל)", code: "P", pv: 4192, generation: 1, column: 0 },
+      // Left Leg (Partner) - Generation 1, Left
+      { id: "left", label: "זכיין (שמאל)", code: "P", pv: 4192, generation: 1, column: 0 },
       
-      // Middle Leg (Direct Customer - Part of Personal PV)
-      { id: "mid", label: "לקוח אישי", code: "Client", pv: 2561, generation: 1, column: 1 },
+      // Middle Leg (Direct Customer/Personal) - Generation 1, Middle
+      { id: "mid", label: "לקוח/אישי", code: "Client", pv: 2561, generation: 1, column: 1 },
       
-      // Right Leg (Partner)
-      { id: "right", label: "זכיין (קו ימין)", code: "P", pv: 2776, generation: 1, column: 2 }
+      // Right Leg (Partner) - Generation 1, Right
+      { id: "right", label: "זכיין (ימין)", code: "P", pv: 2776, generation: 1, column: 2 }
     ],
     edges: [
       { from: "you", to: "left" },
@@ -197,9 +197,9 @@ window.RANK_TREES = {
     notes: [
       "<b>סה\"כ נקודות פרומו שהושגו:</b> 12,090 (היעד: 12,000).",
       "<b>ניקוד אישי (אתה + לקוחות):</b> <span style='color:#16a34a; font-weight:bold;'>5,122</span> (מעל המינימום הנדרש של 4,000).",
-      "<b>חוק ה-50% (מקסימום מרגל):</b> הרגל החזקה ביותר היא 4,192, שזה מתחת לתקרה של 6,000 - <span style='color:#16a34a'>תקין.</span>",
-      "פירוט רגל שמאל: 2,561 + 1,631 = 4,192.",
-      "פירוט רגל ימין: 1,631 + 1,145 = 2,776."
+      "<b>חוק ה-50% (מקסימום מרגל):</b> הרגל החזקה היא 4,192, שזה מתחת לתקרה של 6,000 - <span style='color:#16a34a; font-weight:bold;'>תקין.</span>",
+      "<b>פירוט רגל שמאל:</b> 2,561 + 1,631 = 4,192.",
+      "<b>פירוט רגל ימין:</b> 1,631 + 1,145 = 2,776."
     ]
   },
 
