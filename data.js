@@ -1,18 +1,21 @@
 /* data.js
    FULL REPLACEMENT
-   - Removed the "2 Month Requirement" text from the Senior Partner tree description header.
+   - Updated Partner Plus (P+) content to match SP style/depth.
+   - Added Total Value badge to P+ tree root.
+   - Added detailed calculation notes for P+.
 */
 
 window.RANKS = [
   {
     id: "partner_plus",
     title: "Partner Plus",
-    intro: "התקדמות ראשונה שמבוססת על פעילות עקבית והגדלת נפח אישי/קבוצתי.",
+    intro: "התקדמות ראשונה ומשמעותית: בניית בסיס הלקוחות והנפח הראשוני.",
     videoUrl: "https://youtu.be/M293NdN7Sok?si=da8BUiVp5Qy-Z_5y",
     bullets: [
-      "מיקוד: הזמנה אישית + סגירות פשוטות.",
-      "יעד: יצירת 2–3 לקוחות חוזרים יציבים.",
-      "לייצר הרגל עבודה עקבי."
+      "יעד ראשי: צבירת 4,000 נקודות פרומו (אישי + קבוצתי).",
+      "מיקוד: יצירת בסיס של 3–5 לקוחות מרוצים.",
+      "מבנה: אין חובת מבנה מורכב, אך מומלץ להתחיל לצרף שותפים.",
+      "בונוס: זכאות לבונוס עלייה בדרגה (בכפוף ללוחות הזמנים)."
     ],
     nodeCode: "P+",
     qrFile: "Partner Plus.png"
@@ -37,9 +40,10 @@ window.RANKS = [
     intro: "דגש על בניית צוות בסיסי (זכיינים) לצד יציבות לקוחות.",
     videoUrl: "https://youtu.be/cyJb_ecWjyA?si=JjClNcImW1bs86Ig",
     bullets: [
-      "מיקוד: 2–3 זכיינים פעילים, עם נפח בסיסי.",
-      "חיזוק פייליין: אישי + לקוחות + צוות.",
-      "תיעוד ומעקב כדי לא לאבד נקודות חודשיות."
+      "מיקוד: בניית 3 רגליים פעילות (מבנה רוחב).",
+      "יעד: הגעה ל-8,000 נקודות קבוצתיות (Payline).",
+      "תנאי סף קריטי: שמירה על המבנה והנפח במשך 3 חודשים רצופים.",
+      "ניהול: התחלת חניכה של זכיינים תחתייך לדרגות P ו-P+."
     ],
     nodeCode: "SC",
     qrFile: "Sales Coordinator.png"
@@ -154,10 +158,13 @@ window.RANKS = [
 window.RANK_TREES = {
   partner_plus: {
     title: "עץ התקדמות – Partner Plus (P+)",
-    description: "סימולציה מותאמת לשרטוט הידני (הדגשת נקודות אישיות).",
+    description: "תרשים הממחיש הגעה ליעד של 4,000 נקודות.",
     highlightId: "you",
     nodes: [
-      { id: "you",   label: "אתה",     code: "P+", pv: 866,  generation: 0, column: 1 },
+      // דור 0: אתה. הוספתי את totalVal כדי שתהיה בועה כחולה עם הסיכום
+      { id: "you",   label: "אתה",     code: "P+", pv: 866, totalVal: "סה״כ: 4,576", generation: 0, column: 1 },
+      
+      // דור 1: הרגליים (לפי השרטוט הידני)
       { id: "left",  label: "קו שמאל", code: "P",  pv: 283,  generation: 1, column: 0 },
       { id: "mid",   label: "קו אמצע", code: "P",  pv: 2561, generation: 1, column: 1 },
       { id: "right", label: "קו ימין", code: "P",  pv: 866,  generation: 1, column: 2 }
@@ -168,14 +175,15 @@ window.RANK_TREES = {
       { from: "you", to: "right" }
     ],
     notes: [
-      "PV בכל כרטיס משקף את הנקודות שסימנת בעיגול אדום.",
-      "זהו עץ דרגה P+ בלבד."
+      "<b>סה\"כ נקודות שהושגו:</b> <span style='color:#16a34a; font-weight:bold;'>4,576</span> (היעד: 4,000).",
+      "<b>ניקוד אישי (אתה):</b> 866 נקודות.",
+      "<b>ניתוח מבנה:</b> ישנה רגל מרכזית חזקה (2,561) ועוד שתי רגליים תומכות.",
+      "<b>סטטוס:</b> <span style='color:#16a34a; font-weight:bold;'>הושג היעד לדרגת Partner Plus!</span>"
     ]
   },
 
   senior_partner: {
     title: "עץ התקדמות – Senior Partner (SP)",
-    // שינוי כאן: הסרת הטקסט המודגש באדום
     description: "תרשים מלא (כולל דור 2).",
     highlightId: "you",
     nodes: [
@@ -203,7 +211,30 @@ window.RANK_TREES = {
     ]
   },
 
-  sales_coordinator: { title: "עץ התקדמות – SC (תבנית זמנית)", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"SC"}], edges:[], notes:["תבנית זמנית – נבנה מדויק לאחר שרטוט."] },
+  sales_coordinator: {
+    title: "עץ התקדמות – Sales Coordinator (SC)",
+    description: "מבנה קלאסי לדרגת SC: שלוש רגליים פעילות בעוצמות שונות.",
+    highlightId: "you",
+    nodes: [
+      { id: "you", label: "אתה (SC) - 3 חודשים", code: "SC", pv: 1500, totalVal: "סה״כ: 8,550", generation: 0, column: 1 },
+      { id: "leg1_sp", label: "זכיין מוביל (SP)", code: "SP", pv: 3800, generation: 1, column: 0 },
+      { id: "leg2_pp", label: "זכיין יציב (P+)", code: "P+", pv: 2100, generation: 1, column: 1 },
+      { id: "leg3_p", label: "זכיין חדש/לקוחות (P)", code: "P", pv: 1150, generation: 1, column: 2 }
+    ],
+    edges: [
+      { from: "you", to: "leg1_sp" },
+      { from: "you", to: "leg2_pp" },
+      { from: "you", to: "leg3_p" }
+    ],
+    notes: [
+      "<span style='color:#dc2626; font-weight:bold; font-size:1.1em;'>דרישת סף קריטית: שמירה על המבנה והנפח למשך 3 חודשים רצופים!</span>",
+      "<b>סה\"כ נקודות (Payline):</b> <span style='color:#16a34a; font-weight:bold;'>8,550</span> (היעד: 8,000). עמידה ביעד.",
+      "<b>מבנה:</b> 3 רגליים פעילות (SP, P+, P). <span style='color:#16a34a; font-weight:bold;'>תקין.</span>",
+      "<b>חוק ה-50% (מקסימום 4,000 מרגל):</b> הרגל החזקה ביותר (SP) היא 3,800. <span style='color:#16a34a; font-weight:bold;'>תקין</span> (לא עברה את ה-50%).",
+      "<b>ניקוד אישי (אתה):</b> 1,500 PV (לקוחות אישיים + הזמנות שלך)."
+    ]
+  },
+
   qssc: { title: "עץ התקדמות – QSSC (תבנית זמנית)", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"QSSC"}], edges:[], notes:["תבנית זמנית – נבנה מדויק לאחר שרטוט."] },
   ssc: { title: "עץ התקדמות – SSC (תבנית זמנית)", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"SSC"}], edges:[], notes:["תבנית זמנית – נבנה מדויק לאחר שרטוט."] },
   qnmd: { title: "עץ התקדמות – QNMD (תבנית זמנית)", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"QNMD"}], edges:[], notes:["תבנית זמנית – נבנה מדויק לאחר שרטוט."] },
