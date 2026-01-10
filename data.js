@@ -1,7 +1,7 @@
 /* data.js
    FULL REPLACEMENT
-   - Updated Senior Partner: "You" now shows Personal PV (2561) inside
-   - Total PV (12,090) is shown as a side badge (using 'totalVal')
+   - Updated Senior Partner: Added "2 Consecutive Months" requirement
+     (In Description, On Root Node Label, and in Notes)
 */
 
 window.RANKS = [
@@ -26,7 +26,8 @@ window.RANKS = [
     bullets: [
       "מיקוד: הרחבת בסיס לקוחות.",
       "מומלץ: בניית שני מסלולים — אישי + לקוחות.",
-      "לייצר שגרה שבועית של שיווק ומעקב."
+      "לייצר שגרה שבועית של שיווק ומעקב.",
+      "תנאי סף: עמידה בנפח הנקודות במשך חודשיים רצופים."
     ],
     nodeCode: "SP",
     qrFile: "Senior Partner.png"
@@ -175,12 +176,12 @@ window.RANK_TREES = {
 
   senior_partner: {
     title: "עץ התקדמות – Senior Partner (SP)",
-    description: "תרשים מלא הכולל את פירוט הנקודות בדור השני (לפי השרטוט הידני).",
+    description: "תרשים מלא (כולל דור 2). <span style='color:#e11d48; font-weight:bold;'>חובה: הסמכה במשך חודשיים רצופים.</span>",
     highlightId: "you",
     nodes: [
       // --- דור 0: אתה ---
-      // pv: 2561 (אישי), totalVal: 12090 (בצד)
-      { id: "you", label: "אתה (SP)", code: "P+", pv: 2561, totalVal: "סה״כ: 12,090", generation: 0, column: 2 },
+      // הוספתי לתווית את המילה "(חודשיים)" כדי שזה יהיה ברור על התרשים
+      { id: "you", label: "אתה (SP) - חודשיים", code: "P+", pv: 2561, totalVal: "סה״כ: 12,090", generation: 0, column: 2 },
       
       // --- דור 1: 3 רגליים ---
       { id: "left_top", label: "זכיין P", code: "P", pv: 4192, generation: 1, column: 0 },
@@ -192,16 +193,14 @@ window.RANK_TREES = {
       { id: "right_bot", label: "לקוח/הזמנה", code: "Order", pv: 1145, generation: 2, column: 4 }
     ],
     edges: [
-      // חיבורים מהראש לדור 1
       { from: "you", to: "left_top" },
       { from: "you", to: "mid_top" },
       { from: "you", to: "right_top" },
-      
-      // חיבורים מדור 1 לדור 2 (העמקה)
       { from: "left_top", to: "left_bot" },
       { from: "right_top", to: "right_bot" }
     ],
     notes: [
+      "<span style='color:#dc2626; font-weight:bold; font-size:1.1em;'>שים לב: יש לעמוד ביעדים אלו במשך חודשיים רצופים לקבלת הדרגה!</span>",
       "<b>סה\"כ נקודות פרומו שהושגו:</b> 12,090 (היעד: 12,000).",
       "<b>ניקוד אישי (אתה + לקוחות):</b> <span style='color:#16a34a; font-weight:bold;'>5,122</span> (מעל המינימום הנדרש של 4,000).",
       "<b>חוק ה-50% (מקסימום מרגל):</b> הרגל החזקה (שמאל) היא 4,192, שזה מתחת לתקרה של 6,000 - <span style='color:#16a34a; font-weight:bold;'>תקין.</span>",
