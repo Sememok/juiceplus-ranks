@@ -59,7 +59,6 @@ a { color: inherit; text-decoration: none; }
   overflow: hidden;
 }
 
-/* לוגו בכותרת - קבוע וקטן */
 .brand-logo {
   position: relative;
   width: 48px;
@@ -68,7 +67,7 @@ a { color: inherit; text-decoration: none; }
   border-radius: 10px;
   border: 1px solid var(--line);
   background: #fff;
-  overflow: hidden; /* מבטיח שהתמונה לא תצא מהגבולות */
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -77,17 +76,16 @@ a { color: inherit; text-decoration: none; }
 .brand-logo img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* חותך את התמונה יפה לריבוע */
+  object-fit: cover;
   display: block;
 }
 
-/* טקסט גיבוי אם אין לוגו */
 .fallback {
   font-size: 10px;
   font-weight: 900;
   color: var(--muted);
   text-align: center;
-  display: none; /* מוסתר כברירת מחדל */
+  display: none;
 }
 
 .brand-text {
@@ -130,6 +128,46 @@ a { color: inherit; text-decoration: none; }
 }
 
 /* =========================
+   NAVIGATION CHIPS (New)
+   ========================= */
+.rank-nav-container {
+  margin-bottom: 20px;
+  padding: 0 10px;
+}
+.rank-nav-label {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+.rank-nav-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.nav-chip {
+  background: #fff;
+  border: 1px solid var(--line);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.2s;
+  color: var(--text);
+}
+.nav-chip:hover {
+  border-color: var(--brand);
+  background: #f0fdf4;
+}
+.nav-chip.active {
+  background: var(--brand);
+  color: #fff;
+  border-color: var(--brand);
+  box-shadow: 0 2px 5px rgba(22, 163, 74, 0.3);
+}
+
+
+/* =========================
    UI ELEMENTS
    ========================= */
 
@@ -166,10 +204,8 @@ a { color: inherit; text-decoration: none; }
 }
 
 /* =========================
-   BRAND PAGE SPECIFICS (FIXED)
+   BRAND PAGE SPECIFICS
    ========================= */
-
-/* תמונה לתצוגה מקדימה - שלא תהיה ענקית */
 .preview {
   margin-top: 10px;
   padding: 10px;
@@ -178,17 +214,13 @@ a { color: inherit; text-decoration: none; }
   background: #f8fafc;
   text-align: center;
 }
-
 .preview img {
-  max-width: 100%;      /* לא לחרוג מהרוחב */
-  max-height: 200px;    /* גובה מקסימלי */
-  object-fit: contain;  /* לשמור על פרופורציות */
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  display: none; /* מוסתר עד שיש תמונה */
+  max-width: 100%;
+  max-height: 200px;
+  object-fit: contain;
+  display: none;
   margin: 0 auto;
 }
-
 .lbl { display: block; margin: 16px 0 6px; font-weight: 700; font-size: 0.9rem; }
 .input {
   width: 100%;
@@ -268,6 +300,10 @@ a { color: inherit; text-decoration: none; }
 .treeMeta { font-size: 0.8rem; color: var(--muted); }
 .treePV span.v { font-weight: 800; color: #000; }
 
+.treeNotes { margin-top: 20px; padding: 16px; background: #fff; border-top: 1px solid var(--line); font-size: 0.9rem; }
+.treeNotesTitle { font-weight: 700; color: var(--muted); margin-bottom: 6px; font-size: 0.8rem; text-transform: uppercase; }
+.treeNotesList { margin: 0; padding-right: 20px; color: var(--muted); }
+
 /* רשימת דרגות (דף הבית) */
 .rank-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
 .rank-link {
@@ -281,14 +317,45 @@ a { color: inherit; text-decoration: none; }
 .chev { font-size: 1.5rem; color: #cbd5e1; }
 
 /* =========================
-   PRINT
+   PRINT (BOOKLET)
    ========================= */
 @media print {
   body { background: #fff; }
-  .topbar, .btn { display: none !important; }
+  .topbar, .btn, .print-hide { display: none !important; }
   .container { width: 100%; margin: 0; }
   .card { box-shadow: none; border: 0; padding: 0; margin-bottom: 20px; page-break-inside: avoid; }
   .treeCanvas { border: 1px solid #000; }
   .treeNode { border: 1px solid #000; box-shadow: none; }
   .treeEdgePath { stroke: #000; }
+  
+  /* Booklet specific */
+  .booklet-page { page-break-after: always; padding: 1cm !important; }
+  .page-header { border-bottom: 2px solid #000; margin-bottom: 20px; padding-bottom: 10px; display: flex; justify-content: space-between; }
+  
+  /* YouTube Print Frame */
+  .print-yt-frame {
+    border: 4px solid #ff0000; /* Red Frame */
+    border-radius: 16px;
+    padding: 15px;
+    width: 250px;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .print-yt-frame::before {
+    /* Play Button Simulation */
+    content: "▶"; 
+    display: block;
+    color: #ff0000;
+    font-size: 24px;
+    margin-bottom: 5px;
+  }
+
+  .qr-img { width: 140px; height: 140px; }
+  .qr-label { color: #ff0000; font-weight: 800; font-size: 0.9rem; margin-bottom: 8px; }
 }
