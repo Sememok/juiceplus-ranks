@@ -115,6 +115,23 @@ a { color: inherit; text-decoration: none; }
   border-radius: 10px; font-weight: bold; white-space: nowrap; z-index: 10;
 }
 
+.treeTotal {
+  position: absolute;
+  /* שינוי משמעותי: מקפיץ את הבועה הרבה יותר למעלה */
+  top: -50px !important;   
+  right: -10px !important; 
+  left: auto !important;   
+  background: #2563eb;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 20px;
+  box-shadow: 0 2px 5px rgba(37, 99, 235, 0.3);
+  white-space: nowrap;
+  z-index: 20; /* שכבה גבוהה יותר */
+}
+
 .treeNodeTop { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; border-bottom: 1px dashed #e2e8f0; padding-bottom: 6px; }
 .treeBadge { background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-weight: 800; font-size: 0.75rem; }
 .treeLabel { font-weight: 600; font-size: 0.85rem; }
@@ -143,5 +160,6 @@ a { color: inherit; text-decoration: none; }
   .treeNodesLayer { gap: 15px; }
   .treeNode { border: 1px solid #000; box-shadow: none; min-height: auto; }
   .treeEdgePath { stroke: #000; stroke-width: 1px; }
+  .treeTotal { border: 1px solid #000; background: #fff; color: #000; }
   .booklet-page { page-break-after: always; display: block; }
 }
