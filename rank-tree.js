@@ -1,6 +1,5 @@
 /* =========================
-   rank-tree.js – FORCE FIX
-   Injects styles directly to ensure positioning works
+   rank-tree.js – LEFT BADGE FIX
    ========================= */
 
 (function () {
@@ -73,13 +72,17 @@
       }
       node.appendChild(meta);
 
+      // === NEW FIX: LEFT SIDE BADGE ===
       if (n.totalVal) {
-        const totalBadge = el("div", "treeTotal", n.totalVal);
-        // Force override styles for positioning
+        // שימוש במחלקה החדשה treeTotalLeft
+        const totalBadge = el("div", "treeTotalLeft", n.totalVal);
+        
+        // אבטחה נוספת עם Inline Styles כדי לוודא שזה עובד
         totalBadge.style.cssText = `
           position: absolute;
-          top: -50px !important;  /* הוקפץ משמעותית */
-          right: -10px !important;
+          top: -15px !important;
+          right: 50% !important;
+          margin-right: 45px !important; /* דוחף שמאלה מהאמצע */
           left: auto !important;
           background: #2563eb;
           color: #fff;
