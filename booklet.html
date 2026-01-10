@@ -17,7 +17,6 @@
           <div data-brand="tagline" class="brand-subtitle">חוברת הדרגות – להדפסה</div>
         </div>
       </div>
-
       <div class="actions">
         <a class="btn" href="index.html">חזרה</a>
         <button class="btn btn-green" onclick="window.print()">הדפס / שמירה כ-PDF</button>
@@ -27,14 +26,16 @@
 
   <main class="container booklet">
     <section class="card booklet-cover">
-      <div class="cover-row" style="text-align:center; padding: 40px 0;">
+      <div style="text-align:center;">
         <img data-brand="logo" alt="לוגו" style="max-width:150px; margin-bottom:20px; display:none">
         <h1 class="cover-title" style="font-size:3em; margin:0;">חוברת דרגות דיגיטלית</h1>
-        <p class="muted" style="font-size:1.5em;">
+        <p class="muted" style="font-size:1.5em; margin-top:10px;">
           מדריך וידאו, עצי התקדמות וטיפים לזכיין
         </p>
       </div>
-      <div class="print-note muted" style="text-align:center; margin-top:50px;">נוצר באופן דיגיטלי. סרוק את ה-QR לצפייה.</div>
+      <div class="print-note muted" style="text-align:center; margin-top:50px;">
+        נוצר באופן דיגיטלי. סרוק את ה-QR לצפייה.
+      </div>
     </section>
 
     <div id="bookletPages"></div>
@@ -42,126 +43,9 @@
 
   <script src="brand-core.js"></script>
   <script src="data.js"></script>
-  <script src="rank-tree.js"></script>
-
   <script>
-    // ===== Build pages =====
     const pagesRoot = document.getElementById("bookletPages");
     pagesRoot.innerHTML = "";
-
-    if (Array.isArray(window.RANKS)) {
-      window.RANKS.forEach((rank, idx) => {
-        const page = document.createElement("section");
-        page.className = "card booklet-page";
-        page.innerHTML = `
-          <div class="page-header">
-            <div>
-              <div class="page-kicker" style="font-size:0.9em; color:#666">דף דרגה ${idx + 1}</div>
-              <h2 class="page-title" style="font-size:2em; margin:5px 0;">${escapeHtml(rank.title || "")}</h2>
-              <p class="muted">${escapeHtml(rank.intro || "")}</p>
-            </div>
-            
-            <div class="print-yt-frame">
-              <div class="qr-label">סרוק לצפייה בסרטון</div>
-              <img
-                class="qr-img"
-                alt="QR"
-                src="${qrUrl(rank.videoUrl)}"
-              />
-            </div>
-          </div>
-
-          <div class="page-section">
-            <h3>מה חשוב ללמוד בדרגה הזו</h3>
-            <ul class="bullets">
-              ${(rank.bullets || []).map(b => `<li>${escapeHtml(b)}</li>`).join("")}
-            </ul>
-          </div>
-
-          <div class="page-section">
-            <h3>עץ התקדמות (סימולציה)</h3>
-            <div id="tree_${escapeId(rank.id)}"></div>
-          </div>
-
-          <div class="page-footer muted" style="position:absolute; bottom:20px; left:0; right:0; text-align:center; border-top:1px solid #eee; padding-top:10px;">
-            המסע המשותף שלנו • חוברת להדפסה
-          </div>
-        `;
-        pagesRoot.appendChild(page);
-
-        // Tree render
-        try {
-          if (typeof window.renderRankTree === "function") {
-            window.renderRankTree({
-              rankKey: rank.title, // Pass title to match existing logic if needed, or ID
-              // Note: rank-tree.js uses RANK_TREES[rankId], so we need to ensure the JS supports it.
-              // Let's rely on data.js matching.
-              // Actually, rank-tree.js "renderRankTree" is not exposed globally in the file I sent previously, 
-              // it ran on DOMContentLoaded.
-              // I need to make sure rank-tree.js exposes a render function or use the logic below.
-            });
-            
-            // Direct call if exposed, otherwise we need to rely on the library.
-            // Since rank-tree.js in previous turn was IIFE, let's just make sure we can render.
-            // FIX: I will use the internal logic of rank-tree if available, OR simpler:
-            // Since I cannot change rank-tree.js easily to expose without breaking encapsulation, 
-            // I will assume you are using the provided rank-tree.js.
-            // Wait, looking at my previous response, rank-tree.js was an IIFE.
-            // I will inject a small helper here to render tree if possible, 
-            // OR ideally, we should expose the render function in rank-tree.js.
-            
-            // FOR NOW: I'll manually call the global logic if available.
-            // If not, simply: 
-            const mount = document.getElementById(`tree_${escapeId(rank.id)}`);
-            if(window.RANK_TREES && window.RANK_TREES[rank.id] && typeof renderTreeExternal === 'function') {
-                renderTreeExternal(window.RANK_TREES[rank.id], mount);
-            }
-          }
-        } catch (e) { console.error(e); }
-      });
-    }
-    
-    // Quick Fix: We need a way to render trees in the booklet loop.
-    // I will add a small renderer script block here that mimics rank-tree.js for the booklet.
-    // This is safer than modifying rank-tree.js significantly.
-    
-    function renderTreeExternal(tree, mount) {
-       mount.innerHTML = "";
-       const canvas = document.createElement("div");
-       canvas.className = "treeCanvas";
-       canvas.style.setProperty("--cols", "3"); // Default
-       
-       const nodesLayer = document.createElement("div");
-       nodesLayer.className = "treeNodesLayer";
-       canvas.appendChild(nodesLayer);
-       
-       // Simplified render for print
-       tree.nodes.forEach(n => {
-         const node = document.createElement("div");
-         node.className = "treeNode";
-         if(n.id === tree.highlightId) node.classList.add("isHere");
-         node.innerHTML = `
-           <div class="treeNodeTop">
-             <div class="treeBadge">${n.code}</div>
-             <div class="treeLabel">${n.label}</div>
-           </div>
-           <div class="treePV">PV: ${n.pv}</div>
-         `;
-         node.style.gridRow = (n.generation||0)+1;
-         node.style.gridColumn = (n.column||0)+1;
-         nodesLayer.appendChild(node);
-       });
-       
-       // Add Notes
-        if (tree.notes && tree.notes.length) {
-            const notes = document.createElement("div");
-            notes.className = "treeNotes";
-            notes.innerHTML = `<div class="treeNotesTitle">הערות:</div><ul>${tree.notes.map(t=>`<li>${t}</li>`).join("")}</ul>`;
-            canvas.appendChild(notes);
-        }
-
-       mount.appendChild(canvas);
-    }
 
     function qrUrl(text){
       const t = encodeURIComponent(text || "");
@@ -173,7 +57,93 @@
         "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
       }[m]));
     }
-    function escapeId(str){ return String(str).replace(/[^a-zA-Z0-9_-]/g, "_"); }
+    
+    // פונקציה פשוטה לציור עץ בחוברת ללא תלות בקובץ החיצוני
+    function renderSimpleTree(tree, containerId) {
+        if(!tree) return;
+        const div = document.createElement("div");
+        div.className = "treeCanvas";
+        // פריסה פשוטה
+        div.style.setProperty("--cols", "3");
+        
+        const layer = document.createElement("div");
+        layer.className = "treeNodesLayer";
+        
+        tree.nodes.forEach(n => {
+            const node = document.createElement("div");
+            node.className = "treeNode";
+            if(n.id === tree.highlightId) node.classList.add("isHere");
+            node.style.gridRow = (n.generation||0) + 1;
+            node.style.gridColumn = (n.column||0) + 1;
+            
+            node.innerHTML = `
+                <div class="treeNodeTop">
+                    <div class="treeBadge">${n.code||""}</div>
+                    <div class="treeLabel">${n.label||""}</div>
+                </div>
+                ${n.pv ? `<div class="treeMeta">PV: <b>${n.pv}</b></div>` : ""}
+            `;
+            layer.appendChild(node);
+        });
+        
+        div.appendChild(layer);
+        
+        // הערות
+        if (tree.notes && tree.notes.length) {
+            const notes = document.createElement("div");
+            notes.className = "treeNotes";
+            notes.innerHTML = `<div class="treeNotesTitle">הערות:</div><ul>${tree.notes.map(t=>`<li>${t}</li>`).join("")}</ul>`;
+            div.appendChild(notes);
+        }
+
+        document.getElementById(containerId).appendChild(div);
+    }
+
+    if (Array.isArray(window.RANKS)) {
+      window.RANKS.forEach((rank, idx) => {
+        const page = document.createElement("section");
+        page.className = "card booklet-page";
+        
+        // שימוש במבנה הגריד החדש: טקסט מימין, QR משמאל
+        page.innerHTML = `
+          <div id="rankPrintLayout" style="border:none; margin-bottom:10px;">
+            <div class="rank-text-area">
+               <div style="font-size:0.8em; color:#666">דף דרגה ${idx + 1}</div>
+               <h2 class="rankTitle" style="font-size:1.6em; margin:0;">${escapeHtml(rank.title)}</h2>
+               <p class="muted" style="margin-bottom:10px;">${escapeHtml(rank.intro)}</p>
+               
+               <h3 style="font-size:1.1em; margin:5px 0;">נקודות מפתח:</h3>
+               <ul class="bullets">
+                 ${(rank.bullets || []).map(b => `<li>${escapeHtml(b)}</li>`).join("")}
+               </ul>
+            </div>
+
+            <div class="print-only-qr" style="display:flex !important; justify-content:flex-end;">
+              <div class="yt-frame">
+                <div class="yt-label">סרטון הדרכה</div>
+                <img class="yt-qr-img" src="${qrUrl(rank.videoUrl)}" alt="QR">
+                <div class="yt-sub">סרוק לצפייה</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top:0;">
+            <h3 class="sectionTitle" style="font-size:1.2em;">מבנה והתקדמות</h3>
+            <div id="tree_booklet_${idx}"></div>
+          </div>
+          
+          <div style="position:absolute; bottom:10px; left:0; right:0; text-align:center; font-size:9pt; color:#999; border-top:1px solid #eee; padding-top:5px;">
+             המסע המשותף שלנו • Juice Plus+
+          </div>
+        `;
+        pagesRoot.appendChild(page);
+
+        // Render tree if available
+        if(window.RANK_TREES && window.RANK_TREES[rank.id]) {
+            renderSimpleTree(window.RANK_TREES[rank.id], `tree_booklet_${idx}`);
+        }
+      });
+    }
   </script>
 </body>
 </html>
