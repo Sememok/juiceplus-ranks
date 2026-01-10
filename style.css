@@ -233,18 +233,28 @@ a { color: inherit; text-decoration: none; }
 }
 .treeNode.isHere { border: 2px solid var(--brand); background: #f0fdf4; }
 
+/* הבועה הירוקה - נשארת במרכז למעלה */
 .treeHere {
-  position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
-  background: var(--brand); color: #fff; font-size: 0.7rem; padding: 2px 8px;
-  border-radius: 10px; font-weight: bold; white-space: nowrap; z-index: 10;
+  position: absolute; 
+  top: -10px; 
+  left: 50%; 
+  transform: translateX(-50%);
+  background: var(--brand); 
+  color: #fff; 
+  font-size: 0.7rem; 
+  padding: 2px 8px;
+  border-radius: 10px; 
+  font-weight: bold; 
+  white-space: nowrap; 
+  z-index: 10;
 }
 
-/* === התיקון: הזזת הבועה הכחולה לצד ימין למעלה === */
+/* הבועה הכחולה - נדחפת בכוח ימינה */
 .treeTotal {
   position: absolute;
-  top: -15px;       /* קצת יותר גבוה */
-  right: -10px;     /* הוזז לצד ימין */
-  left: auto;       /* ביטול ההצמדה לשמאל */
+  top: -18px !important;    /* מעלה את הבועה למעלה */
+  right: -10px !important;  /* מצמיד לימין */
+  left: auto !important;    /* מבטל כל הצמדה לשמאל */
   background: #2563eb;
   color: #fff;
   font-size: 0.75rem;
