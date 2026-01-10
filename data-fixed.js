@@ -1,7 +1,6 @@
 /* data-fixed.js
-   NEW FILENAME to force browser reload.
-   - SC Tree Updated: Partner in column 4 is now 2561 PV.
-   - Total PV updated to 27,170.
+   UPDATED: Specific Partner node changed to 2561 PV.
+   NEW TOTAL: 28,100 PV (Target Reached!)
 */
 
 window.RANKS = [
@@ -170,6 +169,7 @@ window.RANKS = [
 
 /* Trees logic */
 window.RANK_TREES = {
+  // === PARTNER PLUS (P+) ===
   partner_plus: {
     title: "עץ התקדמות – Partner Plus (P+)",
     description: "תרשים הממחיש הגעה ליעד של 4,000 נקודות.",
@@ -219,14 +219,14 @@ window.RANK_TREES = {
     ]
   },
 
-  // === SALES COORDINATOR (SC) - FINAL CORRECTED VERSION ===
+  // === SALES COORDINATOR (SC) - UPDATED 2561 ===
   sales_coordinator: {
     title: "עץ התקדמות – Sales Coordinator (SC)",
-    description: "סימולציה מותאמת (כולל תיקון ניקוד זכיין).",
+    description: "סימולציה מותאמת (כולל תוספת לקוחות ישירים).",
     highlightId: "you",
     nodes: [
-      // דור 0: אתה (סה"כ מעודכן ל-27,170)
-      { id: "you", label: "אתה (SC)", code: "SC", pv: 1245, totalVal: "סה״כ: 27,170", generation: 0, column: 3 },
+      // דור 0: אתה (סה"כ מעודכן ל-28,100)
+      { id: "you", label: "אתה (SC)", code: "SC", pv: 1245, totalVal: "סה״כ: 28,100", generation: 0, column: 3 },
 
       // --- עמודה 0: לקוח ישיר (2561) ---
       { id: "leg1_client", label: "לקוח ישיר", code: "Client", pv: 2561, generation: 1, column: 0 },
@@ -235,10 +235,11 @@ window.RANK_TREES = {
       { id: "leg_new_client", label: "לקוח נוסף", code: "Client", pv: 1631, generation: 1, column: 1 },
 
       // --- עמודה 2: זכיין 1631 + תחתית ---
-      { id: "leg2_top", label: "זכיין", code: "P", pv: 1631, generation: 1, column: 2 },
+      // זכיין זה עודכן ל-2561 לפי בקשתך!
+      { id: "leg2_top", label: "זכיין", code: "P", pv: 2561, generation: 1, column: 2 },
       { id: "leg2_bot", label: "זכיין", code: "P", pv: 2561, generation: 2, column: 2 },
 
-      // --- עמודה 4: זכיין 2561 (המתוקן!) + תחתית ---
+      // --- עמודה 4: זכיין 2561 + תחתית ---
       { id: "leg3_top", label: "זכיין", code: "P", pv: 2561, generation: 1, column: 4 },
       { id: "leg3_bot", label: "זכיין", code: "P", pv: 2561, generation: 2, column: 4 },
 
@@ -271,10 +272,10 @@ window.RANK_TREES = {
     ],
     notes: [
       "<span style='color:#dc2626; font-weight:bold; font-size:1.1em;'>דרישת סף: שמירה על הדרגה למשך 2 חודשים רצופים.</span>",
-      "<b>סה\"כ נקודות מעודכן:</b> <span style='color:#16a34a; font-weight:bold;'>27,170</span> (התקרבות ליעד של 28,000).",
+      "<b>סה\"כ נקודות מעודכן:</b> <span style='color:#16a34a; font-weight:bold;'>28,100</span> (הושג היעד של 28,000!).",
       "<b>בונוס דרגה כולל:</b> 3,600 ₪.",
       "<b>חלוקת תשלום:</b> 1,200 ₪ בחודש הראשון + 2,400 ₪ בחודש השני.",
-      "<b>תיקון:</b> עודכן ניקוד זכיין ל-2,561, הסה\"כ עודכן בהתאם."
+      "<b>עדכונים:</b> זכיין נוסף עודכן ל-2,561 נקודות."
     ]
   },
 
