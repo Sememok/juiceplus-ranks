@@ -1,21 +1,21 @@
 /* data.js
    FULL REPLACEMENT
-   - Includes P+ Fixes (Notes, Total Badge)
-   - Includes SC Tree
-   - Includes SP Tree
+   - STRICTLY based on the provided "Bonus Table" image.
+   - Updates all Rank Descriptions with exact bonus amounts and splits.
+   - Updates Partner Plus Tree to look professional (Blue badge + notes).
 */
 
 window.RANKS = [
   {
     id: "partner_plus",
     title: "Partner Plus",
-    intro: "התקדמות ראשונה ומשמעותית: בניית בסיס הלקוחות והנפח הראשוני.",
+    intro: "התקדמות ראשונה: בניית בסיס לקוחות ראשוני.",
     videoUrl: "https://youtu.be/M293NdN7Sok?si=da8BUiVp5Qy-Z_5y",
     bullets: [
-      "יעד ראשי: צבירת 4,000 נקודות פרומו (אישי + קבוצתי).",
-      "מיקוד: יצירת בסיס של 3–5 לקוחות מרוצים.",
-      "מבנה: אין חובת מבנה מורכב, אך מומלץ להתחיל לצרף שותפים.",
-      "בונוס: זכאות לבונוס עלייה בדרגה (בכפוף ללוחות הזמנים)."
+      "יעד: 4,000 נקודות פרומו (חודש 1 להסמכה).",
+      "מינימום אישי: 4,000 נקודות (אפשר הכל אישי או עם לקוחות).",
+      "בונוס דרגה: 400 ₪.",
+      "תשלום הבונוס: תשלום אחד."
     ],
     nodeCode: "P+",
     qrFile: "Partner Plus.png"
@@ -23,13 +23,14 @@ window.RANKS = [
   {
     id: "senior_partner",
     title: "Senior Partner",
-    intro: "מכאן מתחילים לעבוד באמת על פייליין: שילוב הזמנות אישיות והזמנות לקוחות.",
+    intro: "בניית יציבות ולקוחות חוזרים.",
     videoUrl: "https://youtu.be/fnG6Eld0SPk?si=7ZozniTLZHIG5qR8",
     bullets: [
-      "מיקוד: הרחבת בסיס לקוחות.",
-      "מומלץ: בניית שני מסלולים — אישי + לקוחות.",
-      "לייצר שגרה שבועית של שיווק ומעקב.",
-      "תנאי סף: עמידה בנפח הנקודות במשך חודשיים רצופים."
+      "יעד: 12,000 נקודות פרומו (בתוך חלון של 2 חודשים).",
+      "חוק 50%: מקסימום 6,000 נקודות מרגל אחת.",
+      "מינימום אישי: 4,000 נקודות.",
+      "בונוס דרגה כולל: 1,200 ₪.",
+      "חלוקת הבונוס: 400 ₪ בחודש הראשון + 800 ₪ בחודש השני (מותנה באישור מחדש)."
     ],
     nodeCode: "SP",
     qrFile: "Senior Partner.png"
@@ -37,26 +38,30 @@ window.RANKS = [
   {
     id: "sales_coordinator",
     title: "Sales Coordinator",
-    intro: "דגש על בניית צוות בסיסי (זכיינים) לצד יציבות לקוחות.",
+    intro: "הדרגה הניהולית הראשונה: בניית צוות ומבנה רוחב.",
     videoUrl: "https://youtu.be/cyJb_ecWjyA?si=JjClNcImW1bs86Ig",
     bullets: [
-      "מיקוד: בניית 3 רגליים פעילות (מבנה רוחב).",
-      "יעד: הגעה ל-8,000 נקודות קבוצתיות (Payline).",
-      "תנאי סף קריטי: שמירה על המבנה והנפח במשך 3 חודשים רצופים.",
-      "ניהול: התחלת חניכה של זכיינים תחתייך לדרגות P ו-P+."
+      "מבנה נדרש: זכיין אחד בדרגת Partner Plus (מבנה 1 רגל PB).",
+      "יעד: 28,000 נקודות פרומו (בחלון של 2 חודשים).",
+      "חוק 50%: מקסימום 14,000 נקודות מרגל אחת.",
+      "מינימום אישי: 4,000 נקודות.",
+      "בונוס דרגה כולל: 3,600 ₪.",
+      "חלוקת הבונוס: 1,200 ₪ בחודש הראשון + 2,400 ₪ בחודש השני."
     ],
     nodeCode: "SC",
     qrFile: "Sales Coordinator.png"
   },
   {
     id: "qssc",
-    title: "QUALIFYING SENIOR SALES COORDINATOR",
-    intro: "שלב מעבר: עמידה בדרישות QSSC לפני SSC. דורש עקביות על פני חודשים.",
+    title: "Qualifying Senior Sales Coordinator",
+    intro: "שלב ביניים בדרך לניהול בכיר.",
     videoUrl: "https://youtu.be/ru06kEc9kqE?si=9yvL3LZ5Qm80YEak",
     bullets: [
-      "מיקוד: יציבות לאורך זמן (לא רק חודש חזק אחד).",
-      "בנייה נכונה של עומק: דורות מתחתייך.",
-      "חיבור בונוסים/עמלות לתפעול צוות."
+      "מבנה נדרש: 2 רגלי PB (זכיינים בדרגת P+ ומעלה).",
+      "יעד: 56,000 נקודות (בחלון של 3 חודשים).",
+      "חוק 50%: מקסימום 28,000 נקודות מרגל אחת.",
+      "בונוס דרגה כולל: 4,800 ₪.",
+      "חלוקת הבונוס: 1,400 ₪ + 1,400 ₪ + 2,000 ₪ (לאורך 3 חודשים)."
     ],
     nodeCode: "QSSC",
     qrFile: "Qualifying Senior Sales Coordinator.png"
@@ -64,25 +69,29 @@ window.RANKS = [
   {
     id: "ssc",
     title: "Senior Sales Coordinator",
-    intro: "דרגה שמבוססת על צוות פעיל ומבנה יציב של נפח לאורך זמן.",
+    intro: "ניהול צוות מתקדם ויציב.",
     videoUrl: "https://youtu.be/xPwmFecZ8Ms?si=rqjGaml0ySJoif0x",
     bullets: [
-      "מיקוד: לייצב 2–3 קווים שמייצרים נפח חודשי.",
-      "להטמיע תהליך הדרכה לזכיינים חדשים.",
-      "אופטימיזציה: עבודה חכמה במקום רק יותר עבודה."
+      "מבנה נדרש: 3 רגלי PB (שלושה קווים פעילים).",
+      "יעד: 111,000 נקודות (בחלון של 3 חודשים).",
+      "חוק 50%: מקסימום 55,500 נקודות מרגל אחת.",
+      "בונוס דרגה כולל: 10,000 ₪.",
+      "חלוקת הבונוס: 2,500 ₪ + 2,500 ₪ + 5,000 ₪ (לאורך 3 חודשים)."
     ],
     nodeCode: "SSC",
     qrFile: "Senior Sales Coordinator.png"
   },
   {
     id: "qnmd",
-    title: "QUALIFYING NATIONAL MARKETING DIRECTOR",
-    intro: "שלב מעבר לקראת NMD: עמידה בדרישות לאורך מס' חודשים.",
+    title: "Qualifying National Marketing Director",
+    intro: "הכנה לדרגה הבכירה ביותר.",
     videoUrl: "https://youtu.be/W8Wm_c4kMUo?si=sRYcBXB5K67s3CgE",
     bullets: [
-      "מיקוד: יציבות צוותית + נפח.",
-      "חיזוק דור שני/שלישי.",
-      "ניהול מדדים חודשיים."
+      "מבנה נדרש: 3 רגלי PB (מתוכן התחזקות קווים).",
+      "יעד: 222,000 נקודות (בחלון של 3 חודשים).",
+      "חוק 50%: מקסימום 111,000 נקודות מרגל אחת.",
+      "בונוס דרגה כולל: 19,000 ₪.",
+      "חלוקת הבונוס: 4,500 ₪ + 4,500 ₪ + 10,000 ₪ (לאורך 3 חודשים)."
     ],
     nodeCode: "QNMD",
     qrFile: "Qualifying National Marketing Director.png"
@@ -90,12 +99,14 @@ window.RANKS = [
   {
     id: "nmd",
     title: "National Marketing Director",
-    intro: "הרחבת ארגון, ניהול קווים, והפיכת המערכת לשכפולית.",
+    intro: "הדרגה הלאומית הבכירה - NMD.",
     videoUrl: "https://youtu.be/muieHSXIocI?si=mgdWJi4OJRh0YzLE",
     bullets: [
-      "מיקוד: שכפול תהליך קל לזכיינים.",
-      "ניהול עומק: דור 2–5.",
-      "טיפול בנקודות: פייליין / PB / POB."
+      "מבנה נדרש: 5 רגלי PB + מתוכן 2 רגלי POB.",
+      "יעד: 222,000 נקודות (בחלון של 3 חודשים).",
+      "חוק 50%: מקסימום 111,000 נקודות מרגל אחת.",
+      "בונוס דרגה כולל: 39,000 ₪.",
+      "חלוקת הבונוס: 9,500 ₪ + 9,500 ₪ + 20,000 ₪ (לאורך 3 חודשים)."
     ],
     nodeCode: "NMD",
     qrFile: "National Marketing Director.png"
@@ -103,12 +114,13 @@ window.RANKS = [
   {
     id: "imd",
     title: "International Marketing Director",
-    intro: "דגש על עומק ארגוני וקווים מובילים עצמאיים.",
+    intro: "דרגה בינלאומית יוקרתית.",
     videoUrl: "https://youtu.be/WeEZlCjHAtU?si=O0jNx22vXu_D9QZC",
     bullets: [
-      "מיקוד: פיתוח מנהיגות בקווים.",
-      "העמקת דור 3–5.",
-      "בניית מערכי הדרכה."
+      "מבנה נדרש: 5 רגלי PB + מתוכן 3 רגלי POB.",
+      "יעד: 444,000 נקודות (4 מתוך 5 חודשים).",
+      "בונוס דרגה כולל: 77,000 ₪.",
+      "תנאי: עמידה ביעדים במשך 4 מתוך 5 חודשים."
     ],
     nodeCode: "IMD",
     qrFile: "International Marketing Director.png"
@@ -116,12 +128,13 @@ window.RANKS = [
   {
     id: "emd",
     title: "Executive Marketing Director",
-    intro: "ארגון עם מספר מנהיגים פעילים וקצב שכפול גבוה.",
+    intro: "ניהול ארגון ענק ורב-דורי.",
     videoUrl: "https://youtu.be/KpKDNIc8R7k?si=SrOdHEqDI50v0lGi",
     bullets: [
-      "מיקוד: מנהיגים שמייצרים מנהיגים.",
-      "ניהול ביצועים לפי חודשים.",
-      "סטנדרט תפעולי גבוה."
+      "מבנה נדרש: 5 רגלי PB + מתוכן 4 רגלי POB.",
+      "יעד: 666,000 נקודות (4 מתוך 5 חודשים).",
+      "בונוס דרגה כולל: 115,000 ₪.",
+      "תנאי: עמידה ביעדים במשך 4 מתוך 5 חודשים."
     ],
     nodeCode: "EMD",
     qrFile: "Executive Marketing Director.png"
@@ -129,12 +142,13 @@ window.RANKS = [
   {
     id: "pmd",
     title: "Presidential Marketing Director",
-    intro: "תפעול ארגון גדול מאוד, עומק דורות, ושגרות מנהיגות.",
+    intro: "פסגת המנהיגות.",
     videoUrl: "https://youtu.be/2i3sVTpFxts?si=qD2kCXt6GRrnapvF",
     bullets: [
-      "מיקוד: מבנה יציב לדורות 2–5.",
-      "חיזוק מערך הדרכה ושימור.",
-      "שיפור מדדים/בונוסים."
+      "מבנה נדרש: 5 רגלי PB + מתוכן 5 רגלי POB.",
+      "יעד: 888,000 נקודות (4 מתוך 5 חודשים).",
+      "בונוס דרגה כולל: 153,000 ₪.",
+      "תנאי: עמידה ביעדים במשך 4 מתוך 5 חודשים."
     ],
     nodeCode: "PMD",
     qrFile: "Presidential Marketing Director.png"
@@ -142,12 +156,13 @@ window.RANKS = [
   {
     id: "pmd_plus",
     title: "Presidential Marketing Director Plus",
-    intro: "מקסימום עומק ויציבות. שכפול קבוע לאורך זמן.",
+    intro: "הדרגה הגבוהה ביותר בתוכנית.",
     videoUrl: "https://youtu.be/MVxQ4LPsj6w?si=KS57tgB9Lhyk_00X",
     bullets: [
-      "מיקוד: שכפול מנגנון עבודה.",
-      "ניהול מסות של קווים ומנהיגים.",
-      "אופטימיזציה של בונוסים ועמלות."
+      "מבנה נדרש: 8 רגלי PB + מתוכן 6 רגלי POB.",
+      "יעד: 1,600,000 נקודות (4 מתוך 6 חודשים).",
+      "בונוס דרגה כולל: 200,000 ₪.",
+      "תנאי: עמידה ביעדים במשך 4 מתוך 6 חודשים."
     ],
     nodeCode: "PMD+",
     qrFile: "Presidential Marketing Director Plus.png"
@@ -156,12 +171,13 @@ window.RANKS = [
 
 /* Trees logic */
 window.RANK_TREES = {
+  // === PARTNER PLUS (P+) ===
+  // עודכן: נוספה הבועה הכחולה ונוספו הערות מפורטות כמו ב-SP
   partner_plus: {
     title: "עץ התקדמות – Partner Plus (P+)",
     description: "תרשים הממחיש הגעה ליעד של 4,000 נקודות.",
     highlightId: "you",
     nodes: [
-      // P+ Tree
       { id: "you",   label: "אתה",     code: "P+", pv: 866, totalVal: "סה״כ: 4,576", generation: 0, column: 1 },
       { id: "left",  label: "קו שמאל", code: "P",  pv: 283,  generation: 1, column: 0 },
       { id: "mid",   label: "קו אמצע", code: "P",  pv: 2561, generation: 1, column: 1 },
@@ -176,10 +192,12 @@ window.RANK_TREES = {
       "<b>סה\"כ נקודות שהושגו:</b> <span style='color:#16a34a; font-weight:bold;'>4,576</span> (היעד: 4,000).",
       "<b>ניקוד אישי (אתה):</b> 866 נקודות.",
       "<b>ניתוח מבנה:</b> ישנה רגל מרכזית חזקה (2,561) ועוד שתי רגליים תומכות.",
-      "<b>סטטוס:</b> <span style='color:#16a34a; font-weight:bold;'>הושג היעד לדרגת Partner Plus!</span>"
+      "<b>סטטוס:</b> <span style='color:#16a34a; font-weight:bold;'>הושג היעד לדרגת Partner Plus!</span>",
+      "<b>בונוס צפוי:</b> 400 ₪ (בתשלום אחד)."
     ]
   },
 
+  // === SENIOR PARTNER (SP) ===
   senior_partner: {
     title: "עץ התקדמות – Senior Partner (SP)",
     description: "תרשים מלא (כולל דור 2).",
@@ -204,17 +222,17 @@ window.RANK_TREES = {
       "<b>סה\"כ נקודות פרומו שהושגו:</b> 12,090 (היעד: 12,000).",
       "<b>ניקוד אישי (אתה + לקוחות):</b> <span style='color:#16a34a; font-weight:bold;'>5,122</span> (מעל המינימום הנדרש של 4,000).",
       "<b>חוק ה-50% (מקסימום מרגל):</b> הרגל החזקה (שמאל) היא 4,192, שזה מתחת לתקרה של 6,000 - <span style='color:#16a34a; font-weight:bold;'>תקין.</span>",
-      "<b>פירוט רגל שמאל:</b> 2,561 (אישי של הזכיין) + 1,631 (מהזמנה למטה) = 4,192.",
-      "<b>פירוט רגל ימין:</b> 1,631 (אישי של הזכיין) + 1,145 (מהזמנה למטה) = 2,776."
+      "<b>בונוס צפוי:</b> 1,200 ₪ (400 + 800)."
     ]
   },
 
+  // === SALES COORDINATOR (SC) ===
   sales_coordinator: {
     title: "עץ התקדמות – Sales Coordinator (SC)",
     description: "מבנה קלאסי לדרגת SC: שלוש רגליים פעילות בעוצמות שונות.",
     highlightId: "you",
     nodes: [
-      { id: "you", label: "אתה (SC) - 3 חודשים", code: "SC", pv: 1500, totalVal: "סה״כ: 8,550", generation: 0, column: 1 },
+      { id: "you", label: "אתה (SC) - חודשיים", code: "SC", pv: 1500, totalVal: "סה״כ: 8,550", generation: 0, column: 1 },
       { id: "leg1_sp", label: "זכיין מוביל (SP)", code: "SP", pv: 3800, generation: 1, column: 0 },
       { id: "leg2_pp", label: "זכיין יציב (P+)", code: "P+", pv: 2100, generation: 1, column: 1 },
       { id: "leg3_p", label: "זכיין חדש/לקוחות (P)", code: "P", pv: 1150, generation: 1, column: 2 }
@@ -225,11 +243,10 @@ window.RANK_TREES = {
       { from: "you", to: "leg3_p" }
     ],
     notes: [
-      "<span style='color:#dc2626; font-weight:bold; font-size:1.1em;'>דרישת סף קריטית: שמירה על המבנה והנפח למשך 3 חודשים רצופים!</span>",
-      "<b>סה\"כ נקודות (Payline):</b> <span style='color:#16a34a; font-weight:bold;'>8,550</span> (היעד: 8,000). עמידה ביעד.",
+      "<span style='color:#dc2626; font-weight:bold; font-size:1.1em;'>דרישת סף: שמירה על המבנה והנפח למשך 2 חודשי הסמכה!</span>",
+      "<b>סה\"כ נקודות:</b> 8,550 (היעד לדרגה: 28,000 בחלון של חודשיים).",
       "<b>מבנה:</b> 3 רגליים פעילות (SP, P+, P). <span style='color:#16a34a; font-weight:bold;'>תקין.</span>",
-      "<b>חוק ה-50% (מקסימום 4,000 מרגל):</b> הרגל החזקה ביותר (SP) היא 3,800. <span style='color:#16a34a; font-weight:bold;'>תקין</span> (לא עברה את ה-50%).",
-      "<b>ניקוד אישי (אתה):</b> 1,500 PV (לקוחות אישיים + הזמנות שלך)."
+      "<b>בונוס צפוי:</b> 3,600 ₪ (1,200 בחודש הראשון + 2,400 בחודש השני)."
     ]
   },
 
