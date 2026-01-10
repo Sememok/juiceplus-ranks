@@ -1,5 +1,5 @@
 /* =========================
-   rank-tree.js – LEFT BADGE FIX
+   rank-tree.js – VISIBLE LEFT BADGE
    ========================= */
 
 (function () {
@@ -72,18 +72,16 @@
       }
       node.appendChild(meta);
 
-      // === NEW FIX: LEFT SIDE BADGE ===
+      // === VISIBLE FIX: LEFT SIDE, SAFE HEIGHT ===
       if (n.totalVal) {
-        // שימוש במחלקה החדשה treeTotalLeft
         const totalBadge = el("div", "treeTotalLeft", n.totalVal);
         
-        // אבטחה נוספת עם Inline Styles כדי לוודא שזה עובד
+        // Force inline to override any cache
         totalBadge.style.cssText = `
           position: absolute;
-          top: -15px !important;
-          right: 50% !important;
-          margin-right: 45px !important; /* דוחף שמאלה מהאמצע */
-          left: auto !important;
+          top: -15px !important;   /* Safe height (same as green badge) */
+          left: -5px !important;   /* Pinned to Left corner */
+          right: auto !important;
           background: #2563eb;
           color: #fff;
           font-size: 0.7rem;
