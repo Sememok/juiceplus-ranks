@@ -1,6 +1,6 @@
 /* data.js
    FULL REPLACEMENT
-   - Updated partner_plus notes based on manual diagram
+   - Updated all qrFile to use .jpg extension
 */
 
 window.RANKS = [
@@ -14,7 +14,8 @@ window.RANKS = [
       "יעד: יצירת 2–3 לקוחות חוזרים יציבים.",
       "לייצר הרגל עבודה עקבי."
     ],
-    nodeCode: "P+"
+    nodeCode: "P+",
+    qrFile: "Partner Plus.jpg"
   },
   {
     id: "senior_partner",
@@ -26,7 +27,8 @@ window.RANKS = [
       "מומלץ: בניית שני מסלולים — אישי + לקוחות.",
       "לייצר שגרה שבועית של שיווק ומעקב."
     ],
-    nodeCode: "SP"
+    nodeCode: "SP",
+    qrFile: "Senior Partner.jpg"
   },
   {
     id: "sales_coordinator",
@@ -38,11 +40,12 @@ window.RANKS = [
       "חיזוק פייליין: אישי + לקוחות + צוות.",
       "תיעוד ומעקב כדי לא לאבד נקודות חודשיות."
     ],
-    nodeCode: "SC"
+    nodeCode: "SC",
+    qrFile: "Sales Coordinator.jpg"
   },
   {
     id: "qssc",
-    title: "QUALIFYING SENIOR SALES COORDINATOR",
+    title: "Qualifying Senior Sales Coordinator",
     intro: "שלב מעבר: עמידה בדרישות QSSC לפני SSC. דורש עקביות על פני חודשים.",
     videoUrl: "https://youtu.be/ru06kEc9kqE?si=9yvL3LZ5Qm80YEak",
     bullets: [
@@ -50,7 +53,8 @@ window.RANKS = [
       "בנייה נכונה של עומק: דורות מתחתייך.",
       "חיבור בונוסים/עמלות לתפעול צוות."
     ],
-    nodeCode: "QSSC"
+    nodeCode: "QSSC",
+    qrFile: "Qualifying Senior Sales Coordinator.jpg"
   },
   {
     id: "ssc",
@@ -62,11 +66,12 @@ window.RANKS = [
       "להטמיע תהליך הדרכה לזכיינים חדשים.",
       "אופטימיזציה: עבודה חכמה במקום רק יותר עבודה."
     ],
-    nodeCode: "SSC"
+    nodeCode: "SSC",
+    qrFile: "Senior Sales Coordinator.jpg"
   },
   {
     id: "qnmd",
-    title: "QUALIFYING NATIONAL MARKETING DIRECTOR",
+    title: "Qualifying National Marketing Director",
     intro: "שלב מעבר לקראת NMD: עמידה בדרישות לאורך מס' חודשים.",
     videoUrl: "https://youtu.be/W8Wm_c4kMUo?si=sRYcBXB5K67s3CgE",
     bullets: [
@@ -74,7 +79,8 @@ window.RANKS = [
       "חיזוק דור שני/שלישי.",
       "ניהול מדדים חודשיים."
     ],
-    nodeCode: "QNMD"
+    nodeCode: "QNMD",
+    qrFile: "Qualifying National Marketing Director.jpg"
   },
   {
     id: "nmd",
@@ -86,7 +92,8 @@ window.RANKS = [
       "ניהול עומק: דור 2–5.",
       "טיפול בנקודות: פייליין / PB / POB."
     ],
-    nodeCode: "NMD"
+    nodeCode: "NMD",
+    qrFile: "National Marketing Director.jpg"
   },
   {
     id: "imd",
@@ -98,7 +105,8 @@ window.RANKS = [
       "העמקת דור 3–5.",
       "בניית מערכי הדרכה."
     ],
-    nodeCode: "IMD"
+    nodeCode: "IMD",
+    qrFile: "International Marketing Director.jpg"
   },
   {
     id: "emd",
@@ -110,7 +118,8 @@ window.RANKS = [
       "ניהול ביצועים לפי חודשים.",
       "סטנדרט תפעולי גבוה."
     ],
-    nodeCode: "EMD"
+    nodeCode: "EMD",
+    qrFile: "Executive Marketing Director.jpg"
   },
   {
     id: "pmd",
@@ -122,7 +131,8 @@ window.RANKS = [
       "חיזוק מערך הדרכה ושימור.",
       "שיפור מדדים/בונוסים."
     ],
-    nodeCode: "PMD"
+    nodeCode: "PMD",
+    qrFile: "Presidential Marketing Director.jpg"
   },
   {
     id: "pmd_plus",
@@ -134,11 +144,12 @@ window.RANKS = [
       "ניהול מסות של קווים ומנהיגים.",
       "אופטימיזציה של בונוסים ועמלות."
     ],
-    nodeCode: "PMD+"
+    nodeCode: "PMD+",
+    qrFile: "Presidential Marketing Director Plus.jpg"
   }
 ];
 
-/* Trees keyed by rank ID */
+/* Trees logic remains unchanged */
 window.RANK_TREES = {
   partner_plus: {
     title: "עץ התקדמות – Partner Plus (P+)",
@@ -161,10 +172,9 @@ window.RANK_TREES = {
       "חישוב הנקודות כולל: הזמנות אישיות + לקוחות + זכיינים ישירים (P)."
     ]
   },
-
   senior_partner: {
     title: "עץ התקדמות – Senior Partner",
-    description: "מבנה לדוגמה (יעודכן בהמשך לפי שרטוט).",
+    description: "מבנה לדוגמה.",
     highlightId: "you",
     nodes: [
       { id: "you", label: "אתה", code: "SP", pv: 0, generation: 0, column: 1 },
@@ -174,10 +184,9 @@ window.RANK_TREES = {
     edges: [{ from: "you", to: "a" }, { from: "you", to: "b" }],
     notes: ["להגעה ל-SP נדרש נפח קבוצתי ומבנה יציב."]
   },
-
   sales_coordinator: {
     title: "עץ התקדמות – Sales Coordinator",
-    description: "מבנה לדוגמה (יעודכן בהמשך לפי שרטוט).",
+    description: "מבנה לדוגמה.",
     highlightId: "you",
     nodes: [
       { id: "you", label: "אתה", code: "SC", pv: 0, generation: 0, column: 1 },
@@ -187,29 +196,12 @@ window.RANK_TREES = {
     edges: [{ from: "you", to: "a" }, { from: "you", to: "b" }],
     notes: ["ב-SC הדגש הוא על שכפול זכיינים והגדלת הנפח הארגוני."]
   },
-
-  // שאר הדרגות נשארות כרגע ריקות/תבנית
-  qssc: { title: "עץ התקדמות – QSSC", description: "", highlightId: "you",
-    nodes: [{ id:"you", label:"אתה", code:"QSSC", pv:0, generation:0, column:1 }], edges: [], notes:[] },
-
-  ssc: { title: "עץ התקדמות – SSC", description: "", highlightId: "you",
-    nodes: [{ id:"you", label:"אתה", code:"SSC", pv:0, generation:0, column:1 }], edges: [], notes:[] },
-
-  qnmd: { title: "עץ התקדמות – QNMD", description: "", highlightId: "you",
-    nodes: [{ id:"you", label:"אתה", code:"QNMD", pv:0, generation:0, column:1 }], edges: [], notes:[] },
-
-  nmd: { title: "עץ התקדמות – NMD", description: "", highlightId: "you",
-    nodes: [{ id:"you", label:"אתה", code:"NMD", pv:0, generation:0, column:1 }], edges: [], notes:[] },
-
-  imd: { title: "עץ התקדמות – IMD", description: "", highlightId: "you",
-    nodes: [{ id:"you", label:"אתה", code:"IMD", pv:0, generation:0, column:1 }], edges: [], notes:[] },
-
-  emd: { title: "עץ התקדמות – EMD", description: "", highlightId: "you",
-    nodes: [{ id:"you", label:"אתה", code:"EMD", pv:0, generation:0, column:1 }], edges: [], notes:[] },
-
-  pmd: { title: "עץ התקדמות – PMD", description: "", highlightId: "you",
-    nodes: [{ id:"you", label:"אתה", code:"PMD", pv:0, generation:0, column:1 }], edges: [], notes:[] },
-
-  pmd_plus: { title: "עץ התקדמות – PMD+", description: "", highlightId: "you",
-    nodes: [{ id:"you", label:"אתה", code:"PMD+", pv:0, generation:0, column:1 }], edges: [], notes:[] }
+  qssc: { title: "עץ התקדמות – QSSC", description: "", highlightId: "you", nodes: [{ id:"you", label:"אתה", code:"QSSC", pv:0, generation:0, column:1 }], edges: [], notes:[] },
+  ssc: { title: "עץ התקדמות – SSC", description: "", highlightId: "you", nodes: [{ id:"you", label:"אתה", code:"SSC", pv:0, generation:0, column:1 }], edges: [], notes:[] },
+  qnmd: { title: "עץ התקדמות – QNMD", description: "", highlightId: "you", nodes: [{ id:"you", label:"אתה", code:"QNMD", pv:0, generation:0, column:1 }], edges: [], notes:[] },
+  nmd: { title: "עץ התקדמות – NMD", description: "", highlightId: "you", nodes: [{ id:"you", label:"אתה", code:"NMD", pv:0, generation:0, column:1 }], edges: [], notes:[] },
+  imd: { title: "עץ התקדמות – IMD", description: "", highlightId: "you", nodes: [{ id:"you", label:"אתה", code:"IMD", pv:0, generation:0, column:1 }], edges: [], notes:[] },
+  emd: { title: "עץ התקדמות – EMD", description: "", highlightId: "you", nodes: [{ id:"you", label:"אתה", code:"EMD", pv:0, generation:0, column:1 }], edges: [], notes:[] },
+  pmd: { title: "עץ התקדמות – PMD", description: "", highlightId: "you", nodes: [{ id:"you", label:"אתה", code:"PMD", pv:0, generation:0, column:1 }], edges: [], notes:[] },
+  pmd_plus: { title: "עץ התקדמות – PMD+", description: "", highlightId: "you", nodes: [{ id:"you", label:"אתה", code:"PMD+", pv:0, generation:0, column:1 }], edges: [], notes:[] }
 };
