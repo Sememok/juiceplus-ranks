@@ -1,167 +1,293 @@
 /* rank-tree.js
-   Draws a simple generation tree with connectors + "אתה כאן" highlight.
+   Renders a clean SVG org-tree per rank.
+   Requirements:
+   - data.js defines window.RANK_TREES = { [rankId]: { nodes, edges, highlightId, title } }
+   - rank.html contains <div id="rankTree" class="rank-tree"></div>
 */
 
-function getParam(name) {
-  const url = new URL(window.location.href);
-  return url.searchParams.get(name);
-}
-
-function safeText(s) {
-  return (s ?? "").toString();
-}
-
-function renderRankTree(options) {
-  const {
-    rankKey,
-    containerId,
-    currentNodeCode = null,
-    title = "עץ התקדמות לדרגה",
-  } = options || {};
-
-  const container = document.getElementById(containerId);
-  if (!container) return;
-
-  // Clear
-  container.innerHTML = "";
-
-  // Validate data
-  if (typeof window.RANK_TREES === "undefined") {
-    container.innerHTML =
-      `<div class="tree-error">שגיאה: RANK_TREES לא נטען (בדוק data.js)</div>`;
-    return;
+(function () {
+  function el(tag, attrs = {}, children = []) {
+    const n = document.createElement(tag);
+    Object.entries(attrs).forEach(([k, v]) => {
+      if (k === "class") n.className = v;
+      else if (k === "html") n.innerHTML = v;
+      else n.setAttribute(k, v);
+    });
+    children.forEach((c) => n.appendChild(c));
+    return n;
   }
 
-  const tree = window.RANK_TREES[rankKey];
-  if (!tree) {
-    container.innerHTML =
-      `<div class="tree-error">שגיאה: לא נמצא עץ לדרגה: <b>${safeText(rankKey)}</b></div>`;
-    return;
+  function svgEl(tag, attrs = {}, children = []) {
+    const n = document.createElementNS("http://www.w3.org/2000/svg", tag);
+    Object.entries(attrs).forEach(([k, v]) => n.setAttribute(k, v));
+    children.forEach((c) => n.appendChild(c));
+    return n;
   }
 
-  // Header
-  const h = document.createElement("div");
-  h.className = "tree-header";
-  h.innerHTML = `<h3>${safeText(title)}</h3>`;
-  container.appendChild(h);
+  function roundedPath(x, y, w, h, r) {
+    // Simple rounded-rect path
+    return `
+      M ${x + r} ${y}
+      H ${x + w - r}
+      Q ${x + w} ${y} ${x + w} ${y + r}
+      V ${y + h - r}
+      Q ${x + w} ${y + h} ${x + w - r} ${y + h}
+      H ${x + r}
+      Q ${x} ${y + h} ${x} ${y + h - r}
+      V ${y + r}
+      Q ${x} ${y} ${x + r} ${y}
+      Z
+    `;
+  }
 
-  // Build grid
-  const grid = document.createElement("div");
-  grid.className = "tree-grid";
-  container.appendChild(grid);
+  function renderTree(container, tree) {
+    container.innerHTML = "";
 
-  // Create generation rows
-  const rows = [];
-  tree.generations.forEach((gen, gi) => {
-    const row = document.createElement("div");
-    row.className = "tree-row";
-    row.dataset.gen = String(gi);
+    if (!tree || !tree.nodes || !tree.nodes.length) {
+      container.appendChild(
+        el("div", { class: "tree-empty", html: "טרם הוגדר עץ לדרגה זו." })
+      );
+      return;
+    }
 
-    gen.forEach((node) => {
-      const code = safeText(node);
+    // Layout
+    // We expect nodes have: id, depth (0..), col (0..), title, subtitle, pointsLabel, pointsValue
+    const nodes = tree.nodes.slice();
+    const edges = (tree.edges || []).slice();
+    const highlightId = tree.highlightId;
 
-      const n = document.createElement("div");
-      n.className = `tree-node rank-${cssEscapeRank(code)}`;
-      n.dataset.code = code;
+    // A4-friendly width: 860px max, scale down on screen via CSS
+    const W = 860;
+    const paddingX = 50;
+    const paddingY = 35;
 
-      // highlight
-      if (currentNodeCode && code === currentNodeCode) {
-        n.classList.add("is-current");
-        n.title = "אתה כאן";
-      }
+    const cardW = 220;
+    const cardH = 110;
+    const gapX = 60;
+    const gapY = 70;
 
-      n.innerHTML = `<span class="node-label">${code}</span>`;
-      row.appendChild(n);
+    const maxDepth = Math.max(...nodes.map((n) => n.depth));
+    const levels = Array.from({ length: maxDepth + 1 }, (_, d) =>
+      nodes.filter((n) => n.depth === d)
+    );
+
+    // Compute X positions by centering each level
+    levels.forEach((lvl) => {
+      lvl.sort((a, b) => (a.col ?? 0) - (b.col ?? 0));
+      const count = lvl.length;
+      const totalW = count * cardW + (count - 1) * gapX;
+      const startX = (W - totalW) / 2;
+      lvl.forEach((n, i) => {
+        n._x = startX + i * (cardW + gapX);
+      });
     });
 
-    rows.push(row);
-    grid.appendChild(row);
-  });
+    // Y positions by depth
+    nodes.forEach((n) => {
+      n._y = paddingY + n.depth * (cardH + gapY);
+    });
 
-  // Info line
-  if (tree.info) {
-    const info = document.createElement("div");
-    info.className = "tree-info";
-    info.textContent = safeText(tree.info);
-    container.appendChild(info);
+    const H = paddingY + (maxDepth + 1) * cardH + maxDepth * gapY + paddingY;
+
+    const svg = svgEl("svg", {
+      viewBox: `0 0 ${W} ${H}`,
+      width: "100%",
+      height: "auto",
+      role: "img",
+      "aria-label": tree.title || "עץ התקדמות לדרגה",
+    });
+
+    // Background subtle grid (print-safe)
+    svg.appendChild(
+      svgEl("defs", {}, [
+        svgEl("pattern", { id: "grid", width: "24", height: "24", patternUnits: "userSpaceOnUse" }, [
+          svgEl("path", { d: "M 24 0 L 0 0 0 24", fill: "none", stroke: "rgba(0,0,0,0.05)", "stroke-width": "1" })
+        ]),
+        svgEl("filter", { id: "shadow", x: "-20%", y: "-20%", width: "140%", height: "140%" }, [
+          svgEl("feDropShadow", { dx: "0", dy: "6", stdDeviation: "8", "flood-color": "rgba(0,0,0,0.18)" })
+        ])
+      ])
+    );
+
+    svg.appendChild(
+      svgEl("rect", {
+        x: "0",
+        y: "0",
+        width: String(W),
+        height: String(H),
+        fill: "url(#grid)",
+      })
+    );
+
+    // Title
+    if (tree.title) {
+      svg.appendChild(
+        svgEl("text", {
+          x: String(W / 2),
+          y: "28",
+          "text-anchor": "middle",
+          "font-size": "18",
+          "font-weight": "700",
+          fill: "#1f2a37",
+        }, [document.createTextNode(tree.title)])
+      );
+    }
+
+    // Edges (connectors) – draw behind cards
+    const byId = Object.fromEntries(nodes.map((n) => [n.id, n]));
+    edges.forEach((e) => {
+      const a = byId[e.from];
+      const b = byId[e.to];
+      if (!a || !b) return;
+
+      const ax = a._x + cardW / 2;
+      const ay = a._y + cardH;
+      const bx = b._x + cardW / 2;
+      const by = b._y;
+
+      const midY = (ay + by) / 2;
+      const d = `M ${ax} ${ay}
+                 C ${ax} ${midY}, ${bx} ${midY}, ${bx} ${by}`;
+
+      svg.appendChild(
+        svgEl("path", {
+          d,
+          fill: "none",
+          stroke: "#0b5bd3",
+          "stroke-width": "3",
+          "stroke-linecap": "round",
+          "stroke-dasharray": e.dashed ? "7 7" : "0",
+          opacity: "0.75",
+        })
+      );
+
+      // Small connector dot near child
+      svg.appendChild(
+        svgEl("circle", {
+          cx: String(bx),
+          cy: String(by),
+          r: "5",
+          fill: "#0b5bd3",
+          opacity: "0.85",
+        })
+      );
+    });
+
+    // Cards
+    nodes.forEach((n) => {
+      const isHighlight = n.id === highlightId;
+
+      const group = svgEl("g", {});
+
+      // Card base
+      group.appendChild(
+        svgEl("path", {
+          d: roundedPath(n._x, n._y, cardW, cardH, 16),
+          fill: isHighlight ? "#0b5bd3" : "#ffffff",
+          filter: "url(#shadow)",
+          stroke: isHighlight ? "#0b5bd3" : "rgba(0,0,0,0.08)",
+          "stroke-width": isHighlight ? "2" : "1",
+        })
+      );
+
+      // Icon circle
+      group.appendChild(
+        svgEl("circle", {
+          cx: String(n._x + 34),
+          cy: String(n._y + 36),
+          r: "18",
+          fill: isHighlight ? "rgba(255,255,255,0.22)" : "rgba(11,91,211,0.12)",
+          stroke: isHighlight ? "rgba(255,255,255,0.35)" : "rgba(11,91,211,0.25)",
+          "stroke-width": "2",
+        })
+      );
+      group.appendChild(
+        svgEl("path", {
+          d: `M ${n._x + 34} ${n._y + 30}
+              a 6 6 0 1 0 0.01 0
+              M ${n._x + 22} ${n._y + 50}
+              c 6 -10 18 -10 24 0`,
+          fill: "none",
+          stroke: isHighlight ? "#fff" : "#0b5bd3",
+          "stroke-width": "2.2",
+          "stroke-linecap": "round",
+        })
+      );
+
+      // Title
+      group.appendChild(
+        svgEl("text", {
+          x: String(n._x + 64),
+          y: String(n._y + 32),
+          "font-size": "15",
+          "font-weight": "800",
+          fill: isHighlight ? "#ffffff" : "#111827",
+        }, [document.createTextNode(n.title || "")])
+      );
+
+      // Subtitle (rank/role)
+      group.appendChild(
+        svgEl("text", {
+          x: String(n._x + 64),
+          y: String(n._y + 52),
+          "font-size": "12",
+          "font-weight": "600",
+          fill: isHighlight ? "rgba(255,255,255,0.85)" : "#374151",
+        }, [document.createTextNode(n.subtitle || "")])
+      );
+
+      // Points line
+      const pointsText = `${n.pointsLabel || "נקודות"}: ${n.pointsValue ?? ""}`;
+      group.appendChild(
+        svgEl("text", {
+          x: String(n._x + 64),
+          y: String(n._y + 78),
+          "font-size": "12",
+          "font-weight": "700",
+          fill: isHighlight ? "#ffffff" : "#0b5bd3",
+        }, [document.createTextNode(pointsText)])
+      );
+
+      // Highlight badge: "אתה כאן"
+      if (isHighlight) {
+        group.appendChild(
+          svgEl("path", {
+            d: roundedPath(n._x + cardW - 96, n._y + 10, 86, 26, 13),
+            fill: "#ffffff",
+            opacity: "0.95",
+          })
+        );
+        group.appendChild(
+          svgEl("text", {
+            x: String(n._x + cardW - 53),
+            y: String(n._y + 28),
+            "text-anchor": "middle",
+            "font-size": "12",
+            "font-weight": "900",
+            fill: "#0b5bd3",
+          }, [document.createTextNode("אתה כאן")])
+        );
+      }
+
+      svg.appendChild(group);
+    });
+
+    container.appendChild(svg);
+
+    // Print hint (optional small caption)
+    const caption = el("div", { class: "tree-caption" });
+    caption.innerHTML = tree.caption || "";
+    if (caption.innerHTML.trim()) container.appendChild(caption);
   }
 
-  // Draw connector lines (simple: connect each row to next row, centered)
-  // We do this with an SVG overlay sized to the grid.
-  drawConnectors(grid, tree, currentNodeCode);
-}
+  // Public API
+  window.renderRankTree = function renderRankTree(rankId) {
+    const container = document.getElementById("rankTree");
+    if (!container) return;
 
-function cssEscapeRank(code) {
-  // for CSS class usage: P+ -> Pplus, etc
-  return code.replace(/\+/g, "plus").replace(/\s+/g, "-");
-}
+    const trees = window.RANK_TREES || {};
+    const tree = trees[rankId];
 
-function drawConnectors(gridEl, tree, currentNodeCode) {
-  // Remove old svg if exists
-  const old = gridEl.querySelector("svg.tree-lines");
-  if (old) old.remove();
-
-  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  svg.classList.add("tree-lines");
-  svg.setAttribute("aria-hidden", "true");
-  gridEl.prepend(svg);
-
-  // Wait for layout
-  requestAnimationFrame(() => {
-    const rect = gridEl.getBoundingClientRect();
-    const width = rect.width;
-    const height = rect.height;
-
-    svg.setAttribute("width", width);
-    svg.setAttribute("height", height);
-    svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
-
-    const rows = Array.from(gridEl.querySelectorAll(".tree-row"));
-
-    // For each pair of adjacent rows, connect every node in upper row
-    // to the nearest node in the lower row (simple/clean for printed booklet).
-    for (let i = 0; i < rows.length - 1; i++) {
-      const upper = Array.from(rows[i].querySelectorAll(".tree-node"));
-      const lower = Array.from(rows[i + 1].querySelectorAll(".tree-node"));
-
-      if (!upper.length || !lower.length) continue;
-
-      upper.forEach((u) => {
-        const uRect = u.getBoundingClientRect();
-        const ux = (uRect.left + uRect.right) / 2 - rect.left;
-        const uy = (uRect.bottom) - rect.top;
-
-        // find nearest lower node by x
-        let best = lower[0];
-        let bestDx = Infinity;
-        lower.forEach((l) => {
-          const lRect = l.getBoundingClientRect();
-          const lx = (lRect.left + lRect.right) / 2 - rect.left;
-          const dx = Math.abs(lx - ux);
-          if (dx < bestDx) {
-            bestDx = dx;
-            best = l;
-          }
-        });
-
-        const bRect = best.getBoundingClientRect();
-        const bx = (bRect.left + bRect.right) / 2 - rect.left;
-        const by = (bRect.top) - rect.top;
-
-        // curve
-        const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-        const midY = (uy + by) / 2;
-        const d = `M ${ux} ${uy} C ${ux} ${midY}, ${bx} ${midY}, ${bx} ${by}`;
-        path.setAttribute("d", d);
-        path.setAttribute("class", "tree-line");
-
-        // highlight if connects from current node
-        if (u.classList.contains("is-current") || best.classList.contains("is-current")) {
-          path.classList.add("is-current-line");
-        }
-
-        svg.appendChild(path);
-      });
-    }
-  });
-}
+    renderTree(container, tree);
+  };
+})();
