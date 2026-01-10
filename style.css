@@ -22,7 +22,6 @@ body {
   line-height: 1.5;
 }
 
-/* === תיקון קריטי: מניעת תמונות ענק === */
 img {
   max-width: 100%;
   height: auto;
@@ -190,10 +189,10 @@ a { color: inherit; text-decoration: none; }
 .videoFrame { width: 100%; aspect-ratio: 16/9; border: 0; display: block; }
 .videoLink { margin-top: 10px; font-size: 0.85rem; color: var(--muted); text-align: center; }
 
-/* הסתרת ה-QR במסך רגיל (חשוב מאוד!) */
+/* הסתרת ה-QR במסך רגיל */
 .print-only-qr { display: none !important; }
 
-/* Preview בבחירת מיתוג */
+/* Preview */
 .preview img { max-width: 100%; max-height: 200px; object-fit: contain; margin: 0 auto; }
 .input { width: 100%; padding: 10px; border: 1px solid var(--line); border-radius: 8px; }
 
@@ -211,10 +210,10 @@ a { color: inherit; text-decoration: none; }
 .treeNodesLayer {
   position: relative;
   display: grid;
-  grid-template-columns: repeat(var(--cols), minmax(140px, 1fr)); /* רוחב עמודה גמיש */
-  gap: 40px 20px; /* מרווח בין שורות / עמודות */
+  grid-template-columns: repeat(var(--cols), minmax(140px, 1fr));
+  gap: 40px 20px;
   z-index: 2;
-  justify-items: center; /* מירכוז */
+  justify-items: center;
 }
 .treeEdges { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
 .treeEdgePath { fill: none; stroke: #cbd5e1; stroke-width: 2px; }
@@ -225,7 +224,7 @@ a { color: inherit; text-decoration: none; }
   border-radius: 12px;
   padding: 12px;
   min-height: 90px;
-  min-width: 130px; /* רוחב מינימלי לכרטיס */
+  min-width: 130px;
   box-shadow: var(--shadow-sm);
   position: relative;
   display: flex;
@@ -240,11 +239,12 @@ a { color: inherit; text-decoration: none; }
   border-radius: 10px; font-weight: bold; white-space: nowrap; z-index: 10;
 }
 
-/* הבועה החדשה של הסכום הכולל */
+/* === התיקון: הזזת הבועה הכחולה לצד ימין למעלה === */
 .treeTotal {
   position: absolute;
-  top: -10px;
-  left: -10px; /* צד שמאל למעלה (או ימין, לפי העדפה) */
+  top: -15px;       /* קצת יותר גבוה */
+  right: -10px;     /* הוזז לצד ימין */
+  left: auto;       /* ביטול ההצמדה לשמאל */
   background: #2563eb;
   color: #fff;
   font-size: 0.75rem;
@@ -266,13 +266,12 @@ a { color: inherit; text-decoration: none; }
 .treeNotesTitle { font-weight: 700; color: var(--muted); margin-bottom: 6px; }
 
 /* =========================
-   PRINT STYLES (A4 + Layout)
+   PRINT STYLES
    ========================= */
 @media print {
   @page { size: A4; margin: 10mm; }
   body { background: #fff; color: #000; font-size: 11pt; }
 
-  /* הסתרת אלמנטים לא רצויים */
   .topbar, .btn, .videoWrap, .videoLink, .rank-nav-container, .print-hide {
     display: none !important;
   }
@@ -280,7 +279,6 @@ a { color: inherit; text-decoration: none; }
   .container { width: 100%; margin: 0; max-width: none; }
   .card { box-shadow: none; border: 0; padding: 0; margin-bottom: 15px; break-inside: avoid; }
 
-  /* סידור הדף: טקסט מימין, QR משמאל */
   #rankPrintLayout {
     display: grid;
     grid-template-columns: 2fr 1fr;
@@ -293,14 +291,12 @@ a { color: inherit; text-decoration: none; }
   
   .rank-text-area { grid-column: 1; }
 
-  /* הצגת ה-QR רק בהדפסה */
   .print-only-qr {
-    display: flex !important; /* דורס את ה-display:none */
+    display: flex !important;
     justify-content: flex-end;
     grid-column: 2;
   }
 
-  /* מסגרת אדומה ל-QR */
   .yt-frame {
     width: 180px;
     border: 3px solid #ff0000;
@@ -318,13 +314,11 @@ a { color: inherit; text-decoration: none; }
   .yt-label { font-weight: 800; font-size: 10pt; color: #000; margin-top: 5px; }
   .yt-sub { font-size: 8pt; color: #666; }
 
-  /* התאמת העץ להדפסה */
   .treeCanvas { border: 1px solid #000; padding: 10px; }
   .treeNodesLayer { gap: 15px; }
   .treeNode { border: 1px solid #000; box-shadow: none; min-height: auto; }
   .treeEdgePath { stroke: #000; stroke-width: 1px; }
   .treeTotal { border: 1px solid #000; background: #fff; color: #000; }
   
-  /* טיפול בחוברת */
   .booklet-page { page-break-after: always; display: block; }
 }
