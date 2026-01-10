@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>חוברת להדפסה</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css?v=999" />
 </head>
 
 <body class="print-booklet">
@@ -81,6 +81,7 @@
                     <div class="treeLabel">${n.label||""}</div>
                 </div>
                 ${n.pv ? `<div class="treeMeta">PV: <b>${n.pv}</b></div>` : ""}
+                ${n.totalVal ? `<div class="treeTotal" style="position:absolute; top:-10px; left:-10px; background:#2563eb; color:#fff; padding:2px 6px; border-radius:10px; font-size:0.7em;">${n.totalVal}</div>` : ""}
             `;
             layer.appendChild(node);
         });
@@ -127,6 +128,7 @@
                      src="${imgSrc}" 
                      alt="QR"
                      onerror="this.onerror=null; this.src='${qrUrl(rank.videoUrl)}';"
+                     style="max-width:100px; height:auto;"
                 >
                 <div class="yt-sub">סרוק לצפייה</div>
               </div>
