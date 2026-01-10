@@ -1,7 +1,6 @@
 /* data.js
    FULL REPLACEMENT
-   - Updated Senior Partner: Added "2 Consecutive Months" requirement
-     (In Description, On Root Node Label, and in Notes)
+   - Removed the "2 Month Requirement" text from the Senior Partner tree description header.
 */
 
 window.RANKS = [
@@ -176,19 +175,14 @@ window.RANK_TREES = {
 
   senior_partner: {
     title: "עץ התקדמות – Senior Partner (SP)",
-    description: "תרשים מלא (כולל דור 2). <span style='color:#e11d48; font-weight:bold;'>חובה: הסמכה במשך חודשיים רצופים.</span>",
+    // שינוי כאן: הסרת הטקסט המודגש באדום
+    description: "תרשים מלא (כולל דור 2).",
     highlightId: "you",
     nodes: [
-      // --- דור 0: אתה ---
-      // הוספתי לתווית את המילה "(חודשיים)" כדי שזה יהיה ברור על התרשים
       { id: "you", label: "אתה (SP) - חודשיים", code: "P+", pv: 2561, totalVal: "סה״כ: 12,090", generation: 0, column: 2 },
-      
-      // --- דור 1: 3 רגליים ---
       { id: "left_top", label: "זכיין P", code: "P", pv: 4192, generation: 1, column: 0 },
       { id: "mid_top", label: "לקוח אישי", code: "Client", pv: 2561, generation: 1, column: 2 },
       { id: "right_top", label: "זכיין P", code: "P", pv: 2776, generation: 1, column: 4 },
-
-      // --- דור 2: הפירוט למטה ---
       { id: "left_bot", label: "לקוח/הזמנה", code: "Order", pv: 1631, generation: 2, column: 0 },
       { id: "right_bot", label: "לקוח/הזמנה", code: "Order", pv: 1145, generation: 2, column: 4 }
     ],
