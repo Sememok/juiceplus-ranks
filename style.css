@@ -20,6 +20,7 @@ body {
   background: var(--bg);
   color: var(--text);
   line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
 }
 
 img {
@@ -31,7 +32,7 @@ img {
 a { color: inherit; text-decoration: none; }
 
 /* =========================
-   LAYOUT
+   LAYOUT (Desktop Default)
    ========================= */
 .container { width: min(1000px, 94vw); margin: 30px auto 80px; }
 
@@ -96,10 +97,28 @@ a { color: inherit; text-decoration: none; }
 .videoLink { margin-top: 10px; font-size: 0.85rem; color: var(--muted); text-align: center; }
 .print-only-qr { display: none !important; }
 
-/* Tree */
-.treeCanvas { position: relative; background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 30px; overflow-x: auto; }
-.treeNodesLayer { position: relative; display: grid; grid-template-columns: repeat(var(--cols), minmax(140px, 1fr)); gap: 40px 20px; z-index: 2; justify-items: center; }
-.treeEdges { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+/* Tree Base Styles */
+.treeCanvas { 
+  position: relative; 
+  background: #fff; 
+  border: 1px solid var(--line); 
+  border-radius: 16px; 
+  padding: 30px; 
+  /* גלילה למובייל */
+  overflow-x: auto; 
+  -webkit-overflow-scrolling: touch;
+}
+.treeNodesLayer { 
+  position: relative; 
+  display: grid; 
+  grid-template-columns: repeat(var(--cols), minmax(140px, 1fr)); 
+  gap: 40px 20px; 
+  z-index: 2; 
+  justify-items: center; 
+  /* מבטיח רוחב מינימלי לעץ כדי שלא יימעך במובייל */
+  min-width: 600px; 
+}
+.treeEdges { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; min-width: 600px; }
 .treeEdgePath { fill: none; stroke: #cbd5e1; stroke-width: 2px; }
 
 .treeNode {
@@ -115,20 +134,8 @@ a { color: inherit; text-decoration: none; }
   border-radius: 10px; font-weight: bold; white-space: nowrap; z-index: 10;
 }
 
-/* === החזרנו לצד ימין, אבל בגובה בטוח === */
+/* הבועה הכחולה - הגדרות בסיס (המיקום המדויק נקבע ב-JS) */
 .treeTotal {
-  position: absolute;
-  top: -22px !important;    /* גבוה מהירוק, אבל לא נחתך */
-  right: -5px !important;   /* צד ימין */
-  left: auto !important;    /* מבטל שמאל */
-  background: #2563eb;
-  color: #fff;
-  font-size: 0.75rem;
-  font-weight: 800;
-  padding: 4px 10px;
-  border-radius: 20px;
-  box-shadow: 0 2px 5px rgba(37, 99, 235, 0.3);
-  white-space: nowrap;
   z-index: 20;
 }
 
@@ -141,7 +148,44 @@ a { color: inherit; text-decoration: none; }
 .treeNotes { margin-top: 20px; padding: 16px; background: #f8fafc; border-top: 1px solid var(--line); font-size: 0.9rem; }
 .treeNotesTitle { font-weight: 700; color: var(--muted); margin-bottom: 6px; }
 
-/* Print */
+/* =========================
+   MOBILE RESPONSIVENESS
+   ========================= */
+@media (max-width: 768px) {
+  /* הקטנת כותרות */
+  .rankTitle { font-size: 1.5rem; }
+  .brand-title { font-size: 1rem; }
+  .brand-sub { font-size: 0.75rem; }
+  
+  /* צמצום רווחים בכרטיסים */
+  .card { padding: 16px; margin-bottom: 16px; }
+  
+  /* התאמת העץ למסך קטן */
+  .treeCanvas { padding: 16px; }
+  .treeNodesLayer { gap: 30px 10px; } /* צמצום מרווחים בעץ */
+  .treeNode { 
+    min-width: 110px; /* כרטיסים צרים יותר */
+    min-height: 80px; 
+    padding: 8px; 
+  }
+  .treeBadge { font-size: 0.7rem; min-width: auto; }
+  .treeLabel { font-size: 0.75rem; }
+  
+  /* התאמת הבועה הכחולה למובייל - דריסת ה-JS */
+  .treeTotal {
+    font-size: 0.65rem !important;
+    padding: 2px 6px !important;
+    top: -22px !important;
+    right: -2px !important;
+  }
+  
+  /* כפתורי ניווט */
+  .nav-chip { font-size: 0.8rem; padding: 4px 10px; }
+}
+
+/* =========================
+   PRINT STYLES
+   ========================= */
 @media print {
   @page { size: A4; margin: 10mm; }
   body { background: #fff; color: #000; font-size: 11pt; }
@@ -156,10 +200,14 @@ a { color: inherit; text-decoration: none; }
   .yt-qr-img { width: 100px; height: 100px; display: block; margin: 0 auto; }
   .yt-label { font-weight: 800; font-size: 10pt; color: #000; margin-top: 5px; }
   .yt-sub { font-size: 8pt; color: #666; }
-  .treeCanvas { border: 1px solid #000; padding: 10px; }
-  .treeNodesLayer { gap: 15px; }
-  .treeNode { border: 1px solid #000; box-shadow: none; min-height: auto; }
+  
+  /* איפוס הגדרות מובייל בהדפסה */
+  .treeCanvas { border: 1px solid #000; padding: 10px; overflow: visible; min-width: auto; }
+  .treeNodesLayer { gap: 15px; min-width: auto; display: grid; }
+  .treeEdges { position: absolute; min-width: auto; }
+  .treeNode { border: 1px solid #000; box-shadow: none; min-height: auto; min-width: 120px; }
   .treeEdgePath { stroke: #000; stroke-width: 1px; }
-  .treeTotal { border: 1px solid #000; background: #fff; color: #000; }
+  .treeTotal { border: 1px solid #000; background: #fff; color: #000; top: -22px !important; right: -5px !important; }
+  
   .booklet-page { page-break-after: always; display: block; }
 }
