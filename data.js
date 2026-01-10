@@ -1,8 +1,8 @@
 /* data.js
    FULL REPLACEMENT
-   - Updated Partner Plus (P+) content to match SP style/depth.
-   - Added Total Value badge to P+ tree root.
-   - Added detailed calculation notes for P+.
+   - Includes P+ Fixes (Notes, Total Badge)
+   - Includes SC Tree
+   - Includes SP Tree
 */
 
 window.RANKS = [
@@ -161,10 +161,8 @@ window.RANK_TREES = {
     description: "תרשים הממחיש הגעה ליעד של 4,000 נקודות.",
     highlightId: "you",
     nodes: [
-      // דור 0: אתה. הוספתי את totalVal כדי שתהיה בועה כחולה עם הסיכום
+      // P+ Tree
       { id: "you",   label: "אתה",     code: "P+", pv: 866, totalVal: "סה״כ: 4,576", generation: 0, column: 1 },
-      
-      // דור 1: הרגליים (לפי השרטוט הידני)
       { id: "left",  label: "קו שמאל", code: "P",  pv: 283,  generation: 1, column: 0 },
       { id: "mid",   label: "קו אמצע", code: "P",  pv: 2561, generation: 1, column: 1 },
       { id: "right", label: "קו ימין", code: "P",  pv: 866,  generation: 1, column: 2 }
