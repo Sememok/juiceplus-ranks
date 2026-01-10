@@ -1,8 +1,7 @@
 /* data.js
    FULL REPLACEMENT
-   - Updated SC Tree to match the hand-drawn sketch EXACTLY.
-   - Calculated total points based on sketch nodes (Total: 22,304).
-   - Updated all rank descriptions with correct Bonus splits based on the table.
+   - Includes precise SC Tree based on the hand-drawn sketch (6 branches from root).
+   - Includes correct Bonus Tables for all ranks.
 */
 
 window.RANKS = [
@@ -190,8 +189,7 @@ window.RANK_TREES = {
     notes: [
       "<b>סה\"כ נקודות שהושגו:</b> <span style='color:#16a34a; font-weight:bold;'>4,576</span> (היעד: 4,000).",
       "<b>ניקוד אישי (אתה):</b> 866 נקודות.",
-      "<b>ניתוח מבנה:</b> ישנה רגל מרכזית חזקה (2,561) ועוד שתי רגליים תומכות.",
-      "<b>סטטוס:</b> <span style='color:#16a34a; font-weight:bold;'>הושג היעד לדרגת Partner Plus!</span>",
+      "<b>סטטוס:</b> הושג היעד לדרגת Partner Plus!",
       "<b>בונוס צפוי:</b> 400 ₪ (בתשלום אחד)."
     ]
   },
@@ -217,84 +215,66 @@ window.RANK_TREES = {
       { from: "right_top", to: "right_bot" }
     ],
     notes: [
-      "<span style='color:#dc2626; font-weight:bold; font-size:1.1em;'>שים לב: יש לעמוד ביעדים אלו במשך חודשיים רצופים לקבלת הדרגה!</span>",
-      "<b>סה\"כ נקודות פרומו שהושגו:</b> 12,090 (היעד: 12,000).",
-      "<b>ניקוד אישי (אתה + לקוחות):</b> <span style='color:#16a34a; font-weight:bold;'>5,122</span> (מעל המינימום הנדרש של 4,000).",
-      "<b>חוק ה-50% (מקסימום מרגל):</b> הרגל החזקה (שמאל) היא 4,192, שזה מתחת לתקרה של 6,000 - <span style='color:#16a34a; font-weight:bold;'>תקין.</span>",
+      "<span style='color:#dc2626; font-weight:bold; font-size:1.1em;'>שים לב: יש לעמוד ביעדים אלו במשך חודשיים רצופים!</span>",
+      "<b>סה\"כ נקודות:</b> 12,090 (היעד: 12,000).",
       "<b>בונוס צפוי:</b> 1,200 ₪ (400 חודש א' + 800 חודש ב')."
     ]
   },
 
-  // === SALES COORDINATOR (SC) - EXACT MATCH TO SKETCH ===
+  // === SALES COORDINATOR (SC) - EXACT SKETCH MATCH ===
   sales_coordinator: {
     title: "עץ התקדמות – Sales Coordinator (SC)",
-    description: "סימולציה מלאה לפי השרטוט הידני (הגעה ל-22,304 נקודות בתרשים).",
+    description: "סימולציה מבוססת שרטוט ידני (סה\"כ 22,934 נקודות).",
     highlightId: "you",
     nodes: [
-      // דור 0: אתה
-      // הניקוד האישי הוא 1,245 לפי הציור
-      // סך הכל בתרשים: 22,304 (סיכום של כל הריבועים והעיגולים בציור)
-      { id: "you", label: "אתה (SC)", code: "SC", pv: 1245, totalVal: "סה״כ בתרשים: 22,304", generation: 0, column: 2 },
+      // דור 0: אתה (1245) - 6 עמודות רוחב
+      { id: "you", label: "אתה (SC)", code: "SC", pv: 1245, totalVal: "סה״כ: 22,934", generation: 0, column: 2 },
 
-      // --- רמה 1: הפיצולים הישירים ---
-      
-      // רגל 1 (שמאל בציור) - מורכבת מלקוח + זכיין
-      { id: "client_left", label: "לקוח ישיר", code: "Client", pv: 256, generation: 1, column: 0 },
-      { id: "p1_top", label: "זכיין", code: "P", pv: 1631, generation: 1, column: 1 },
+      // --- ענף 1 (שמאל): לקוח 256 ---
+      { id: "leg1_client", label: "לקוח", code: "Client", pv: 256, generation: 1, column: 0 },
 
-      // רגל 2 (אמצע בציור) - זכיין ועוד לקוח למטה
-      { id: "p2_top", label: "זכיין", code: "P", pv: 1631, generation: 1, column: 2 },
+      // --- ענף 2: זכיין 1631 -> זכיין 2561 ---
+      { id: "leg2_top", label: "זכיין", code: "P", pv: 1631, generation: 1, column: 1 },
+      { id: "leg2_bot", label: "זכיין", code: "P", pv: 2561, generation: 2, column: 1 },
 
-      // רגל 3 (ימין אמצע) - זכיין קטן
-      { id: "p3_top", label: "זכיין", code: "P", pv: 930, generation: 1, column: 3 },
+      // --- ענף 3: זכיין 1631 -> זכיין 2561 ---
+      { id: "leg3_top", label: "זכיין", code: "P", pv: 1631, generation: 1, column: 2 },
+      { id: "leg3_bot", label: "זכיין", code: "P", pv: 2561, generation: 2, column: 2 },
 
-      // רגל 4 (החזקה - ימין קיצוני בציור) - P+ עם 4300
-      { id: "pp_strong", label: "זכיין חזק", code: "P+", pv: 4300, generation: 1, column: 4 },
+      // --- ענף 4: זכיין 930 ---
+      { id: "leg4_top", label: "זכיין", code: "P", pv: 930, generation: 1, column: 3 },
 
-      // --- רמה 2: ההמשכים למטה ---
+      // --- ענף 5 (החזק): P+ 4300 ---
+      // מתחתיו: לקוח 436 וזכיין 2561 שמתחתיו עוד 2561
+      { id: "leg5_top", label: "זכיין (P+)", code: "P+", pv: 4300, generation: 1, column: 4 },
+      { id: "leg5_mid_client", label: "לקוח", code: "Client", pv: 436, generation: 2, column: 3.8 }, // מוזז קצת
+      { id: "leg5_mid_p", label: "זכיין", code: "P", pv: 2561, generation: 2, column: 4.2 },
+      { id: "leg5_bot_p", label: "זכיין", code: "P", pv: 2561, generation: 3, column: 4.2 },
 
-      // מתחת לרגל 1
-      { id: "p1_bot", label: "זכיין/הזמנה", code: "P", pv: 2561, generation: 2, column: 1 },
-
-      // מתחת לרגל 2
-      { id: "p2_bot", label: "זכיין/הזמנה", code: "P", pv: 2561, generation: 2, column: 2 },
-
-      // מתחת לרגל 4 (החזקה)
-      // בציור יש מתחתיו: לקוח (436) וזכיין (2561)
-      { id: "pp_client", label: "לקוח", code: "Client", pv: 436, generation: 2, column: 3 }, // מוזז קצת שמאלה מתחתיו
-      { id: "pp_partner", label: "זכיין", code: "P", pv: 2561, generation: 2, column: 4 }, // ממש מתחתיו
-
-      // --- רמה 3: המשך לרגל 4 ---
-      // מתחת לזכיין (2561) יש עוד לקוח (2561)
-      { id: "pp_sub_client", label: "לקוח", code: "Client", pv: 2561, generation: 3, column: 4 },
-      
-      // לקוח ישיר נוסף (מחובר לראש, נשים אותו בצד)
-      { id: "client_right", label: "לקוח ישיר נוסף", code: "Client", pv: 1631, generation: 1, column: 5 }
+      // --- ענף 6 (ימין): זכיין 2561 ---
+      { id: "leg6_top", label: "זכיין", code: "P", pv: 2561, generation: 1, column: 5 }
     ],
     edges: [
-      // חיבורים מהראש
-      { from: "you", to: "client_left" },
-      { from: "you", to: "p1_top" },
-      { from: "you", to: "p2_top" },
-      { from: "you", to: "p3_top" },
-      { from: "you", to: "pp_strong" },
-      { from: "you", to: "client_right" },
-
-      // חיבורים רמה 2
-      { from: "p1_top", to: "p1_bot" },
-      { from: "p2_top", to: "p2_bot" },
-      { from: "pp_strong", to: "pp_client" },
-      { from: "pp_strong", to: "pp_partner" },
-
-      // חיבורים רמה 3
-      { from: "pp_partner", to: "pp_sub_client" }
+      // מהראש
+      { from: "you", to: "leg1_client" },
+      { from: "you", to: "leg2_top" },
+      { from: "you", to: "leg3_top" },
+      { from: "you", to: "leg4_top" },
+      { from: "you", to: "leg5_top" },
+      { from: "you", to: "leg6_top" },
+      // עומק
+      { from: "leg2_top", to: "leg2_bot" },
+      { from: "leg3_top", to: "leg3_bot" },
+      { from: "leg5_top", to: "leg5_mid_client" },
+      { from: "leg5_top", to: "leg5_mid_p" },
+      { from: "leg5_mid_p", to: "leg5_bot_p" }
     ],
     notes: [
-      "<span style='color:#dc2626; font-weight:bold; font-size:1.1em;'>יש לשמור על הדרגה במשך חודשיים רצופים (הסמכה).</span>",
-      "<b>סה\"כ נקודות בתרשים זה:</b> 22,304 (יעד כולל לדרגה: 28,000 בחלון של חודשיים).",
-      "<b>בונוס דרגה:</b> 3,600 ₪ סה\"כ.",
-      "<b>חלוקת הבונוס:</b> 1,200 ₪ בחודש הראשון + 2,400 ₪ בחודש השני (בכפוף לאישור מחדש).",
-      "<b>מבנה בציור:</b> רואים בבירור רגל חזקה (P+ עם 4300) ועוד רגליים תומכות (P). זהו מבנה תקין לדרגת SC."
+      "<span style='color:#dc2626; font-weight:bold; font-size:1.1em;'>דרישת סף: שמירה על הדרגה למשך 2 חודשים רצופים.</span>",
+      "<b>סה\"כ נקודות בתרשים:</b> 22,934 (היעד: 28,000 בחלון של חודשיים).",
+      "<b>בונוס דרגה כולל:</b> 3,600 ₪.",
+      "<b>חלוקת תשלום:</b> 1,200 ₪ בחודש הראשון + 2,400 ₪ בחודש השני.",
+      "<b>מבנה:</b> ניתן לראות בבירור רגל חזקה (P+ עם 4300) ורשת רחבה של זכיינים ולקוחות."
     ]
   },
 
