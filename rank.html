@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>דרגה</title>
-  <link rel="stylesheet" href="style.css?v=QR_FIX" />
+  <link rel="stylesheet" href="style.css?v=QR_FIX_FINAL" />
 </head>
 
 <body>
@@ -90,10 +90,11 @@
       } catch (e) { return ""; }
     }
 
-    // פונקציה ליצירת QR דרך גוגל
+    // === תיקון: שימוש בשרת QR אמין (goqr.me / qrserver) ===
     function qrUrl(text){
       const t = encodeURIComponent(text || "");
-      return `https://chart.googleapis.com/chart?cht=qr&chs=300x300&chld=M|0&chl=${t}`;
+      // שירות יציב ומודרני
+      return `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${t}`;
     }
 
     function initRankPage() {
@@ -126,10 +127,10 @@
       const embed = toEmbedUrl(rank.videoUrl);
       iframe.src = embed;
 
-      // === תיקון QR: יצירה אוטומטית תמיד ===
+      // יצירת ה-QR
       const qrImg = document.getElementById("printQR");
       if(qrImg) {
-        // מתעלם מהתמונות שהועלו (qrFile) ומייצר חדש ותקין מהלינק
+        // שימוש ישיר בקישור הוידאו ליצירת QR חי
         qrImg.src = qrUrl(rank.videoUrl);
       }
 
