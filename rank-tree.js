@@ -1,6 +1,6 @@
 /* =========================
-   rank-tree.js – FULL REPLACEMENT
-   Supports "totalVal" badge next to nodes
+   rank-tree.js – FORCE FIX
+   Injects styles directly to ensure positioning works
    ========================= */
 
 (function () {
@@ -39,16 +39,13 @@
     canvas.style.setProperty("--rows", String(getMaxRows(tree.nodes)));
     wrap.appendChild(canvas);
 
-    // nodes layer
     const nodesLayer = el("div", "treeNodesLayer");
     canvas.appendChild(nodesLayer);
 
-    // edges layer (SVG)
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     svg.setAttribute("class", "treeEdges");
     canvas.appendChild(svg);
 
-    // create node elements
     const nodeEls = new Map();
     tree.nodes.forEach(n => {
       const node = el("div", "treeNode");
@@ -56,7 +53,6 @@
 
       if (tree.highlightId && n.id === tree.highlightId) node.classList.add("isHere");
 
-      // grid positioning
       node.style.gridRow = String((n.generation ?? 0) + 1);
       node.style.gridColumn = String((n.column ?? 0) + 1);
 
@@ -77,9 +73,26 @@
       }
       node.appendChild(meta);
 
-      // FEATURE: Total Value Badge (Floating outside)
+      // === FORCE FIX: INLINE STYLES FOR TOTAL BADGE ===
       if (n.totalVal) {
         const totalBadge = el("div", "treeTotal", n.totalVal);
+        // אנו מגדירים את המיקום ישירות בקוד כדי לעקוף בעיות Cache של CSS
+        // מיקום: צד ימין למעלה, בתוך הכרטיס, לא חופף לירוק
+        totalBadge.style.cssText = `
+          position: absolute;
+          top: -12px;
+          right: -5px;
+          left: auto;
+          background: #2563eb;
+          color: #fff;
+          font-size: 0.7rem;
+          font-weight: 800;
+          padding: 3px 8px;
+          border-radius: 20px;
+          box-shadow: 0 2px 4px rgba(37,99,235,0.3);
+          z-index: 20;
+          white-space: nowrap;
+        `;
         node.appendChild(totalBadge);
       }
 
@@ -96,13 +109,12 @@
       drawEdges(tree, svg, canvas, nodeEls);
     });
 
-    // notes
     if (Array.isArray(tree.notes) && tree.notes.length) {
       const notes = el("div", "treeNotes");
       const ttl = el("div", "treeNotesTitle", "הערות / ניתוח מצב");
       notes.appendChild(ttl);
       const ul = el("ul", "treeNotesList");
-      tree.notes.forEach(t => ul.appendChild(el("li", "", t, true))); // allow html
+      tree.notes.forEach(t => ul.appendChild(el("li", "", t, true)));
       notes.appendChild(ul);
       wrap.appendChild(notes);
     }
@@ -130,7 +142,6 @@
 
   function drawEdges(tree, svg, canvas, nodeEls) {
     while (svg.firstChild) svg.removeChild(svg.firstChild);
-
     const cRect = canvas.getBoundingClientRect();
 
     function centerOf(nodeEl) {
@@ -150,11 +161,9 @@
 
       const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
       path.setAttribute("class", "treeEdgePath");
-
       const midY = (a.y + b.y) / 2;
       const d = `M ${a.x} ${a.y} C ${a.x} ${midY}, ${b.x} ${midY}, ${b.x} ${b.y}`;
       path.setAttribute("d", d);
-
       svg.appendChild(path);
     });
 
@@ -165,23 +174,18 @@
   function init() {
     const mount = document.getElementById("rankTreeMount");
     if (!mount) return;
-
     const rankId = getRankIdFromUrl();
     if (!rankId) return;
-
     const rank = getRankById(rankId);
     if (!rank) {
       mount.innerHTML = `<div class="treeError">שגיאה: דרגה לא נמצאה (id=${rankId}).</div>`;
       return;
     }
-
-    const trees = window.RANK_TREES || {};
-    const tree = trees[rankId];
+    const tree = window.RANK_TREES ? window.RANK_TREES[rankId] : null;
     if (!tree) {
       mount.innerHTML = `<div class="treeError">טרם הוגדר עץ לדרגה זו.</div>`;
       return;
     }
-
     renderTree(tree, mount);
   }
 
