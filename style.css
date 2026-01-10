@@ -1,265 +1,474 @@
-:root{
-  --bg:#f3f5f9;
-  --card:#ffffff;
-  --text:#0f172a;
-  --muted:#475569;
-  --line:#e2e8f0;
-  --brand:#16a34a;
-  --shadow:0 10px 25px rgba(2,6,23,.08);
+:root {
+  --bg: #f8fafc;        /* רקע כללי בהיר ונקי יותר */
+  --card: #ffffff;
+  --text: #1e293b;      /* צבע טקסט כהה אך לא שחור מוחלט */
+  --muted: #64748b;     /* טקסט משני */
+  --line: #e2e8f0;      /* קווי גבול עדינים */
+  --brand: #16a34a;     /* ירוק ג'וס פלאס */
+  --brand-hover: #15803d;
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --radius: 12px;
 }
 
-*{box-sizing:border-box}
-html,body{height:100%}
-body{
-  margin:0;
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,"Noto Sans Hebrew",sans-serif;
-  background:var(--bg);
-  color:var(--text);
+* { box-sizing: border-box; }
+
+html, body { height: 100%; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans Hebrew", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
 }
 
-a{color:inherit}
-.container{
-  width:min(1100px,92vw);
-  margin:24px auto 60px;
-}
-
-.topbar{
-  background:var(--card);
-  border-bottom:1px solid var(--line);
-  position:sticky;
-  top:0;
-  z-index:20;
-}
-.topbar-inner{
-  width:min(1100px,92vw);
-  margin:0 auto;
-  padding:12px 0;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-}
-.brand-left{display:flex; gap:10px; align-items:center}
-.brand-center{text-align:center; line-height:1.2}
-.brand-title{font-weight:800}
-.brand-sub{color:var(--muted); font-size:13px; margin-top:3px}
-.brand-right{display:flex; align-items:center; justify-content:flex-end}
-.brand-logo{
-  width:44px;
-  height:44px;
-  object-fit:cover;
-  border-radius:10px;
-  border:1px solid var(--line);
-  background:#fff;
-}
-
-.btn{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  padding:10px 14px;
-  border-radius:12px;
-  border:1px solid var(--line);
-  background:#fff;
-  font-weight:700;
-  text-decoration:none;
-  cursor:pointer;
-}
-.btn.primary{
-  background:var(--brand);
-  border-color:var(--brand);
-  color:#fff;
-}
-.btn.ghost{
-  background:#fff;
-}
-
-.card{
-  background:var(--card);
-  border:1px solid var(--line);
-  border-radius:18px;
-  padding:18px 18px;
-  box-shadow:var(--shadow);
-  margin:16px 0;
-}
-.sectionTitle{
-  margin:0 0 12px;
-  font-size:20px;
-}
-.rankTitle{
-  margin:0 0 8px;
-  font-size:28px;
-}
-.rankIntro{
-  margin:0;
-  color:var(--muted);
-  line-height:1.6;
-}
-
-.videoWrap{
-  border-radius:16px;
-  overflow:hidden;
-  border:1px solid var(--line);
-  background:#000;
-}
-.videoFrame{
-  width:100%;
-  aspect-ratio:16/9;
-  border:0;
-  display:block;
-}
-.videoLink{
-  margin-top:10px;
-  color:var(--muted);
-  font-size:13px;
-  word-break:break-all;
-}
-
-.bullets{margin:0; padding-right:18px; color:var(--text)}
-.bullets li{margin:8px 0; line-height:1.6}
+a { color: inherit; text-decoration: none; }
 
 /* =========================
-   TREE – layout + print A4
+   LAYOUT & HEADER
    ========================= */
 
-.treeError{
-  padding:14px;
-  border:1px dashed #ef4444;
-  border-radius:14px;
-  color:#991b1b;
-  background:#fff1f2;
+.container {
+  width: min(1000px, 94vw);
+  margin: 30px auto 80px;
 }
 
-.treeWrap{margin-top:10px}
-.treeHeader{margin-bottom:12px}
-.treeTitle{font-weight:900; font-size:18px}
-.treeDesc{color:var(--muted); margin-top:4px; line-height:1.5}
-
-.treeCanvas{
-  position:relative;
-  border:1px solid var(--line);
-  border-radius:16px;
-  background:#fff;
-  padding:18px;
-  overflow:hidden;
+.topbar {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(8px); /* אפקט זכוכית */
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
-.treeNodesLayer{
-  position:relative;
-  display:grid;
-  grid-template-columns: repeat(var(--cols), minmax(180px, 1fr));
-  gap:18px 24px;
-  align-items:start;
+.topbar-inner {
+  width: min(1000px, 94vw);
+  margin: 0 auto;
+  padding: 12px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
 }
 
-.treeEdges{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  pointer-events:none;
+/* Brand Section - Fixed Layout */
+.brand-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  overflow: hidden; /* מונע גלישה */
 }
 
-.treeEdgePath{
-  fill:none;
-  stroke:#94a3b8;
-  stroke-width:3;
-  stroke-linecap:round;
+.brand-logo {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0; /* מונע מהלוגו להתכווץ */
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: #fff;
+  box-shadow: var(--shadow-sm);
 }
 
-.treeNode{
-  position:relative;
-  background:#ffffff;
-  border:1px solid var(--line);
-  border-radius:16px;
-  padding:14px;
-  min-height:110px;
-  box-shadow:0 8px 18px rgba(2,6,23,.06);
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0; /* מאפשר לטקסט להתקצר אם צריך */
 }
 
-.treeNodeTop{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  margin-bottom:10px;
+/* טיפול בכותרות כדי שלא ישברו שורות בצורה מכוערת */
+.brand-text h1, .brand-title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  margin: 0;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.treeBadge{
-  min-width:56px;
-  height:34px;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  border-radius:12px;
-  border:1px solid var(--line);
-  font-weight:900;
-  background:#f8fafc;
+.tagline, .brand-sub {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.treeLabel{
-  font-weight:800;
+.brand-center {
+  display: none; /* במובייל נסתיר את האמצע, בדסקטופ נציג אם נרצה */
+}
+@media (min-width: 768px) {
+  .brand-center { display: block; text-align: center; }
 }
 
-.treeMeta{
-  display:flex;
-  gap:12px;
-  color:var(--muted);
-  font-size:13px;
+.actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
 }
-
-.treePV .k{font-weight:800; color:#0f172a}
-.treePV .v{font-weight:900}
-
-.treeNode.isHere{
-  border:2px solid var(--brand);
-  box-shadow:0 12px 24px rgba(22,163,74,.18);
-}
-
-.treeHere{
-  position:absolute;
-  top:10px;
-  left:10px;
-  background:var(--brand);
-  color:#fff;
-  font-weight:900;
-  font-size:12px;
-  padding:6px 10px;
-  border-radius:999px;
-}
-
-.treeNotes{
-  margin-top:12px;
-  border-top:1px solid var(--line);
-  padding-top:12px;
-}
-.treeNotesTitle{font-weight:900; margin-bottom:6px}
-.treeNotesList{margin:0; padding-right:18px; color:var(--muted)}
-.treeNotesList li{margin:6px 0; line-height:1.6}
 
 /* =========================
-   PRINT (A4)
+   BUTTONS & UI ELEMENTS
    ========================= */
-@media print{
-  body{background:#fff}
-  .topbar, .btn { display:none !important; }
-  .container{width:100%; margin:0}
-  .card{
-    box-shadow:none;
-    border:0;
-    border-radius:0;
-    padding:0;
-    margin:0 0 18px;
-  }
-  .treeCanvas{
-    border:1px solid #000;
-    border-radius:0;
-    padding:12px;
-  }
-  .treeEdgePath{stroke:#111}
-  .treeNode{box-shadow:none}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: #fff;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--text);
 }
 
-@page{
-  size:A4;
-  margin:12mm;
+.btn:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+.btn.primary, .btn-green {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: #fff;
+}
+
+.btn.primary:hover, .btn-green:hover {
+  background: var(--brand-hover);
+}
+
+.btn.ghost {
+  background: transparent;
+  border-color: transparent;
+  color: var(--muted);
+}
+.btn.ghost:hover {
+  color: var(--text);
+  background: rgba(0,0,0,0.03);
+}
+
+/* =========================
+   CARDS & CONTENT
+   ========================= */
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 20px;
+}
+
+.sectionTitle {
+  margin: 0 0 16px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Rank Specifics */
+.rankTitle {
+  margin: 0 0 8px;
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--brand);
+}
+.rankIntro {
+  font-size: 1.1rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* Video */
+.videoWrap {
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  background: #000;
+}
+.videoFrame {
+  width: 100%;
+  aspect-ratio: 16/9;
+  border: 0;
+  display: block;
+}
+.videoLink {
+  margin-top: 12px;
+  font-size: 0.85rem;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* Bullets List */
+.bullets {
+  margin: 0;
+  padding-right: 20px;
+}
+.bullets li {
+  margin-bottom: 10px;
+  color: var(--text);
+}
+.bullets li::marker {
+  color: var(--brand);
+}
+
+/* Rank List (Homepage) */
+.rank-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.rank-list li {
+  margin: 0;
+}
+.rank-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  transition: all 0.2s;
+}
+.rank-link:hover {
+  border-color: var(--brand);
+  box-shadow: var(--shadow-sm);
+  transform: translateX(-4px);
+}
+.rank-link .rank-title { font-weight: 700; font-size: 1.1rem; }
+.rank-link .rank-sub { font-size: 0.9rem; color: var(--muted); margin-top: 2px; }
+.chev { font-size: 1.5rem; color: var(--line); font-weight: 300; }
+
+/* =========================
+   TREE VISUALIZATION (DESIGN UPGRADE)
+   ========================= */
+
+.treeWrap { margin-top: 20px; }
+.treeHeader { margin-bottom: 16px; text-align: center; }
+.treeTitle { font-size: 1.2rem; font-weight: 700; }
+.treeDesc { font-size: 0.9rem; color: var(--muted); margin-top: 4px; }
+
+.treeCanvas {
+  position: relative;
+  background: #ffffff; /* משטח לבן נקי */
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 40px 20px; /* יותר מרווח פנימי */
+  overflow-x: auto; /* גלילה רוחבית אם העץ רחב */
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.02);
+}
+
+.treeNodesLayer {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--cols), minmax(160px, 1fr));
+  gap: 40px 30px; /* מרווח גדול יותר בין השורות והטורים */
+  justify-items: center;
+  z-index: 2; /* מעל הקווים */
+}
+
+/* Edges (SVG) */
+.treeEdges {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+.treeEdgePath {
+  fill: none;
+  stroke: #cbd5e1; /* צבע אפור-כחלחל עדין */
+  stroke-width: 2px;
+  /* אפשר להוסיף stroke-dasharray לאפקט מקווקו אם רוצים */
+}
+
+/* Node Card Design */
+.treeNode {
+  position: relative;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px;
+  width: 100%;
+  max-width: 200px;
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.treeNode:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: #cbd5e1;
+}
+
+/* "You Are Here" Highlight */
+.treeNode.isHere {
+  border: 2px solid var(--brand);
+  background: #f0fdf4; /* ירקרק עדין מאוד */
+}
+.treeHere {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--brand);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 2px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+  box-shadow: 0 2px 4px rgba(22, 163, 74, 0.3);
+}
+
+/* Node Internals */
+.treeNodeTop {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed var(--line);
+}
+
+.treeBadge {
+  background: #f1f5f9;
+  color: var(--text);
+  font-size: 0.8rem;
+  font-weight: 800;
+  padding: 4px 8px;
+  border-radius: 6px;
+  min-width: 36px;
+  text-align: center;
+}
+
+.treeLabel {
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.treeMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.treePV {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f8fafc;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+.treePV .k { color: var(--muted); font-weight: 500; font-size: 0.75rem; }
+.treePV .v { color: var(--text); font-weight: 700; }
+
+/* Notes Section */
+.treeNotes {
+  margin-top: 20px;
+  padding: 16px;
+  background: #fff;
+  border-top: 1px solid var(--line);
+  font-size: 0.9rem;
+}
+.treeNotesTitle { font-weight: 700; color: var(--muted); margin-bottom: 6px; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; }
+.treeNotesList { margin: 0; padding-right: 20px; color: var(--muted); }
+
+/* =========================
+   INPUTS (Brand Page)
+   ========================= */
+.lbl { display: block; margin: 12px 0 4px; font-weight: 600; font-size: 0.9rem; }
+.input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 1rem;
+}
+.input:focus { outline: 2px solid var(--brand); border-color: transparent; }
+.muted.small { font-size: 0.8rem; }
+
+/* =========================
+   PRINT / BOOKLET
+   ========================= */
+@media print {
+  body { background: #fff; color: #000; }
+  .topbar, .btn, .print-hide { display: none !important; }
+  .container { width: 100%; margin: 0; max-width: none; }
+  .card { box-shadow: none; border: 0; margin: 0; padding: 0; page-break-inside: avoid; }
+  
+  /* Booklet Pages */
+  .booklet-page {
+    page-break-after: always;
+    padding: 2cm !important;
+    border: 0;
+    min-height: 25cm;
+    position: relative;
+  }
+  .booklet-cover {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+  }
+  
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 2px solid #000;
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+  }
+  .page-title { font-size: 32px; font-weight: 900; margin: 0; }
+  .qr-block { text-align: center; border: 1px solid #ccc; padding: 10px; }
+  .qr-img { width: 120px; height: 120px; }
+  
+  .treeCanvas {
+    border: 1px solid #ccc;
+    box-shadow: none;
+  }
+  .treeNode {
+    border: 1px solid #000;
+    box-shadow: none;
+  }
+  .treeEdgePath { stroke: #000; stroke-width: 1.5px; }
+  
+  .page-footer {
+    position: absolute;
+    bottom: 20px;
+    left: 0; right: 0;
+    text-align: center;
+    border-top: 1px solid #eee;
+    padding-top: 10px;
+    font-size: 10pt;
+  }
 }
