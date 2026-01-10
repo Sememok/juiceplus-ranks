@@ -1,7 +1,7 @@
 /* data.js
    FULL REPLACEMENT
-   - Updated Senior Partner tree to show FULL DEPTH (Generation 2)
-   - Matches the manual sketch exactly
+   - Updated Senior Partner: "You" now shows Personal PV (2561) inside
+   - Total PV (12,090) is shown as a side badge (using 'totalVal')
 */
 
 window.RANKS = [
@@ -179,26 +179,16 @@ window.RANK_TREES = {
     highlightId: "you",
     nodes: [
       // --- דור 0: אתה ---
-      // Column 2 (Middle)
-      { id: "you", label: "אתה (P+)", code: "P+", pv: 12090, generation: 0, column: 2 },
+      // pv: 2561 (אישי), totalVal: 12090 (בצד)
+      { id: "you", label: "אתה (SP)", code: "P+", pv: 2561, totalVal: "סה״כ: 12,090", generation: 0, column: 2 },
       
       // --- דור 1: 3 רגליים ---
-      
-      // רגל שמאל (סה"כ 4192) - Column 0
       { id: "left_top", label: "זכיין P", code: "P", pv: 4192, generation: 1, column: 0 },
-      
-      // רגל אמצע (לקוח אישי) - Column 2
       { id: "mid_top", label: "לקוח אישי", code: "Client", pv: 2561, generation: 1, column: 2 },
-      
-      // רגל ימין (סה"כ 2776) - Column 4
       { id: "right_top", label: "זכיין P", code: "P", pv: 2776, generation: 1, column: 4 },
 
       // --- דור 2: הפירוט למטה ---
-
-      // מתחת לרגל שמאל: 1631 נקודות
       { id: "left_bot", label: "לקוח/הזמנה", code: "Order", pv: 1631, generation: 2, column: 0 },
-
-      // מתחת לרגל ימין: 1145 נקודות (חישוב לפי השרטוט: 2776 פחות 1631 = 1145)
       { id: "right_bot", label: "לקוח/הזמנה", code: "Order", pv: 1145, generation: 2, column: 4 }
     ],
     edges: [
