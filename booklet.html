@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>חוברת להדפסה</title>
-  <link rel="stylesheet" href="style.css?v=999" />
+  <link rel="stylesheet" href="style.css?v=2026" />
 </head>
 
 <body class="print-booklet">
@@ -81,7 +81,7 @@
                     <div class="treeLabel">${n.label||""}</div>
                 </div>
                 ${n.pv ? `<div class="treeMeta">PV: <b>${n.pv}</b></div>` : ""}
-                ${n.totalVal ? `<div class="treeTotal" style="position:absolute; top:-10px; left:-10px; background:#2563eb; color:#fff; padding:2px 6px; border-radius:10px; font-size:0.7em;">${n.totalVal}</div>` : ""}
+                ${n.totalVal ? `<div class="treeTotal" style="position:absolute; top:-18px !important; right:-10px !important; left:auto !important; background:#2563eb; color:#fff; padding:4px 10px; border-radius:20px; font-size:0.75em; font-weight:800;">${n.totalVal}</div>` : ""}
             `;
             layer.appendChild(node);
         });
