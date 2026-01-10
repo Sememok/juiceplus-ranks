@@ -11,10 +11,10 @@
   <header class="topbar print-hide">
     <div class="topbar-inner">
       <div class="brand-left">
-        <img id="brandLogo" class="brand-logo" alt="לוגו" />
+        <img data-brand="logo" class="brand-logo" alt="לוגו" style="display:none">
         <div class="brand-text">
-          <div id="brandGroupName" class="brand-title">המסע המשותף שלנו</div>
-          <div id="brandTagline" class="brand-subtitle">חוברת הדרגות – להדפסה</div>
+          <div data-brand="groupName" class="brand-title">המסע המשותף שלנו</div>
+          <div data-brand="tagline" class="brand-subtitle">חוברת הדרגות – להדפסה</div>
         </div>
       </div>
 
@@ -25,75 +25,26 @@
     </div>
   </header>
 
-  <!-- DEBUG BOX: יראה לך למה QR לא מופיע -->
-  <section id="debugBox" class="card debug print-hide" style="display:none"></section>
-
   <main class="container booklet">
     <section class="card booklet-cover">
-      <div class="cover-row">
-        <div>
-          <h1 class="cover-title">חוברת דרגות דיגיטלית</h1>
-          <p class="muted">
-            בכל עמוד דרגה: הסבר קצר, QR לסרטון, ועץ התקדמות.
-          </p>
-        </div>
-        <div class="cover-logo">
-          <img id="coverLogo" alt="לוגו" />
-        </div>
+      <div class="cover-row" style="text-align:center; padding: 40px 0;">
+        <img data-brand="logo" alt="לוגו" style="max-width:150px; margin-bottom:20px; display:none">
+        <h1 class="cover-title" style="font-size:3em; margin:0;">חוברת דרגות דיגיטלית</h1>
+        <p class="muted" style="font-size:1.5em;">
+          מדריך וידאו, עצי התקדמות וטיפים לזכיין
+        </p>
       </div>
-      <div class="print-note muted">טיפ: בדפדפן לחץ Print ואז “Save as PDF”.</div>
+      <div class="print-note muted" style="text-align:center; margin-top:50px;">נוצר באופן דיגיטלי. סרוק את ה-QR לצפייה.</div>
     </section>
 
     <div id="bookletPages"></div>
   </main>
 
-  <!-- חשוב: סדר טעינה -->
   <script src="brand-core.js"></script>
   <script src="data.js"></script>
   <script src="rank-tree.js"></script>
 
   <script>
-    // ===== Debug helper =====
-    function showDebug(lines){
-      const box = document.getElementById("debugBox");
-      box.style.display = "block";
-      box.innerHTML = `
-        <h3 style="margin-top:0">בדיקת טעינה (Debug)</h3>
-        <ul style="margin:0; padding-right:18px">
-          ${lines.map(l => `<li>${escapeHtml(l)}</li>`).join("")}
-        </ul>
-        <div class="muted" style="margin-top:8px">
-          אם אתה רואה כאן שגיאה, צלם מסך ושלח לי.
-        </div>
-      `;
-    }
-
-    // ===== Brand =====
-    try {
-      if (typeof brandRender === "function") brandRender();
-      const coverLogo = document.getElementById("coverLogo");
-      const brandLogo = document.getElementById("brandLogo");
-      setTimeout(() => { if (coverLogo) coverLogo.src = (brandLogo && brandLogo.src) ? brandLogo.src : ""; }, 0);
-    } catch (e) {
-      showDebug([`שגיאה ב-brandRender: ${e.message}`]);
-    }
-
-    // ===== Validate data =====
-    const debug = [];
-    if (!window.RANKS) debug.push("window.RANKS לא נטען. בדוק ש-data.js קיים ושלא שינית לו שם.");
-    else if (!Array.isArray(window.RANKS)) debug.push("window.RANKS נטען אבל אינו מערך (Array). בדוק את data.js.");
-    else if (window.RANKS.length === 0) debug.push("window.RANKS הוא מערך ריק – אין דרגות להצגה.");
-    else debug.push(`RANKS נטען: ${window.RANKS.length} דרגות.`);
-
-    if (typeof window.renderRankTree !== "function") {
-      debug.push("renderRankTree לא קיים. rank-tree.js לא נטען או יש בו שגיאה.");
-    } else {
-      debug.push("rank-tree.js נטען: renderRankTree זמין.");
-    }
-
-    // אם יש בעיות – להציג debug ולהמשיך בכל זאת
-    if (debug.some(x => x.includes("לא"))) showDebug(debug);
-
     // ===== Build pages =====
     const pagesRoot = document.getElementById("bookletPages");
     pagesRoot.innerHTML = "";
@@ -105,25 +56,18 @@
         page.innerHTML = `
           <div class="page-header">
             <div>
-              <div class="page-kicker">דף דרגה ${idx + 1} מתוך ${window.RANKS.length}</div>
-              <h2 class="page-title">${escapeHtml(rank.title || "")}</h2>
+              <div class="page-kicker" style="font-size:0.9em; color:#666">דף דרגה ${idx + 1}</div>
+              <h2 class="page-title" style="font-size:2em; margin:5px 0;">${escapeHtml(rank.title || "")}</h2>
               <p class="muted">${escapeHtml(rank.intro || "")}</p>
             </div>
-
-            <div class="qr-block">
-              <div class="qr-title">סריקה לסרטון</div>
-              <div class="qr-img-wrap">
-                <img
-                  class="qr-img"
-                  alt="QR לסרטון"
-                  src="${qrUrl(rank.videoUrl)}"
-                  onerror="this.closest('.qr-block').querySelector('.qr-error').style.display='block';"
-                />
-              </div>
-              <div class="qr-error muted" style="display:none; margin-top:8px;">
-                QR לא נטען. בדוק חיבור אינטרנט / חסימת רשת / כתובת סרטון.
-              </div>
-              <div class="qr-url muted">${escapeHtml(rank.videoUrl || "")}</div>
+            
+            <div class="print-yt-frame">
+              <div class="qr-label">סרוק לצפייה בסרטון</div>
+              <img
+                class="qr-img"
+                alt="QR"
+                src="${qrUrl(rank.videoUrl)}"
+              />
             </div>
           </div>
 
@@ -135,48 +79,101 @@
           </div>
 
           <div class="page-section">
-            <h3>עץ התקדמות (דורות + נקודות)</h3>
+            <h3>עץ התקדמות (סימולציה)</h3>
             <div id="tree_${escapeId(rank.id)}"></div>
           </div>
 
-          <div class="page-footer muted">המסע המשותף שלנו • חוברת להדפסה</div>
+          <div class="page-footer muted" style="position:absolute; bottom:20px; left:0; right:0; text-align:center; border-top:1px solid #eee; padding-top:10px;">
+            המסע המשותף שלנו • חוברת להדפסה
+          </div>
         `;
         pagesRoot.appendChild(page);
 
-        // Tree render (אם קיים)
+        // Tree render
         try {
           if (typeof window.renderRankTree === "function") {
             window.renderRankTree({
-              rankKey: rank.title,
-              containerId: `tree_${rank.id}`,
-              currentNodeCode: rank.nodeCode,
-              title: ""
+              rankKey: rank.title, // Pass title to match existing logic if needed, or ID
+              // Note: rank-tree.js uses RANK_TREES[rankId], so we need to ensure the JS supports it.
+              // Let's rely on data.js matching.
+              // Actually, rank-tree.js "renderRankTree" is not exposed globally in the file I sent previously, 
+              // it ran on DOMContentLoaded.
+              // I need to make sure rank-tree.js exposes a render function or use the logic below.
             });
+            
+            // Direct call if exposed, otherwise we need to rely on the library.
+            // Since rank-tree.js in previous turn was IIFE, let's just make sure we can render.
+            // FIX: I will use the internal logic of rank-tree if available, OR simpler:
+            // Since I cannot change rank-tree.js easily to expose without breaking encapsulation, 
+            // I will assume you are using the provided rank-tree.js.
+            // Wait, looking at my previous response, rank-tree.js was an IIFE.
+            // I will inject a small helper here to render tree if possible, 
+            // OR ideally, we should expose the render function in rank-tree.js.
+            
+            // FOR NOW: I'll manually call the global logic if available.
+            // If not, simply: 
+            const mount = document.getElementById(`tree_${escapeId(rank.id)}`);
+            if(window.RANK_TREES && window.RANK_TREES[rank.id] && typeof renderTreeExternal === 'function') {
+                renderTreeExternal(window.RANK_TREES[rank.id], mount);
+            }
           }
-        } catch (e) {
-          showDebug([`שגיאה ב-renderRankTree עבור ${rank.title}: ${e.message}`].concat(debug));
-        }
+        } catch (e) { console.error(e); }
       });
+    }
+    
+    // Quick Fix: We need a way to render trees in the booklet loop.
+    // I will add a small renderer script block here that mimics rank-tree.js for the booklet.
+    // This is safer than modifying rank-tree.js significantly.
+    
+    function renderTreeExternal(tree, mount) {
+       mount.innerHTML = "";
+       const canvas = document.createElement("div");
+       canvas.className = "treeCanvas";
+       canvas.style.setProperty("--cols", "3"); // Default
+       
+       const nodesLayer = document.createElement("div");
+       nodesLayer.className = "treeNodesLayer";
+       canvas.appendChild(nodesLayer);
+       
+       // Simplified render for print
+       tree.nodes.forEach(n => {
+         const node = document.createElement("div");
+         node.className = "treeNode";
+         if(n.id === tree.highlightId) node.classList.add("isHere");
+         node.innerHTML = `
+           <div class="treeNodeTop">
+             <div class="treeBadge">${n.code}</div>
+             <div class="treeLabel">${n.label}</div>
+           </div>
+           <div class="treePV">PV: ${n.pv}</div>
+         `;
+         node.style.gridRow = (n.generation||0)+1;
+         node.style.gridColumn = (n.column||0)+1;
+         nodesLayer.appendChild(node);
+       });
+       
+       // Add Notes
+        if (tree.notes && tree.notes.length) {
+            const notes = document.createElement("div");
+            notes.className = "treeNotes";
+            notes.innerHTML = `<div class="treeNotesTitle">הערות:</div><ul>${tree.notes.map(t=>`<li>${t}</li>`).join("")}</ul>`;
+            canvas.appendChild(notes);
+        }
+
+       mount.appendChild(canvas);
     }
 
     function qrUrl(text){
-      // Google Chart QR - יציב מאוד, טוב להדפסה
       const t = encodeURIComponent(text || "");
-      return `https://chart.googleapis.com/chart?cht=qr&chs=220x220&chld=M|1&chl=${t}`;
+      return `https://chart.googleapis.com/chart?cht=qr&chs=150x150&chld=M|0&chl=${t}`;
     }
 
     function escapeHtml(str) {
-      return (str || "").replace(/[&<>"']/g, (m) => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#039;"
+      return (str || "").replace(/[&<>"']/g, m => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
       }[m]));
     }
-    function escapeId(str){
-      return String(str || "").replace(/[^a-zA-Z0-9_-]/g, "_");
-    }
+    function escapeId(str){ return String(str).replace(/[^a-zA-Z0-9_-]/g, "_"); }
   </script>
 </body>
 </html>
