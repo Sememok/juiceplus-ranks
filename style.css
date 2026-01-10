@@ -109,21 +109,18 @@ a { color: inherit; text-decoration: none; }
 }
 .treeNode.isHere { border: 2px solid var(--brand); background: #f0fdf4; }
 
-/* הבועה הירוקה - מרכז למעלה */
 .treeHere {
-  position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+  position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
   background: var(--brand); color: #fff; font-size: 0.7rem; padding: 2px 8px;
   border-radius: 10px; font-weight: bold; white-space: nowrap; z-index: 10;
 }
 
-/* === התיקון הסופי: הבועה הכחולה בצד שמאל === */
-/* גובה בטוח (-15px) שלא נחתך, ומוצמד לשמאל */
-.treeTotalLeft {
+/* === החזרנו לצד ימין, אבל בגובה בטוח === */
+.treeTotal {
   position: absolute;
-  top: -15px !important;
-  left: -5px !important;  /* הצמדה לשמאל */
-  right: auto !important; /* ביטול ימין */
-  margin: 0 !important;
+  top: -22px !important;    /* גבוה מהירוק, אבל לא נחתך */
+  right: -5px !important;   /* צד ימין */
+  left: auto !important;    /* מבטל שמאל */
   background: #2563eb;
   color: #fff;
   font-size: 0.75rem;
@@ -163,6 +160,6 @@ a { color: inherit; text-decoration: none; }
   .treeNodesLayer { gap: 15px; }
   .treeNode { border: 1px solid #000; box-shadow: none; min-height: auto; }
   .treeEdgePath { stroke: #000; stroke-width: 1px; }
-  .treeTotalLeft { border: 1px solid #000; background: #fff; color: #000; }
+  .treeTotal { border: 1px solid #000; background: #fff; color: #000; }
   .booklet-page { page-break-after: always; display: block; }
 }
