@@ -33,23 +33,35 @@
       <div id="rankNav" class="rank-nav-buttons"></div>
     </nav>
 
-    <section class="card">
-      <h1 id="rankTitle" class="rankTitle">דרגה</h1>
-      <p id="rankIntro" class="rankIntro"></p>
-    </section>
+    <div id="rankPrintLayout">
+      
+      <div class="rank-text-area">
+        <section class="card" style="margin-bottom:10px;">
+          <h1 id="rankTitle" class="rankTitle">דרגה</h1>
+          <p id="rankIntro" class="rankIntro"></p>
+        </section>
 
-    <section class="card">
-      <h2 class="sectionTitle">סרטון דרגה</h2>
-      <div class="videoWrap">
-        <iframe id="rankVideo" class="videoFrame" src="" title="YouTube video" allowfullscreen></iframe>
+        <section class="card videoWrap">
+          <iframe id="rankVideo" class="videoFrame" src="" title="YouTube video" allowfullscreen></iframe>
+        </section>
+        
+        <div class="videoLink" id="rankVideoLink"></div>
+
+        <section class="card">
+          <h2 class="sectionTitle">מה חשוב בדרגה הזו</h2>
+          <ul id="rankBullets" class="bullets"></ul>
+        </section>
       </div>
-      <div class="videoLink" id="rankVideoLink"></div>
-    </section>
 
-    <section class="card">
-      <h2 class="sectionTitle">מה חשוב בדרגה הזו</h2>
-      <ul id="rankBullets" class="bullets"></ul>
-    </section>
+      <div class="print-only-qr">
+        <div class="yt-frame">
+          <div class="yt-label">סרטון הדרכה</div>
+          <img id="printQR" class="yt-qr-img" src="" alt="QR">
+          <div class="yt-sub">סרוק לצפייה בוידאו</div>
+        </div>
+      </div>
+
+    </div>
 
     <section class="card">
       <h2 class="sectionTitle">עץ התקדמות לדרגה</h2>
@@ -82,11 +94,16 @@
       }
     }
 
+    function qrUrl(text){
+      const t = encodeURIComponent(text || "");
+      return `https://chart.googleapis.com/chart?cht=qr&chs=150x150&chld=M|0&chl=${t}`;
+    }
+
     function initRankPage() {
       const id = getRankId();
       const rank = (window.RANKS || []).find(r => r.id === id);
 
-      // --- Build Navigation ---
+      // בניית ניווט
       const navContainer = document.getElementById("rankNav");
       if (window.RANKS && navContainer) {
         navContainer.innerHTML = "";
@@ -95,19 +112,13 @@
           btn.className = "nav-chip";
           if (r.id === id) btn.classList.add("active");
           btn.href = `rank.html?id=${r.id}`;
-          btn.textContent = r.nodeCode || r.title; // Short name preferred
-          btn.title = r.title;
+          btn.textContent = r.nodeCode || r.title;
           navContainer.appendChild(btn);
         });
       }
 
-      if (!id) {
-        document.getElementById("rankTitle").textContent = "שגיאה: חסר id בכתובת";
-        return;
-      }
-
-      if (!rank) {
-        document.getElementById("rankTitle").textContent = "שגיאה: דרגה לא נמצאה";
+      if (!id || !rank) {
+        document.getElementById("rankTitle").textContent = "דרגה לא נמצאה";
         return;
       }
 
@@ -115,14 +126,19 @@
       document.getElementById("rankTitle").textContent = rank.title;
       document.getElementById("rankIntro").textContent = rank.intro || "";
 
+      // וידאו למסך
       const iframe = document.getElementById("rankVideo");
       const embed = toEmbedUrl(rank.videoUrl);
       iframe.src = embed;
 
+      // QR להדפסה
+      const qrImg = document.getElementById("printQR");
+      if(qrImg) qrImg.src = qrUrl(rank.videoUrl);
+
       const linkBox = document.getElementById("rankVideoLink");
       linkBox.innerHTML = rank.videoUrl
         ? `קישור לסרטון: <a href="${rank.videoUrl}" target="_blank" rel="noopener">${rank.videoUrl}</a>`
-        : "לא הוגדר סרטון לדרגה זו.";
+        : "לא הוגדר סרטון.";
 
       const ul = document.getElementById("rankBullets");
       ul.innerHTML = "";
