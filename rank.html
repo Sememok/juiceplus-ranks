@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>דרגה</title>
+  <title>מדריך דרגות</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 
@@ -11,104 +11,107 @@
   <header class="topbar">
     <div class="topbar-inner">
       <div class="brand-left">
-        <img id="brandLogo" class="brand-logo" alt="לוגו" />
-        <div class="brand-text">
-          <div id="brandGroupName" class="brand-title">המסע המשותף שלנו</div>
-          <div id="brandTagline" class="brand-subtitle">חוברת הדרגות – מדריך וידאו לזכיין חדש</div>
-        </div>
+        <a class="btn ghost" href="index.html">חזרה</a>
+        <a class="btn primary" href="booklet.html">חוברת להדפסה</a>
       </div>
 
-      <div class="actions">
-        <a class="btn" href="index.html">חזרה</a>
-        <a class="btn btn-green" href="booklet.html">חוברת להדפסה</a>
-        <a class="btn" href="brand.html">מיתוג</a>
-        <button class="btn" onclick="window.print()">הדפס / שמירה כ-PDF</button>
+      <div class="brand-center">
+        <div class="brand-title" data-brand="groupName">המסע המשותף שלנו</div>
+        <div class="brand-sub" data-brand="subtitle">חוברת הדרגות – מדריך וידאו לזכיין חדש</div>
+      </div>
+
+      <div class="brand-right">
+        <img id="brandLogo" class="brand-logo" alt="logo" src="assets/ourway.jpg" />
       </div>
     </div>
   </header>
 
   <main class="container">
     <section class="card">
-      <h1 id="rankTitle">דרגה</h1>
-      <p id="rankIntro" class="muted"></p>
+      <h1 id="rankTitle" class="rankTitle">דרגה</h1>
+      <p id="rankIntro" class="rankIntro"></p>
     </section>
 
     <section class="card">
-      <h2>סרטון דרגה</h2>
-      <div class="video-wrap">
-        <iframe id="rankVideo" class="video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen></iframe>
+      <h2 class="sectionTitle">סרטון דרגה</h2>
+      <div class="videoWrap">
+        <iframe id="rankVideo" class="videoFrame" src="" title="YouTube video" allowfullscreen></iframe>
       </div>
-      <div class="small muted" id="rankVideoUrl"></div>
+      <div class="videoLink" id="rankVideoLink"></div>
     </section>
 
     <section class="card">
-      <h2>מה חשוב ללמוד בדרגה הזו</h2>
+      <h2 class="sectionTitle">מה חשוב לנקודה בדרגה הזו</h2>
       <ul id="rankBullets" class="bullets"></ul>
     </section>
 
-    <section class="card" id="treeCard">
-      <!-- tree injected here -->
-      <div id="rankTree"></div>
+    <section class="card">
+      <h2 class="sectionTitle">עץ התקדמות לדרגה</h2>
+      <div id="rankTreeMount"></div>
     </section>
   </main>
 
-  <script src="brand-core.js"></script>
+  <script src="brands.js"></script>
   <script src="data.js"></script>
   <script src="rank-tree.js"></script>
 
   <script>
-    // Brand
-    if (typeof brandRender === "function") brandRender();
-
-    // Pick rank by query param
-    const url = new URL(window.location.href);
-    const id = url.searchParams.get("id") || "partner_plus";
-
-    const rank = (window.RANKS || []).find(r => r.id === id);
-    if (!rank) {
-      document.getElementById("rankTitle").textContent = "שגיאה: דרגה לא נמצאה";
-      document.getElementById("rankIntro").textContent = "בדוק שהקישור כולל ?id=...";
-    } else {
-      document.title = rank.title;
-      document.getElementById("rankTitle").textContent = rank.title;
-      document.getElementById("rankIntro").textContent = rank.intro;
-
-      // YouTube embed
-      const videoId = extractYouTubeId(rank.videoUrl);
-      const embed = videoId ? `https://www.youtube.com/embed/${videoId}` : "";
-      document.getElementById("rankVideo").src = embed;
-      document.getElementById("rankVideoUrl").textContent = rank.videoUrl;
-
-      // Bullets
-      const ul = document.getElementById("rankBullets");
-      ul.innerHTML = "";
-      (rank.bullets || []).forEach(t => {
-        const li = document.createElement("li");
-        li.textContent = t;
-        ul.appendChild(li);
-      });
-
-      // Tree (highlight “אתה כאן”)
-      renderRankTree({
-        rankKey: rank.title,
-        containerId: "rankTree",
-        currentNodeCode: rank.nodeCode,
-        title: "עץ התקדמות לדרגה (דורות + נקודות)"
-      });
-    }
-
-    function extractYouTubeId(url) {
-      try {
-        const u = new URL(url);
-        // youtu.be/<id>
-        if (u.hostname.includes("youtu.be")) return u.pathname.replace("/", "");
-        // youtube.com/watch?v=<id>
-        return u.searchParams.get("v");
-      } catch (e) {
-        return null;
+    (function () {
+      function toEmbedUrl(youtubeUrl) {
+        if (!youtubeUrl) return "";
+        // supports youtu.be/ID or youtube.com/watch?v=ID
+        let id = "";
+        try {
+          const u = new URL(youtubeUrl);
+          if (u.hostname.includes("youtu.be")) {
+            id = u.pathname.replace("/", "");
+          } else {
+            id = u.searchParams.get("v") || "";
+          }
+        } catch (e) {
+          return "";
+        }
+        return id ? ("https://www.youtube.com/embed/" + id) : "";
       }
-    }
+
+      function getRankId() {
+        return new URLSearchParams(location.search).get("id");
+      }
+
+      function initRankPage() {
+        const id = getRankId();
+        const rank = (window.RANKS || []).find(r => r.id === id);
+        if (!rank) {
+          document.getElementById("rankTitle").textContent = "שגיאה: דרגה לא נמצאה";
+          return;
+        }
+
+        document.getElementById("rankTitle").textContent = rank.title;
+        document.getElementById("rankIntro").textContent = rank.intro || "";
+
+        const embed = toEmbedUrl(rank.videoUrl);
+        const iframe = document.getElementById("rankVideo");
+        iframe.src = embed;
+
+        const linkBox = document.getElementById("rankVideoLink");
+        linkBox.innerHTML = rank.videoUrl
+          ? `קישור לסרטון: <a href="${rank.videoUrl}" target="_blank" rel="noopener">${rank.videoUrl}</a>`
+          : "";
+
+        const ul = document.getElementById("rankBullets");
+        ul.innerHTML = "";
+        (rank.bullets || []).forEach(b => {
+          const li = document.createElement("li");
+          li.textContent = b;
+          ul.appendChild(li);
+        });
+
+        // apply branding (existing behavior)
+        if (window.applyBranding) window.applyBranding();
+      }
+
+      document.addEventListener("DOMContentLoaded", initRankPage);
+    })();
   </script>
 </body>
 </html>
