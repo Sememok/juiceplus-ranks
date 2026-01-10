@@ -1,4 +1,7 @@
+// brand-core.js - FULL REPLACEMENT
 // Shared branding loader for all pages
+
+// שימוש בנתיב יחסי פשוט שעובד גם מקומית וגם ב-GitHub
 const DEFAULT_LOGO_URL = "assets/ourway.jpg";
 const STORAGE_KEY = "jp_brand";
 
@@ -7,18 +10,6 @@ const BRAND_DEFAULT = {
   tagline: "חוברת הדרגות – מדריך וידאו לזכיין חדש",
   logoDataUrl: ""
 };
-
-function basePath() {
-  // /juiceplus-ranks/
-  const repo = location.pathname.split("/")[1];
-  return `/${repo}/`;
-}
-
-function resolveUrl(path) {
-  if (!path) return "";
-  if (path.startsWith("data:") || path.startsWith("http://") || path.startsWith("https://")) return path;
-  return basePath() + path.replace(/^\/+/, "");
-}
 
 function loadBrand() {
   try {
@@ -41,30 +32,41 @@ function resetBrand() {
 function applyBrandToPage() {
   const b = loadBrand();
 
-  // Texts
-  document.querySelectorAll("[data-brand='groupName']").forEach(el => (el.textContent = b.groupName));
-  document.querySelectorAll("[data-brand='tagline']").forEach(el => (el.textContent = b.tagline));
-
-  // Logo
-  const chosen = b.logoDataUrl && b.logoDataUrl.trim() ? b.logoDataUrl : DEFAULT_LOGO_URL;
-  const src = resolveUrl(chosen);
-
-  document.querySelectorAll("[data-brand='logo']").forEach(img => {
-    img.onload = () => (img.style.display = "block");
-    img.onerror = () => (img.style.display = "none");
-    img.src = src;
+  // 1. עדכון טקסטים
+  document.querySelectorAll("[data-brand='groupName']").forEach(el => {
+    if(el) el.textContent = b.groupName;
+  });
+  document.querySelectorAll("[data-brand='tagline']").forEach(el => {
+    if(el) el.textContent = b.tagline;
   });
 
-  // fallback visibility
-  const anyLogo = document.querySelector("[data-brand='logo']");
-  const fallback = document.querySelector("[data-brand='logoFallback']");
-  if (anyLogo && fallback) {
-    anyLogo.addEventListener("load", () => (fallback.style.display = "none"));
-    anyLogo.addEventListener("error", () => (fallback.style.display = "block"));
-  }
+  // 2. טיפול בלוגו
+  // אם יש לוגו שמור בזיכרון - נשתמש בו. אחרת - נשתמש בקובץ ברירת המחדל
+  const chosenSrc = (b.logoDataUrl && b.logoDataUrl.length > 50) 
+                    ? b.logoDataUrl 
+                    : DEFAULT_LOGO_URL;
 
-  // Save defaults once (optional, harmless)
-  try { saveBrand(b); } catch {}
+  document.querySelectorAll("[data-brand='logo']").forEach(img => {
+    // הסתרת הלוגו עד לטעינה כדי למנוע הבהוב של "תמונה שבורה"
+    img.style.display = "none";
+    
+    img.onload = function() {
+      this.style.display = "block";
+      // אם הלוגו נטען בהצלחה, נסתיר את טקסט הגיבוי
+      const fallback = this.parentElement.querySelector(".fallback");
+      if (fallback) fallback.style.display = "none";
+    };
+
+    img.onerror = function() {
+      // אם התמונה לא נמצאה, נציג טקסט גיבוי
+      this.style.display = "none";
+      const fallback = this.parentElement.querySelector(".fallback");
+      if (fallback) fallback.style.display = "block";
+      console.warn("Logo failed to load:", chosenSrc);
+    };
+
+    img.src = chosenSrc;
+  });
 }
 
 document.addEventListener("DOMContentLoaded", applyBrandToPage);
