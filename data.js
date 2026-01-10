@@ -1,9 +1,10 @@
 /* data.js
    FULL REPLACEMENT
    - SC Tree Updated:
-     1. Added NEW direct Client (1631).
-     2. Updated existing direct Client to 2561.
-     3. Total Score updated accordingly.
+     1. Client 1 (Direct): Updated to 2561 PV.
+     2. Client 2 (New): Added with 1631 PV.
+     3. Layout: Clients grouped on the left, Partners on the right.
+     4. Total PV updated to 26,240.
 */
 
 window.RANKS = [
@@ -217,55 +218,55 @@ window.RANK_TREES = {
       { from: "right_top", to: "right_bot" }
     ],
     notes: [
-      "<span style='color:#dc2626; font-weight:bold; font-size:1.1em;'>שים לב: יש לעמוד ביעדים אלו במשך חודשיים רצופים לקבלת הדרגה!</span>",
+      "<span style='color:#dc2626; font-weight:bold; font-size:1.1em;'>שים לב: יש לעמוד ביעדים אלו במשך חודשיים רצופים!</span>",
       "<b>סה\"כ נקודות:</b> 12,090 (היעד: 12,000).",
       "<b>בונוס צפוי:</b> 1,200 ₪ (400 חודש א' + 800 חודש ב')."
     ]
   },
 
-  // === SALES COORDINATOR (SC) - UPDATED ===
+  // === SALES COORDINATOR (SC) - WITH 2 CLIENTS ===
   sales_coordinator: {
     title: "עץ התקדמות – Sales Coordinator (SC)",
     description: "סימולציה מותאמת (כולל תוספת לקוחות ישירים).",
     highlightId: "you",
     nodes: [
-      // דור 0: אתה
-      { id: "you", label: "אתה (SC)", code: "SC", pv: 1245, totalVal: "סה״כ: 26,240", generation: 0, column: 2 },
+      // דור 0: אתה (במרכז - עמודה 3)
+      { id: "you", label: "אתה (SC)", code: "SC", pv: 1245, totalVal: "סה״כ: 26,240", generation: 0, column: 3 },
 
-      // --- ענף 1: לקוח ישיר (עודכן ל-2561) ---
+      // --- עמודה 0: לקוח ישיר (2561) ---
       { id: "leg1_client", label: "לקוח ישיר", code: "Client", pv: 2561, generation: 1, column: 0 },
 
-      // --- ענף 2: זכיין 1631 ---
-      { id: "leg2_top", label: "זכיין", code: "P", pv: 1631, generation: 1, column: 1 },
-      { id: "leg2_bot", label: "זכיין", code: "P", pv: 2561, generation: 2, column: 1 },
+      // --- עמודה 1: לקוח חדש (1631) - ליד הלקוח הקודם ---
+      { id: "leg_new_client", label: "לקוח נוסף", code: "Client", pv: 1631, generation: 1, column: 1 },
 
-      // --- ענף 3: זכיין 1631 ---
-      { id: "leg3_top", label: "זכיין", code: "P", pv: 1631, generation: 1, column: 2 },
-      { id: "leg3_bot", label: "זכיין", code: "P", pv: 2561, generation: 2, column: 2 },
+      // --- עמודה 2: זכיין 1631 ---
+      { id: "leg2_top", label: "זכיין", code: "P", pv: 1631, generation: 1, column: 2 },
+      { id: "leg2_bot", label: "זכיין", code: "P", pv: 2561, generation: 2, column: 2 },
 
-      // --- ענף 4: זכיין 930 ---
-      { id: "leg4_top", label: "זכיין", code: "P", pv: 930, generation: 1, column: 3 },
+      // --- עמודה 4: זכיין 1631 ---
+      { id: "leg3_top", label: "זכיין", code: "P", pv: 1631, generation: 1, column: 4 },
+      { id: "leg3_bot", label: "זכיין", code: "P", pv: 2561, generation: 2, column: 4 },
 
-      // --- ענף 5: P+ 4300 ---
-      { id: "leg5_top", label: "זכיין (P+)", code: "P+", pv: 4300, generation: 1, column: 4 },
-      { id: "leg5_mid_client", label: "לקוח", code: "Client", pv: 436, generation: 2, column: 3.8 },
-      { id: "leg5_mid_p", label: "זכיין", code: "P", pv: 2561, generation: 2, column: 4.2 },
-      { id: "leg5_bot_p", label: "זכיין", code: "P", pv: 2561, generation: 3, column: 4.2 },
+      // --- עמודה 5: זכיין 930 ---
+      { id: "leg4_top", label: "זכיין", code: "P", pv: 930, generation: 1, column: 5 },
 
-      // --- ענף 6: זכיין 2561 ---
-      { id: "leg6_top", label: "זכיין", code: "P", pv: 2561, generation: 1, column: 5 },
+      // --- עמודה 6: P+ 4300 ---
+      { id: "leg5_top", label: "זכיין (P+)", code: "P+", pv: 4300, generation: 1, column: 6 },
+      { id: "leg5_mid_client", label: "לקוח", code: "Client", pv: 436, generation: 2, column: 5.8 },
+      { id: "leg5_mid_p", label: "זכיין", code: "P", pv: 2561, generation: 2, column: 6.2 },
+      { id: "leg5_bot_p", label: "זכיין", code: "P", pv: 2561, generation: 3, column: 6.2 },
 
-      // --- לקוח חדש נוסף (1631) ---
-      { id: "leg7_new_client", label: "לקוח נוסף", code: "Client", pv: 1631, generation: 1, column: 6 }
+      // --- עמודה 7: זכיין 2561 ---
+      { id: "leg6_top", label: "זכיין", code: "P", pv: 2561, generation: 1, column: 7 }
     ],
     edges: [
       { from: "you", to: "leg1_client" },
+      { from: "you", to: "leg_new_client" }, // חיבור לקוח חדש
       { from: "you", to: "leg2_top" },
       { from: "you", to: "leg3_top" },
       { from: "you", to: "leg4_top" },
       { from: "you", to: "leg5_top" },
       { from: "you", to: "leg6_top" },
-      { from: "you", to: "leg7_new_client" },
       // עומק
       { from: "leg2_top", to: "leg2_bot" },
       { from: "leg3_top", to: "leg3_bot" },
@@ -278,7 +279,7 @@ window.RANK_TREES = {
       "<b>סה\"כ נקודות מעודכן:</b> 26,240 (התקרבות ליעד של 28,000).",
       "<b>בונוס דרגה כולל:</b> 3,600 ₪.",
       "<b>חלוקת תשלום:</b> 1,200 ₪ בחודש הראשון + 2,400 ₪ בחודש השני.",
-      "<b>עדכונים:</b> נוספה לקוחה חדשה (1,631) והוגדל לקוח קיים ל-2,561."
+      "<b>עדכונים:</b> נוספה לקוחה חדשה (1,631) והוגדל הלקוח הקיים ל-2,561."
     ]
   },
 
