@@ -1,7 +1,7 @@
 /* data.js
    FULL REPLACEMENT
-   - Includes custom trees for Partner Plus & Senior Partner
-   - Supports text coloring in notes
+   - Updated Senior Partner tree to show FULL DEPTH (Generation 2)
+   - Matches the manual sketch exactly
 */
 
 window.RANKS = [
@@ -46,7 +46,7 @@ window.RANKS = [
   },
   {
     id: "qssc",
-    title: "Qualifying Senior Sales Coordinator",
+    title: "QUALIFYING SENIOR SALES COORDINATOR",
     intro: "שלב מעבר: עמידה בדרישות QSSC לפני SSC. דורש עקביות על פני חודשים.",
     videoUrl: "https://youtu.be/ru06kEc9kqE?si=9yvL3LZ5Qm80YEak",
     bullets: [
@@ -72,7 +72,7 @@ window.RANKS = [
   },
   {
     id: "qnmd",
-    title: "Qualifying National Marketing Director",
+    title: "QUALIFYING NATIONAL MARKETING DIRECTOR",
     intro: "שלב מעבר לקראת NMD: עמידה בדרישות לאורך מס' חודשים.",
     videoUrl: "https://youtu.be/W8Wm_c4kMUo?si=sRYcBXB5K67s3CgE",
     bullets: [
@@ -168,38 +168,55 @@ window.RANK_TREES = {
       { from: "you", to: "right" }
     ],
     notes: [
-      "PV בכל כרטיס משקף את הנקודות שסימנת בעיגול אדום בשרטוט."
+      "PV בכל כרטיס משקף את הנקודות שסימנת בעיגול אדום.",
+      "זהו עץ דרגה P+ בלבד."
     ]
   },
 
   senior_partner: {
     title: "עץ התקדמות – Senior Partner (SP)",
-    description: "סימולציה מבוססת על השרטוט הידני (סה\"כ 12,090 נקודות).",
+    description: "תרשים מלא הכולל את פירוט הנקודות בדור השני (לפי השרטוט הידני).",
     highlightId: "you",
     nodes: [
-      // Root: You (Total Group PV)
-      { id: "you", label: "אתה (SP)", code: "SP", pv: 12090, generation: 0, column: 1 },
+      // --- דור 0: אתה ---
+      // Column 2 (Middle)
+      { id: "you", label: "אתה (P+)", code: "P+", pv: 12090, generation: 0, column: 2 },
       
-      // Left Leg (Partner) - Generation 1, Left
-      { id: "left", label: "זכיין (שמאל)", code: "P", pv: 4192, generation: 1, column: 0 },
+      // --- דור 1: 3 רגליים ---
       
-      // Middle Leg (Direct Customer/Personal) - Generation 1, Middle
-      { id: "mid", label: "לקוח/אישי", code: "Client", pv: 2561, generation: 1, column: 1 },
+      // רגל שמאל (סה"כ 4192) - Column 0
+      { id: "left_top", label: "זכיין P", code: "P", pv: 4192, generation: 1, column: 0 },
       
-      // Right Leg (Partner) - Generation 1, Right
-      { id: "right", label: "זכיין (ימין)", code: "P", pv: 2776, generation: 1, column: 2 }
+      // רגל אמצע (לקוח אישי) - Column 2
+      { id: "mid_top", label: "לקוח אישי", code: "Client", pv: 2561, generation: 1, column: 2 },
+      
+      // רגל ימין (סה"כ 2776) - Column 4
+      { id: "right_top", label: "זכיין P", code: "P", pv: 2776, generation: 1, column: 4 },
+
+      // --- דור 2: הפירוט למטה ---
+
+      // מתחת לרגל שמאל: 1631 נקודות
+      { id: "left_bot", label: "לקוח/הזמנה", code: "Order", pv: 1631, generation: 2, column: 0 },
+
+      // מתחת לרגל ימין: 1145 נקודות (חישוב לפי השרטוט: 2776 פחות 1631 = 1145)
+      { id: "right_bot", label: "לקוח/הזמנה", code: "Order", pv: 1145, generation: 2, column: 4 }
     ],
     edges: [
-      { from: "you", to: "left" },
-      { from: "you", to: "mid" },
-      { from: "you", to: "right" }
+      // חיבורים מהראש לדור 1
+      { from: "you", to: "left_top" },
+      { from: "you", to: "mid_top" },
+      { from: "you", to: "right_top" },
+      
+      // חיבורים מדור 1 לדור 2 (העמקה)
+      { from: "left_top", to: "left_bot" },
+      { from: "right_top", to: "right_bot" }
     ],
     notes: [
       "<b>סה\"כ נקודות פרומו שהושגו:</b> 12,090 (היעד: 12,000).",
       "<b>ניקוד אישי (אתה + לקוחות):</b> <span style='color:#16a34a; font-weight:bold;'>5,122</span> (מעל המינימום הנדרש של 4,000).",
-      "<b>חוק ה-50% (מקסימום מרגל):</b> הרגל החזקה היא 4,192, שזה מתחת לתקרה של 6,000 - <span style='color:#16a34a; font-weight:bold;'>תקין.</span>",
-      "<b>פירוט רגל שמאל:</b> 2,561 + 1,631 = 4,192.",
-      "<b>פירוט רגל ימין:</b> 1,631 + 1,145 = 2,776."
+      "<b>חוק ה-50% (מקסימום מרגל):</b> הרגל החזקה (שמאל) היא 4,192, שזה מתחת לתקרה של 6,000 - <span style='color:#16a34a; font-weight:bold;'>תקין.</span>",
+      "<b>פירוט רגל שמאל:</b> 2,561 (אישי של הזכיין) + 1,631 (מהזמנה למטה) = 4,192.",
+      "<b>פירוט רגל ימין:</b> 1,631 (אישי של הזכיין) + 1,145 (מהזמנה למטה) = 2,776."
     ]
   },
 
