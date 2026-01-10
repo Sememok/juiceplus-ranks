@@ -1,5 +1,5 @@
 /* =========================
-   rank-tree.js – REVERT TO RIGHT SIDE
+   rank-tree.js – HARDCODED POSITION FIX
    ========================= */
 
 (function () {
@@ -72,25 +72,27 @@
       }
       node.appendChild(meta);
 
-      // === REVERT TO RIGHT SIDE ===
+      // === התיקון האגרסיבי: הגדרת מיקום ישירות ב-JS ===
       if (n.totalVal) {
         const totalBadge = el("div", "treeTotal", n.totalVal);
-        // Force styling to ensure it sits top-right but visible
-        totalBadge.style.cssText = `
-          position: absolute;
-          top: -22px !important;   /* הוקפץ מעט מעל הירוק */
-          right: -5px !important;  /* צד ימין */
-          left: auto !important;
-          background: #2563eb;
-          color: #fff;
-          font-size: 0.7rem;
-          font-weight: 800;
-          padding: 3px 8px;
-          border-radius: 20px;
-          box-shadow: 0 2px 4px rgba(37,99,235,0.3);
-          z-index: 20;
-          white-space: nowrap;
-        `;
+        
+        // אנחנו דורסים כל CSS חיצוני ומגדירים את המיקום כאן ועכשיו
+        totalBadge.style.position = "absolute";
+        totalBadge.style.top = "-25px";      // גובה בטוח מעל הקוביה
+        totalBadge.style.right = "-5px";     // צד ימין של הקוביה
+        totalBadge.style.left = "auto";      // ביטול הצמדה לשמאל
+        
+        // עיצוב הבועה
+        totalBadge.style.background = "#2563eb";
+        totalBadge.style.color = "#fff";
+        totalBadge.style.fontSize = "0.75rem";
+        totalBadge.style.fontWeight = "800";
+        totalBadge.style.padding = "4px 10px";
+        totalBadge.style.borderRadius = "20px";
+        totalBadge.style.boxShadow = "0 2px 5px rgba(37,99,235,0.3)";
+        totalBadge.style.zIndex = "100";
+        totalBadge.style.whiteSpace = "nowrap";
+
         node.appendChild(totalBadge);
       }
 
