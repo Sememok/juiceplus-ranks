@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>דרגה</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css?v=999" />
 </head>
 
 <body>
@@ -55,7 +55,7 @@
       <div class="print-only-qr">
         <div class="yt-frame">
           <div class="yt-label">סרטון הדרכה</div>
-          <img id="printQR" class="yt-qr-img" src="" alt="QR">
+          <img id="printQR" class="yt-qr-img" src="" alt="QR" style="max-width:100px; height:auto;">
           <div class="yt-sub">סרוק לצפייה בוידאו</div>
         </div>
       </div>
@@ -128,7 +128,7 @@
       // === QR IMAGE LOGIC ===
       const qrImg = document.getElementById("printQR");
       if(qrImg) {
-        // אם התמונה נשברת (קובץ חסר), טען QR רגיל במקום
+        // מנגנון הגנה: אם ה-PNG חסר, טען QR אוטומטי
         qrImg.onerror = function() {
             this.onerror = null; 
             this.src = qrUrl(rank.videoUrl);
