@@ -11,25 +11,28 @@
   <header class="topbar">
     <div class="topbar-inner">
       <div class="brand-left">
-        <a class="btn ghost" href="index.html">חזרה</a>
+        <div class="brand-logo">
+          <img data-brand="logo" alt="לוגו" style="display:none">
+          <span class="fallback" data-brand="logoFallback">LOGO</span>
+        </div>
+        <a class="btn ghost" href="index.html">חזרה לראשי</a>
         <button class="btn primary" onclick="window.print()">הדפס</button>
       </div>
 
       <div class="brand-center">
-        <div class="brand-title">המסע המשותף שלנו</div>
-        <div class="brand-sub">מדריך דרגות + סרטונים</div>
-      </div>
-
-      <div class="brand-right">
-        <!-- IMPORTANT: logo path fixed to root file -->
-        <img id="brandLogo" class="brand-logo" alt="logo" src="ourway.jpg"
-             onerror="this.style.display='none'; document.getElementById('logoFallback').style.display='block';" />
-        <div id="logoFallback" style="display:none; font-weight:800;">LOGO</div>
+        <div class="brand-title" data-brand="groupName">המסע המשותף שלנו</div>
+        <div class="brand-sub" data-brand="tagline">מדריך דרגות</div>
       </div>
     </div>
   </header>
 
   <main class="container">
+    
+    <nav class="rank-nav-container">
+      <div class="rank-nav-label">מעבר מהיר לדרגה:</div>
+      <div id="rankNav" class="rank-nav-buttons"></div>
+    </nav>
+
     <section class="card">
       <h1 id="rankTitle" class="rankTitle">דרגה</h1>
       <p id="rankIntro" class="rankIntro"></p>
@@ -54,6 +57,7 @@
     </section>
   </main>
 
+  <script src="brand-core.js"></script>
   <script src="data.js"></script>
   <script src="rank-tree.js"></script>
 
@@ -82,15 +86,28 @@
       const id = getRankId();
       const rank = (window.RANKS || []).find(r => r.id === id);
 
+      // --- Build Navigation ---
+      const navContainer = document.getElementById("rankNav");
+      if (window.RANKS && navContainer) {
+        navContainer.innerHTML = "";
+        window.RANKS.forEach(r => {
+          const btn = document.createElement("a");
+          btn.className = "nav-chip";
+          if (r.id === id) btn.classList.add("active");
+          btn.href = `rank.html?id=${r.id}`;
+          btn.textContent = r.nodeCode || r.title; // Short name preferred
+          btn.title = r.title;
+          navContainer.appendChild(btn);
+        });
+      }
+
       if (!id) {
         document.getElementById("rankTitle").textContent = "שגיאה: חסר id בכתובת";
-        document.getElementById("rankIntro").textContent = "דוגמה: rank.html?id=partner_plus";
         return;
       }
 
       if (!rank) {
         document.getElementById("rankTitle").textContent = "שגיאה: דרגה לא נמצאה";
-        document.getElementById("rankIntro").textContent = "בדוק שהקישור כולל id תקין.";
         return;
       }
 
