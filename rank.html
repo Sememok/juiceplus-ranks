@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>מדריך דרגות</title>
+  <title>דרגה</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 
@@ -12,16 +12,19 @@
     <div class="topbar-inner">
       <div class="brand-left">
         <a class="btn ghost" href="index.html">חזרה</a>
-        <a class="btn primary" href="booklet.html">חוברת להדפסה</a>
+        <button class="btn primary" onclick="window.print()">הדפס</button>
       </div>
 
       <div class="brand-center">
-        <div class="brand-title" data-brand="groupName">המסע המשותף שלנו</div>
-        <div class="brand-sub" data-brand="subtitle">חוברת הדרגות – מדריך וידאו לזכיין חדש</div>
+        <div class="brand-title">המסע המשותף שלנו</div>
+        <div class="brand-sub">מדריך דרגות + סרטונים</div>
       </div>
 
       <div class="brand-right">
-        <img id="brandLogo" class="brand-logo" alt="logo" src="assets/ourway.jpg" />
+        <!-- IMPORTANT: logo path fixed to root file -->
+        <img id="brandLogo" class="brand-logo" alt="logo" src="ourway.jpg"
+             onerror="this.style.display='none'; document.getElementById('logoFallback').style.display='block';" />
+        <div id="logoFallback" style="display:none; font-weight:800;">LOGO</div>
       </div>
     </div>
   </header>
@@ -41,7 +44,7 @@
     </section>
 
     <section class="card">
-      <h2 class="sectionTitle">מה חשוב לנקודה בדרגה הזו</h2>
+      <h2 class="sectionTitle">מה חשוב בדרגה הזו</h2>
       <ul id="rankBullets" class="bullets"></ul>
     </section>
 
@@ -51,67 +54,69 @@
     </section>
   </main>
 
-  <script src="brands.js"></script>
   <script src="data.js"></script>
   <script src="rank-tree.js"></script>
 
   <script>
-    (function () {
-      function toEmbedUrl(youtubeUrl) {
-        if (!youtubeUrl) return "";
-        // supports youtu.be/ID or youtube.com/watch?v=ID
+    function getRankId() {
+      return new URLSearchParams(location.search).get("id");
+    }
+
+    function toEmbedUrl(youtubeUrl) {
+      if (!youtubeUrl) return "";
+      try {
+        const u = new URL(youtubeUrl);
         let id = "";
-        try {
-          const u = new URL(youtubeUrl);
-          if (u.hostname.includes("youtu.be")) {
-            id = u.pathname.replace("/", "");
-          } else {
-            id = u.searchParams.get("v") || "";
-          }
-        } catch (e) {
-          return "";
+        if (u.hostname.includes("youtu.be")) {
+          id = u.pathname.replace("/", "");
+        } else {
+          id = u.searchParams.get("v") || "";
         }
         return id ? ("https://www.youtube.com/embed/" + id) : "";
+      } catch (e) {
+        return "";
+      }
+    }
+
+    function initRankPage() {
+      const id = getRankId();
+      const rank = (window.RANKS || []).find(r => r.id === id);
+
+      if (!id) {
+        document.getElementById("rankTitle").textContent = "שגיאה: חסר id בכתובת";
+        document.getElementById("rankIntro").textContent = "דוגמה: rank.html?id=partner_plus";
+        return;
       }
 
-      function getRankId() {
-        return new URLSearchParams(location.search).get("id");
+      if (!rank) {
+        document.getElementById("rankTitle").textContent = "שגיאה: דרגה לא נמצאה";
+        document.getElementById("rankIntro").textContent = "בדוק שהקישור כולל id תקין.";
+        return;
       }
 
-      function initRankPage() {
-        const id = getRankId();
-        const rank = (window.RANKS || []).find(r => r.id === id);
-        if (!rank) {
-          document.getElementById("rankTitle").textContent = "שגיאה: דרגה לא נמצאה";
-          return;
-        }
+      document.title = rank.title;
+      document.getElementById("rankTitle").textContent = rank.title;
+      document.getElementById("rankIntro").textContent = rank.intro || "";
 
-        document.getElementById("rankTitle").textContent = rank.title;
-        document.getElementById("rankIntro").textContent = rank.intro || "";
+      const iframe = document.getElementById("rankVideo");
+      const embed = toEmbedUrl(rank.videoUrl);
+      iframe.src = embed;
 
-        const embed = toEmbedUrl(rank.videoUrl);
-        const iframe = document.getElementById("rankVideo");
-        iframe.src = embed;
+      const linkBox = document.getElementById("rankVideoLink");
+      linkBox.innerHTML = rank.videoUrl
+        ? `קישור לסרטון: <a href="${rank.videoUrl}" target="_blank" rel="noopener">${rank.videoUrl}</a>`
+        : "לא הוגדר סרטון לדרגה זו.";
 
-        const linkBox = document.getElementById("rankVideoLink");
-        linkBox.innerHTML = rank.videoUrl
-          ? `קישור לסרטון: <a href="${rank.videoUrl}" target="_blank" rel="noopener">${rank.videoUrl}</a>`
-          : "";
+      const ul = document.getElementById("rankBullets");
+      ul.innerHTML = "";
+      (rank.bullets || []).forEach(b => {
+        const li = document.createElement("li");
+        li.textContent = b;
+        ul.appendChild(li);
+      });
+    }
 
-        const ul = document.getElementById("rankBullets");
-        ul.innerHTML = "";
-        (rank.bullets || []).forEach(b => {
-          const li = document.createElement("li");
-          li.textContent = b;
-          ul.appendChild(li);
-        });
-
-        // apply branding (existing behavior)
-        if (window.applyBranding) window.applyBranding();
-      }
-
-      document.addEventListener("DOMContentLoaded", initRankPage);
-    })();
+    document.addEventListener("DOMContentLoaded", initRankPage);
   </script>
 </body>
 </html>
