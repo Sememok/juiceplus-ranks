@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>דרגה</title>
-  <link rel="stylesheet" href="style.css?v=QR_FIX_FINAL" />
+  <link rel="stylesheet" href="style.css?v=FINAL_VISIBLE" />
 </head>
 
 <body>
@@ -68,8 +68,9 @@
   </main>
 
   <script src="brand-core.js"></script>
-  <script src="data.js"></script>
-  <script src="rank-tree.js"></script>
+  
+  <script src="data.js?v=P_PLUS_FIX"></script>
+  <script src="rank-tree.js?v=P_PLUS_FIX"></script>
 
   <script>
     function getRankId() {
@@ -90,10 +91,8 @@
       } catch (e) { return ""; }
     }
 
-    // === תיקון: שימוש בשרת QR אמין (goqr.me / qrserver) ===
     function qrUrl(text){
       const t = encodeURIComponent(text || "");
-      // שירות יציב ומודרני
       return `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${t}`;
     }
 
@@ -127,10 +126,8 @@
       const embed = toEmbedUrl(rank.videoUrl);
       iframe.src = embed;
 
-      // יצירת ה-QR
       const qrImg = document.getElementById("printQR");
       if(qrImg) {
-        // שימוש ישיר בקישור הוידאו ליצירת QR חי
         qrImg.src = qrUrl(rank.videoUrl);
       }
 
