@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>חוברת להדפסה</title>
-  <link rel="stylesheet" href="style.css?v=2026" />
+  <link rel="stylesheet" href="style.css?v=QR_FIX" />
 </head>
 
 <body class="print-booklet">
@@ -50,7 +50,7 @@
 
     function qrUrl(text){
       const t = encodeURIComponent(text || "");
-      return `https://chart.googleapis.com/chart?cht=qr&chs=150x150&chld=M|0&chl=${t}`;
+      return `https://chart.googleapis.com/chart?cht=qr&chs=300x300&chld=M|0&chl=${t}`;
     }
 
     function escapeHtml(str) {
@@ -81,7 +81,7 @@
                     <div class="treeLabel">${n.label||""}</div>
                 </div>
                 ${n.pv ? `<div class="treeMeta">PV: <b>${n.pv}</b></div>` : ""}
-                ${n.totalVal ? `<div class="treeTotal" style="position:absolute; top:-18px !important; right:-10px !important; left:auto !important; background:#2563eb; color:#fff; padding:4px 10px; border-radius:20px; font-size:0.75em; font-weight:800;">${n.totalVal}</div>` : ""}
+                ${n.totalVal ? `<div class="treeTotal" style="position:absolute; top:-22px !important; right:-5px !important; left:auto !important; background:#2563eb; color:#fff; padding:4px 10px; border-radius:20px; font-size:0.75em; font-weight:800;">${n.totalVal}</div>` : ""}
             `;
             layer.appendChild(node);
         });
@@ -100,10 +100,8 @@
 
     if (Array.isArray(window.RANKS)) {
       window.RANKS.forEach((rank, idx) => {
+        // Force auto-generated QR based on video URL
         let imgSrc = qrUrl(rank.videoUrl);
-        if (rank.qrFile) {
-            imgSrc = "assets/" + rank.qrFile;
-        }
 
         const page = document.createElement("section");
         page.className = "card booklet-page";
@@ -124,12 +122,7 @@
             <div class="print-only-qr" style="display:flex !important; justify-content:flex-end;">
               <div class="yt-frame">
                 <div class="yt-label">סרטון הדרכה</div>
-                <img class="yt-qr-img" 
-                     src="${imgSrc}" 
-                     alt="QR"
-                     onerror="this.onerror=null; this.src='${qrUrl(rank.videoUrl)}';"
-                     style="max-width:100px; height:auto;"
-                >
+                <img class="yt-qr-img" src="${imgSrc}" alt="QR" style="max-width:100px; height:auto;">
                 <div class="yt-sub">סרוק לצפייה</div>
               </div>
             </div>
