@@ -1,286 +1,330 @@
-:root{
-  --bg:#f3f5f9;
-  --card:#ffffff;
-  --text:#0f172a;
-  --muted:#475569;
-  --line:#e2e8f0;
-  --brand:#16a34a;
-  --shadow:0 10px 25px rgba(2,6,23,.08);
+:root {
+  --bg: #f8fafc;
+  --card: #ffffff;
+  --text: #1e293b;
+  --muted: #64748b;
+  --line: #e2e8f0;
+  --brand: #16a34a;
+  --brand-hover: #15803d;
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+  --radius: 12px;
 }
 
-*{box-sizing:border-box}
-html,body{height:100%}
-body{
-  margin:0;
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,"Noto Sans Hebrew",sans-serif;
-  background:var(--bg);
-  color:var(--text);
+* { box-sizing: border-box; }
+
+html, body { height: 100%; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
 }
 
-a{color:inherit}
-.container{
-  width:min(1100px,92vw);
-  margin:24px auto 60px;
+/* === תיקון קריטי: מניעת תמונות ענק === */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
 
-.topbar{
-  background:var(--card);
-  border-bottom:1px solid var(--line);
-  position:sticky;
-  top:0;
-  z-index:20;
-}
-.topbar-inner{
-  width:min(1100px,92vw);
-  margin:0 auto;
-  padding:12px 0;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-}
-.brand-left{display:flex; gap:10px; align-items:center}
-.brand-center{text-align:center; line-height:1.2}
-.brand-title{font-weight:800}
-.brand-sub{color:var(--muted); font-size:13px; margin-top:3px}
-.brand-right{display:flex; align-items:center; justify-content:flex-end}
-.brand-logo{
-  width:44px;
-  height:44px;
-  object-fit:cover;
-  border-radius:10px;
-  border:1px solid var(--line);
-  background:#fff;
-}
-
-.btn{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  padding:10px 14px;
-  border-radius:12px;
-  border:1px solid var(--line);
-  background:#fff;
-  font-weight:700;
-  text-decoration:none;
-  cursor:pointer;
-}
-.btn.primary{
-  background:var(--brand);
-  border-color:var(--brand);
-  color:#fff;
-}
-.btn.ghost{
-  background:#fff;
-}
-
-.card{
-  background:var(--card);
-  border:1px solid var(--line);
-  border-radius:18px;
-  padding:18px 18px;
-  box-shadow:var(--shadow);
-  margin:16px 0;
-}
-.sectionTitle{
-  margin:0 0 12px;
-  font-size:20px;
-}
-.rankTitle{
-  margin:0 0 8px;
-  font-size:28px;
-}
-.rankIntro{
-  margin:0;
-  color:var(--muted);
-  line-height:1.6;
-}
-
-.videoWrap{
-  border-radius:16px;
-  overflow:hidden;
-  border:1px solid var(--line);
-  background:#000;
-}
-.videoFrame{
-  width:100%;
-  aspect-ratio:16/9;
-  border:0;
-  display:block;
-}
-.videoLink{
-  margin-top:10px;
-  color:var(--muted);
-  font-size:13px;
-  word-break:break-all;
-}
-
-.bullets{margin:0; padding-right:18px; color:var(--text)}
-.bullets li{margin:8px 0; line-height:1.6}
+a { color: inherit; text-decoration: none; }
 
 /* =========================
-   TREE – layout + print A4
+   LAYOUT & HEADER
    ========================= */
 
-.treeError{
-  padding:14px;
-  border:1px dashed #ef4444;
-  border-radius:14px;
-  color:#991b1b;
-  background:#fff1f2;
+.container {
+  width: min(1000px, 94vw);
+  margin: 30px auto 80px;
 }
 
-.treeWrap{margin-top:10px}
-.treeHeader{margin-bottom:12px}
-.treeTitle{font-weight:900; font-size:18px}
-.treeDesc{color:var(--muted); margin-top:4px; line-height:1.5}
-
-.treeCanvas{
-  position:relative;
-  border:1px solid var(--line);
-  border-radius:16px;
-  background:#fff;
-  padding:18px;
-  overflow:hidden;
+.topbar {
+  background: rgba(255, 255, 255, 0.95);
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(5px);
 }
 
-.treeNodesLayer{
-  position:relative;
-  display:grid;
-  grid-template-columns: repeat(var(--cols), minmax(180px, 1fr));
-  gap:18px 24px;
-  align-items:start;
+.topbar-inner {
+  width: min(1000px, 94vw);
+  margin: 0 auto;
+  padding: 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
 }
 
-.treeEdges{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  pointer-events:none;
+.brand-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  overflow: hidden;
 }
 
-.treeEdgePath{
-  fill:none;
-  stroke:#94a3b8;
-  stroke-width:3;
-  stroke-linecap:round;
+.brand-logo {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: #fff;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.treeNode{
-  position:relative;
-  background:#ffffff;
-  border:1px solid var(--line);
-  border-radius:16px;
-  padding:14px;
-  min-height:110px;
-  box-shadow:0 8px 18px rgba(2,6,23,.06);
+.brand-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.treeNodeTop{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  margin-bottom:10px;
+.fallback {
+  font-size: 10px;
+  font-weight: 900;
+  color: var(--muted);
+  text-align: center;
+  display: none;
 }
 
-.treeBadge{
-  min-width:56px;
-  height:34px;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  border-radius:12px;
-  border:1px solid var(--line);
-  font-weight:900;
-  background:#f8fafc;
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
 }
 
-.treeLabel{
-  font-weight:800;
+.brand-text h1, .brand-title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  margin: 0;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.treeMeta{
-  display:flex;
-  gap:12px;
-  color:var(--muted);
-  font-size:13px;
+.tagline, .brand-sub {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.treePV .k{font-weight:800; color:#0f172a}
-.treePV .v{font-weight:900}
+.brand-center { display: none; }
+@media (min-width: 768px) {
+  .brand-center { display: block; text-align: center; }
+}
 
-/* עיצוב חדש לסיכום הכולל בצד */
+.actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* =========================
+   UI ELEMENTS
+   ========================= */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: #fff;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  color: var(--text);
+  white-space: nowrap;
+}
+.btn:hover { background: #f1f5f9; }
+.btn.primary { background: var(--brand); border-color: var(--brand); color: #fff; }
+.btn.primary:hover { background: var(--brand-hover); }
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 20px;
+}
+
+/* =========================
+   NAVIGATION CHIPS
+   ========================= */
+.rank-nav-container { margin-bottom: 20px; padding: 0 10px; }
+.rank-nav-label { font-size: 0.85rem; color: var(--muted); margin-bottom: 6px; font-weight: 700; }
+.rank-nav-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
+.nav-chip {
+  background: #fff; border: 1px solid var(--line); padding: 6px 12px;
+  border-radius: 20px; font-size: 0.85rem; font-weight: 600;
+  transition: all 0.2s; color: var(--text);
+}
+.nav-chip:hover { border-color: var(--brand); background: #f0fdf4; }
+.nav-chip.active { background: var(--brand); color: #fff; border-color: var(--brand); }
+
+/* =========================
+   RANK PAGE ELEMENTS
+   ========================= */
+.rankTitle { font-size: 1.8rem; font-weight: 800; color: var(--brand); margin: 0 0 10px; }
+.sectionTitle { font-size: 1.2rem; font-weight: 700; margin: 0 0 12px; }
+
+.videoWrap {
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: #000;
+}
+.videoFrame { width: 100%; aspect-ratio: 16/9; border: 0; display: block; }
+.videoLink { margin-top: 10px; font-size: 0.85rem; color: var(--muted); text-align: center; }
+
+/* הסתרת ה-QR במסך רגיל (חשוב מאוד!) */
+.print-only-qr { display: none !important; }
+
+/* Preview בבחירת מיתוג */
+.preview img { max-width: 100%; max-height: 200px; object-fit: contain; margin: 0 auto; }
+.input { width: 100%; padding: 10px; border: 1px solid var(--line); border-radius: 8px; }
+
+/* =========================
+   TREE STYLES
+   ========================= */
+.treeCanvas {
+  position: relative;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 30px;
+  overflow-x: auto;
+}
+.treeNodesLayer {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--cols), minmax(140px, 1fr)); /* רוחב עמודה גמיש */
+  gap: 40px 20px; /* מרווח בין שורות / עמודות */
+  z-index: 2;
+  justify-items: center; /* מירכוז */
+}
+.treeEdges { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+.treeEdgePath { fill: none; stroke: #cbd5e1; stroke-width: 2px; }
+
+.treeNode {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px;
+  min-height: 90px;
+  min-width: 130px; /* רוחב מינימלי לכרטיס */
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.treeNode.isHere { border: 2px solid var(--brand); background: #f0fdf4; }
+
+.treeHere {
+  position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
+  background: var(--brand); color: #fff; font-size: 0.7rem; padding: 2px 8px;
+  border-radius: 10px; font-weight: bold; white-space: nowrap; z-index: 10;
+}
+
+/* הבועה החדשה של הסכום הכולל */
 .treeTotal {
   position: absolute;
-  top: -12px;
-  right: -12px; /* בועה בולטת בצד */
-  background: #2563eb; /* כחול בולט */
+  top: -10px;
+  left: -10px; /* צד שמאל למעלה (או ימין, לפי העדפה) */
+  background: #2563eb;
   color: #fff;
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 800;
   padding: 4px 10px;
-  border-radius: 99px;
-  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+  border-radius: 20px;
+  box-shadow: 0 2px 5px rgba(37, 99, 235, 0.3);
   white-space: nowrap;
   z-index: 5;
 }
 
-.treeNode.isHere{
-  border:2px solid var(--brand);
-  box-shadow:0 12px 24px rgba(22,163,74,.18);
-}
+.treeNodeTop { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; border-bottom: 1px dashed #e2e8f0; padding-bottom: 6px; }
+.treeBadge { background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-weight: 800; font-size: 0.75rem; }
+.treeLabel { font-weight: 600; font-size: 0.85rem; }
+.treeMeta { font-size: 0.8rem; color: var(--muted); }
+.treePV span.v { font-weight: 800; color: #000; }
 
-.treeHere{
-  position:absolute;
-  top:-10px;
-  left:10px;
-  background:var(--brand);
-  color:#fff;
-  font-weight:900;
-  font-size:11px;
-  padding:4px 8px;
-  border-radius:999px;
-}
-
-.treeNotes{
-  margin-top:12px;
-  border-top:1px solid var(--line);
-  padding-top:12px;
-}
-.treeNotesTitle{font-weight:900; margin-bottom:6px}
-.treeNotesList{margin:0; padding-right:18px; color:var(--muted)}
-.treeNotesList li{margin:6px 0; line-height:1.6}
+.treeNotes { margin-top: 20px; padding: 16px; background: #f8fafc; border-top: 1px solid var(--line); font-size: 0.9rem; }
+.treeNotesTitle { font-weight: 700; color: var(--muted); margin-bottom: 6px; }
 
 /* =========================
-   PRINT (A4)
+   PRINT STYLES (A4 + Layout)
    ========================= */
-@media print{
-  body{background:#fff}
-  .topbar, .btn { display:none !important; }
-  .container{width:100%; margin:0}
-  .card{
-    box-shadow:none;
-    border:0;
-    border-radius:0;
-    padding:0;
-    margin:0 0 18px;
+@media print {
+  @page { size: A4; margin: 10mm; }
+  body { background: #fff; color: #000; font-size: 11pt; }
+
+  /* הסתרת אלמנטים לא רצויים */
+  .topbar, .btn, .videoWrap, .videoLink, .rank-nav-container, .print-hide {
+    display: none !important;
   }
-  .treeCanvas{
-    border:1px solid #000;
-    border-radius:0;
-    padding:12px;
+
+  .container { width: 100%; margin: 0; max-width: none; }
+  .card { box-shadow: none; border: 0; padding: 0; margin-bottom: 15px; break-inside: avoid; }
+
+  /* סידור הדף: טקסט מימין, QR משמאל */
+  #rankPrintLayout {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+    align-items: start;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
   }
-  .treeEdgePath{stroke:#111}
-  .treeNode{box-shadow:none}
-  .treeTotal {
-    border: 1px solid #000;
-    color: #000;
+  
+  .rank-text-area { grid-column: 1; }
+
+  /* הצגת ה-QR רק בהדפסה */
+  .print-only-qr {
+    display: flex !important; /* דורס את ה-display:none */
+    justify-content: flex-end;
+    grid-column: 2;
+  }
+
+  /* מסגרת אדומה ל-QR */
+  .yt-frame {
+    width: 180px;
+    border: 3px solid #ff0000;
+    border-radius: 12px;
+    padding: 10px;
+    text-align: center;
+    position: relative;
     background: #fff;
   }
-}
+  .yt-frame::before {
+    content: "▶"; display: block; color: #ff0000;
+    font-size: 24px; line-height: 1; margin-bottom: 5px;
+  }
+  .yt-qr-img { width: 100px; height: 100px; display: block; margin: 0 auto; }
+  .yt-label { font-weight: 800; font-size: 10pt; color: #000; margin-top: 5px; }
+  .yt-sub { font-size: 8pt; color: #666; }
 
-@page{
-  size:A4;
-  margin:12mm;
+  /* התאמת העץ להדפסה */
+  .treeCanvas { border: 1px solid #000; padding: 10px; }
+  .treeNodesLayer { gap: 15px; }
+  .treeNode { border: 1px solid #000; box-shadow: none; min-height: auto; }
+  .treeEdgePath { stroke: #000; stroke-width: 1px; }
+  .treeTotal { border: 1px solid #000; background: #fff; color: #000; }
+  
+  /* טיפול בחוברת */
+  .booklet-page { page-break-after: always; display: block; }
 }
