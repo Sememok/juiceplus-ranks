@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>דרגה</title>
-  <link rel="stylesheet" href="style.css?v=999" />
+  <link rel="stylesheet" href="style.css?v=2026" />
 </head>
 
 <body>
@@ -125,10 +125,8 @@
       const embed = toEmbedUrl(rank.videoUrl);
       iframe.src = embed;
 
-      // === QR IMAGE LOGIC ===
       const qrImg = document.getElementById("printQR");
       if(qrImg) {
-        // מנגנון הגנה: אם ה-PNG חסר, טען QR אוטומטי
         qrImg.onerror = function() {
             this.onerror = null; 
             this.src = qrUrl(rank.videoUrl);
