@@ -1,6 +1,6 @@
 /* data.js
    FULL REPLACEMENT
-   - Updated all qrFile extensions to .png
+   - Updated Senior Partner tree based on manual diagram
 */
 
 window.RANKS = [
@@ -153,7 +153,7 @@ window.RANKS = [
 window.RANK_TREES = {
   partner_plus: {
     title: "עץ התקדמות – Partner Plus (P+)",
-    description: "מותאם לפי הדוגמה מהבק־אופיס + השרטוט הידני שלך.",
+    description: "מותאם לפי הדוגמה מהבק־אופיס + השרטוט הידני שלך (כולל נקודות בעיגול אדום).",
     highlightId: "you",
     nodes: [
       { id: "you",   label: "אתה",     code: "P+", pv: 866,  generation: 0, column: 1 },
@@ -168,18 +168,48 @@ window.RANK_TREES = {
     ],
     notes: [
       "PV בכל כרטיס משקף את הנקודות שסימנת בעיגול אדום.",
-      "זהו עץ דרגה P+ בלבד; לכל דרגה אחרת נחליף בהמשך לפי השרטוטים שתעלה."
+      "זהו עץ דרגה P+ בלבד."
     ]
   },
-  // שאר העצים כתבניות (למניעת שגיאות עד שתעלה שרטוטים)
-  senior_partner: { title: "עץ התקדמות – SP", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"SP"}], edges:[], notes:[] },
-  sales_coordinator: { title: "עץ התקדמות – SC", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"SC"}], edges:[], notes:[] },
-  qssc: { title: "עץ התקדמות – QSSC", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"QSSC"}], edges:[], notes:[] },
-  ssc: { title: "עץ התקדמות – SSC", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"SSC"}], edges:[], notes:[] },
-  qnmd: { title: "עץ התקדמות – QNMD", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"QNMD"}], edges:[], notes:[] },
-  nmd: { title: "עץ התקדמות – NMD", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"NMD"}], edges:[], notes:[] },
-  imd: { title: "עץ התקדמות – IMD", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"IMD"}], edges:[], notes:[] },
-  emd: { title: "עץ התקדמות – EMD", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"EMD"}], edges:[], notes:[] },
-  pmd: { title: "עץ התקדמות – PMD", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"PMD"}], edges:[], notes:[] },
-  pmd_plus: { title: "עץ התקדמות – PMD+", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"PMD+"}], edges:[], notes:[] }
+
+  senior_partner: {
+    title: "עץ התקדמות – Senior Partner (SP)",
+    description: "סימולציה מבוססת על השרטוט הידני (סה\"כ 12,090 נקודות).",
+    highlightId: "you",
+    nodes: [
+      // Root: You (Total Group PV)
+      { id: "you", label: "אתה (SP)", code: "SP", pv: 12090, generation: 0, column: 1 },
+      
+      // Left Leg (Partner)
+      { id: "left", label: "זכיין (קו שמאל)", code: "P", pv: 4192, generation: 1, column: 0 },
+      
+      // Middle Leg (Direct Customer - Part of Personal PV)
+      { id: "mid", label: "לקוח אישי", code: "Client", pv: 2561, generation: 1, column: 1 },
+      
+      // Right Leg (Partner)
+      { id: "right", label: "זכיין (קו ימין)", code: "P", pv: 2776, generation: 1, column: 2 }
+    ],
+    edges: [
+      { from: "you", to: "left" },
+      { from: "you", to: "mid" },
+      { from: "you", to: "right" }
+    ],
+    notes: [
+      "<b>סה\"כ נקודות פרומו שהושגו:</b> 12,090 (היעד: 12,000).",
+      "<b>ניקוד אישי (אתה + לקוחות):</b> <span style='color:#16a34a; font-weight:bold;'>5,122</span> (מעל המינימום הנדרש של 4,000).",
+      "<b>חוק ה-50% (מקסימום מרגל):</b> הרגל החזקה ביותר היא 4,192, שזה מתחת לתקרה של 6,000 - <span style='color:#16a34a'>תקין.</span>",
+      "פירוט רגל שמאל: 2,561 + 1,631 = 4,192.",
+      "פירוט רגל ימין: 1,631 + 1,145 = 2,776."
+    ]
+  },
+
+  sales_coordinator: { title: "עץ התקדמות – SC (תבנית זמנית)", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"SC"}], edges:[], notes:["תבנית זמנית – נבנה מדויק לאחר שרטוט."] },
+  qssc: { title: "עץ התקדמות – QSSC (תבנית זמנית)", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"QSSC"}], edges:[], notes:["תבנית זמנית – נבנה מדויק לאחר שרטוט."] },
+  ssc: { title: "עץ התקדמות – SSC (תבנית זמנית)", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"SSC"}], edges:[], notes:["תבנית זמנית – נבנה מדויק לאחר שרטוט."] },
+  qnmd: { title: "עץ התקדמות – QNMD (תבנית זמנית)", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"QNMD"}], edges:[], notes:["תבנית זמנית – נבנה מדויק לאחר שרטוט."] },
+  nmd: { title: "עץ התקדמות – NMD (תבנית זמנית)", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"NMD"}], edges:[], notes:["תבנית זמנית – נבנה מדויק לאחר שרטוט."] },
+  imd: { title: "עץ התקדמות – IMD (תבנית זמנית)", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"IMD"}], edges:[], notes:["תבנית זמנית – נבנה מדויק לאחר שרטוט."] },
+  emd: { title: "עץ התקדמות – EMD (תבנית זמנית)", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"EMD"}], edges:[], notes:["תבנית זמנית – נבנה מדויק לאחר שרטוט."] },
+  pmd: { title: "עץ התקדמות – PMD (תבנית זמנית)", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"PMD"}], edges:[], notes:["תבנית זמנית – נבנה מדויק לאחר שרטוט."] },
+  pmd_plus: { title: "עץ התקדמות – PMD+ (תבנית זמנית)", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"PMD+"}], edges:[], notes:["תבנית זמנית – נבנה מדויק לאחר שרטוט."] }
 };
