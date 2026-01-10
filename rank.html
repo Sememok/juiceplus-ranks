@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>דרגה</title>
-  <link rel="stylesheet" href="style.css?v=SC_CLIENTS" />
+  <link rel="stylesheet" href="style.css?v=FIX_NOW" />
 </head>
 
 <body>
@@ -61,6 +61,94 @@
       </div>
     </div>
 
+    <section class="card">
+      <h2 class="sectionTitle">עץ התקדמות לדרגה</h2>
+      <div id="rankTreeMount"></div>
+    </section>
+  </main>
+
+  <script src="brand-core.js"></script>
+  
+  <script src="data.js?v=FIX_NOW"></script>
+  <script src="rank-tree.js?v=FIX_NOW"></script>
+
+  <script>
+    function getRankId() {
+      return new URLSearchParams(location.search).get("id");
+    }
+
+    function toEmbedUrl(youtubeUrl) {
+      if (!youtubeUrl) return "";
+      try {
+        const u = new URL(youtubeUrl);
+        let id = "";
+        if (u.hostname.includes("youtu.be")) {
+          id = u.pathname.replace("/", "");
+        } else {
+          id = u.searchParams.get("v") || "";
+        }
+        return id ? ("https://www.youtube.com/embed/" + id) : "";
+      } catch (e) { return ""; }
+    }
+
+    function qrUrl(text){
+      const t = encodeURIComponent(text || "");
+      return `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${t}`;
+    }
+
+    function initRankPage() {
+      const id = getRankId();
+      const rank = (window.RANKS || []).find(r => r.id === id);
+
+      const navContainer = document.getElementById("rankNav");
+      if (window.RANKS && navContainer) {
+        navContainer.innerHTML = "";
+        window.RANKS.forEach(r => {
+          const btn = document.createElement("a");
+          btn.className = "nav-chip";
+          if (r.id === id) btn.classList.add("active");
+          btn.href = `rank.html?id=${r.id}`;
+          btn.textContent = r.nodeCode || r.title;
+          navContainer.appendChild(btn);
+        });
+      }
+
+      if (!id || !rank) {
+        document.getElementById("rankTitle").textContent = "דרגה לא נמצאה";
+        return;
+      }
+
+      document.title = rank.title;
+      document.getElementById("rankTitle").textContent = rank.title;
+      document.getElementById("rankIntro").textContent = rank.intro || "";
+
+      const iframe = document.getElementById("rankVideo");
+      const embed = toEmbedUrl(rank.videoUrl);
+      iframe.src = embed;
+
+      const qrImg = document.getElementById("printQR");
+      if(qrImg) {
+        qrImg.src = qrUrl(rank.videoUrl);
+      }
+
+      const linkBox = document.getElementById("rankVideoLink");
+      linkBox.innerHTML = rank.videoUrl
+        ? `קישור לסרטון: <a href="${rank.videoUrl}" target="_blank" rel="noopener">${rank.videoUrl}</a>`
+        : "לא הוגדר סרטון.";
+
+      const ul = document.getElementById("rankBullets");
+      ul.innerHTML = "";
+      (rank.bullets || []).forEach(b => {
+        const li = document.createElement("li");
+        li.textContent = b;
+        ul.appendChild(li);
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", initRankPage);
+  </script>
+</body>
+</html>
     <section class="card">
       <h2 class="sectionTitle">עץ התקדמות לדרגה</h2>
       <div id="rankTreeMount"></div>
@@ -149,3 +237,4 @@
   </script>
 </body>
 </html>
+
