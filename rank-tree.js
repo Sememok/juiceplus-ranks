@@ -73,16 +73,14 @@
       }
       node.appendChild(meta);
 
-      // === FORCE FIX: INLINE STYLES FOR TOTAL BADGE ===
       if (n.totalVal) {
         const totalBadge = el("div", "treeTotal", n.totalVal);
-        // אנו מגדירים את המיקום ישירות בקוד כדי לעקוף בעיות Cache של CSS
-        // מיקום: צד ימין למעלה, בתוך הכרטיס, לא חופף לירוק
+        // Force override styles for positioning
         totalBadge.style.cssText = `
           position: absolute;
-          top: -12px;
-          right: -5px;
-          left: auto;
+          top: -50px !important;  /* הוקפץ משמעותית */
+          right: -10px !important;
+          left: auto !important;
           background: #2563eb;
           color: #fff;
           font-size: 0.7rem;
