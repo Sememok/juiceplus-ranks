@@ -1,7 +1,9 @@
 /* data.js
    FULL REPLACEMENT
-   - Includes precise SC Tree based on the hand-drawn sketch (6 branches from root).
-   - Includes correct Bonus Tables for all ranks.
+   - SC Tree Updated:
+     1. Added NEW direct Client (1631).
+     2. Updated existing direct Client to 2561.
+     3. Total Score updated accordingly.
 */
 
 window.RANKS = [
@@ -215,53 +217,55 @@ window.RANK_TREES = {
       { from: "right_top", to: "right_bot" }
     ],
     notes: [
-      "<span style='color:#dc2626; font-weight:bold; font-size:1.1em;'>שים לב: יש לעמוד ביעדים אלו במשך חודשיים רצופים!</span>",
+      "<span style='color:#dc2626; font-weight:bold; font-size:1.1em;'>שים לב: יש לעמוד ביעדים אלו במשך חודשיים רצופים לקבלת הדרגה!</span>",
       "<b>סה\"כ נקודות:</b> 12,090 (היעד: 12,000).",
       "<b>בונוס צפוי:</b> 1,200 ₪ (400 חודש א' + 800 חודש ב')."
     ]
   },
 
-  // === SALES COORDINATOR (SC) - EXACT SKETCH MATCH ===
+  // === SALES COORDINATOR (SC) - UPDATED ===
   sales_coordinator: {
     title: "עץ התקדמות – Sales Coordinator (SC)",
-    description: "סימולציה מבוססת שרטוט ידני (סה\"כ 22,934 נקודות).",
+    description: "סימולציה מותאמת (כולל תוספת לקוחות ישירים).",
     highlightId: "you",
     nodes: [
-      // דור 0: אתה (1245) - 6 עמודות רוחב
-      { id: "you", label: "אתה (SC)", code: "SC", pv: 1245, totalVal: "סה״כ: 22,934", generation: 0, column: 2 },
+      // דור 0: אתה
+      { id: "you", label: "אתה (SC)", code: "SC", pv: 1245, totalVal: "סה״כ: 26,240", generation: 0, column: 2 },
 
-      // --- ענף 1 (שמאל): לקוח 256 ---
-      { id: "leg1_client", label: "לקוח", code: "Client", pv: 256, generation: 1, column: 0 },
+      // --- ענף 1: לקוח ישיר (עודכן ל-2561) ---
+      { id: "leg1_client", label: "לקוח ישיר", code: "Client", pv: 2561, generation: 1, column: 0 },
 
-      // --- ענף 2: זכיין 1631 -> זכיין 2561 ---
+      // --- ענף 2: זכיין 1631 ---
       { id: "leg2_top", label: "זכיין", code: "P", pv: 1631, generation: 1, column: 1 },
       { id: "leg2_bot", label: "זכיין", code: "P", pv: 2561, generation: 2, column: 1 },
 
-      // --- ענף 3: זכיין 1631 -> זכיין 2561 ---
+      // --- ענף 3: זכיין 1631 ---
       { id: "leg3_top", label: "זכיין", code: "P", pv: 1631, generation: 1, column: 2 },
       { id: "leg3_bot", label: "זכיין", code: "P", pv: 2561, generation: 2, column: 2 },
 
       // --- ענף 4: זכיין 930 ---
       { id: "leg4_top", label: "זכיין", code: "P", pv: 930, generation: 1, column: 3 },
 
-      // --- ענף 5 (החזק): P+ 4300 ---
-      // מתחתיו: לקוח 436 וזכיין 2561 שמתחתיו עוד 2561
+      // --- ענף 5: P+ 4300 ---
       { id: "leg5_top", label: "זכיין (P+)", code: "P+", pv: 4300, generation: 1, column: 4 },
-      { id: "leg5_mid_client", label: "לקוח", code: "Client", pv: 436, generation: 2, column: 3.8 }, // מוזז קצת
+      { id: "leg5_mid_client", label: "לקוח", code: "Client", pv: 436, generation: 2, column: 3.8 },
       { id: "leg5_mid_p", label: "זכיין", code: "P", pv: 2561, generation: 2, column: 4.2 },
       { id: "leg5_bot_p", label: "זכיין", code: "P", pv: 2561, generation: 3, column: 4.2 },
 
-      // --- ענף 6 (ימין): זכיין 2561 ---
-      { id: "leg6_top", label: "זכיין", code: "P", pv: 2561, generation: 1, column: 5 }
+      // --- ענף 6: זכיין 2561 ---
+      { id: "leg6_top", label: "זכיין", code: "P", pv: 2561, generation: 1, column: 5 },
+
+      // --- לקוח חדש נוסף (1631) ---
+      { id: "leg7_new_client", label: "לקוח נוסף", code: "Client", pv: 1631, generation: 1, column: 6 }
     ],
     edges: [
-      // מהראש
       { from: "you", to: "leg1_client" },
       { from: "you", to: "leg2_top" },
       { from: "you", to: "leg3_top" },
       { from: "you", to: "leg4_top" },
       { from: "you", to: "leg5_top" },
       { from: "you", to: "leg6_top" },
+      { from: "you", to: "leg7_new_client" },
       // עומק
       { from: "leg2_top", to: "leg2_bot" },
       { from: "leg3_top", to: "leg3_bot" },
@@ -271,10 +275,10 @@ window.RANK_TREES = {
     ],
     notes: [
       "<span style='color:#dc2626; font-weight:bold; font-size:1.1em;'>דרישת סף: שמירה על הדרגה למשך 2 חודשים רצופים.</span>",
-      "<b>סה\"כ נקודות בתרשים:</b> 22,934 (היעד: 28,000 בחלון של חודשיים).",
+      "<b>סה\"כ נקודות מעודכן:</b> 26,240 (התקרבות ליעד של 28,000).",
       "<b>בונוס דרגה כולל:</b> 3,600 ₪.",
       "<b>חלוקת תשלום:</b> 1,200 ₪ בחודש הראשון + 2,400 ₪ בחודש השני.",
-      "<b>מבנה:</b> ניתן לראות בבירור רגל חזקה (P+ עם 4300) ורשת רחבה של זכיינים ולקוחות."
+      "<b>עדכונים:</b> נוספה לקוחה חדשה (1,631) והוגדל לקוח קיים ל-2,561."
     ]
   },
 
