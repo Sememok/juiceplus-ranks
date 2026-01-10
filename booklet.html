@@ -43,6 +43,7 @@
 
   <script src="brand-core.js"></script>
   <script src="data.js"></script>
+
   <script>
     const pagesRoot = document.getElementById("bookletPages");
     pagesRoot.innerHTML = "";
@@ -58,12 +59,10 @@
       }[m]));
     }
     
-    // פונקציה פשוטה לציור עץ בחוברת ללא תלות בקובץ החיצוני
     function renderSimpleTree(tree, containerId) {
         if(!tree) return;
         const div = document.createElement("div");
         div.className = "treeCanvas";
-        // פריסה פשוטה
         div.style.setProperty("--cols", "3");
         
         const layer = document.createElement("div");
@@ -88,7 +87,6 @@
         
         div.appendChild(layer);
         
-        // הערות
         if (tree.notes && tree.notes.length) {
             const notes = document.createElement("div");
             notes.className = "treeNotes";
@@ -101,10 +99,14 @@
 
     if (Array.isArray(window.RANKS)) {
       window.RANKS.forEach((rank, idx) => {
+        let imgSrc = qrUrl(rank.videoUrl);
+        if (rank.qrFile) {
+            imgSrc = "assets/" + rank.qrFile;
+        }
+
         const page = document.createElement("section");
         page.className = "card booklet-page";
         
-        // שימוש במבנה הגריד החדש: טקסט מימין, QR משמאל
         page.innerHTML = `
           <div id="rankPrintLayout" style="border:none; margin-bottom:10px;">
             <div class="rank-text-area">
@@ -121,7 +123,11 @@
             <div class="print-only-qr" style="display:flex !important; justify-content:flex-end;">
               <div class="yt-frame">
                 <div class="yt-label">סרטון הדרכה</div>
-                <img class="yt-qr-img" src="${qrUrl(rank.videoUrl)}" alt="QR">
+                <img class="yt-qr-img" 
+                     src="${imgSrc}" 
+                     alt="QR"
+                     onerror="this.onerror=null; this.src='${qrUrl(rank.videoUrl)}';"
+                >
                 <div class="yt-sub">סרוק לצפייה</div>
               </div>
             </div>
@@ -138,7 +144,6 @@
         `;
         pagesRoot.appendChild(page);
 
-        // Render tree if available
         if(window.RANK_TREES && window.RANK_TREES[rank.id]) {
             renderSimpleTree(window.RANK_TREES[rank.id], `tree_booklet_${idx}`);
         }
