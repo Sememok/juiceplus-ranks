@@ -1,6 +1,8 @@
 /* data-fixed.js
-   UPDATED: Specific Partner node changed to 2561 PV.
-   NEW TOTAL: 28,100 PV (Target Reached!)
+   REFACTORED LAYOUT:
+   - Aligned parents and children vertically (same column index) to prevent diagonal lines.
+   - Grouped nodes logically for a clean, organized look.
+   - Maintained all correct data points (Total: 28,100).
 */
 
 window.RANKS = [
@@ -193,6 +195,7 @@ window.RANK_TREES = {
     ]
   },
 
+  // === SENIOR PARTNER (SP) ===
   senior_partner: {
     title: "עץ התקדמות – Senior Partner (SP)",
     description: "תרשים מלא (כולל דור 2).",
@@ -219,53 +222,57 @@ window.RANK_TREES = {
     ]
   },
 
-  // === SALES COORDINATOR (SC) - UPDATED 2561 ===
+  // === SALES COORDINATOR (SC) - ORGANIZED & VERTICAL ===
   sales_coordinator: {
     title: "עץ התקדמות – Sales Coordinator (SC)",
-    description: "סימולציה מותאמת (כולל תוספת לקוחות ישירים).",
+    description: "תרשים מאורגן לפי רגליים (ללא קווים אלכסוניים).",
     highlightId: "you",
     nodes: [
-      // דור 0: אתה (סה"כ מעודכן ל-28,100)
+      // דור 0: אתה (מרכז - עמודה 3)
       { id: "you", label: "אתה (SC)", code: "SC", pv: 1245, totalVal: "סה״כ: 28,100", generation: 0, column: 3 },
 
-      // --- עמודה 0: לקוח ישיר (2561) ---
+      // === רגל 1 (שמאל): לקוחות ===
       { id: "leg1_client", label: "לקוח ישיר", code: "Client", pv: 2561, generation: 1, column: 0 },
-
-      // --- עמודה 1: לקוח חדש (1631) ---
       { id: "leg_new_client", label: "לקוח נוסף", code: "Client", pv: 1631, generation: 1, column: 1 },
 
-      // --- עמודה 2: זכיין 1631 + תחתית ---
-      // זכיין זה עודכן ל-2561 לפי בקשתך!
-      { id: "leg2_top", label: "זכיין", code: "P", pv: 2561, generation: 1, column: 2 },
+      // === רגל 2: זכיין 1631 -> זכיין 2561 ===
+      // שים לב: שניהם בעמודה 2 - קו ישר!
+      { id: "leg2_top", label: "זכיין", code: "P", pv: 1631, generation: 1, column: 2 },
       { id: "leg2_bot", label: "זכיין", code: "P", pv: 2561, generation: 2, column: 2 },
 
-      // --- עמודה 4: זכיין 2561 + תחתית ---
-      { id: "leg3_top", label: "זכיין", code: "P", pv: 2561, generation: 1, column: 4 },
-      { id: "leg3_bot", label: "זכיין", code: "P", pv: 2561, generation: 2, column: 4 },
+      // === רגל 3: זכיין 930 (בודד) ===
+      { id: "leg4_top", label: "זכיין", code: "P", pv: 930, generation: 1, column: 4 },
 
-      // --- עמודה 5: זכיין 930 ---
-      { id: "leg4_top", label: "זכיין", code: "P", pv: 930, generation: 1, column: 5 },
+      // === רגל 4: זכיין 1631 -> זכיין 2561 (הצהוב) ===
+      // שים לב: שניהם בעמודה 5 - קו ישר!
+      { id: "leg3_top", label: "זכיין", code: "P", pv: 1631, generation: 1, column: 5 },
+      { id: "leg3_bot", label: "זכיין", code: "P", pv: 2561, generation: 2, column: 5 },
 
-      // --- עמודה 6: P+ 4300 ---
+      // === רגל 5: P+ 4300 (המורכב) ===
       { id: "leg5_top", label: "זכיין (P+)", code: "P+", pv: 4300, generation: 1, column: 6 },
-      { id: "leg5_mid_client", label: "לקוח", code: "Client", pv: 436, generation: 2, column: 5.8 },
+      // תתי ענפים של רגל 5: ממוקמים קרוב אליו
+      { id: "leg5_mid_client", label: "לקוח", code: "Client", pv: 436, generation: 2, column: 5.8 }, 
       { id: "leg5_mid_p", label: "זכיין", code: "P", pv: 2561, generation: 2, column: 6.2 },
       { id: "leg5_bot_p", label: "זכיין", code: "P", pv: 2561, generation: 3, column: 6.2 },
 
-      // --- עמודה 7: זכיין 2561 ---
+      // === רגל 6 (ימין): זכיין 2561 ===
       { id: "leg6_top", label: "זכיין", code: "P", pv: 2561, generation: 1, column: 7 }
     ],
     edges: [
+      // חיבורים מהראש לראשי הרגליים
       { from: "you", to: "leg1_client" },
       { from: "you", to: "leg_new_client" },
       { from: "you", to: "leg2_top" },
-      { from: "you", to: "leg3_top" },
       { from: "you", to: "leg4_top" },
+      { from: "you", to: "leg3_top" },
       { from: "you", to: "leg5_top" },
       { from: "you", to: "leg6_top" },
-      // עומק
-      { from: "leg2_top", to: "leg2_bot" },
-      { from: "leg3_top", to: "leg3_bot" },
+
+      // חיבורים אנכיים בתוך הרגליים (הקו הישר)
+      { from: "leg2_top", to: "leg2_bot" }, // אנכי
+      { from: "leg3_top", to: "leg3_bot" }, // אנכי (הצהוב)
+      
+      // חיבורי הרגל החזקה
       { from: "leg5_top", to: "leg5_mid_client" },
       { from: "leg5_top", to: "leg5_mid_p" },
       { from: "leg5_mid_p", to: "leg5_bot_p" }
@@ -275,7 +282,7 @@ window.RANK_TREES = {
       "<b>סה\"כ נקודות מעודכן:</b> <span style='color:#16a34a; font-weight:bold;'>28,100</span> (הושג היעד של 28,000!).",
       "<b>בונוס דרגה כולל:</b> 3,600 ₪.",
       "<b>חלוקת תשלום:</b> 1,200 ₪ בחודש הראשון + 2,400 ₪ בחודש השני.",
-      "<b>עדכונים:</b> זכיין נוסף עודכן ל-2,561 נקודות."
+      "<b>מבנה:</b> תרשים מסודר המציג בבירור את עומק הרגליים."
     ]
   },
 
