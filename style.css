@@ -65,83 +65,32 @@ a { color: inherit; text-decoration: none; }
 .videoLink { margin-top: 10px; font-size: 0.85rem; color: var(--muted); text-align: center; }
 .print-only-qr { display: none !important; }
 
-/* === NEW D3 TREE STYLES === */
+/* === D3 TREE STYLES === */
 .tree-viz-container {
-  width: 100%;
-  overflow-x: auto; /* גלילה אם העץ רחב מדי למסך */
-  text-align: center;
-  padding: 20px 0;
+  width: 100%; overflow-x: auto; text-align: center; padding: 20px 0;
 }
-
-/* קווים מחברים */
-.link {
-  fill: none;
-  stroke: #cbd5e1; /* צבע קו אפור בהיר */
-  stroke-width: 2px;
-}
-
-/* כרטיסיות העץ (SVG) */
+.link { fill: none; stroke: #cbd5e1; stroke-width: 2px; }
 .node-rect {
-  fill: #fff;
-  stroke: #e2e8f0;
-  stroke-width: 1.5px;
-  rx: 8px; /* פינות עגולות */
-  ry: 8px;
+  fill: #fff; stroke: #e2e8f0; stroke-width: 1.5px; rx: 8px; ry: 8px;
   filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.05));
 }
-
-/* כרטיס מודגש ("אתה") */
-.node-rect.is-here {
-  stroke: var(--brand);
-  stroke-width: 2.5px;
-  fill: #f0fdf4;
-}
-
-/* טקסטים בתוך הכרטיס */
-.node-code-badge {
-  font-size: 11px;
-  font-weight: 800;
-  fill: #64748b;
-}
-.node-label {
-  font-size: 14px;
-  font-weight: 700;
-  fill: #1e293b;
-}
-.node-pv {
-  font-size: 12px;
-  fill: #1e293b;
-}
-.node-pv-val {
-  font-weight: 800;
-}
-
-/* תווית "אתה כאן" מעל הכרטיס */
-.here-label-rect {
-  fill: var(--brand);
-  rx: 10px; ry: 10px;
-}
+.node-rect.is-here { stroke: var(--brand); stroke-width: 2.5px; fill: #f0fdf4; }
+.node-code-badge { font-size: 11px; font-weight: 800; fill: #64748b; }
+.node-label { font-size: 14px; font-weight: 700; fill: #1e293b; }
+.node-pv { font-size: 12px; fill: #1e293b; }
+.node-pv-val { font-weight: 800; }
+.here-label-rect { fill: var(--brand); rx: 10px; ry: 10px; }
 .here-label-text {
-  fill: #fff;
-  font-size: 11px;
-  font-weight: 700;
-  text-anchor: middle;
-  dominant-baseline: middle;
+  fill: #fff; font-size: 11px; font-weight: 700; text-anchor: middle; dominant-baseline: middle;
 }
-
-/* הערות בתחתית */
 .tree-notes-box {
-  margin-top: 20px;
-  padding: 15px;
-  background: #f8fafc;
-  border-top: 1px solid var(--line);
-  font-size: 0.9rem;
-  text-align: right;
+  margin-top: 20px; padding: 15px; background: #f8fafc; border-top: 1px solid var(--line);
+  font-size: 0.9rem; text-align: right;
 }
 
-/* === PRINT STYLES (Perfect Fit) === */
+/* === PRINT STYLES (Fixed Top Margin) === */
 @media print {
-  @page { size: A4 landscape; margin: 8mm; } /* שוליים קטנים יותר */
+  @page { size: A4 landscape; margin: 8mm; }
   body { background: #fff; color: #000; }
   .topbar, .btn, .videoWrap, .videoLink, .rank-nav-container, .no-print { display: none !important; }
   .container, .card { width: 100%; max-width: none; margin: 0; padding: 0; border: none; box-shadow: none; }
@@ -159,18 +108,14 @@ a { color: inherit; text-decoration: none; }
   .yt-frame::before { content: "▶ סרטון"; color: #d32f2f; font-weight: bold; font-size: 9pt; display: block; }
   .yt-qr-img { width: 80px; height: 80px; }
 
-  /* התאמת העץ להדפסה */
   .tree-card-container { page-break-inside: avoid; }
+  /* הוספתי ריפוד עליון של 30px כדי לדחוף את העץ למטה בהדפסה */
   .tree-viz-container { 
-    padding: 0; overflow: visible; 
-    display: flex; justify-content: center; /* מרכוז */
+    padding: 30px 0 0 0; 
+    overflow: visible; display: flex; justify-content: center; 
   }
-  /* הקטנת העץ כך שייכנס בדיוק לדף */
-  .tree-svg-content {
-     max-width: 100%;
-     height: auto;
-  }
-  .link { stroke: #999 !important; stroke-width: 1.5px !important; } /* קווים כהים יותר בהדפסה */
+  .tree-svg-content { max-width: 100%; height: auto; }
+  .link { stroke: #999 !important; stroke-width: 1.5px !important; }
   .node-rect { stroke: #000 !important; filter: none !important; }
   .node-rect.is-here { stroke-width: 3px !important; fill: #eee !important; }
   .tree-notes-box { border-top: 2px solid #eee; background: none; }
