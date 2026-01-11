@@ -1,4 +1,4 @@
-// rank-tree.js - NEW D3.js Version for Perfect Layouts
+// rank-tree.js - Final Fix for Print Top Margin
 
 document.addEventListener("DOMContentLoaded", () => {
   const rankId = new URLSearchParams(location.search).get("id");
@@ -13,10 +13,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function renderD3Tree(treeData, containerId) {
   const container = d3.select(containerId);
-  container.html(""); // ניקוי
+  container.html("");
 
-  // 1. המרת מבנה הנתונים השטוח למבנה היררכי (עץ)
-  // זה קריטי כדי ש-D3 יבין מי אבא של מי
   const dataMap = {};
   treeData.nodes.forEach(node => { dataMap[node.id] = { ...node, children: [] }; });
 
@@ -25,7 +23,6 @@ function renderD3Tree(treeData, containerId) {
     if (node.generation === 0) {
       rootNode = dataMap[node.id];
     } else {
-      // מציאת ההורה לפי הקשרים
       const edgeToParent = treeData.edges.find(e => e.to === node.id);
       if (edgeToParent && dataMap[edgeToParent.from]) {
         dataMap[edgeToParent.from].children.push(dataMap[node.id]);
@@ -38,23 +35,18 @@ function renderD3Tree(treeData, containerId) {
     return;
   }
 
-  // 2. הגדרות גודל ופריסה
   const nodeWidth = 110;
   const nodeHeight = 80;
   const horizontalGap = 30;
   const verticalGap = 80;
 
-  // יצירת היררכיה של D3
   const root = d3.hierarchy(rootNode);
-
-  // הגדרת פריסת העץ (Tree Layout)
   const treeLayout = d3.tree()
     .nodeSize([nodeWidth + horizontalGap, nodeHeight + verticalGap])
-    .separation((a, b) => (a.parent == b.parent ? 1 : 1.1)); // רווח קטן בין אחים, גדול יותר בין בני דודים
+    .separation((a, b) => (a.parent == b.parent ? 1 : 1.1));
 
   treeLayout(root);
 
-  // חישוב גבולות הציור (כדי למרכז)
   let x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
   root.each(d => {
     if (d.x < x0) x0 = d.x;
@@ -66,23 +58,22 @@ function renderD3Tree(treeData, containerId) {
   const svgWidth = x1 - x0 + nodeWidth * 2;
   const svgHeight = y1 - y0 + nodeHeight * 2;
   
-  // 3. יצירת ה-SVG
+  // הגדלת מרווח הביטחון העליון ב-viewBox מ-30 ל-60
+  const topBuffer = 60; 
+
   const svg = container.append("svg")
     .attr("width", "100%")
-    .attr("height", svgHeight + 50) // תוספת גובה להערות
-    // viewBox הופך את ה-SVG לרספונסיבי (מתאים את עצמו לגודל המסך/הדפסה)
-    .attr("viewBox", `${x0 - nodeWidth/2} ${y0 - nodeHeight/2 - 30} ${svgWidth} ${svgHeight + 50}`)
+    .attr("height", svgHeight + topBuffer + 50)
+    .attr("viewBox", `${x0 - nodeWidth/2} ${y0 - nodeHeight/2 - topBuffer} ${svgWidth} ${svgHeight + topBuffer + 50}`)
     .attr("preserveAspectRatio", "xMidYMid meet")
     .classed("tree-svg-content", true);
 
   const g = svg.append("g");
 
-  // 4. ציור הקווים (Links) - בצורת "מרפק" ישר
   g.selectAll(".link")
     .data(root.links())
     .enter().append("path")
     .attr("class", "link")
-    // פונקציה שמציירת קו למטה, ואז הצידה, ואז למטה
     .attr("d", d => {
       const start = { x: d.source.x, y: d.source.y + nodeHeight / 2 };
       const end = { x: d.target.x, y: d.target.y - nodeHeight / 2 };
@@ -90,14 +81,12 @@ function renderD3Tree(treeData, containerId) {
       return `M${start.x},${start.y} V${midY} H${end.x} V${end.y}`;
     });
 
-  // 5. ציור הבועות (Nodes)
   const node = g.selectAll(".node")
     .data(root.descendants())
     .enter().append("g")
     .attr("class", "node-group")
     .attr("transform", d => `translate(${d.x},${d.y})`);
 
-  // מלבן הרקע של הבועה
   node.append("rect")
     .attr("class", d => `node-rect ${d.data.id === treeData.highlightId ? "is-here" : ""}`)
     .attr("width", nodeWidth)
@@ -105,7 +94,6 @@ function renderD3Tree(treeData, containerId) {
     .attr("x", -nodeWidth / 2)
     .attr("y", -nodeHeight / 2);
 
-  // תווית "אתה כאן"
   const hereNodes = node.filter(d => d.data.id === treeData.highlightId);
   hereNodes.append("rect")
     .attr("class", "here-label-rect")
@@ -120,7 +108,6 @@ function renderD3Tree(treeData, containerId) {
     .attr("y", -nodeHeight / 2 - 10)
     .text("אתה כאן");
 
-  // טקסטים בתוך הבועה
   node.append("text")
     .attr("class", "node-code-badge")
     .attr("x", -nodeWidth / 2 + 8)
@@ -149,10 +136,9 @@ function renderD3Tree(treeData, containerId) {
     .style("font-weight", "bold")
     .text(d => d.data.totalVal);
 
-  // 6. הוספת הערות בתחתית
   if (treeData.notes && treeData.notes.length > 0) {
     container.append("div")
-      .attr("class", "tree-notes-box no-print") // לא להדפיס את המסגרת, רק את הטקסט
+      .attr("class", "tree-notes-box no-print")
       .html("<strong>הערות:</strong><br>" + treeData.notes.join("<br>"));
   }
 }
