@@ -1,8 +1,9 @@
 /* data-fixed.js
-   REFACTORED LAYOUT:
-   - Aligned parents and children vertically (same column index) to prevent diagonal lines.
-   - Grouped nodes logically for a clean, organized look.
-   - Maintained all correct data points (Total: 28,100).
+   FINAL CLEAN LAYOUT
+   - Organized strictly by vertical columns to prevent messy diagonal lines.
+   - Root is centered (Column 4).
+   - Legs spread out symmetrically.
+   - Includes correct PV (28,100).
 */
 
 window.RANKS = [
@@ -169,9 +170,7 @@ window.RANKS = [
   }
 ];
 
-/* Trees logic */
 window.RANK_TREES = {
-  // === PARTNER PLUS (P+) ===
   partner_plus: {
     title: "עץ התקדמות – Partner Plus (P+)",
     description: "תרשים הממחיש הגעה ליעד של 4,000 נקודות.",
@@ -188,14 +187,12 @@ window.RANK_TREES = {
       { from: "you", to: "right" }
     ],
     notes: [
-      "<b>סה\"כ נקודות שהושגו:</b> <span style='color:#16a34a; font-weight:bold;'>4,576</span> (היעד: 4,000).",
-      "<b>ניקוד אישי (אתה):</b> 866 נקודות.",
-      "<b>סטטוס:</b> הושג היעד לדרגת Partner Plus!",
-      "<b>בונוס צפוי:</b> 400 ₪ (בתשלום אחד)."
+      "<b>סה\"כ נקודות:</b> 4,576 (היעד: 4,000).",
+      "<b>ניקוד אישי:</b> 866 נקודות.",
+      "<b>סטטוס:</b> הושג היעד."
     ]
   },
 
-  // === SENIOR PARTNER (SP) ===
   senior_partner: {
     title: "עץ התקדמות – Senior Partner (SP)",
     description: "תרשים מלא (כולל דור 2).",
@@ -216,82 +213,82 @@ window.RANK_TREES = {
       { from: "right_top", to: "right_bot" }
     ],
     notes: [
-      "<span style='color:#dc2626; font-weight:bold; font-size:1.1em;'>שים לב: יש לעמוד ביעדים אלו במשך חודשיים רצופים!</span>",
       "<b>סה\"כ נקודות:</b> 12,090 (היעד: 12,000).",
-      "<b>בונוס צפוי:</b> 1,200 ₪ (400 חודש א' + 800 חודש ב')."
+      "<b>בונוס צפוי:</b> 1,200 ₪."
     ]
   },
 
-  // === SALES COORDINATOR (SC) - ORGANIZED & VERTICAL ===
+  // === SC TREE - REDESIGNED & ALIGNED ===
   sales_coordinator: {
     title: "עץ התקדמות – Sales Coordinator (SC)",
-    description: "תרשים מאורגן לפי רגליים (ללא קווים אלכסוניים).",
+    description: "תרשים מאורגן עם עמודות ישרות וברורות.",
     highlightId: "you",
     nodes: [
-      // דור 0: אתה (מרכז - עמודה 3)
-      { id: "you", label: "אתה (SC)", code: "SC", pv: 1245, totalVal: "סה״כ: 28,100", generation: 0, column: 3 },
+      // ROOT: Centered at Column 4
+      { id: "you", label: "אתה (SC)", code: "SC", pv: 1245, totalVal: "סה״כ: 28,100", generation: 0, column: 4 },
 
-      // === רגל 1 (שמאל): לקוחות ===
+      // COL 0: Clients (Stacked Vertically)
       { id: "leg1_client", label: "לקוח ישיר", code: "Client", pv: 2561, generation: 1, column: 0 },
-      { id: "leg_new_client", label: "לקוח נוסף", code: "Client", pv: 1631, generation: 1, column: 1 },
+      { id: "leg_new_client", label: "לקוח נוסף", code: "Client", pv: 1631, generation: 2, column: 0 },
 
-      // === רגל 2: זכיין 1631 -> זכיין 2561 ===
-      // שים לב: שניהם בעמודה 2 - קו ישר!
-      { id: "leg2_top", label: "זכיין", code: "P", pv: 1631, generation: 1, column: 2 },
-      { id: "leg2_bot", label: "זכיין", code: "P", pv: 2561, generation: 2, column: 2 },
+      // COL 1: Leg 2 (Straight Down)
+      { id: "leg2_top", label: "זכיין", code: "P", pv: 1631, generation: 1, column: 1 },
+      { id: "leg2_bot", label: "זכיין", code: "P", pv: 2561, generation: 2, column: 1 },
 
-      // === רגל 3: זכיין 930 (בודד) ===
-      { id: "leg4_top", label: "זכיין", code: "P", pv: 930, generation: 1, column: 4 },
+      // COL 2: Leg 3 (Straight Down)
+      { id: "leg3_top", label: "זכיין", code: "P", pv: 1631, generation: 1, column: 2 },
+      { id: "leg3_bot", label: "זכיין", code: "P", pv: 2561, generation: 2, column: 2 },
 
-      // === רגל 4: זכיין 1631 -> זכיין 2561 (הצהוב) ===
-      // שים לב: שניהם בעמודה 5 - קו ישר!
-      { id: "leg3_top", label: "זכיין", code: "P", pv: 1631, generation: 1, column: 5 },
-      { id: "leg3_bot", label: "זכיין", code: "P", pv: 2561, generation: 2, column: 5 },
+      // COL 3: Leg 4 (Single)
+      { id: "leg4_top", label: "זכיין", code: "P", pv: 930, generation: 1, column: 3 },
 
-      // === רגל 5: P+ 4300 (המורכב) ===
-      { id: "leg5_top", label: "זכיין (P+)", code: "P+", pv: 4300, generation: 1, column: 6 },
-      // תתי ענפים של רגל 5: ממוקמים קרוב אליו
-      { id: "leg5_mid_client", label: "לקוח", code: "Client", pv: 436, generation: 2, column: 5.8 }, 
-      { id: "leg5_mid_p", label: "זכיין", code: "P", pv: 2561, generation: 2, column: 6.2 },
-      { id: "leg5_bot_p", label: "זכיין", code: "P", pv: 2561, generation: 3, column: 6.2 },
+      // COL 5: Leg 5 (Strong P+) - Parent
+      { id: "leg5_top", label: "זכיין (P+)", code: "P+", pv: 4300, generation: 1, column: 5 },
+      
+      // COL 5 & 6: Children of Leg 5
+      // Client under P+ (shifted slightly right to Col 6)
+      { id: "leg5_mid_client", label: "לקוח", code: "Client", pv: 436, generation: 2, column: 6 },
+      // Partner under P+ (Straight down in Col 5)
+      { id: "leg5_mid_p", label: "זכיין", code: "P", pv: 2561, generation: 2, column: 5 },
+      // Grandchild (Straight down in Col 5)
+      { id: "leg5_bot_p", label: "זכיין", code: "P", pv: 2561, generation: 3, column: 5 },
 
-      // === רגל 6 (ימין): זכיין 2561 ===
+      // COL 7: Leg 6 (Far Right)
       { id: "leg6_top", label: "זכיין", code: "P", pv: 2561, generation: 1, column: 7 }
     ],
     edges: [
-      // חיבורים מהראש לראשי הרגליים
+      // Root to Top Nodes
       { from: "you", to: "leg1_client" },
-      { from: "you", to: "leg_new_client" },
       { from: "you", to: "leg2_top" },
-      { from: "you", to: "leg4_top" },
       { from: "you", to: "leg3_top" },
+      { from: "you", to: "leg4_top" },
       { from: "you", to: "leg5_top" },
       { from: "you", to: "leg6_top" },
 
-      // חיבורים אנכיים בתוך הרגליים (הקו הישר)
-      { from: "leg2_top", to: "leg2_bot" }, // אנכי
-      { from: "leg3_top", to: "leg3_bot" }, // אנכי (הצהוב)
+      // Vertical Connections (Same Column)
+      { from: "leg1_client", to: "leg_new_client" }, // Client stack
+      { from: "leg2_top", to: "leg2_bot" },
+      { from: "leg3_top", to: "leg3_bot" },
       
-      // חיבורי הרגל החזקה
-      { from: "leg5_top", to: "leg5_mid_client" },
+      // Strong Leg Connections
       { from: "leg5_top", to: "leg5_mid_p" },
+      { from: "leg5_top", to: "leg5_mid_client" },
       { from: "leg5_mid_p", to: "leg5_bot_p" }
     ],
     notes: [
       "<span style='color:#dc2626; font-weight:bold; font-size:1.1em;'>דרישת סף: שמירה על הדרגה למשך 2 חודשים רצופים.</span>",
       "<b>סה\"כ נקודות מעודכן:</b> <span style='color:#16a34a; font-weight:bold;'>28,100</span> (הושג היעד של 28,000!).",
       "<b>בונוס דרגה כולל:</b> 3,600 ₪.",
-      "<b>חלוקת תשלום:</b> 1,200 ₪ בחודש הראשון + 2,400 ₪ בחודש השני.",
-      "<b>מבנה:</b> תרשים מסודר המציג בבירור את עומק הרגליים."
+      "<b>חלוקת תשלום:</b> 1,200 ₪ בחודש הראשון + 2,400 ₪ בחודש השני."
     ]
   },
 
-  qssc: { title: "עץ התקדמות – QSSC (תבנית זמנית)", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"QSSC"}], edges:[], notes:["תבנית זמנית – נבנה מדויק לאחר שרטוט."] },
-  ssc: { title: "עץ התקדמות – SSC (תבנית זמנית)", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"SSC"}], edges:[], notes:["תבנית זמנית – נבנה מדויק לאחר שרטוט."] },
-  qnmd: { title: "עץ התקדמות – QNMD (תבנית זמנית)", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"QNMD"}], edges:[], notes:["תבנית זמנית – נבנה מדויק לאחר שרטוט."] },
-  nmd: { title: "עץ התקדמות – NMD (תבנית זמנית)", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"NMD"}], edges:[], notes:["תבנית זמנית – נבנה מדויק לאחר שרטוט."] },
-  imd: { title: "עץ התקדמות – IMD (תבנית זמנית)", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"IMD"}], edges:[], notes:["תבנית זמנית – נבנה מדויק לאחר שרטוט."] },
-  emd: { title: "עץ התקדמות – EMD (תבנית זמנית)", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"EMD"}], edges:[], notes:["תבנית זמנית – נבנה מדויק לאחר שרטוט."] },
-  pmd: { title: "עץ התקדמות – PMD (תבנית זמנית)", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"PMD"}], edges:[], notes:["תבנית זמנית – נבנה מדויק לאחר שרטוט."] },
-  pmd_plus: { title: "עץ התקדמות – PMD+ (תבנית זמנית)", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"PMD+"}], edges:[], notes:["תבנית זמנית – נבנה מדויק לאחר שרטוט."] }
+  qssc: { title: "עץ התקדמות – QSSC", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"QSSC"}], edges:[], notes:["תבנית זמנית."] },
+  ssc: { title: "עץ התקדמות – SSC", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"SSC"}], edges:[], notes:["תבנית זמנית."] },
+  qnmd: { title: "עץ התקדמות – QNMD", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"QNMD"}], edges:[], notes:["תבנית זמנית."] },
+  nmd: { title: "עץ התקדמות – NMD", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"NMD"}], edges:[], notes:["תבנית זמנית."] },
+  imd: { title: "עץ התקדמות – IMD", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"IMD"}], edges:[], notes:["תבנית זמנית."] },
+  emd: { title: "עץ התקדמות – EMD", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"EMD"}], edges:[], notes:["תבנית זמנית."] },
+  pmd: { title: "עץ התקדמות – PMD", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"PMD"}], edges:[], notes:["תבנית זמנית."] },
+  pmd_plus: { title: "עץ התקדמות – PMD+", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"PMD+"}], edges:[], notes:["תבנית זמנית."] }
 };
