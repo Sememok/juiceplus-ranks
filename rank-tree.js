@@ -1,193 +1,158 @@
-/* =========================
-   rank-tree.js – HARDCODED POSITION FIX
-   ========================= */
+// rank-tree.js - NEW D3.js Version for Perfect Layouts
 
-(function () {
-  function el(tag, cls, text, isHtml = false) {
-    const e = document.createElement(tag);
-    if (cls) e.className = cls;
-    if (text !== undefined && text !== null) {
-      if (isHtml) e.innerHTML = text;
-      else e.textContent = text;
-    }
-    return e;
+document.addEventListener("DOMContentLoaded", () => {
+  const rankId = new URLSearchParams(location.search).get("id");
+  if (!rankId || !window.RANK_TREES || !window.RANK_TREES[rankId]) {
+    document.getElementById("rankTreeMount").innerHTML = "<p>לא נמצא נתוני עץ לדרגה זו.</p>";
+    return;
   }
 
-  function getRankIdFromUrl() {
-    const params = new URLSearchParams(location.search);
-    return params.get("id");
-  }
+  const treeDataRaw = window.RANK_TREES[rankId];
+  renderD3Tree(treeDataRaw, "#rankTreeMount");
+});
 
-  function getRankById(id) {
-    if (!window.RANKS) return null;
-    return window.RANKS.find(r => r.id === id) || null;
-  }
+function renderD3Tree(treeData, containerId) {
+  const container = d3.select(containerId);
+  container.html(""); // ניקוי
 
-  function renderTree(tree, mount) {
-    mount.innerHTML = "";
+  // 1. המרת מבנה הנתונים השטוח למבנה היררכי (עץ)
+  // זה קריטי כדי ש-D3 יבין מי אבא של מי
+  const dataMap = {};
+  treeData.nodes.forEach(node => { dataMap[node.id] = { ...node, children: [] }; });
 
-    const wrap = el("div", "treeWrap");
-    const header = el("div", "treeHeader");
-
-    header.appendChild(el("div", "treeTitle", tree.title || "עץ התקדמות"));
-    if (tree.description) header.appendChild(el("div", "treeDesc", tree.description));
-    wrap.appendChild(header);
-
-    const canvas = el("div", "treeCanvas");
-    canvas.style.setProperty("--cols", String(getMaxCols(tree.nodes)));
-    canvas.style.setProperty("--rows", String(getMaxRows(tree.nodes)));
-    wrap.appendChild(canvas);
-
-    const nodesLayer = el("div", "treeNodesLayer");
-    canvas.appendChild(nodesLayer);
-
-    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    svg.setAttribute("class", "treeEdges");
-    canvas.appendChild(svg);
-
-    const nodeEls = new Map();
-    tree.nodes.forEach(n => {
-      const node = el("div", "treeNode");
-      node.dataset.nodeId = n.id;
-
-      if (tree.highlightId && n.id === tree.highlightId) node.classList.add("isHere");
-
-      node.style.gridRow = String((n.generation ?? 0) + 1);
-      node.style.gridColumn = String((n.column ?? 0) + 1);
-
-      const top = el("div", "treeNodeTop");
-      const badge = el("div", "treeBadge", n.code || "");
-      const label = el("div", "treeLabel", n.label || "");
-      top.appendChild(badge);
-      top.appendChild(label);
-
-      node.appendChild(top);
-
-      const meta = el("div", "treeMeta");
-      if (n.pv !== undefined && n.pv !== null) {
-        const pv = el("div", "treePV", "", true);
-        const val = String(n.pv).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        pv.innerHTML = `<span class="k">PV</span> <span class="v">${val}</span>`;
-        meta.appendChild(pv);
+  let rootNode = null;
+  treeData.nodes.forEach(node => {
+    if (node.generation === 0) {
+      rootNode = dataMap[node.id];
+    } else {
+      // מציאת ההורה לפי הקשרים
+      const edgeToParent = treeData.edges.find(e => e.to === node.id);
+      if (edgeToParent && dataMap[edgeToParent.from]) {
+        dataMap[edgeToParent.from].children.push(dataMap[node.id]);
       }
-      node.appendChild(meta);
-
-      // === התיקון האגרסיבי: הגדרת מיקום ישירות ב-JS ===
-      if (n.totalVal) {
-        const totalBadge = el("div", "treeTotal", n.totalVal);
-        
-        // אנחנו דורסים כל CSS חיצוני ומגדירים את המיקום כאן ועכשיו
-        totalBadge.style.position = "absolute";
-        totalBadge.style.top = "-25px";      // גובה בטוח מעל הקוביה
-        totalBadge.style.right = "-5px";     // צד ימין של הקוביה
-        totalBadge.style.left = "auto";      // ביטול הצמדה לשמאל
-        
-        // עיצוב הבועה
-        totalBadge.style.background = "#2563eb";
-        totalBadge.style.color = "#fff";
-        totalBadge.style.fontSize = "0.75rem";
-        totalBadge.style.fontWeight = "800";
-        totalBadge.style.padding = "4px 10px";
-        totalBadge.style.borderRadius = "20px";
-        totalBadge.style.boxShadow = "0 2px 5px rgba(37,99,235,0.3)";
-        totalBadge.style.zIndex = "100";
-        totalBadge.style.whiteSpace = "nowrap";
-
-        node.appendChild(totalBadge);
-      }
-
-      if (tree.highlightId && n.id === tree.highlightId) {
-        const here = el("div", "treeHere", "אתה כאן");
-        node.appendChild(here);
-      }
-
-      nodesLayer.appendChild(node);
-      nodeEls.set(n.id, node);
-    });
-
-    requestAnimationFrame(() => {
-      drawEdges(tree, svg, canvas, nodeEls);
-    });
-
-    if (Array.isArray(tree.notes) && tree.notes.length) {
-      const notes = el("div", "treeNotes");
-      const ttl = el("div", "treeNotesTitle", "הערות / ניתוח מצב");
-      notes.appendChild(ttl);
-      const ul = el("ul", "treeNotesList");
-      tree.notes.forEach(t => ul.appendChild(el("li", "", t, true)));
-      notes.appendChild(ul);
-      wrap.appendChild(notes);
     }
+  });
 
-    mount.appendChild(wrap);
+  if (!rootNode) {
+    container.html("<p>שגיאה במבנה העץ (לא נמצא שורש).</p>");
+    return;
   }
 
-  function getMaxCols(nodes) {
-    let m = 1;
-    nodes.forEach(n => {
-      const c = (n.column ?? 0) + 1;
-      if (c > m) m = c;
+  // 2. הגדרות גודל ופריסה
+  const nodeWidth = 110;
+  const nodeHeight = 80;
+  const horizontalGap = 30;
+  const verticalGap = 80;
+
+  // יצירת היררכיה של D3
+  const root = d3.hierarchy(rootNode);
+
+  // הגדרת פריסת העץ (Tree Layout)
+  const treeLayout = d3.tree()
+    .nodeSize([nodeWidth + horizontalGap, nodeHeight + verticalGap])
+    .separation((a, b) => (a.parent == b.parent ? 1 : 1.1)); // רווח קטן בין אחים, גדול יותר בין בני דודים
+
+  treeLayout(root);
+
+  // חישוב גבולות הציור (כדי למרכז)
+  let x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
+  root.each(d => {
+    if (d.x < x0) x0 = d.x;
+    if (d.x > x1) x1 = d.x;
+    if (d.y < y0) y0 = d.y;
+    if (d.y > y1) y1 = d.y;
+  });
+
+  const svgWidth = x1 - x0 + nodeWidth * 2;
+  const svgHeight = y1 - y0 + nodeHeight * 2;
+  
+  // 3. יצירת ה-SVG
+  const svg = container.append("svg")
+    .attr("width", "100%")
+    .attr("height", svgHeight + 50) // תוספת גובה להערות
+    // viewBox הופך את ה-SVG לרספונסיבי (מתאים את עצמו לגודל המסך/הדפסה)
+    .attr("viewBox", `${x0 - nodeWidth/2} ${y0 - nodeHeight/2 - 30} ${svgWidth} ${svgHeight + 50}`)
+    .attr("preserveAspectRatio", "xMidYMid meet")
+    .classed("tree-svg-content", true);
+
+  const g = svg.append("g");
+
+  // 4. ציור הקווים (Links) - בצורת "מרפק" ישר
+  g.selectAll(".link")
+    .data(root.links())
+    .enter().append("path")
+    .attr("class", "link")
+    // פונקציה שמציירת קו למטה, ואז הצידה, ואז למטה
+    .attr("d", d => {
+      const start = { x: d.source.x, y: d.source.y + nodeHeight / 2 };
+      const end = { x: d.target.x, y: d.target.y - nodeHeight / 2 };
+      const midY = (start.y + end.y) / 2;
+      return `M${start.x},${start.y} V${midY} H${end.x} V${end.y}`;
     });
-    return Math.max(m, 1);
+
+  // 5. ציור הבועות (Nodes)
+  const node = g.selectAll(".node")
+    .data(root.descendants())
+    .enter().append("g")
+    .attr("class", "node-group")
+    .attr("transform", d => `translate(${d.x},${d.y})`);
+
+  // מלבן הרקע של הבועה
+  node.append("rect")
+    .attr("class", d => `node-rect ${d.data.id === treeData.highlightId ? "is-here" : ""}`)
+    .attr("width", nodeWidth)
+    .attr("height", nodeHeight)
+    .attr("x", -nodeWidth / 2)
+    .attr("y", -nodeHeight / 2);
+
+  // תווית "אתה כאן"
+  const hereNodes = node.filter(d => d.data.id === treeData.highlightId);
+  hereNodes.append("rect")
+    .attr("class", "here-label-rect")
+    .attr("width", 60)
+    .attr("height", 20)
+    .attr("x", -30)
+    .attr("y", -nodeHeight / 2 - 20);
+  
+  hereNodes.append("text")
+    .attr("class", "here-label-text")
+    .attr("x", 0)
+    .attr("y", -nodeHeight / 2 - 10)
+    .text("אתה כאן");
+
+  // טקסטים בתוך הבועה
+  node.append("text")
+    .attr("class", "node-code-badge")
+    .attr("x", -nodeWidth / 2 + 8)
+    .attr("y", -nodeHeight / 2 + 18)
+    .text(d => d.data.code || "");
+
+  node.append("text")
+    .attr("class", "node-label")
+    .attr("x", 0)
+    .attr("y", 0)
+    .attr("text-anchor", "middle")
+    .text(d => d.data.label);
+
+  node.append("text")
+    .attr("class", "node-pv")
+    .attr("x", 0)
+    .attr("y", 20)
+    .attr("text-anchor", "middle")
+    .html(d => d.data.pv ? `PV: <tspan class="node-pv-val">${d.data.pv.toLocaleString()}</tspan>` : "");
+
+  node.filter(d => d.data.totalVal).append("text")
+    .attr("class", "node-pv")
+    .attr("x", 0)
+    .attr("y", 35)
+    .attr("text-anchor", "middle")
+    .style("font-weight", "bold")
+    .text(d => d.data.totalVal);
+
+  // 6. הוספת הערות בתחתית
+  if (treeData.notes && treeData.notes.length > 0) {
+    container.append("div")
+      .attr("class", "tree-notes-box no-print") // לא להדפיס את המסגרת, רק את הטקסט
+      .html("<strong>הערות:</strong><br>" + treeData.notes.join("<br>"));
   }
-
-  function getMaxRows(nodes) {
-    let m = 1;
-    nodes.forEach(n => {
-      const r = (n.generation ?? 0) + 1;
-      if (r > m) m = r;
-    });
-    return Math.max(m, 1);
-  }
-
-  function drawEdges(tree, svg, canvas, nodeEls) {
-    while (svg.firstChild) svg.removeChild(svg.firstChild);
-    const cRect = canvas.getBoundingClientRect();
-
-    function centerOf(nodeEl) {
-      const r = nodeEl.getBoundingClientRect();
-      const x = (r.left + r.right) / 2 - cRect.left;
-      const y = (r.top + r.bottom) / 2 - cRect.top;
-      return { x, y };
-    }
-
-    tree.edges.forEach(e => {
-      const fromEl = nodeEls.get(e.from);
-      const toEl = nodeEls.get(e.to);
-      if (!fromEl || !toEl) return;
-
-      const a = centerOf(fromEl);
-      const b = centerOf(toEl);
-
-      const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-      path.setAttribute("class", "treeEdgePath");
-      const midY = (a.y + b.y) / 2;
-      const d = `M ${a.x} ${a.y} C ${a.x} ${midY}, ${b.x} ${midY}, ${b.x} ${b.y}`;
-      path.setAttribute("d", d);
-      svg.appendChild(path);
-    });
-
-    svg.setAttribute("viewBox", `0 0 ${cRect.width} ${cRect.height}`);
-    svg.setAttribute("preserveAspectRatio", "none");
-  }
-
-  function init() {
-    const mount = document.getElementById("rankTreeMount");
-    if (!mount) return;
-    const rankId = getRankIdFromUrl();
-    if (!rankId) return;
-    const rank = getRankById(rankId);
-    if (!rank) {
-      mount.innerHTML = `<div class="treeError">שגיאה: דרגה לא נמצאה (id=${rankId}).</div>`;
-      return;
-    }
-    const tree = window.RANK_TREES ? window.RANK_TREES[rankId] : null;
-    if (!tree) {
-      mount.innerHTML = `<div class="treeError">טרם הוגדר עץ לדרגה זו.</div>`;
-      return;
-    }
-    renderTree(tree, mount);
-  }
-
-  document.addEventListener("DOMContentLoaded", init);
-})();
+}
