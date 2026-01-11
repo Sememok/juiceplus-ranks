@@ -96,7 +96,7 @@ a { color: inherit; text-decoration: none; }
 .videoLink { margin-top: 10px; font-size: 0.85rem; color: var(--muted); text-align: center; }
 .print-only-qr { display: none !important; }
 
-/* Tree - BASE STYLES (Used for Screen & Print) */
+/* Tree - UNIFIED STYLE (SCREEN & PRINT) */
 .treeCanvas { 
   position: relative; 
   background: #fff; 
@@ -111,9 +111,9 @@ a { color: inherit; text-decoration: none; }
 .treeNodesLayer { 
   position: relative; 
   display: grid; 
-  /* הגדרה אחידה למסך ולהדפסה כדי שהקווים לא ישברו */
-  grid-template-columns: repeat(var(--cols), minmax(85px, 110px));
-  gap: 15px 5px; 
+  /* Fixed columns to keep vertical alignment perfect */
+  grid-template-columns: repeat(var(--cols), 90px); 
+  gap: 20px 10px; 
   z-index: 2; 
   justify-content: center;
 }
@@ -125,10 +125,10 @@ a { color: inherit; text-decoration: none; }
   background: #fff; border: 1px solid var(--line); border-radius: 8px;
   padding: 6px 4px; 
   min-height: 75px; 
-  min-width: 85px; 
+  min-width: 90px; 
   box-shadow: var(--shadow-sm);
   position: relative; display: flex; flex-direction: column; justify-content: center;
-  font-size: 0.85em;
+  font-size: 0.8em;
 }
 .treeNode.isHere { border: 2px solid var(--brand); background: #f0fdf4; }
 
@@ -150,35 +150,18 @@ a { color: inherit; text-decoration: none; }
 .treeNotesTitle { font-weight: 700; color: var(--muted); margin-bottom: 6px; }
 
 /* ==========================================================================
-   PRINT OPTIMIZATION - FIXED
+   PRINT OPTIMIZATION
    ========================================================================== */
 @media print {
-  @page { 
-    size: A4 landscape; /* דף לרוחב */
-    margin: 5mm; 
-  }
-  
-  body { 
-    background: #fff; 
-    color: #000; 
-    font-size: 10pt; 
-    -webkit-print-color-adjust: exact; 
-    print-color-adjust: exact;
-  }
+  @page { size: A4 landscape; margin: 5mm; }
+  body { background: #fff; color: #000; font-size: 10pt; }
 
-  /* הסתרת אלמנטים */
-  .topbar, 
-  .btn, 
-  .videoWrap,
-  .videoLink,
-  .rank-nav-container, 
-  .print-hide { 
-    display: none !important; 
-  }
-
+  /* Hide unneeded elements */
+  .topbar, .btn, .videoWrap, .videoLink, .rank-nav-container, .print-hide { display: none !important; }
   .container { width: 100%; margin: 0; max-width: none; padding: 0; }
-  
-  /* כותרת ו-QR */
+  .card { box-shadow: none; border: none; padding: 0; margin-bottom: 10px; }
+
+  /* Header & QR */
   #rankPrintLayout { 
     display: grid; 
     grid-template-columns: 3fr 1fr;
@@ -188,50 +171,31 @@ a { color: inherit; text-decoration: none; }
     padding-bottom: 10px;
     margin-bottom: 10px;
   }
-
-  .rank-text-area { grid-column: 1; }
-  .rankTitle { font-size: 22pt; color: #16a34a; margin-bottom: 5px; }
-  .rankIntro { font-size: 11pt; margin-bottom: 5px; color: #444; }
-  
+  .rankTitle { font-size: 20pt; color: #16a34a; margin-bottom: 5px; }
   .print-only-qr { display: flex !important; justify-content: flex-end; grid-column: 2; }
-  .yt-frame { 
-    width: 120px; 
-    border: 2px solid #d32f2f; 
-    border-radius: 8px; 
-    padding: 5px; 
-    text-align: center; 
-    background: #fff; 
-  }
-  .yt-frame::before { content: "▶ סרטון"; display: block; color: #d32f2f; font-weight: bold; font-size: 9pt; margin-bottom: 2px; }
-  .yt-qr-img { width: 80px; height: 80px; display: block; margin: 0 auto; }
+  .yt-frame { width: 100px; border: 2px solid #d32f2f; border-radius: 8px; padding: 5px; text-align: center; }
+  .yt-frame::before { content: "▶ סרטון"; font-size: 8pt; color: #d32f2f; display: block; margin-bottom: 2px; }
+  .yt-qr-img { width: 70px; height: 70px; display: block; margin: 0 auto; }
 
-  /* === עץ יציב להדפסה === */
+  /* Tree - Perfect Alignment in Print */
   .treeCanvas { 
     border: none; 
     padding: 0; 
-    display: block;
-    width: 100%;
-    margin-top: 10px;
-    /* טריק חשוב: זום כדי להתאים לדף בלי לשבור את הקווים */
-    zoom: 90%; 
-  }
-
-  /* חשוב: לא לשנות את הגריד בהדפסה, זה שובר את הקווים! */
-  .treeNode { 
-    border: 1px solid #000; 
-    box-shadow: none; 
-    background: #fff !important;
+    display: block; 
+    width: 100%; 
+    margin-top: 10px; 
+    /* Slightly scale down to fit comfortably if needed, but maintain structure */
+    zoom: 0.95; 
   }
   
-  .treeNode.isHere { border: 2px solid #000; background: #f0f0f0 !important; }
-  .treeTotal { border: 1px solid #000; color: #000 !important; background: #fff !important; }
-
-  .treeNotes { 
-    background: none; 
-    border: none; 
-    padding: 0; 
-    margin-top: 20px; 
-    font-size: 10pt; 
-    page-break-inside: avoid;
+  .treeNodesLayer { 
+    /* Ensure the grid doesn't break in print */
+    display: grid;
+    justify-content: center;
   }
+
+  .treeNode { border: 1px solid #000; box-shadow: none; background: #fff !important; }
+  .treeNode.isHere { border: 2px solid #000; background: #f0f0f0 !important; }
+  .treeTotal { border: 1px solid #000; color: #000 !important; background: #fff !important; top: -20px !important; }
+  .treeNotes { background: none; border: none; padding: 0; margin-top: 20px; page-break-inside: avoid; }
 }
