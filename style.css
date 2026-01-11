@@ -22,16 +22,11 @@ body {
   line-height: 1.4;
 }
 
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-
+img { max-width: 100%; height: auto; display: block; }
 a { color: inherit; text-decoration: none; }
 
 /* =========================
-   LAYOUT
+   LAYOUT (Screen)
    ========================= */
 .container { width: min(1000px, 94vw); margin: 30px auto 80px; }
 
@@ -45,32 +40,23 @@ a { color: inherit; text-decoration: none; }
   display: flex; align-items: center; justify-content: space-between; gap: 16px;
 }
 
-.brand-left { display: flex; align-items: center; gap: 12px; overflow: hidden; }
+.brand-left { display: flex; align-items: center; gap: 12px; }
 .brand-logo {
-  position: relative; width: 48px; height: 48px; flex-shrink: 0;
-  border-radius: 10px; border: 1px solid var(--line); background: #fff;
-  overflow: hidden; display: flex; align-items: center; justify-content: center;
+  width: 48px; height: 48px; border-radius: 10px; border: 1px solid var(--line); 
+  background: #fff; display: flex; align-items: center; justify-content: center; overflow: hidden;
 }
-.brand-logo img { width: 100%; height: 100%; object-fit: cover; }
-.fallback { font-size: 10px; font-weight: 900; color: var(--muted); text-align: center; display: none; }
-
-.brand-text { display: flex; flex-direction: column; justify-content: center; min-width: 0; }
-.brand-text h1, .brand-title { font-size: 1.1rem; font-weight: 800; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.tagline, .brand-sub { font-size: 0.85rem; color: var(--muted); margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
+.brand-text { display: flex; flex-direction: column; }
+.brand-title { font-weight: 800; font-size: 1.1rem; }
+.brand-sub { font-size: 0.85rem; color: var(--muted); }
 .brand-center { display: none; }
 @media (min-width: 768px) { .brand-center { display: block; text-align: center; } }
-
-.actions { display: flex; gap: 8px; flex-shrink: 0; }
 
 .btn {
   display: inline-flex; align-items: center; justify-content: center;
   padding: 8px 16px; border-radius: 8px; border: 1px solid var(--line);
-  background: #fff; font-weight: 600; font-size: 0.9rem; cursor: pointer; color: var(--text); white-space: nowrap;
+  background: #fff; font-weight: 600; cursor: pointer; color: var(--text);
 }
-.btn:hover { background: #f1f5f9; }
 .btn.primary { background: var(--brand); border-color: var(--brand); color: #fff; }
-.btn.primary:hover { background: var(--brand-hover); }
 
 .card {
   background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
@@ -83,12 +69,11 @@ a { color: inherit; text-decoration: none; }
 .rank-nav-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
 .nav-chip {
   background: #fff; border: 1px solid var(--line); padding: 6px 12px;
-  border-radius: 20px; font-size: 0.85rem; font-weight: 600; transition: all 0.2s; color: var(--text);
+  border-radius: 20px; font-size: 0.85rem; font-weight: 600;
 }
-.nav-chip:hover { border-color: var(--brand); background: #f0fdf4; }
 .nav-chip.active { background: var(--brand); color: #fff; border-color: var(--brand); }
 
-/* Rank Page */
+/* Rank Page Content */
 .rankTitle { font-size: 1.8rem; font-weight: 800; color: var(--brand); margin: 0 0 10px; }
 .sectionTitle { font-size: 1.2rem; font-weight: 700; margin: 0 0 12px; }
 .videoWrap { border-radius: var(--radius); overflow: hidden; background: #000; }
@@ -96,13 +81,13 @@ a { color: inherit; text-decoration: none; }
 .videoLink { margin-top: 10px; font-size: 0.85rem; color: var(--muted); text-align: center; }
 .print-only-qr { display: none !important; }
 
-/* Tree - UNIFIED STYLE (SCREEN & PRINT) */
+/* === TREE STYLES (Screen) === */
 .treeCanvas { 
   position: relative; 
   background: #fff; 
   border: 1px solid var(--line); 
   border-radius: 16px; 
-  padding: 15px 5px;
+  padding: 20px;
   overflow-x: auto; 
   display: flex;
   justify-content: center;
@@ -111,11 +96,10 @@ a { color: inherit; text-decoration: none; }
 .treeNodesLayer { 
   position: relative; 
   display: grid; 
-  /* Fixed columns to keep vertical alignment perfect */
-  grid-template-columns: repeat(var(--cols), 90px); 
-  gap: 20px 10px; 
+  /* 8 עמודות שוות לסידור אופטימלי */
+  grid-template-columns: repeat(8, minmax(90px, 1fr));
+  gap: 30px 10px; /* רווח אנכי גדול, אופקי קטן */
   z-index: 2; 
-  justify-content: center;
 }
 
 .treeEdges { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
@@ -123,79 +107,95 @@ a { color: inherit; text-decoration: none; }
 
 .treeNode {
   background: #fff; border: 1px solid var(--line); border-radius: 8px;
-  padding: 6px 4px; 
-  min-height: 75px; 
-  min-width: 90px; 
+  padding: 8px 4px; 
+  min-height: 80px; 
   box-shadow: var(--shadow-sm);
   position: relative; display: flex; flex-direction: column; justify-content: center;
-  font-size: 0.8em;
+  font-size: 0.85em;
+  z-index: 5;
 }
 .treeNode.isHere { border: 2px solid var(--brand); background: #f0fdf4; }
 
 .treeHere {
-  position: absolute; top: -8px; left: 50%; transform: translateX(-50%);
+  position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
   background: var(--brand); color: #fff; font-size: 0.6rem; padding: 2px 6px;
   border-radius: 8px; font-weight: bold; white-space: nowrap; z-index: 10;
 }
 
 .treeTotal { z-index: 20; }
-
 .treeNodeTop { display: flex; align-items: center; gap: 4px; margin-bottom: 4px; border-bottom: 1px dashed #e2e8f0; padding-bottom: 4px; }
 .treeBadge { background: #f1f5f9; padding: 1px 4px; border-radius: 4px; font-weight: 800; font-size: 0.65rem; }
-.treeLabel { font-weight: 600; font-size: 0.7rem; line-height: 1.1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.treeLabel { font-weight: 600; font-size: 0.75rem; line-height: 1.1; }
 .treeMeta { font-size: 0.7rem; color: var(--muted); }
 .treePV span.v { font-weight: 800; color: #000; }
 
-.treeNotes { margin-top: 20px; padding: 12px; background: #f8fafc; border-top: 1px solid var(--line); font-size: 0.85rem; width: 100%; }
-.treeNotesTitle { font-weight: 700; color: var(--muted); margin-bottom: 6px; }
+.treeNotes { margin-top: 20px; padding: 15px; background: #f8fafc; border-top: 1px solid var(--line); font-size: 0.9rem; }
 
 /* ==========================================================================
-   PRINT OPTIMIZATION
+   PRINT STYLES - CLEAN & CENTERED
    ========================================================================== */
 @media print {
-  @page { size: A4 landscape; margin: 5mm; }
-  body { background: #fff; color: #000; font-size: 10pt; }
-
-  /* Hide unneeded elements */
-  .topbar, .btn, .videoWrap, .videoLink, .rank-nav-container, .print-hide { display: none !important; }
-  .container { width: 100%; margin: 0; max-width: none; padding: 0; }
-  .card { box-shadow: none; border: none; padding: 0; margin-bottom: 10px; }
-
-  /* Header & QR */
-  #rankPrintLayout { 
-    display: grid; 
-    grid-template-columns: 3fr 1fr;
-    gap: 20px; 
-    align-items: center; 
-    border-bottom: 2px solid #eee;
-    padding-bottom: 10px;
-    margin-bottom: 10px;
-  }
-  .rankTitle { font-size: 20pt; color: #16a34a; margin-bottom: 5px; }
-  .print-only-qr { display: flex !important; justify-content: flex-end; grid-column: 2; }
-  .yt-frame { width: 100px; border: 2px solid #d32f2f; border-radius: 8px; padding: 5px; text-align: center; }
-  .yt-frame::before { content: "▶ סרטון"; font-size: 8pt; color: #d32f2f; display: block; margin-bottom: 2px; }
-  .yt-qr-img { width: 70px; height: 70px; display: block; margin: 0 auto; }
-
-  /* Tree - Perfect Alignment in Print */
-  .treeCanvas { 
-    border: none; 
-    padding: 0; 
-    display: block; 
-    width: 100%; 
-    margin-top: 10px; 
-    /* Slightly scale down to fit comfortably if needed, but maintain structure */
-    zoom: 0.95; 
+  @page { 
+    size: A4 landscape; 
+    margin: 5mm; 
   }
   
-  .treeNodesLayer { 
-    /* Ensure the grid doesn't break in print */
-    display: grid;
-    justify-content: center;
+  body { 
+    background: #fff; 
+    color: #000; 
+    font-size: 11pt; 
+    -webkit-print-color-adjust: exact; 
+    print-color-adjust: exact;
   }
 
-  .treeNode { border: 1px solid #000; box-shadow: none; background: #fff !important; }
-  .treeNode.isHere { border: 2px solid #000; background: #f0f0f0 !important; }
-  .treeTotal { border: 1px solid #000; color: #000 !important; background: #fff !important; top: -20px !important; }
-  .treeNotes { background: none; border: none; padding: 0; margin-top: 20px; page-break-inside: avoid; }
+  /* הסתרת אלמנטים */
+  .topbar, .btn, .videoWrap, .videoLink, .rank-nav-container, .print-hide { display: none !important; }
+  .container { width: 100%; max-width: none; margin: 0; padding: 0; }
+  .card { box-shadow: none; border: none; padding: 0; margin: 0; }
+
+  /* כותרת */
+  #rankPrintLayout { 
+    display: flex; justify-content: space-between; align-items: start;
+    border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 10px;
+  }
+  .rankTitle { font-size: 24pt; color: #16a34a; margin: 0; }
+  .rankIntro { font-size: 12pt; margin: 5px 0; color: #555; }
+  
+  .print-only-qr { display: block !important; }
+  .yt-frame { border: 2px solid #d32f2f; border-radius: 8px; padding: 5px; text-align: center; width: 120px; }
+  .yt-frame::before { content: "▶ סרטון"; color: #d32f2f; font-weight: bold; font-size: 10pt; display: block; }
+  .yt-qr-img { width: 80px; height: 80px; }
+
+  /* העץ */
+  .treeCanvas { 
+    border: none; padding: 0; display: block; width: 100%; margin-top: 10px; 
+  }
+  
+  /* טריק ליישור: שימוש ב-Transform Scale כדי להתאים לדף בצורה מושלמת */
+  .treeNodesLayer {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr) !important; /* שמירה על יחס העמודות */
+    gap: 20px 5px !important;
+    width: 100%;
+    transform: scale(0.95); /* הקטנה קלה למניעת חיתוך שוליים */
+    transform-origin: top center;
+  }
+
+  .treeNode { 
+    border: 1px solid #000; 
+    background: #fff !important; 
+    box-shadow: none; 
+    page-break-inside: avoid;
+  }
+  .treeNode.isHere { border: 2px solid #000; background: #eee !important; }
+  
+  .treeTotal { 
+    border: 1px solid #000; 
+    background: #fff !important; 
+    color: #000 !important;
+  }
+
+  .treeNotes { 
+    background: none; border: none; padding: 0; margin-top: 10px; font-size: 10pt; 
+  }
 }
