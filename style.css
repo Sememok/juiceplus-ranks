@@ -31,7 +31,7 @@ img {
 a { color: inherit; text-decoration: none; }
 
 /* =========================
-   LAYOUT (Screen)
+   LAYOUT
    ========================= */
 .container { width: min(1000px, 94vw); margin: 30px auto 80px; }
 
@@ -96,7 +96,7 @@ a { color: inherit; text-decoration: none; }
 .videoLink { margin-top: 10px; font-size: 0.85rem; color: var(--muted); text-align: center; }
 .print-only-qr { display: none !important; }
 
-/* Tree - SCREEN MODE */
+/* Tree - BASE STYLES (Used for Screen & Print) */
 .treeCanvas { 
   position: relative; 
   background: #fff; 
@@ -111,7 +111,8 @@ a { color: inherit; text-decoration: none; }
 .treeNodesLayer { 
   position: relative; 
   display: grid; 
-  grid-template-columns: repeat(var(--cols), minmax(95px, 110px));
+  /* הגדרה אחידה למסך ולהדפסה כדי שהקווים לא ישברו */
+  grid-template-columns: repeat(var(--cols), minmax(85px, 110px));
   gap: 15px 5px; 
   z-index: 2; 
   justify-content: center;
@@ -124,7 +125,7 @@ a { color: inherit; text-decoration: none; }
   background: #fff; border: 1px solid var(--line); border-radius: 8px;
   padding: 6px 4px; 
   min-height: 75px; 
-  min-width: 95px; 
+  min-width: 85px; 
   box-shadow: var(--shadow-sm);
   position: relative; display: flex; flex-direction: column; justify-content: center;
   font-size: 0.85em;
@@ -149,7 +150,7 @@ a { color: inherit; text-decoration: none; }
 .treeNotesTitle { font-weight: 700; color: var(--muted); margin-bottom: 6px; }
 
 /* ==========================================================================
-   PRINT OPTIMIZATION - EXPANDED TREE
+   PRINT OPTIMIZATION - FIXED
    ========================================================================== */
 @media print {
   @page { 
@@ -160,12 +161,12 @@ a { color: inherit; text-decoration: none; }
   body { 
     background: #fff; 
     color: #000; 
-    font-size: 11pt; /* פונט קריא יותר */
+    font-size: 10pt; 
     -webkit-print-color-adjust: exact; 
     print-color-adjust: exact;
   }
 
-  /* הסתרת אלמנטים מיותרים */
+  /* הסתרת אלמנטים */
   .topbar, 
   .btn, 
   .videoWrap,
@@ -176,77 +177,61 @@ a { color: inherit; text-decoration: none; }
   }
 
   .container { width: 100%; margin: 0; max-width: none; padding: 0; }
-  .card { box-shadow: none; border: none; padding: 0; margin-bottom: 10px; }
-
+  
   /* כותרת ו-QR */
   #rankPrintLayout { 
     display: grid; 
     grid-template-columns: 3fr 1fr;
     gap: 20px; 
-    align-items: start; 
+    align-items: center; 
     border-bottom: 2px solid #eee;
     padding-bottom: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
   }
 
-  .rankTitle { font-size: 24pt; color: #16a34a; margin-bottom: 5px; }
-  .rankIntro { font-size: 12pt; margin-bottom: 10px; color: #444; }
-  .sectionTitle { font-size: 14pt; margin-bottom: 5px; text-decoration: underline; }
+  .rank-text-area { grid-column: 1; }
+  .rankTitle { font-size: 22pt; color: #16a34a; margin-bottom: 5px; }
+  .rankIntro { font-size: 11pt; margin-bottom: 5px; color: #444; }
   
-  ul.bullets li { margin-bottom: 4px; font-size: 11pt; }
-
   .print-only-qr { display: flex !important; justify-content: flex-end; grid-column: 2; }
-  
   .yt-frame { 
-    width: 140px; 
+    width: 120px; 
     border: 2px solid #d32f2f; 
     border-radius: 8px; 
-    padding: 8px; 
+    padding: 5px; 
     text-align: center; 
     background: #fff; 
   }
-  .yt-frame::before { content: "▶ סרטון"; display: block; color: #d32f2f; font-weight: bold; font-size: 10pt; margin-bottom: 5px; }
-  .yt-qr-img { width: 90px; height: 90px; display: block; margin: 0 auto; }
+  .yt-frame::before { content: "▶ סרטון"; display: block; color: #d32f2f; font-weight: bold; font-size: 9pt; margin-bottom: 2px; }
+  .yt-qr-img { width: 80px; height: 80px; display: block; margin: 0 auto; }
 
-  /* === עץ מורחב ומרווח להדפסה === */
+  /* === עץ יציב להדפסה === */
   .treeCanvas { 
     border: none; 
     padding: 0; 
     display: block;
     width: 100%;
-    margin-top: 20px;
+    margin-top: 10px;
+    /* טריק חשוב: זום כדי להתאים לדף בלי לשבור את הקווים */
+    zoom: 90%; 
   }
 
-  .treeNodesLayer { 
-    display: grid;
-    /* החזרת גודל כרטיסים נורמלי להדפסה */
-    grid-template-columns: repeat(var(--cols), minmax(120px, 1fr)) !important;
-    gap: 30px 15px !important; /* מרווחים גדולים יותר */
-    width: 100%;
-    justify-content: center;
-    transform: none !important; /* ביטול הקטנה */
-    zoom: 1 !important; /* גודל טבעי */
-  }
-
+  /* חשוב: לא לשנות את הגריד בהדפסה, זה שובר את הקווים! */
   .treeNode { 
     border: 1px solid #000; 
     box-shadow: none; 
-    min-height: 90px; /* כרטיס גבוה יותר */
     background: #fff !important;
-    font-size: 10pt; /* פונט גדול יותר בתוך הכרטיס */
   }
   
   .treeNode.isHere { border: 2px solid #000; background: #f0f0f0 !important; }
-  .treeTotal { border: 1px solid #000; color: #000 !important; background: #fff !important; font-size: 9pt !important; top: -25px !important;}
-  .treeLabel { font-size: 10pt !important; white-space: normal !important; overflow: visible !important; }
-  .treeMeta { font-size: 9pt !important; }
+  .treeTotal { border: 1px solid #000; color: #000 !important; background: #fff !important; }
 
   .treeNotes { 
     background: none; 
     border: none; 
     padding: 0; 
-    margin-top: 30px; 
-    font-size: 11pt; 
+    margin-top: 20px; 
+    font-size: 10pt; 
     page-break-inside: avoid;
   }
 }
