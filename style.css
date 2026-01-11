@@ -19,7 +19,7 @@ body {
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   background: var(--bg);
   color: var(--text);
-  line-height: 1.4; /* קצת יותר צפוף */
+  line-height: 1.4;
 }
 
 img {
@@ -31,7 +31,7 @@ img {
 a { color: inherit; text-decoration: none; }
 
 /* =========================
-   LAYOUT
+   LAYOUT (Screen)
    ========================= */
 .container { width: min(1000px, 94vw); margin: 30px auto 80px; }
 
@@ -74,8 +74,7 @@ a { color: inherit; text-decoration: none; }
 
 .card {
   background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
-  padding: 20px; /* פחות ריפוד */
-  box-shadow: var(--shadow-sm); margin-bottom: 20px;
+  padding: 20px; box-shadow: var(--shadow-sm); margin-bottom: 20px;
 }
 
 /* Nav Chips */
@@ -97,14 +96,14 @@ a { color: inherit; text-decoration: none; }
 .videoLink { margin-top: 10px; font-size: 0.85rem; color: var(--muted); text-align: center; }
 .print-only-qr { display: none !important; }
 
-/* Tree - ULTRA COMPACT MODE */
+/* Tree - SCREEN MODE */
 .treeCanvas { 
   position: relative; 
   background: #fff; 
   border: 1px solid var(--line); 
   border-radius: 16px; 
-  padding: 15px 5px; /* ריפוד מינימלי */
-  overflow-x: auto; /* גלילה רק אם ממש חייבים */
+  padding: 15px 5px;
+  overflow-x: auto; 
   display: flex;
   justify-content: center;
 }
@@ -112,9 +111,8 @@ a { color: inherit; text-decoration: none; }
 .treeNodesLayer { 
   position: relative; 
   display: grid; 
-  /* הקטנה משמעותית של רוחב העמודות ומניעת מריחה */
   grid-template-columns: repeat(var(--cols), minmax(85px, 110px));
-  gap: 15px 5px; /* מרווחים קטנטנים בין הכרטיסים */
+  gap: 15px 5px; 
   z-index: 2; 
   justify-content: center;
 }
@@ -124,12 +122,12 @@ a { color: inherit; text-decoration: none; }
 
 .treeNode {
   background: #fff; border: 1px solid var(--line); border-radius: 8px;
-  padding: 6px 4px; /* ריפוד פנימי זעיר */
+  padding: 6px 4px; 
   min-height: 75px; 
-  min-width: 85px; /* רוחב מינימלי קטן */
+  min-width: 85px; 
   box-shadow: var(--shadow-sm);
   position: relative; display: flex; flex-direction: column; justify-content: center;
-  font-size: 0.85em; /* פונט מוקטן */
+  font-size: 0.85em;
 }
 .treeNode.isHere { border: 2px solid var(--brand); background: #f0fdf4; }
 
@@ -150,20 +148,140 @@ a { color: inherit; text-decoration: none; }
 .treeNotes { margin-top: 20px; padding: 12px; background: #f8fafc; border-top: 1px solid var(--line); font-size: 0.85rem; width: 100%; }
 .treeNotesTitle { font-weight: 700; color: var(--muted); margin-bottom: 6px; }
 
-/* Print */
+/* ==========================================================================
+   PRINT OPTIMIZATION - COMPLETE OVERHAUL
+   ========================================================================== */
 @media print {
-  @page { size: A4 landscape; margin: 10mm; }
-  body { background: #fff; color: #000; font-size: 10pt; }
-  .topbar, .btn, .videoWrap, .videoLink, .rank-nav-container, .print-hide { display: none !important; }
-  .container { width: 100%; margin: 0; max-width: none; }
-  .card { box-shadow: none; border: 0; padding: 0; margin-bottom: 15px; break-inside: avoid; }
-  #rankPrintLayout { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; align-items: start; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 20px; }
-  .rank-text-area { grid-column: 1; }
-  .print-only-qr { display: flex !important; justify-content: flex-end; grid-column: 2; }
-  .yt-frame { width: 150px; border: 2px solid #ff0000; border-radius: 8px; padding: 5px; text-align: center; background: #fff; }
-  .yt-frame::before { content: "▶"; display: block; color: #ff0000; font-size: 20px; line-height: 1; margin-bottom: 2px; }
-  .yt-qr-img { width: 80px; height: 80px; display: block; margin: 0 auto; }
-  .treeCanvas { border: 1px solid #000; padding: 5px; display: block; }
-  .treeNodesLayer { display: grid; gap: 10px 5px; }
-  .treeNode { border: 1px solid #000; box-shadow: none; min-height: auto; min-width: 80px; }
+  @page { 
+    size: A4 landscape; /* שימוש לרוחב כדי לאפשר עץ רחב */
+    margin: 5mm; 
+  }
+  
+  body { 
+    background: #fff; 
+    color: #000; 
+    font-size: 10pt; 
+    -webkit-print-color-adjust: exact; 
+    print-color-adjust: exact;
+  }
+
+  /* אלמנטים להסתרה בהדפסה */
+  .topbar, 
+  .btn, 
+  .videoWrap,      /* הסתרת הוידאו */
+  .videoLink,      /* הסתרת הלינק */
+  .rank-nav-container, 
+  .print-hide { 
+    display: none !important; 
+  }
+
+  .container { 
+    width: 100%; 
+    margin: 0; 
+    max-width: none; 
+    padding: 0;
+  }
+
+  /* ביטול עיצוב כרטיס רגיל כדי לחסוך מקום */
+  .card { 
+    box-shadow: none; 
+    border: none; 
+    padding: 0; 
+    margin-bottom: 10px; 
+  }
+
+  /* סידור הכותרת וה-QR בשורה אחת */
+  #rankPrintLayout { 
+    display: grid; 
+    grid-template-columns: 3fr 1fr; /* 75% לטקסט, 25% ל-QR */
+    gap: 20px; 
+    align-items: start; 
+    border-bottom: 2px solid #eee;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+  }
+
+  .rank-text-area { 
+    grid-column: 1; 
+  }
+  
+  .rankTitle { font-size: 24pt; color: #16a34a; margin-bottom: 5px; }
+  .rankIntro { font-size: 12pt; margin-bottom: 10px; color: #444; }
+  .sectionTitle { font-size: 14pt; margin-bottom: 5px; text-decoration: underline; }
+  
+  ul.bullets li { margin-bottom: 4px; font-size: 11pt; }
+
+  /* עיצוב ה-QR להדפסה */
+  .print-only-qr { 
+    display: flex !important; 
+    justify-content: flex-end; 
+    grid-column: 2; 
+  }
+  
+  .yt-frame { 
+    width: 140px; 
+    border: 2px solid #d32f2f; 
+    border-radius: 8px; 
+    padding: 8px; 
+    text-align: center; 
+    background: #fff; 
+  }
+  .yt-frame::before { 
+    content: "▶ סרטון הדרכה"; 
+    display: block; 
+    color: #d32f2f; 
+    font-weight: bold;
+    font-size: 10pt; 
+    margin-bottom: 5px; 
+  }
+  .yt-qr-img { 
+    width: 100px; 
+    height: 100px; 
+    display: block; 
+    margin: 0 auto; 
+  }
+  .yt-sub { font-size: 8pt; margin-top: 2px; }
+
+  /* אופטימיזציה של העץ להדפסה */
+  .treeCanvas { 
+    border: 1px solid #ddd; 
+    padding: 10px; 
+    display: block; /* ביטול flex כדי למנוע מרכוז מיותר */
+    width: 100%;
+    page-break-inside: avoid; /* מניעת חיתוך העץ */
+  }
+
+  .treeNodesLayer { 
+    display: grid; 
+    gap: 15px 5px; 
+    /* הקטנה חכמה של העץ כדי שייכנס לדף */
+    transform-origin: top center;
+    zoom: 0.85; /* הקטנה קלה ליתר ביטחון */
+  }
+
+  .treeNode { 
+    border: 1px solid #666; 
+    box-shadow: none; 
+    min-height: auto; 
+    background: #fff !important; /* חיסכון בדיו */
+  }
+  
+  .treeNode.isHere { 
+    border: 2px solid #000; 
+    background: #f0f0f0 !important; 
+  }
+
+  .treeTotal {
+    border: 1px solid #000;
+    color: #000 !important;
+    background: #fff !important;
+  }
+
+  .treeNotes { 
+    background: none; 
+    border: none; 
+    padding: 0; 
+    margin-top: 15px; 
+    font-size: 10pt;
+  }
 }
