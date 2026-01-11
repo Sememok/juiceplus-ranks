@@ -4,7 +4,8 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>דרגה</title>
-  <link rel="stylesheet" href="style.css?v=FINAL_CLEAN" />
+  <link rel="stylesheet" href="style.css?v=D3_ENGINE" />
+  <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 
 <body>
@@ -61,15 +62,15 @@
       </div>
     </div>
 
-    <section class="card">
-      <h2 class="sectionTitle">עץ התקדמות לדרגה</h2>
-      <div id="rankTreeMount"></div>
+    <section class="card tree-card-container">
+      <h2 class="sectionTitle no-print">עץ התקדמות לדרגה</h2>
+      <div id="rankTreeMount" class="tree-viz-container"></div>
     </section>
   </main>
 
   <script src="brand-core.js"></script>
-  <script src="data-fixed.js?v=FINAL_CLEAN"></script>
-  <script src="rank-tree.js?v=FINAL_CLEAN"></script>
+  <script src="data-fixed.js?v=D3_DATA_STRUCT"></script>
+  <script src="rank-tree.js?v=D3_RENDERER"></script>
 
   <script>
     function getRankId() {
