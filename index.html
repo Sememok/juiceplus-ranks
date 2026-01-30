@@ -1,100 +1,132 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="he" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>חוברת הדרגות – Juice Plus</title>
-  <link rel="stylesheet" href="style.css?v=3" />
-</head>
-<body>
-
-<header class="topbar">
-  <div class="topbar-inner">
-    <div class="brand-left">
-      <div class="brand-logo">
-        <img data-brand="logo" alt="לוגו">
-        <span class="fallback" data-brand="logoFallback">LOGO</span>
-      </div>
-      <div class="brand-text">
-        <h1 data-brand="groupName">המסע המשותף שלנו</h1>
-        <div class="tagline" data-brand="tagline">חוברת הדרגות – מדריך וידאו לזכיין חדש</div>
-      </div>
-    </div>
-
-    <div class="actions">
-      <a class="btn ghost" href="brand.html">מיתוג</a>
-      <a class="btn" href="booklet.html">חוברת להדפסה</a>
-    </div>
-  </div>
-</header>
-
-<main class="container">
-
-  <section class="card">
-    <h2 style="margin-top:0;">מדריך דיגיטלי לפי דרגות</h2>
-    <p class="muted">
-      בחר/י דרגה כדי לקבל הסבר קצר + סרטון.
-    </p>
-    <div id="statusBox" class="muted small" style="margin-top:10px;"></div>
-  </section>
-
-  <section class="card">
-    <h2 style="margin-top:0;">רשימת הדרגות</h2>
-    <ul class="rank-list" id="rankList"></ul>
-  </section>
-
-</main>
-
-<!-- חשוב: קודם data.js כדי ש-RANKS יהיה זמין -->
-<script src="data.js?v=3"></script>
-<script src="brand-core.js?v=3"></script>
-
-<script>
-  const statusBox = document.getElementById("statusBox");
-  const list = document.getElementById("rankList");
-
-  function setStatus(msg) {
-    if (statusBox) statusBox.textContent = msg;
-  }
-
-  try {
-    if (!list) {
-      setStatus("שגיאה: לא נמצא rankList בעמוד.");
-    } else if (typeof window.RANKS === "undefined") {
-      // data.js לא נטען או נכשל
-      setStatus("שגיאה: data.js לא נטען (RANKS לא קיים). בדקי שהקובץ data.js נמצא בשורש הריפו ושאין בו שגיאת תחביר.");
-      list.innerHTML = `
-        <li class="muted small">
-          בדיקה מהירה: נסי לפתוח את הקובץ ישירות:
-          <a href="data.js" target="_blank" rel="noreferrer">data.js</a>
-        </li>`;
-    } else if (!Array.isArray(window.RANKS) || window.RANKS.length === 0) {
-
-      setStatus("שגיאה: RANKS נטען אבל ריק/לא מערך.");
-    } else {
-      setStatus(`נטען בהצלחה: ${RANKS.length} דרגות`);
-      list.innerHTML = "";
-
-      window.RANKS.forEach(rank => {
-
-        const li = document.createElement("li");
-        li.innerHTML = `
-          <a class="rank-link" href="rank.html?id=${encodeURIComponent(rank.id)}">
-            <div>
-              <div class="rank-title">${rank.title}</div>
-              <div class="rank-sub">${rank.intro || ""}</div>
-            </div>
-            <div class="chev">›</div>
-          </a>
-        `;
-        list.appendChild(li);
-      });
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ראשי - מפת הדרגות</title>
+  <link rel="stylesheet" href="style.css?v=INDEX_STYLE" />
+  <style>
+    /* עיצוב ייחודי לדף הבית - גריד של כרטיסיות דרגה */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+      padding: 30px 0;
     }
-  } catch (e) {
-    setStatus("שגיאת JS שמונעת מהאתר לעבוד: " + (e && e.message ? e.message : e));
-  }
-</script>
+    
+    .rank-card-link {
+      background: white;
+      border-radius: 12px;
+      padding: 25px;
+      text-decoration: none;
+      color: inherit;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      border-top: 5px solid #16a34a; /* ירוק ג'וס פלאס */
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .rank-card-link:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+    }
+    
+    /* עיגול דקורטיבי ברקע */
+    .rank-card-link::before {
+      content: '';
+      position: absolute;
+      top: -20px;
+      right: -20px;
+      width: 80px;
+      height: 80px;
+      background: rgba(22, 163, 74, 0.05);
+      border-radius: 50%;
+    }
 
+    .rank-code {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #166534;
+      margin-bottom: 10px;
+      line-height: 1;
+    }
+    
+    .rank-name {
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: #333;
+    }
+    
+    .click-hint {
+      margin-top: 15px;
+      font-size: 0.85rem;
+      color: #666;
+      background: #f0fdf4;
+      padding: 4px 12px;
+      border-radius: 15px;
+    }
+
+    /* כפתור המוצרים המיוחד */
+    .btn-products {
+      background-color: #ff6b00 !important; /* כתום בולט */
+      font-weight: bold;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .btn-products:hover {
+      background-color: #e65100 !important;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand-left">
+        <a class="btn primary btn-products" href="products.html">קטלוג מוצרים 🍎</a>
+      </div>
+
+      <div class="brand-center">
+        <div class="brand-title">המסע המשותף שלנו</div>
+        <div class="brand-sub">בחר דרגה כדי להתחיל</div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="dashboard-grid" id="dashboardGrid"></div>
+  </main>
+
+  <script src="data-fixed.js?v=INDEX_DATA"></script>
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const grid = document.getElementById("dashboardGrid");
+      
+      // בדיקה שהנתונים נטענו
+      if(!window.RANKS) {
+        grid.innerHTML = "<p style='text-align:center;'>טוען נתונים...</p>";
+        return;
+      }
+
+      // יצירת כרטיסייה לכל דרגה
+      window.RANKS.forEach(rank => {
+        const card = document.createElement("a");
+        card.className = "rank-card-link";
+        card.href = `rank.html?id=${rank.id}`; // הקישור לדף הדרגה הספציפי
+        
+        card.innerHTML = `
+          <div class="rank-code">${rank.nodeCode || rank.title}</div>
+          <div class="rank-name">${rank.title}</div>
+          <div class="click-hint">לחץ לפרטים וסימולציה</div>
+        `;
+        grid.appendChild(card);
+      });
+    });
+  </script>
 </body>
 </html>
-
