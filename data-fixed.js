@@ -1,9 +1,10 @@
 /* data-fixed.js
-   CLEAN VERSION - ISRAEL 2025
-   - Removed extra accordion data.
-   - Updated bullets with correct commissions (19% SP, 22% SC).
+   ISRAEL 2025 - RANKS + PRODUCTS
+   - Ranks: 100% Original Logic & Content.
+   - Products: Added new section based on official factsheets.
 */
 
+// --- חלק 1: דרגות (ללא שינוי) ---
 window.RANKS = [
   {
     id: "partner_plus",
@@ -161,7 +162,6 @@ window.RANKS = [
   }
 ];
 
-/* Trees logic - UNTOUCHED */
 window.RANK_TREES = {
   partner_plus: {
     title: "עץ התקדמות – Partner Plus (P+)",
@@ -263,3 +263,61 @@ window.RANK_TREES = {
   pmd: { title: "עץ התקדמות – PMD (תבנית זמנית)", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"PMD"}], edges:[], notes:["תבנית זמנית – נבנה מדויק לאחר שרטוט."] },
   pmd_plus: { title: "עץ התקדמות – PMD+ (תבנית זמנית)", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"PMD+"}], edges:[], notes:["תבנית זמנית – נבנה מדויק לאחר שרטוט."] }
 };
+
+// --- חלק 2: מוצרים (חדש!) ---
+// נתונים נלקחו מתוך ה-PDF: Essentials, Omega, Complete
+window.PRODUCTS = [
+  {
+    id: "essentials",
+    title: "קפסולות הפירות, הירקות ופירות היער",
+    subTitle: "Juice Plus+ Essentials Capsules",
+    intro: "הדרך הפשוטה לגשר על הפער התזונתי היומי שלך.",
+    // כאן תוכל להחליף לקישור וידאו שלך
+    videoUrl: "", 
+    // אייקון/תמונה כללית
+    icon: "🍎🥦🍇", 
+    imagePlaceholder: "https://via.placeholder.com/600x400?text=Essentials+Capsules",
+    benefits: [
+      "מכיל 30 סוגים של פירות, ירקות ופירות יער.",
+      "רכיבים שנאספו בשיא בשלותם (Farm Fresh).",
+      "תהליך ייבוש בטמפרטורה נמוכה לשמירה על הערכים התזונתיים.",
+      "מגובה ביותר מ-40 מחקרים קליניים.",
+      "ללא גלוטן, מתאים לטבעונים, ללא הנדסה גנטית (GMO Free)."
+    ],
+    usage: "2 קפסולות פירות + 2 קפסולות ירקות (+ 2 פירות יער) ביום, עם כוס מים גדולה."
+  },
+  {
+    id: "omega",
+    title: "תערובת האומגה (Omega Blend)",
+    subTitle: "Juice Plus+ Omega Blend",
+    intro: "אומגה ממקור צמחי מלא, ידידותי לסביבה ולגוף.",
+    videoUrl: "", 
+    icon: "🌊🌿", 
+    imagePlaceholder: "https://via.placeholder.com/600x400?text=Omega+Blend",
+    benefits: [
+      "100% צמחי: מופק מאצות (המקור של הדגים) ולא מדגים.",
+      "מכיל ספקטרום רחב של אומגות: 3, 5, 6, 7 ו-9.",
+      "טכנולוגיית כבישה קרה לשמירה על איכות השמנים.",
+      "קפסולה ייחודית ללא הלחמה (טכנולוגיית בועה) למניעת חמצון.",
+      "בר-קיימא וידידותי לאוקיינוסים."
+    ],
+    usage: "2 קפסולות ביום עם האוכל."
+  },
+  {
+    id: "complete",
+    title: "שייק קומפליט (Complete)",
+    subTitle: "Juice Plus+ Complete Shakes",
+    intro: "ארוחה מלאה, מאוזנת וטעימה לדרך.",
+    videoUrl: "", 
+    icon: "🥤💪", 
+    imagePlaceholder: "https://via.placeholder.com/600x400?text=Complete+Shakes",
+    benefits: [
+      "חלבון צמחי איכותי (סויה שטופה במים, ללא הנדסה גנטית).",
+      "עשיר בסיבים תזונתיים.",
+      "מכיל פרופיל מלא של ויטמינים ומינרלים.",
+      "ללא גלוטן ומתאים לטבעונים.",
+      "פתרון מעולה לארוחת בוקר, לפני/אחרי אימון, או כשאין זמן לבשל."
+    ],
+    usage: "כף מדידה אחת (35 גרם) עם 250 מ״ל מים או חלב צמחי."
+  }
+];
