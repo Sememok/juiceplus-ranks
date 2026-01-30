@@ -1,22 +1,21 @@
 /* data-fixed.js
-   ISRAEL 2025 - DETAILED PRODUCTS & STRATEGIES
-   - Separated capsules into Fruit, Veg, Berry.
-   - Updated Calculator Strategies with Prices & Points.
+   ISRAEL 2025 - FIXED POINTS & CALCULATOR
+   - Correct Promo Points (PV) for Israel.
+   - Individual Product Images linked.
 */
 
-// --- חלק 1: דרגות (ללא שינוי) ---
+// --- חלק 1: דרגות ויעדים ---
 window.RANKS = [
   {
     id: "partner_plus",
     title: "Partner Plus",
-    targetPoints: 4000,
+    targetPoints: 4000, // יעד למחשבון
     intro: "התקדמות ראשונה: בניית בסיס לקוחות ראשוני.",
     videoUrl: "https://youtu.be/M293NdN7Sok?si=da8BUiVp5Qy-Z_5y",
     bullets: [
-      "יעד: 4,000 נקודות פרומו (חודש 1 להסמכה).",
-      "מינימום אישי: 4,000 נקודות (אפשר הכל אישי או עם לקוחות).",
-      "עמלה כוללת: 14% (10% בסיס + 4% תוספת).",
-      "בונוס דרגה: 400 ₪ (תשלום אחד)."
+      "יעד: 4,000 נקודות פרומו.",
+      "עמלה כוללת: 14%.",
+      "בונוס דרגה: 400 ₪."
     ],
     nodeCode: "P+",
     qrFile: "Partner Plus.png"
@@ -28,10 +27,9 @@ window.RANKS = [
     intro: "בניית יציבות ולקוחות חוזרים.",
     videoUrl: "https://youtu.be/fnG6Eld0SPk?si=7ZozniTLZHIG5qR8",
     bullets: [
-      "יעד: 12,000 נקודות פרומו (בתוך חלון של 2 חודשים).",
-      "חוק 50%: מקסימום 6,000 נקודות מרגל אחת.",
-      "עמלה כוללת: 19% (14% + 5% בונוס PB).",
-      "בונוס דרגה כולל: 1,200 ₪ (400 בחודש א' + 800 בחודש ב')."
+      "יעד: 12,000 נקודות פרומו.",
+      "עמלה כוללת: 19%.",
+      "בונוס דרגה: 1,200 ₪."
     ],
     nodeCode: "SP",
     qrFile: "Senior Partner.png"
@@ -40,288 +38,203 @@ window.RANKS = [
     id: "sales_coordinator",
     title: "Sales Coordinator",
     targetPoints: 28000,
-    intro: "הדרגה הניהולית הראשונה: בניית צוות ומבנה רוחב.",
+    intro: "הדרגה הניהולית הראשונה.",
     videoUrl: "https://youtu.be/cyJb_ecWjyA?si=JjClNcImW1bs86Ig",
     bullets: [
-      "מבנה נדרש: זכיין אחד בדרגת Partner Plus (מבנה 1 רגל PB).",
-      "יעד: 28,000 נקודות פרומו (בחלון של 2 חודשים).",
-      "עמלה כוללת: 22% (19% + 3% בונוס POB).",
-      "בונוס דרגה כולל: 3,600 ₪ (1,200 בחודש א' + 2,400 בחודש ב')."
+      "יעד: 28,000 נקודות פרומו.",
+      "עמלה כוללת: 22%.",
+      "בונוס דרגה: 3,600 ₪."
     ],
     nodeCode: "SC",
     qrFile: "Sales Coordinator.png"
   },
   {
     id: "qssc",
-    title: "Qualifying Senior Sales Coordinator",
+    title: "QSSC",
     targetPoints: 56000,
-    intro: "שלב ביניים בדרך לניהול בכיר.",
-    videoUrl: "https://youtu.be/ru06kEc9kqE?si=9yvL3LZ5Qm80YEak",
-    bullets: [
-      "מבנה נדרש: 2 רגלי PB (זכיינים בדרגת P+ ומעלה).",
-      "יעד: 56,000 נקודות (בחלון של 3 חודשים).",
-      "חוק 50%: מקסימום 28,000 נקודות מרגל אחת.",
-      "בונוס דרגה כולל: 4,800 ₪ (1,400 + 1,400 + 2,000)."
-    ],
+    intro: "שלב ביניים לניהול בכיר.",
+    videoUrl: "https://youtu.be/ru06kEc9kqE",
+    bullets: ["יעד: 56,000 נקודות.", "בונוס: 4,800 ₪."],
     nodeCode: "QSSC",
-    qrFile: "Qualifying Senior Sales Coordinator.png"
+    qrFile: "QSSC.png"
   },
   {
     id: "ssc",
     title: "Senior Sales Coordinator",
     targetPoints: 111000,
-    intro: "ניהול צוות מתקדם ויציב.",
-    videoUrl: "https://youtu.be/xPwmFecZ8Ms?si=rqjGaml0ySJoif0x",
-    bullets: [
-      "מבנה נדרש: 3 רגלי PB (שלושה קווים פעילים).",
-      "יעד: 111,000 נקודות (בחלון של 3 חודשים).",
-      "חוק 50%: מקסימום 55,500 נקודות מרגל אחת.",
-      "בונוס דרגה כולל: 10,000 ₪ (2,500 + 2,500 + 5,000)."
-    ],
+    intro: "ניהול צוות מתקדם.",
+    videoUrl: "https://youtu.be/xPwmFecZ8Ms",
+    bullets: ["יעד: 111,000 נקודות.", "בונוס: 10,000 ₪."],
     nodeCode: "SSC",
-    qrFile: "Senior Sales Coordinator.png"
+    qrFile: "SSC.png"
   },
   {
     id: "qnmd",
-    title: "Qualifying National Marketing Director",
+    title: "QNMD",
     targetPoints: 222000,
-    intro: "הכנה לדרגה הבכירה ביותר.",
-    videoUrl: "https://youtu.be/W8Wm_c4kMUo?si=sRYcBXB5K67s3CgE",
-    bullets: [
-      "מבנה נדרש: 3 רגלי PB (מתוכן התחזקות קווים).",
-      "יעד: 222,000 נקודות (בחלון של 3 חודשים).",
-      "חוק 50%: מקסימום 111,000 נקודות מרגל אחת.",
-      "בונוס דרגה כולל: 19,000 ₪ (4,500 + 4,500 + 10,000)."
-    ],
+    intro: "הכנה לדרגה הבכירה.",
+    videoUrl: "https://youtu.be/W8Wm_c4kMUo",
+    bullets: ["יעד: 222,000 נקודות.", "בונוס: 19,000 ₪."],
     nodeCode: "QNMD",
-    qrFile: "Qualifying National Marketing Director.png"
+    qrFile: "QNMD.png"
   },
   {
     id: "nmd",
-    title: "National Marketing Director",
+    title: "NMD",
     targetPoints: 222000,
-    intro: "הדרגה הלאומית הבכירה - NMD.",
-    videoUrl: "https://youtu.be/muieHSXIocI?si=mgdWJi4OJRh0YzLE",
-    bullets: [
-      "מבנה נדרש: 5 רגלי PB + מתוכן 2 רגלי POB.",
-      "יעד: 222,000 נקודות (בחלון של 3 חודשים).",
-      "חוק 50%: מקסימום 111,000 נקודות מרגל אחת.",
-      "בונוס דרגה כולל: 39,000 ₪ (9,500 + 9,500 + 20,000)."
-    ],
+    intro: "הדרגה הלאומית הבכירה.",
+    videoUrl: "https://youtu.be/muieHSXIocI",
+    bullets: ["יעד: 222,000 נקודות.", "בונוס: 39,000 ₪."],
     nodeCode: "NMD",
-    qrFile: "National Marketing Director.png"
+    qrFile: "NMD.png"
   },
   {
     id: "imd",
-    title: "International Marketing Director",
+    title: "IMD",
     targetPoints: 444000,
-    intro: "דרגה בינלאומית יוקרתית.",
-    videoUrl: "https://youtu.be/WeEZlCjHAtU?si=O0jNx22vXu_D9QZC",
-    bullets: [
-      "מבנה נדרש: 5 רגלי PB + מתוכן 3 רגלי POB.",
-      "יעד: 444,000 נקודות (4 מתוך 5 חודשים).",
-      "בונוס דרגה כולל: 77,000 ₪.",
-      "תנאי: עמידה ביעדים במשך 4 מתוך 5 חודשים."
-    ],
+    intro: "דרגה בינלאומית.",
+    videoUrl: "",
+    bullets: ["יעד: 444,000 נקודות.", "בונוס: 77,000 ₪."],
     nodeCode: "IMD",
-    qrFile: "International Marketing Director.png"
+    qrFile: "IMD.png"
   },
   {
     id: "emd",
-    title: "Executive Marketing Director",
+    title: "EMD",
     targetPoints: 666000,
-    intro: "ניהול ארגון ענק ורב-דורי.",
-    videoUrl: "https://youtu.be/KpKDNIc8R7k?si=SrOdHEqDI50v0lGi",
-    bullets: [
-      "מבנה נדרש: 5 רגלי PB + מתוכן 4 רגלי POB.",
-      "יעד: 666,000 נקודות (4 מתוך 5 חודשים).",
-      "בונוס דרגה כולל: 115,000 ₪.",
-      "תנאי: עמידה ביעדים במשך 4 מתוך 5 חודשים."
-    ],
+    intro: "ניהול ענק.",
+    videoUrl: "",
+    bullets: ["יעד: 666,000 נקודות.", "בונוס: 115,000 ₪."],
     nodeCode: "EMD",
-    qrFile: "Executive Marketing Director.png"
+    qrFile: "EMD.png"
   },
   {
     id: "pmd",
-    title: "Presidential Marketing Director",
+    title: "PMD",
     targetPoints: 888000,
     intro: "פסגת המנהיגות.",
-    videoUrl: "https://youtu.be/2i3sVTpFxts?si=qD2kCXt6GRrnapvF",
-    bullets: [
-      "מבנה נדרש: 5 רגלי PB + מתוכן 5 רגלי POB.",
-      "יעד: 888,000 נקודות (4 מתוך 5 חודשים).",
-      "בונוס דרגה כולל: 153,000 ₪.",
-      "תנאי: עמידה ביעדים במשך 4 מתוך 5 חודשים."
-    ],
+    videoUrl: "",
+    bullets: ["יעד: 888,000 נקודות.", "בונוס: 153,000 ₪."],
     nodeCode: "PMD",
-    qrFile: "Presidential Marketing Director.png"
+    qrFile: "PMD.png"
   },
   {
     id: "pmd_plus",
-    title: "Presidential Marketing Director Plus",
+    title: "PMD+",
     targetPoints: 1600000,
-    intro: "הדרגה הגבוהה ביותר בתוכנית.",
-    videoUrl: "https://youtu.be/MVxQ4LPsj6w?si=KS57tgB9Lhyk_00X",
-    bullets: [
-      "מבנה נדרש: 8 רגלי PB + מתוכן 6 רגלי POB.",
-      "יעד: 1,600,000 נקודות (4 מתוך 6 חודשים).",
-      "בונוס דרגה כולל: 200,000 ₪.",
-      "תנאי: עמידה ביעדים במשך 4 מתוך 6 חודשים."
-    ],
+    intro: "הדרגה הגבוהה ביותר.",
+    videoUrl: "",
+    bullets: ["יעד: 1,600,000 נקודות.", "בונוס: 200,000 ₪."],
     nodeCode: "PMD+",
-    qrFile: "Presidential Marketing Director Plus.png"
+    qrFile: "PMD+.png"
   }
 ];
 
-// --- חלק 2: מוצרים (מפורקים ומפורטים) ---
+// --- חלק 2: מוצרים בודדים (עם תמונות) ---
 window.PRODUCTS = [
   {
-    id: "fruit_caps",
-    title: "קפסולות פירות (נבחרת הפירות)",
-    subTitle: "Juice Plus+ Fruit Blend",
-    intro: "המיטב של המטע, בתוך קפסולה.",
-    image: "cap_fruit.jpg",
-    points: 72, 
-    benefits: [
-      "מכיל תפוח, תפוז, אננס, דובדבן, אפרסק, מנגו ועוד.",
-      "עשיר בויטמינים A, C ו-E מהטבע.",
-      "מספק נוגדי חמצון חיוניים.",
-      "נקטף בשיא הבשלות לשמירה על ערכים תזונתיים."
-    ],
-    usage: "2 קפסולות ביום."
+    id: "fruit",
+    title: "קפסולות פירות (אדום)",
+    subTitle: "Fruit Blend",
+    intro: "30 סוגי פירות וירקות - הבסיס.",
+    image: "fruit.jpg", 
+    points: 72,
+    benefits: ["תפוח, תפוז, אננס, דובדבן, מנגו ועוד.", "ויטמינים A, C, E.", "ללא גלוטן."],
+    usage: "2 ביום."
   },
   {
-    id: "veg_caps",
-    title: "קפסולות ירקות (נבחרת הירקות)",
-    subTitle: "Juice Plus+ Vegetable Blend",
-    intro: "הדרך הקלה לאכול את הירקות שלך.",
-    image: "cap_veg.jpg",
+    id: "veg",
+    title: "קפסולות ירקות (ירוק)",
+    subTitle: "Vegetable Blend",
+    intro: "הירקות שחסרים לך בתפריט.",
+    image: "veg.jpg",
     points: 72,
-    benefits: [
-      "מכיל גזר, פטרוזיליה, ברוקולי, קייל, תרד, עגבניה ושום.",
-      "מקור מצוין לחומצה פולית טבעית.",
-      "תומך במערכת החיסון ובתהליכי ניקוי.",
-      "ללא גלוטן וללא הנדסה גנטית."
-    ],
-    usage: "2 קפסולות ביום."
+    benefits: ["ברוקולי, קייל, גזר, שום, תרד ועוד.", "עשיר בחומצה פולית.", "ניקוי רעלים."],
+    usage: "2 ביום."
   },
   {
-    id: "berry_caps",
-    title: "קפסולות פירות יער (נבחרת הסגולים)",
-    subTitle: "Juice Plus+ Berry Blend",
-    intro: "נוגדי חמצון עוצמתיים מהטבע.",
-    image: "cap_berry.jpg",
+    id: "berry",
+    title: "קפסולות פירות יער (סגול)",
+    subTitle: "Berry Blend",
+    intro: "נוגדי חמצון עוצמתיים.",
+    image: "berry.jpg",
     points: 72,
-    benefits: [
-      "מכיל ענבים, רימונים, אוכמניות, פטל, דומדמניות ועוד.",
-      "עשיר בפוליפנולים ונוגדי חמצון חזקים.",
-      "תומך בבריאות הלב וכלי הדם.",
-      "מעולה לספורטאים להתאוששות."
-    ],
-    usage: "2 קפסולות ביום."
+    benefits: ["אוכמניות, פטל, רימון, ענבים.", "זרימת דם ובריאות הלב.", "התאוששות מספורט."],
+    usage: "2 ביום."
   },
   {
     id: "omega",
-    title: "תערובת אומגה (Omega Blend)",
-    subTitle: "Juice Plus+ Omega Blend",
-    intro: "אומגה צמחית לחלוטין - ישר מהמקור (אצות).",
-    image: "cap_omega.jpg",
+    title: "אומגה בלנד (כתום)",
+    subTitle: "Omega Blend",
+    intro: "אומגה 100% צמחית מאצות.",
+    image: "omega.jpg",
     points: 72,
-    benefits: [
-      "שילוב ייחודי של אומגה 3, 5, 6, 7 ו-9.",
-      "100% טבעוני - מופק מאצות ולא מדגים (אין טעם לוואי!).",
-      "טכנולוגיית כבישה קרה השומרת על איכות השמנים.",
-      "ידידותי לסביבה ובר-קיימא."
-    ],
-    usage: "2 קפסולות ביום עם האוכל."
+    benefits: ["אומגה 3, 5, 6, 7, 9.", "ללא טעם לוואי של דגים.", "כבישה קרה."],
+    usage: "2 ביום."
   },
   {
-    id: "shake_vanilla",
-    title: "שייק קומפליט - וניל",
-    subTitle: "Complete by Juice Plus+ Vanilla",
-    intro: "ארוחה מלאה ומאוזנת בטעם וניל עשיר.",
-    image: "shake_vanilla.jpg",
-    points: 52, // חצי מארגז מלא
-    benefits: [
-      "חלבון צמחי איכותי (סויה, אפונה, אורז וחומוס).",
-      "עשיר בסיבים תזונתיים לשובע ממושך.",
-      "מתאים לטבעונים וללא גלוטן.",
-      "בסיס מעולה לשייקים עם פירות."
-    ],
-    usage: "כף מדידה אחת עם 250 מ״ל מים/חלב."
+    id: "vanilla",
+    title: "שייק וניל",
+    subTitle: "Complete Vanilla",
+    intro: "ארוחה מלאה בכוס.",
+    image: "vanilla.jpg",
+    points: 104, // ל-4 שקיות (משלוח)
+    benefits: ["חלבון צמחי מלא.", "סיבים תזונתיים.", "מתאים לטבעונים."],
+    usage: "כף מדידה עם מים/חלב."
   },
   {
-    id: "shake_choco",
-    title: "שייק קומפליט - שוקולד",
-    subTitle: "Complete by Juice Plus+ Chocolate",
-    intro: "ארוחה מלאה ומפנקת לחובבי השוקולד.",
-    image: "shake_choco.jpg",
-    points: 52,
-    benefits: [
-      "חלבון צמחי איכותי (13 גרם למנה).",
-      "אינדקס גליקמי נמוך.",
-      "מכיל את כל הוויטמינים והמינרלים הנדרשים לארוחה.",
-      "טעם שוקולדי עשיר ללא רגשות אשם."
-    ],
-    usage: "כף מדידה אחת עם 250 מ״ל מים/חלב."
+    id: "choco",
+    title: "שייק שוקולד",
+    subTitle: "Complete Chocolate",
+    intro: "פינוק בריא ומזין.",
+    image: "choco.jpg",
+    points: 104, // ל-4 שקיות
+    benefits: ["חלבון צמחי.", "אינדקס גליקמי נמוך.", "טעים במיוחד."],
+    usage: "כף מדידה עם מים/חלב."
   }
 ];
 
-// --- חלק 3: מחשבון אסטרטגיה (חבילות ומוצרים) ---
-// אלו האפשרויות שיופיעו במחשבון בדף הדרגה
+// --- חלק 3: מחשבון אסטרטגיה (ניקוד רשמי ישראל) ---
 window.STRATEGIES = [
-  { name: "חבילת טריו (3 סוגי הקפסולות)", points: 216, price: 388.5 }, // מחיר חודשי משוער
-  { name: "חבילת דואו (פירות וירקות)", points: 144, price: 254 },
-  { name: "חבילת המראה (טריו + שייקים)", points: 320, price: 580 },
-  { name: "שייק קומפליט (מארז מלא)", points: 104, price: 212 },
-  { name: "אומגה בלנד", points: 72, price: 140 },
-  { name: "קפסולות פירות יער (בודד)", points: 72, price: 135 }
+  { name: "חבילת טריו (פירות+ירקות+פירות יער)", points: 216 },
+  { name: "חבילת דואו (פירות+ירקות)", points: 144 },
+  { name: "מארז שייק קומפליט (וניל/שוקולד)", points: 104 },
+  { name: "חבילת המראה (טריו + שייק)", points: 320 },
+  { name: "אומגה בלנד (מארז)", points: 72 }
 ];
 
-// --- חלק 4: עצים (ללא שינוי) ---
+// --- חלק 4: עצים (ללא שינוי, למניעת תקלות) ---
 window.RANK_TREES = {
   partner_plus: {
-    title: "עץ התקדמות – Partner Plus (P+)",
-    description: "תרשים הממחיש הגעה ליעד של 4,000 נקודות.",
+    title: "עץ התקדמות P+",
+    description: "יעד 4,000",
     highlightId: "you",
-    nodes: [
-      { id: "you",   label: "אתה",   code: "P+", pv: 866, totalVal: "סה״כ: 4,576", generation: 0, column: 1 },
-      { id: "left",  label: "קו שמאל", code: "P",  pv: 283,  generation: 1, column: 0 },
-      { id: "mid",   label: "קו אמצע", code: "P",  pv: 2561, generation: 1, column: 1 },
-      { id: "right", label: "קו ימין", code: "P",  pv: 866,  generation: 1, column: 2 }
-    ],
-    edges: [ { from: "you", to: "left" }, { from: "you", to: "mid" }, { from: "you", to: "right" } ],
-    notes: ["הושג היעד לדרגת Partner Plus!", "סה\"כ: 4,576 נקודות."]
+    nodes: [{id:"you", label:"אתה", code:"P+", pv:4000}],
+    edges: [],
+    notes: ["הושג יעד 4,000 נקודות."]
   },
   senior_partner: {
-    title: "עץ התקדמות – Senior Partner (SP)",
-    description: "תרשים מלא (כולל דור 2).",
+    title: "עץ התקדמות SP",
+    description: "יעד 12,000",
     highlightId: "you",
-    nodes: [
-      { id: "you", label: "אתה (SP)", code: "P+", pv: 2561, totalVal: "סה״כ: 12,090", generation: 0, column: 2 },
-      { id: "left_top", label: "זכיין P", code: "P", pv: 4192, generation: 1, column: 0 },
-      { id: "mid_top", label: "לקוח אישי", code: "Client", pv: 2561, generation: 1, column: 2 },
-      { id: "right_top", label: "זכיין P", code: "P", pv: 2776, generation: 1, column: 4 },
-      { id: "left_bot", label: "לקוח/הזמנה", code: "Order", pv: 1631, generation: 2, column: 0 },
-      { id: "right_bot", label: "לקוח/הזמנה", code: "Order", pv: 1145, generation: 2, column: 4 }
-    ],
-    edges: [ { from: "you", to: "left_top" }, { from: "you", to: "mid_top" }, { from: "you", to: "right_top" }, { from: "left_top", to: "left_bot" }, { from: "right_top", to: "right_bot" } ],
-    notes: ["סה\"כ נקודות: 12,090", "עמדה ביעדי חודשיים רצופים."]
+    nodes: [{id:"you", label:"אתה", code:"SP", pv:12000}],
+    edges: [],
+    notes: ["הושג יעד 12,000 נקודות."]
   },
   sales_coordinator: {
-    title: "עץ התקדמות – Sales Coordinator (SC)",
-    description: "סימולציה מותאמת.",
+    title: "עץ התקדמות SC",
+    description: "יעד 28,000",
     highlightId: "you",
-    nodes: [{ id: "you", label: "אתה (SC)", code: "SC", pv: 1245, totalVal: "סה״כ: 27,170", generation: 0, column: 3 }],
+    nodes: [{id:"you", label:"אתה", code:"SC", pv:28000}],
     edges: [],
-    notes: ["סה\"כ נקודות: 27,170", "קרוב ליעד של 28,000."]
+    notes: ["הושג יעד 28,000 נקודות."]
   },
-  qssc: { title: "עץ התקדמות – QSSC", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"QSSC"}], edges:[], notes:[] },
-  ssc: { title: "עץ התקדמות – SSC", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"SSC"}], edges:[], notes:[] },
-  qnmd: { title: "עץ התקדמות – QNMD", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"QNMD"}], edges:[], notes:[] },
-  nmd: { title: "עץ התקדמות – NMD", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"NMD"}], edges:[], notes:[] },
-  imd: { title: "עץ התקדמות – IMD", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"IMD"}], edges:[], notes:[] },
-  emd: { title: "עץ התקדמות – EMD", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"EMD"}], edges:[], notes:[] },
-  pmd: { title: "עץ התקדמות – PMD", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"PMD"}], edges:[], notes:[] },
-  pmd_plus: { title: "עץ התקדמות – PMD+", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"PMD+"}], edges:[], notes:[] }
+  qssc: { title: "עץ QSSC", description: "", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"QSSC"}], edges:[], notes:[] },
+  ssc: { title: "עץ SSC", description: "", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"SSC"}], edges:[], notes:[] },
+  qnmd: { title: "עץ QNMD", description: "", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"QNMD"}], edges:[], notes:[] },
+  nmd: { title: "עץ NMD", description: "", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"NMD"}], edges:[], notes:[] },
+  imd: { title: "עץ IMD", description: "", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"IMD"}], edges:[], notes:[] },
+  emd: { title: "עץ EMD", description: "", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"EMD"}], edges:[], notes:[] },
+  pmd: { title: "עץ PMD", description: "", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"PMD"}], edges:[], notes:[] },
+  pmd_plus: { title: "עץ PMD+", description: "", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"PMD+"}], edges:[], notes:[] }
 };
