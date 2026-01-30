@@ -1,7 +1,7 @@
 /* data-fixed.js
-   UPDATED FOR ISRAEL MARKET 2025 (NIS ONLY)
-   - Consistent currency: ₪ (New Israeli Shekel).
-   - Precise match between top bullets and bottom details.
+   FINAL ISRAEL VERSION 2025 (NIS ONLY)
+   - Fixed currency to ₪ (New Israeli Shekel) exclusively.
+   - Synced top bullets with bottom details perfectly.
 */
 
 window.RANKS = [
@@ -223,7 +223,7 @@ window.RANKS = [
   }
 ];
 
-/* Trees logic - UNTOUCHED & IDENTICAL TO ORIGINAL */
+/* Trees logic - UNTOUCHED */
 window.RANK_TREES = {
   partner_plus: {
     title: "עץ התקדמות – Partner Plus (P+)",
