@@ -6,72 +6,6 @@
   <title>דרגה</title>
   <link rel="stylesheet" href="style.css?v=D3_ENGINE" />
   <script src="https://d3js.org/d3.v7.min.js"></script>
-  <style>
-    /* --- תוספת עיצוב לכפתור המידע החדש --- */
-    .details-toggle-btn {
-        background-color: #2C3E50; /* צבע כהה וסולידי */
-        color: white;
-        width: 100%;
-        padding: 12px 15px;
-        border: none;
-        border-radius: 8px;
-        font-size: 1.1rem;
-        cursor: pointer;
-        margin-top: 15px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        transition: background 0.3s, transform 0.2s;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-    .details-toggle-btn:hover { background-color: #1a252f; }
-    .details-toggle-btn:active { transform: scale(0.98); }
-    
-    /* האייקון בצד שמאל (+/-) */
-    .details-toggle-btn .toggle-icon { font-weight: bold; font-size: 1.5rem; line-height: 1; }
-
-    /* המיכל הנפתח */
-    .full-details-container {
-        display: none; /* מוסתר כברירת מחדל */
-        background: #f8f9fa;
-        border: 1px solid #e9ecef;
-        border-radius: 8px;
-        margin-top: 10px;
-        padding: 20px;
-        animation: slideDown 0.3s ease;
-    }
-    .full-details-container.open { display: block; }
-    
-    .detail-section { 
-        margin-bottom: 20px; 
-        border-bottom: 1px solid #e0e0e0; 
-        padding-bottom: 15px; 
-    }
-    .detail-section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-    
-    .detail-title { 
-        font-weight: 700; 
-        color: #16a34a; /* ירוק ג'וס פלאס */
-        margin-bottom: 8px; 
-        font-size: 1.15em; 
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-    
-    .detail-content { 
-        color: #333; 
-        line-height: 1.6; 
-        font-size: 0.95em; 
-    }
-    .detail-content ul { padding-right: 20px; margin: 5px 0; }
-    .detail-content li { margin-bottom: 5px; }
-    
-    @keyframes slideDown { 
-        from { opacity: 0; transform: translateY(-10px); } 
-        to { opacity: 1; transform: translateY(0); } 
-    }
-  </style>
 </head>
 
 <body>
@@ -116,14 +50,6 @@
         <section class="card">
           <h2 class="sectionTitle">דגשים חשובים</h2>
           <ul id="rankBullets" class="bullets"></ul>
-
-          <button id="btnFullDetails" class="details-toggle-btn" style="display:none;">
-              <span>פרטי תגמול מלאים (2025) 📋</span>
-              <span class="toggle-icon">+</span>
-          </button>
-          
-          <div id="rankFullDetails" class="full-details-container">
-              </div>
         </section>
       </div>
 
@@ -143,7 +69,7 @@
   </main>
 
   <script src="brand-core.js"></script>
-  <script src="data-fixed.js?v=D3_DATA_STRUCT_2025"></script>
+  <script src="data-fixed.js?v=CLEAN_VERSION_2025"></script>
   <script src="rank-tree.js?v=D3_RENDERER"></script>
 
   <script>
@@ -172,7 +98,6 @@
 
     function initRankPage() {
       const id = getRankId();
-      // הגנה למקרה שאין נתונים
       const rank = (window.RANKS || []).find(r => r.id === id);
 
       const navContainer = document.getElementById("rankNav");
@@ -218,55 +143,6 @@
         li.textContent = b;
         ul.appendChild(li);
       });
-
-      // --- לוגיקה חדשה: הצגת כפתור המידע המורחב ---
-      const btnDetails = document.getElementById("btnFullDetails");
-      const divDetails = document.getElementById("rankFullDetails");
-
-      if (rank.fullDetails) {
-          btnDetails.style.display = "flex";
-          
-          // בניית ה-HTML הפנימי
-          let html = "";
-          
-          if (rank.fullDetails.requirements) {
-              html += `<div class="detail-section">
-                        <div class="detail-title">🎯 דרישות והסמכה</div>
-                        <div class="detail-content">${rank.fullDetails.requirements}</div>
-                       </div>`;
-          }
-          if (rank.fullDetails.commissions) {
-              html += `<div class="detail-section">
-                        <div class="detail-title">💰 עמלות ורווחים</div>
-                        <div class="detail-content">${rank.fullDetails.commissions}</div>
-                       </div>`;
-          }
-          if (rank.fullDetails.bonuses) {
-              html += `<div class="detail-section">
-                        <div class="detail-title">🎁 בונוסים (Title Reward)</div>
-                        <div class="detail-content">${rank.fullDetails.bonuses}</div>
-                       </div>`;
-          }
-          
-          divDetails.innerHTML = html;
-
-          // אירוע לחיצה לפתיחה/סגירה
-          btnDetails.onclick = function() {
-              const isOpen = divDetails.classList.contains("open");
-              const icon = btnDetails.querySelector(".toggle-icon");
-              
-              if (isOpen) {
-                  divDetails.classList.remove("open");
-                  icon.textContent = "+";
-              } else {
-                  divDetails.classList.add("open");
-                  icon.textContent = "-";
-              }
-          };
-      } else {
-          // אם אין מידע נוסף לדרגה הזו, הסתר את הכפתור
-          btnDetails.style.display = "none";
-      }
     }
 
     document.addEventListener("DOMContentLoaded", initRankPage);
