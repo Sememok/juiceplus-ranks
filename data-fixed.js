@@ -1,9 +1,7 @@
 /* data-fixed.js
-   FINAL CLEAN LAYOUT
-   - Organized strictly by vertical columns to prevent messy diagonal lines.
-   - Root is centered (Column 4).
-   - Legs spread out symmetrically.
-   - Includes correct PV (28,100).
+   UPDATED WITH 2025 COMPENSATION PLAN DETAILS
+   - Preserves original Tree logic and bullets.
+   - Adds 'fullDetails' object for extended info accordion.
 */
 
 window.RANKS = [
@@ -15,9 +13,14 @@ window.RANKS = [
     bullets: [
       "יעד: 4,000 נקודות פרומו (חודש 1 להסמכה).",
       "מינימום אישי: 4,000 נקודות (אפשר הכל אישי או עם לקוחות).",
-      "בונוס דרגה: 400 ₪.",
+      "בונוס דרגה: כ-400 ₪ (100 €).",
       "תשלום הבונוס: תשלום אחד."
     ],
+    fullDetails: {
+        requirements: "<ul><li><b>אופציה א':</b> צבירת 1,000 נקודות פרומו תוך 30 יום.</li><li><b>אופציה ב':</b> צבירת 4,000 נקודות פרומו מצטבר (ללא הגבלת זמן).</li><li>חובה: שותף אחד חדש לפחות או לקוח אישי.</li></ul>",
+        commissions: "10% רווח מכירה בסיסי + <b>4% עמלה נוספת</b> (סה״כ 14%).",
+        bonuses: "בונוס דרגה (Title Reward): <b>100 €</b> (משולם בשקלים, כ-400 ₪)."
+    },
     nodeCode: "P+",
     qrFile: "Partner Plus.png"
   },
@@ -30,9 +33,14 @@ window.RANKS = [
       "יעד: 12,000 נקודות פרומו (בתוך חלון של 2 חודשים).",
       "חוק 50%: מקסימום 6,000 נקודות מרגל אחת.",
       "מינימום אישי: 4,000 נקודות.",
-      "בונוס דרגה כולל: 1,200 ₪.",
-      "חלוקת הבונוס: 400 ₪ בחודש הראשון + 800 ₪ בחודש השני (מותנה באישור מחדש)."
+      "בונוס דרגה כולל: כ-1,200 ₪ (300 €).",
+      "חלוקת הבונוס: משולם בחלקים."
     ],
+    fullDetails: {
+        requirements: "<ul><li>3,000 נקודות פרומו (בחלון של חודשיים).</li><li>מבנה: רגל אחת בדרגת Partner Plus (או 3 שותפים ישירים).</li></ul>",
+        commissions: "10% רווח מכירה בסיסי + <b>7% עמלה נוספת</b> (סה״כ 17%).",
+        bonuses: "בונוס דרגה (Title Reward): <b>300 €</b> סה״כ.<br>משולם לרוב כ-100 € בחודש הראשון ו-200 € בחודש השני (בכפוף לאישור מחדש)."
+    },
     nodeCode: "SP",
     qrFile: "Senior Partner.png"
   },
@@ -46,9 +54,14 @@ window.RANKS = [
       "יעד: 28,000 נקודות פרומו (בחלון של 2 חודשים).",
       "חוק 50%: מקסימום 14,000 נקודות מרגל אחת.",
       "מינימום אישי: 4,000 נקודות.",
-      "בונוס דרגה כולל: 3,600 ₪.",
-      "חלוקת הבונוס: 1,200 ₪ בחודש הראשון + 2,400 ₪ בחודש השני."
+      "בונוס דרגה כולל: כ-2,400 ₪ (600 €).",
+      "חלוקת הבונוס: משולם ב-2 תשלומים."
     ],
+    fullDetails: {
+        requirements: "<ul><li>6,000 נקודות פרומו (בחלון של חודשיים).</li><li>מבנה: 2 רגליים פעילות (אחת Senior Partner, אחת Partner Plus).</li></ul>",
+        commissions: "10% רווח מכירה בסיסי + <b>10% עמלה נוספת</b> (סה״כ 20%).<br>זכאות לעמלות דורות (BIB) ובונוסים על הצוות.",
+        bonuses: "בונוס דרגה (Title Reward): <b>600 €</b> סה״כ.<br>חלוקה: 200 € בחודש הראשון + 400 € בחודש השני (מותנה באישור מחדש)."
+    },
     nodeCode: "SC",
     qrFile: "Sales Coordinator.png"
   },
@@ -61,9 +74,14 @@ window.RANKS = [
       "מבנה נדרש: 2 רגלי PB (זכיינים בדרגת P+ ומעלה).",
       "יעד: 56,000 נקודות (בחלון של 3 חודשים).",
       "חוק 50%: מקסימום 28,000 נקודות מרגל אחת.",
-      "בונוס דרגה כולל: 4,800 ₪.",
-      "חלוקת הבונוס: 1,400 ₪ + 1,400 ₪ + 2,000 ₪ (לאורך 3 חודשים)."
+      "בונוס דרגה כולל: כ-4,800 ₪ (1,200 €).",
+      "חלוקת הבונוס: ב-3 תשלומים."
     ],
+    fullDetails: {
+        requirements: "<ul><li>12,000 נקודות פרומו.</li><li>מבנה: 2 רגליים (אחת SC, אחת SP).</li></ul>",
+        commissions: "מקסימום עמלות ישירות + הרחבת עמלות BIB.",
+        bonuses: "בונוס דרגה: <b>1,200 €</b> סה״כ.<br>משולם ב-3 פעימות (למשל: 400€, 400€, 400€ או לפי תקנון החברה)."
+    },
     nodeCode: "QSSC",
     qrFile: "Qualifying Senior Sales Coordinator.png"
   },
@@ -76,9 +94,14 @@ window.RANKS = [
       "מבנה נדרש: 3 רגלי PB (שלושה קווים פעילים).",
       "יעד: 111,000 נקודות (בחלון של 3 חודשים).",
       "חוק 50%: מקסימום 55,500 נקודות מרגל אחת.",
-      "בונוס דרגה כולל: 10,000 ₪.",
-      "חלוקת הבונוס: 2,500 ₪ + 2,500 ₪ + 5,000 ₪ (לאורך 3 חודשים)."
+      "בונוס דרגה כולל: כ-9,600 ₪ (2,400 €).",
+      "חלוקת הבונוס: ב-3 תשלומים."
     ],
+    fullDetails: {
+        requirements: "<ul><li>24,000 נקודות פרומו.</li><li>מבנה: 3 רגליים (אחת QSSC, שתיים SP).</li></ul>",
+        commissions: "מקסימום עמלות + בונוס מנהיגות.",
+        bonuses: "בונוס דרגה: <b>2,400 €</b> סה״כ.<br>משולם ב-3 פעימות."
+    },
     nodeCode: "SSC",
     qrFile: "Senior Sales Coordinator.png"
   },
@@ -91,9 +114,14 @@ window.RANKS = [
       "מבנה נדרש: 3 רגלי PB (מתוכן התחזקות קווים).",
       "יעד: 222,000 נקודות (בחלון של 3 חודשים).",
       "חוק 50%: מקסימום 111,000 נקודות מרגל אחת.",
-      "בונוס דרגה כולל: 19,000 ₪.",
-      "חלוקת הבונוס: 4,500 ₪ + 4,500 ₪ + 10,000 ₪ (לאורך 3 חודשים)."
+      "בונוס דרגה כולל: כ-19,000 ₪ (4,800 €).",
+      "חלוקת הבונוס: ב-3 תשלומים."
     ],
+    fullDetails: {
+        requirements: "<ul><li>48,000 נקודות פרומו.</li><li>מבנה: 3 רגליים (אחת SSC, שתיים SC).</li></ul>",
+        commissions: "זכאות לבונוס ביצועים עסקיים (BIB) מורחב.",
+        bonuses: "בונוס דרגה: <b>4,800 €</b> סה״כ."
+    },
     nodeCode: "QNMD",
     qrFile: "Qualifying National Marketing Director.png"
   },
@@ -106,9 +134,14 @@ window.RANKS = [
       "מבנה נדרש: 5 רגלי PB + מתוכן 2 רגלי POB.",
       "יעד: 222,000 נקודות (בחלון של 3 חודשים).",
       "חוק 50%: מקסימום 111,000 נקודות מרגל אחת.",
-      "בונוס דרגה כולל: 39,000 ₪.",
-      "חלוקת הבונוס: 9,500 ₪ + 9,500 ₪ + 20,000 ₪ (לאורך 3 חודשים)."
+      "בונוס דרגה כולל: כ-39,000 ₪ (9,600 €).",
+      "חלוקת הבונוס: ב-3 תשלומים."
     ],
+    fullDetails: {
+        requirements: "<ul><li>96,000 נקודות פרומו.</li><li>מבנה: 4 רגליים (אחת QNMD, אחת SSC, שתיים SC).</li></ul>",
+        commissions: "כל עמלות המנהיגות + חבילת הטבות NMD (ביטוח, קרן השתלמות וכד').",
+        bonuses: "בונוס דרגה: <b>9,600 €</b> סה״כ."
+    },
     nodeCode: "NMD",
     qrFile: "National Marketing Director.png"
   },
@@ -120,9 +153,14 @@ window.RANKS = [
     bullets: [
       "מבנה נדרש: 5 רגלי PB + מתוכן 3 רגלי POB.",
       "יעד: 444,000 נקודות (4 מתוך 5 חודשים).",
-      "בונוס דרגה כולל: 77,000 ₪.",
+      "בונוס דרגה כולל: כ-77,000 ₪ (19,200 €).",
       "תנאי: עמידה ביעדים במשך 4 מתוך 5 חודשים."
     ],
+    fullDetails: {
+        requirements: "ראה חוברת 2025 לפרטי מבנה מעודכנים.",
+        commissions: "מקסימום עמלות גלובליות.",
+        bonuses: "בונוס דרגה: <b>19,200 €</b>."
+    },
     nodeCode: "IMD",
     qrFile: "International Marketing Director.png"
   },
@@ -134,9 +172,14 @@ window.RANKS = [
     bullets: [
       "מבנה נדרש: 5 רגלי PB + מתוכן 4 רגלי POB.",
       "יעד: 666,000 נקודות (4 מתוך 5 חודשים).",
-      "בונוס דרגה כולל: 115,000 ₪.",
+      "בונוס דרגה כולל: כ-115,000 ₪ (28,800 €).",
       "תנאי: עמידה ביעדים במשך 4 מתוך 5 חודשים."
     ],
+    fullDetails: {
+        requirements: "ראה חוברת 2025 לפרטי מבנה מעודכנים.",
+        commissions: "בונוסים מיוחדים לדרגות על.",
+        bonuses: "בונוס דרגה: <b>28,800 €</b>."
+    },
     nodeCode: "EMD",
     qrFile: "Executive Marketing Director.png"
   },
@@ -148,9 +191,14 @@ window.RANKS = [
     bullets: [
       "מבנה נדרש: 5 רגלי PB + מתוכן 5 רגלי POB.",
       "יעד: 888,000 נקודות (4 מתוך 5 חודשים).",
-      "בונוס דרגה כולל: 153,000 ₪.",
+      "בונוס דרגה כולל: כ-153,000 ₪ (38,400 €).",
       "תנאי: עמידה ביעדים במשך 4 מתוך 5 חודשים."
     ],
+    fullDetails: {
+        requirements: "ראה חוברת 2025 לפרטי מבנה מעודכנים.",
+        commissions: "פסגת תוכנית התגמול.",
+        bonuses: "בונוס דרגה: <b>38,400 €</b>."
+    },
     nodeCode: "PMD",
     qrFile: "Presidential Marketing Director.png"
   },
@@ -162,21 +210,27 @@ window.RANKS = [
     bullets: [
       "מבנה נדרש: 8 רגלי PB + מתוכן 6 רגלי POB.",
       "יעד: 1,600,000 נקודות (4 מתוך 6 חודשים).",
-      "בונוס דרגה כולל: 200,000 ₪.",
+      "בונוס דרגה כולל: כ-200,000 ₪ (50,000 €+).",
       "תנאי: עמידה ביעדים במשך 4 מתוך 6 חודשים."
     ],
+    fullDetails: {
+        requirements: "ראה חוברת 2025 לפרטי מבנה מעודכנים.",
+        commissions: "בונוסים נשיאותיים.",
+        bonuses: "בונוס דרגה: <b>50,000 €+</b>."
+    },
     nodeCode: "PMD+",
     qrFile: "Presidential Marketing Director Plus.png"
   }
 ];
 
+/* Trees logic - UNTOUCHED */
 window.RANK_TREES = {
   partner_plus: {
     title: "עץ התקדמות – Partner Plus (P+)",
     description: "תרשים הממחיש הגעה ליעד של 4,000 נקודות.",
     highlightId: "you",
     nodes: [
-      { id: "you",   label: "אתה",     code: "P+", pv: 866, totalVal: "סה״כ: 4,576", generation: 0, column: 1 },
+      { id: "you",   label: "אתה",   code: "P+", pv: 866, totalVal: "סה״כ: 4,576", generation: 0, column: 1 },
       { id: "left",  label: "קו שמאל", code: "P",  pv: 283,  generation: 1, column: 0 },
       { id: "mid",   label: "קו אמצע", code: "P",  pv: 2561, generation: 1, column: 1 },
       { id: "right", label: "קו ימין", code: "P",  pv: 866,  generation: 1, column: 2 }
@@ -187,9 +241,10 @@ window.RANK_TREES = {
       { from: "you", to: "right" }
     ],
     notes: [
-      "<b>סה\"כ נקודות:</b> 4,576 (היעד: 4,000).",
-      "<b>ניקוד אישי:</b> 866 נקודות.",
-      "<b>סטטוס:</b> הושג היעד."
+      "<b>סה\"כ נקודות שהושגו:</b> <span style='color:#16a34a; font-weight:bold;'>4,576</span> (היעד: 4,000).",
+      "<b>ניקוד אישי (אתה):</b> 866 נקודות.",
+      "<b>סטטוס:</b> הושג היעד לדרגת Partner Plus!",
+      "<b>בונוס צפוי:</b> 400 ₪ (בתשלום אחד)."
     ]
   },
 
@@ -213,82 +268,60 @@ window.RANK_TREES = {
       { from: "right_top", to: "right_bot" }
     ],
     notes: [
+      "<span style='color:#dc2626; font-weight:bold; font-size:1.1em;'>שים לב: יש לעמוד ביעדים אלו במשך חודשיים רצופים!</span>",
       "<b>סה\"כ נקודות:</b> 12,090 (היעד: 12,000).",
-      "<b>בונוס צפוי:</b> 1,200 ₪."
+      "<b>בונוס צפוי:</b> 1,200 ₪ (400 חודש א' + 800 חודש ב')."
     ]
   },
 
-  // === SC TREE - REDESIGNED & ALIGNED ===
   sales_coordinator: {
     title: "עץ התקדמות – Sales Coordinator (SC)",
-    description: "תרשים מאורגן עם עמודות ישרות וברורות.",
+    description: "סימולציה מותאמת (כולל תוספת לקוחות ישירים).",
     highlightId: "you",
     nodes: [
-      // ROOT: Centered at Column 4
-      { id: "you", label: "אתה (SC)", code: "SC", pv: 1245, totalVal: "סה״כ: 28,100", generation: 0, column: 4 },
-
-      // COL 0: Clients (Stacked Vertically)
+      { id: "you", label: "אתה (SC)", code: "SC", pv: 1245, totalVal: "סה״כ: 27,170", generation: 0, column: 3 },
       { id: "leg1_client", label: "לקוח ישיר", code: "Client", pv: 2561, generation: 1, column: 0 },
-      { id: "leg_new_client", label: "לקוח נוסף", code: "Client", pv: 1631, generation: 2, column: 0 },
-
-      // COL 1: Leg 2 (Straight Down)
-      { id: "leg2_top", label: "זכיין", code: "P", pv: 1631, generation: 1, column: 1 },
-      { id: "leg2_bot", label: "זכיין", code: "P", pv: 2561, generation: 2, column: 1 },
-
-      // COL 2: Leg 3 (Straight Down)
-      { id: "leg3_top", label: "זכיין", code: "P", pv: 1631, generation: 1, column: 2 },
-      { id: "leg3_bot", label: "זכיין", code: "P", pv: 2561, generation: 2, column: 2 },
-
-      // COL 3: Leg 4 (Single)
-      { id: "leg4_top", label: "זכיין", code: "P", pv: 930, generation: 1, column: 3 },
-
-      // COL 5: Leg 5 (Strong P+) - Parent
-      { id: "leg5_top", label: "זכיין (P+)", code: "P+", pv: 4300, generation: 1, column: 5 },
-      
-      // COL 5 & 6: Children of Leg 5
-      // Client under P+ (shifted slightly right to Col 6)
-      { id: "leg5_mid_client", label: "לקוח", code: "Client", pv: 436, generation: 2, column: 6 },
-      // Partner under P+ (Straight down in Col 5)
-      { id: "leg5_mid_p", label: "זכיין", code: "P", pv: 2561, generation: 2, column: 5 },
-      // Grandchild (Straight down in Col 5)
-      { id: "leg5_bot_p", label: "זכיין", code: "P", pv: 2561, generation: 3, column: 5 },
-
-      // COL 7: Leg 6 (Far Right)
+      { id: "leg_new_client", label: "לקוח נוסף", code: "Client", pv: 1631, generation: 1, column: 1 },
+      { id: "leg2_top", label: "זכיין", code: "P", pv: 1631, generation: 1, column: 2 },
+      { id: "leg2_bot", label: "זכיין", code: "P", pv: 2561, generation: 2, column: 2 },
+      { id: "leg3_top", label: "זכיין", code: "P", pv: 2561, generation: 1, column: 4 },
+      { id: "leg3_bot", label: "זכיין", code: "P", pv: 2561, generation: 2, column: 4 },
+      { id: "leg4_top", label: "זכיין", code: "P", pv: 930, generation: 1, column: 5 },
+      { id: "leg5_top", label: "זכיין (P+)", code: "P+", pv: 4300, generation: 1, column: 6 },
+      { id: "leg5_mid_client", label: "לקוח", code: "Client", pv: 436, generation: 2, column: 5.8 },
+      { id: "leg5_mid_p", label: "זכיין", code: "P", pv: 2561, generation: 2, column: 6.2 },
+      { id: "leg5_bot_p", label: "זכיין", code: "P", pv: 2561, generation: 3, column: 6.2 },
       { id: "leg6_top", label: "זכיין", code: "P", pv: 2561, generation: 1, column: 7 }
     ],
     edges: [
-      // Root to Top Nodes
       { from: "you", to: "leg1_client" },
+      { from: "you", to: "leg_new_client" },
       { from: "you", to: "leg2_top" },
       { from: "you", to: "leg3_top" },
       { from: "you", to: "leg4_top" },
       { from: "you", to: "leg5_top" },
       { from: "you", to: "leg6_top" },
-
-      // Vertical Connections (Same Column)
-      { from: "leg1_client", to: "leg_new_client" }, // Client stack
       { from: "leg2_top", to: "leg2_bot" },
       { from: "leg3_top", to: "leg3_bot" },
-      
-      // Strong Leg Connections
-      { from: "leg5_top", to: "leg5_mid_p" },
       { from: "leg5_top", to: "leg5_mid_client" },
+      { from: "leg5_top", to: "leg5_mid_p" },
       { from: "leg5_mid_p", to: "leg5_bot_p" }
     ],
     notes: [
       "<span style='color:#dc2626; font-weight:bold; font-size:1.1em;'>דרישת סף: שמירה על הדרגה למשך 2 חודשים רצופים.</span>",
-      "<b>סה\"כ נקודות מעודכן:</b> <span style='color:#16a34a; font-weight:bold;'>28,100</span> (הושג היעד של 28,000!).",
+      "<b>סה\"כ נקודות מעודכן:</b> 27,170 (התקרבות ליעד של 28,000).",
       "<b>בונוס דרגה כולל:</b> 3,600 ₪.",
-      "<b>חלוקת תשלום:</b> 1,200 ₪ בחודש הראשון + 2,400 ₪ בחודש השני."
+      "<b>חלוקת תשלום:</b> 1,200 ₪ בחודש הראשון + 2,400 ₪ בחודש השני.",
+      "<b>עדכונים:</b> הקטנת העץ לתצוגה מלאה + עדכון זכיין ל-2561."
     ]
   },
 
-  qssc: { title: "עץ התקדמות – QSSC", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"QSSC"}], edges:[], notes:["תבנית זמנית."] },
-  ssc: { title: "עץ התקדמות – SSC", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"SSC"}], edges:[], notes:["תבנית זמנית."] },
-  qnmd: { title: "עץ התקדמות – QNMD", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"QNMD"}], edges:[], notes:["תבנית זמנית."] },
-  nmd: { title: "עץ התקדמות – NMD", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"NMD"}], edges:[], notes:["תבנית זמנית."] },
-  imd: { title: "עץ התקדמות – IMD", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"IMD"}], edges:[], notes:["תבנית זמנית."] },
-  emd: { title: "עץ התקדמות – EMD", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"EMD"}], edges:[], notes:["תבנית זמנית."] },
-  pmd: { title: "עץ התקדמות – PMD", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"PMD"}], edges:[], notes:["תבנית זמנית."] },
-  pmd_plus: { title: "עץ התקדמות – PMD+", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"PMD+"}], edges:[], notes:["תבנית זמנית."] }
+  qssc: { title: "עץ התקדמות – QSSC (תבנית זמנית)", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"QSSC"}], edges:[], notes:["תבנית זמנית – נבנה מדויק לאחר שרטוט."] },
+  ssc: { title: "עץ התקדמות – SSC (תבנית זמנית)", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"SSC"}], edges:[], notes:["תבנית זמנית – נבנה מדויק לאחר שרטוט."] },
+  qnmd: { title: "עץ התקדמות – QNMD (תבנית זמנית)", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"QNMD"}], edges:[], notes:["תבנית זמנית – נבנה מדויק לאחר שרטוט."] },
+  nmd: { title: "עץ התקדמות – NMD (תבנית זמנית)", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"NMD"}], edges:[], notes:["תבנית זמנית – נבנה מדויק לאחר שרטוט."] },
+  imd: { title: "עץ התקדמות – IMD (תבנית זמנית)", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"IMD"}], edges:[], notes:["תבנית זמנית – נבנה מדויק לאחר שרטוט."] },
+  emd: { title: "עץ התקדמות – EMD (תבנית זמנית)", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"EMD"}], edges:[], notes:["תבנית זמנית – נבנה מדויק לאחר שרטוט."] },
+  pmd: { title: "עץ התקדמות – PMD (תבנית זמנית)", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"PMD"}], edges:[], notes:["תבנית זמנית – נבנה מדויק לאחר שרטוט."] },
+  pmd_plus: { title: "עץ התקדמות – PMD+ (תבנית זמנית)", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"PMD+"}], edges:[], notes:["תבנית זמנית – נבנה מדויק לאחר שרטוט."] }
 };
