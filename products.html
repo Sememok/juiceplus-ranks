@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>קטלוג מוצרים</title>
-  <link rel="stylesheet" href="style.css?v=PROD_CLEAN_V1" />
+  <link rel="stylesheet" href="style.css?v=PROD_LIST_CLEAN" />
   <style>
     .products-grid {
       display: grid;
@@ -63,7 +63,7 @@
     <div class="products-grid" id="productsGrid"></div>
   </main>
 
-  <script src="data-fixed.js?v=DATA_CLEAN_V1"></script>
+  <script src="data-fixed.js?v=DATA_FILENAMES_UPDATED"></script>
   
   <script>
     document.addEventListener("DOMContentLoaded", () => {
@@ -79,6 +79,7 @@
         card.className = "product-card";
         card.onclick = () => location.href = `product.html?id=${prod.id}`;
         
+        // טעינת תמונה לפי השמות המדויקים שלך
         const imgSrc = prod.image || ''; 
         
         card.innerHTML = `
