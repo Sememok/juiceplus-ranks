@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>קטלוג מוצרים</title>
-  <link rel="stylesheet" href="style.css?v=PROD_RELOAD" />
+  <link rel="stylesheet" href="style.css?v=PROD_CLEAN_V1" />
   <style>
     .products-grid {
       display: grid;
@@ -21,6 +21,9 @@
       transition: transform 0.2s;
       cursor: pointer;
       border: 1px solid #eee;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
     .product-card:hover {
       transform: translateY(-5px);
@@ -29,21 +32,18 @@
     }
     .prod-img-thumb {
       width: 100%;
-      height: 200px;
+      height: 220px;
       object-fit: contain;
       margin-bottom: 15px;
       border-radius: 8px;
+      background-color: #fff;
     }
     .prod-title { font-weight: bold; font-size: 1.2rem; margin-bottom: 5px; color: #2C3E50; }
-    .prod-points { 
-      background: #e8f5e9; color: #166534; 
-      display: inline-block; padding: 4px 12px; 
-      border-radius: 20px; font-size: 0.9rem; font-weight: bold; margin-bottom: 10px;
-    }
+    
     .btn-view {
       background: #ff6b00; color: white; padding: 8px 20px;
       border-radius: 20px; text-decoration: none; font-weight: bold;
-      display: inline-block; margin-top: 10px;
+      display: inline-block; margin-top: auto;
     }
   </style>
 </head>
@@ -63,7 +63,7 @@
     <div class="products-grid" id="productsGrid"></div>
   </main>
 
-  <script src="data-fixed.js?v=FIXED_DATA_2026"></script>
+  <script src="data-fixed.js?v=DATA_CLEAN_V1"></script>
   
   <script>
     document.addEventListener("DOMContentLoaded", () => {
@@ -79,14 +79,12 @@
         card.className = "product-card";
         card.onclick = () => location.href = `product.html?id=${prod.id}`;
         
-        // בדיקה אם יש תמונה, אחרת שם פלייסהולדר
-        const imgSrc = prod.image || 'https://via.placeholder.com/200?text=No+Image';
+        const imgSrc = prod.image || ''; 
         
         card.innerHTML = `
-          <img src="${imgSrc}" class="prod-img-thumb" alt="${prod.title}">
+          <img src="${imgSrc}" class="prod-img-thumb" alt="${prod.title}" onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'">
           <div class="prod-title">${prod.title}</div>
-          <div class="prod-points">${prod.points} נקודות</div>
-          <div style="color:#666; font-size:0.9rem; margin-bottom:10px;">${prod.intro}</div>
+          <div style="color:#666; font-size:0.9rem; margin-bottom:15px; flex-grow:1;">${prod.intro}</div>
           <span class="btn-view">לפרטים נוספים</span>
         `;
         grid.appendChild(card);
