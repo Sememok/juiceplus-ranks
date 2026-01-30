@@ -1,7 +1,7 @@
 /* data-fixed.js
-   ISRAEL 2025 - USER SPECIFIC POINTS
-   - Updated Strategy Points exactly as requested.
-   - Added Next/Prev logic support.
+   ISRAEL 2025 - USER EXACT POINTS
+   - Calculator Strategies updated to specific user list.
+   - Product images linked to simple filenames.
 */
 
 // --- חלק 1: דרגות ---
@@ -13,8 +13,7 @@ window.RANKS = [
     intro: "התקדמות ראשונה.",
     videoUrl: "https://youtu.be/M293NdN7Sok?si=da8BUiVp5Qy-Z_5y",
     bullets: ["יעד: 4,000 נקודות.", "עמלה: 14%.", "בונוס: 400 ₪."],
-    nodeCode: "P+",
-    qrFile: "Partner Plus.png"
+    nodeCode: "P+"
   },
   {
     id: "senior_partner",
@@ -23,8 +22,7 @@ window.RANKS = [
     intro: "בניית יציבות.",
     videoUrl: "https://youtu.be/fnG6Eld0SPk?si=7ZozniTLZHIG5qR8",
     bullets: ["יעד: 12,000 נקודות.", "עמלה: 19%.", "בונוס: 1,200 ₪."],
-    nodeCode: "SP",
-    qrFile: "Senior Partner.png"
+    nodeCode: "SP"
   },
   {
     id: "sales_coordinator",
@@ -33,8 +31,7 @@ window.RANKS = [
     intro: "דרגת מנהיגות.",
     videoUrl: "https://youtu.be/cyJb_ecWjyA?si=JjClNcImW1bs86Ig",
     bullets: ["יעד: 28,000 נקודות.", "עמלה: 22%.", "בונוס: 3,600 ₪."],
-    nodeCode: "SC",
-    qrFile: "Sales Coordinator.png"
+    nodeCode: "SC"
   },
   {
     id: "qssc",
@@ -43,8 +40,7 @@ window.RANKS = [
     intro: "בדרך לטופ.",
     videoUrl: "https://youtu.be/ru06kEc9kqE",
     bullets: ["יעד: 56,000 נקודות.", "בונוס: 4,800 ₪."],
-    nodeCode: "QSSC",
-    qrFile: "QSSC.png"
+    nodeCode: "QSSC"
   },
   {
     id: "ssc",
@@ -53,8 +49,7 @@ window.RANKS = [
     intro: "ניהול בכיר.",
     videoUrl: "https://youtu.be/xPwmFecZ8Ms",
     bullets: ["יעד: 111,000 נקודות.", "בונוס: 10,000 ₪."],
-    nodeCode: "SSC",
-    qrFile: "SSC.png"
+    nodeCode: "SSC"
   },
   {
     id: "qnmd",
@@ -63,8 +58,7 @@ window.RANKS = [
     intro: "לפני פסגה.",
     videoUrl: "https://youtu.be/W8Wm_c4kMUo",
     bullets: ["יעד: 222,000 נקודות.", "בונוס: 19,000 ₪."],
-    nodeCode: "QNMD",
-    qrFile: "QNMD.png"
+    nodeCode: "QNMD"
   },
   {
     id: "nmd",
@@ -73,8 +67,7 @@ window.RANKS = [
     intro: "הדרגה הלאומית.",
     videoUrl: "https://youtu.be/muieHSXIocI",
     bullets: ["יעד: 222,000 נקודות.", "בונוס: 39,000 ₪."],
-    nodeCode: "NMD",
-    qrFile: "NMD.png"
+    nodeCode: "NMD"
   },
   {
     id: "imd",
@@ -83,8 +76,7 @@ window.RANKS = [
     intro: "בינלאומי.",
     videoUrl: "https://youtu.be/WeEZlCjHAtU",
     bullets: ["יעד: 444,000 נקודות.", "בונוס: 77,000 ₪."],
-    nodeCode: "IMD",
-    qrFile: "IMD.png"
+    nodeCode: "IMD"
   },
   {
     id: "emd",
@@ -93,8 +85,7 @@ window.RANKS = [
     intro: "אקזקיוטיב.",
     videoUrl: "https://youtu.be/KpKDNIc8R7k",
     bullets: ["יעד: 666,000 נקודות.", "בונוס: 115,000 ₪."],
-    nodeCode: "EMD",
-    qrFile: "EMD.png"
+    nodeCode: "EMD"
   },
   {
     id: "pmd",
@@ -103,8 +94,7 @@ window.RANKS = [
     intro: "פסגת המנהיגות.",
     videoUrl: "https://youtu.be/2i3sVTpFxts",
     bullets: ["יעד: 888,000 נקודות.", "בונוס: 153,000 ₪."],
-    nodeCode: "PMD",
-    qrFile: "PMD.png"
+    nodeCode: "PMD"
   },
   {
     id: "pmd_plus",
@@ -113,12 +103,11 @@ window.RANKS = [
     intro: "הטופ של הטופ.",
     videoUrl: "https://youtu.be/MVxQ4LPsj6w",
     bullets: ["יעד: 1,600,000 נקודות.", "בונוס: 200,000 ₪."],
-    nodeCode: "PMD+",
-    qrFile: "PMD+.png"
+    nodeCode: "PMD+"
   }
 ];
 
-// --- חלק 2: מוצרים (עם שמות קבצים פשוטים) ---
+// --- חלק 2: מוצרים (תמונות ופרטים) ---
 window.PRODUCTS = [
   {
     id: "berry",
@@ -126,8 +115,7 @@ window.PRODUCTS = [
     subTitle: "Berry Blend",
     intro: "נוגדי חמצון עוצמתיים.",
     image: "berry.jpg",
-    points: 380,
-    benefits: ["אוכמניות, פטל, ענבים.", "בריאות הלב.", "זרימת דם."],
+    benefits: ["אוכמניות, פטל, ענבים, רימון.", "בריאות הלב.", "זרימת דם."],
     usage: "2 ביום."
   },
   {
@@ -136,7 +124,6 @@ window.PRODUCTS = [
     subTitle: "Omega Blend",
     intro: "אומגה 100% צמחית.",
     image: "omega.jpg",
-    points: 486,
     benefits: ["אומגה 3, 5, 6, 7, 9.", "ללא דגים.", "כבישה קרה."],
     usage: "2 ביום."
   },
@@ -146,7 +133,6 @@ window.PRODUCTS = [
     subTitle: "Fruit Blend",
     intro: "הבסיס היומי שלך.",
     image: "fruit.jpg",
-    points: "חלק ממארז",
     benefits: ["תפוח, תפוז, אננס.", "ויטמינים טבעיים.", "ללא גלוטן."],
     usage: "2 ביום."
   },
@@ -156,7 +142,6 @@ window.PRODUCTS = [
     subTitle: "Vegetable Blend",
     intro: "הירקות שחסרים לך.",
     image: "veg.jpg",
-    points: "חלק ממארז",
     benefits: ["ברוקולי, גזר, פטרוזיליה.", "ניקוי רעלים.", "חומצה פולית."],
     usage: "2 ביום."
   },
@@ -166,7 +151,6 @@ window.PRODUCTS = [
     subTitle: "Complete Vanilla",
     intro: "ארוחה מלאה בכוס.",
     image: "vanilla.jpg",
-    points: 830,
     benefits: ["חלבון צמחי.", "סיבים תזונתיים.", "טעים במיוחד."],
     usage: "כף מדידה עם נוזל."
   },
@@ -176,21 +160,20 @@ window.PRODUCTS = [
     subTitle: "Complete Chocolate",
     intro: "פינוק בריא.",
     image: "choco.jpg",
-    points: 830,
     benefits: ["חלבון צמחי.", "לפני/אחרי אימון.", "ללא גלוטן."],
     usage: "כף מדידה עם נוזל."
   }
 ];
 
-// --- חלק 3: מחשבון אסטרטגיה (לפי הרשימה שלך בדיוק) ---
+// --- חלק 3: מחשבון אסטרטגיה (הרשימה המדויקת שלך) ---
 window.STRATEGIES = [
-  { name: "דואו (פירות + ירקות)", points: 765 },
-  { name: "טריו (פירות, ירקות, יער)", points: 1145 },
-  { name: "רביעייה (טריו + אומגה)", points: 1631 },
-  { name: "קפסולות פירות יער (בודד)", points: 380 },
-  { name: "קפסולות אומגה (בודד)", points: 486 },
-  { name: "שייק קומפליט (טעם אחד)", points: 830 },
-  { name: "שייק קומפליט קומבי (מיקס)", points: 930 },
+  { name: "קפסולות פירות יער", points: 380 },
+  { name: "מארז דואו (פירות + ירקות)", points: 765 },
+  { name: "שלישייה (פירות, ירקות, יער)", points: 1145 },
+  { name: "רביעייה (שלישייה + אומגה)", points: 1631 },
+  { name: "שייק קומפליט (שקיות גדולות)", points: 830 },
+  { name: "קומפליט קומבי (שני הטעמים)", points: 930 },
+  { name: "קפסולות אומגה בלנד", points: 486 },
   { name: "אומגה בלנד + פירות יער", points: 866 },
   { name: "ערכה מלאה + קומפליט רגיל", points: 2461 },
   { name: "ערכה מלאה + קומפליט קומבי", points: 2561 }
