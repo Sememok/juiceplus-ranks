@@ -1,16 +1,17 @@
 /* data-fixed.js
-   ISRAEL 2025 - WITH STRATEGIC CALCULATOR DATA
-   - Added 'targetPoints' to each rank for calculation.
-   - Added 'STRATEGIES' with product points (PV).
+   ISRAEL 2025 - DETAILED PRODUCTS & STRATEGIES
+   - Separated capsules into Fruit, Veg, Berry.
+   - Updated Calculator Strategies with Prices & Points.
 */
 
+// --- חלק 1: דרגות (ללא שינוי) ---
 window.RANKS = [
   {
     id: "partner_plus",
     title: "Partner Plus",
+    targetPoints: 4000,
     intro: "התקדמות ראשונה: בניית בסיס לקוחות ראשוני.",
     videoUrl: "https://youtu.be/M293NdN7Sok?si=da8BUiVp5Qy-Z_5y",
-    targetPoints: 4000, // יעד מספרי למחשבון
     bullets: [
       "יעד: 4,000 נקודות פרומו (חודש 1 להסמכה).",
       "מינימום אישי: 4,000 נקודות (אפשר הכל אישי או עם לקוחות).",
@@ -23,9 +24,9 @@ window.RANKS = [
   {
     id: "senior_partner",
     title: "Senior Partner",
+    targetPoints: 12000,
     intro: "בניית יציבות ולקוחות חוזרים.",
     videoUrl: "https://youtu.be/fnG6Eld0SPk?si=7ZozniTLZHIG5qR8",
-    targetPoints: 12000,
     bullets: [
       "יעד: 12,000 נקודות פרומו (בתוך חלון של 2 חודשים).",
       "חוק 50%: מקסימום 6,000 נקודות מרגל אחת.",
@@ -38,9 +39,9 @@ window.RANKS = [
   {
     id: "sales_coordinator",
     title: "Sales Coordinator",
+    targetPoints: 28000,
     intro: "הדרגה הניהולית הראשונה: בניית צוות ומבנה רוחב.",
     videoUrl: "https://youtu.be/cyJb_ecWjyA?si=JjClNcImW1bs86Ig",
-    targetPoints: 28000,
     bullets: [
       "מבנה נדרש: זכיין אחד בדרגת Partner Plus (מבנה 1 רגל PB).",
       "יעד: 28,000 נקודות פרומו (בחלון של 2 חודשים).",
@@ -53,9 +54,9 @@ window.RANKS = [
   {
     id: "qssc",
     title: "Qualifying Senior Sales Coordinator",
+    targetPoints: 56000,
     intro: "שלב ביניים בדרך לניהול בכיר.",
     videoUrl: "https://youtu.be/ru06kEc9kqE?si=9yvL3LZ5Qm80YEak",
-    targetPoints: 56000,
     bullets: [
       "מבנה נדרש: 2 רגלי PB (זכיינים בדרגת P+ ומעלה).",
       "יעד: 56,000 נקודות (בחלון של 3 חודשים).",
@@ -68,9 +69,9 @@ window.RANKS = [
   {
     id: "ssc",
     title: "Senior Sales Coordinator",
+    targetPoints: 111000,
     intro: "ניהול צוות מתקדם ויציב.",
     videoUrl: "https://youtu.be/xPwmFecZ8Ms?si=rqjGaml0ySJoif0x",
-    targetPoints: 111000,
     bullets: [
       "מבנה נדרש: 3 רגלי PB (שלושה קווים פעילים).",
       "יעד: 111,000 נקודות (בחלון של 3 חודשים).",
@@ -83,9 +84,9 @@ window.RANKS = [
   {
     id: "qnmd",
     title: "Qualifying National Marketing Director",
+    targetPoints: 222000,
     intro: "הכנה לדרגה הבכירה ביותר.",
     videoUrl: "https://youtu.be/W8Wm_c4kMUo?si=sRYcBXB5K67s3CgE",
-    targetPoints: 222000,
     bullets: [
       "מבנה נדרש: 3 רגלי PB (מתוכן התחזקות קווים).",
       "יעד: 222,000 נקודות (בחלון של 3 חודשים).",
@@ -98,9 +99,9 @@ window.RANKS = [
   {
     id: "nmd",
     title: "National Marketing Director",
+    targetPoints: 222000,
     intro: "הדרגה הלאומית הבכירה - NMD.",
     videoUrl: "https://youtu.be/muieHSXIocI?si=mgdWJi4OJRh0YzLE",
-    targetPoints: 222000,
     bullets: [
       "מבנה נדרש: 5 רגלי PB + מתוכן 2 רגלי POB.",
       "יעד: 222,000 נקודות (בחלון של 3 חודשים).",
@@ -113,9 +114,9 @@ window.RANKS = [
   {
     id: "imd",
     title: "International Marketing Director",
+    targetPoints: 444000,
     intro: "דרגה בינלאומית יוקרתית.",
     videoUrl: "https://youtu.be/WeEZlCjHAtU?si=O0jNx22vXu_D9QZC",
-    targetPoints: 444000,
     bullets: [
       "מבנה נדרש: 5 רגלי PB + מתוכן 3 רגלי POB.",
       "יעד: 444,000 נקודות (4 מתוך 5 חודשים).",
@@ -128,9 +129,9 @@ window.RANKS = [
   {
     id: "emd",
     title: "Executive Marketing Director",
+    targetPoints: 666000,
     intro: "ניהול ארגון ענק ורב-דורי.",
     videoUrl: "https://youtu.be/KpKDNIc8R7k?si=SrOdHEqDI50v0lGi",
-    targetPoints: 666000,
     bullets: [
       "מבנה נדרש: 5 רגלי PB + מתוכן 4 רגלי POB.",
       "יעד: 666,000 נקודות (4 מתוך 5 חודשים).",
@@ -143,9 +144,9 @@ window.RANKS = [
   {
     id: "pmd",
     title: "Presidential Marketing Director",
+    targetPoints: 888000,
     intro: "פסגת המנהיגות.",
     videoUrl: "https://youtu.be/2i3sVTpFxts?si=qD2kCXt6GRrnapvF",
-    targetPoints: 888000,
     bullets: [
       "מבנה נדרש: 5 רגלי PB + מתוכן 5 רגלי POB.",
       "יעד: 888,000 נקודות (4 מתוך 5 חודשים).",
@@ -158,9 +159,9 @@ window.RANKS = [
   {
     id: "pmd_plus",
     title: "Presidential Marketing Director Plus",
+    targetPoints: 1600000,
     intro: "הדרגה הגבוהה ביותר בתוכנית.",
     videoUrl: "https://youtu.be/MVxQ4LPsj6w?si=KS57tgB9Lhyk_00X",
-    targetPoints: 1600000,
     bullets: [
       "מבנה נדרש: 8 רגלי PB + מתוכן 6 רגלי POB.",
       "יעד: 1,600,000 נקודות (4 מתוך 6 חודשים).",
@@ -172,16 +173,112 @@ window.RANKS = [
   }
 ];
 
-// --- אסטרטגיות למחשבון (חבילות ומוצרים) ---
-window.STRATEGIES = [
-  { name: "טריו (פירות, ירקות, פירות יער)", points: 216 },
-  { name: "דואו (פירות וירקות)", points: 144 },
-  { name: "שייק קומפליט (משלוח של 4 שקיות)", points: 104 }, // יש לוודא ניקוד מדויק
-  { name: "חבילת המראה (טריו + שייק)", points: 320 },
-  { name: "אומגה בלנד", points: 72 }
+// --- חלק 2: מוצרים (מפורקים ומפורטים) ---
+window.PRODUCTS = [
+  {
+    id: "fruit_caps",
+    title: "קפסולות פירות (נבחרת הפירות)",
+    subTitle: "Juice Plus+ Fruit Blend",
+    intro: "המיטב של המטע, בתוך קפסולה.",
+    image: "cap_fruit.jpg",
+    points: 72, 
+    benefits: [
+      "מכיל תפוח, תפוז, אננס, דובדבן, אפרסק, מנגו ועוד.",
+      "עשיר בויטמינים A, C ו-E מהטבע.",
+      "מספק נוגדי חמצון חיוניים.",
+      "נקטף בשיא הבשלות לשמירה על ערכים תזונתיים."
+    ],
+    usage: "2 קפסולות ביום."
+  },
+  {
+    id: "veg_caps",
+    title: "קפסולות ירקות (נבחרת הירקות)",
+    subTitle: "Juice Plus+ Vegetable Blend",
+    intro: "הדרך הקלה לאכול את הירקות שלך.",
+    image: "cap_veg.jpg",
+    points: 72,
+    benefits: [
+      "מכיל גזר, פטרוזיליה, ברוקולי, קייל, תרד, עגבניה ושום.",
+      "מקור מצוין לחומצה פולית טבעית.",
+      "תומך במערכת החיסון ובתהליכי ניקוי.",
+      "ללא גלוטן וללא הנדסה גנטית."
+    ],
+    usage: "2 קפסולות ביום."
+  },
+  {
+    id: "berry_caps",
+    title: "קפסולות פירות יער (נבחרת הסגולים)",
+    subTitle: "Juice Plus+ Berry Blend",
+    intro: "נוגדי חמצון עוצמתיים מהטבע.",
+    image: "cap_berry.jpg",
+    points: 72,
+    benefits: [
+      "מכיל ענבים, רימונים, אוכמניות, פטל, דומדמניות ועוד.",
+      "עשיר בפוליפנולים ונוגדי חמצון חזקים.",
+      "תומך בבריאות הלב וכלי הדם.",
+      "מעולה לספורטאים להתאוששות."
+    ],
+    usage: "2 קפסולות ביום."
+  },
+  {
+    id: "omega",
+    title: "תערובת אומגה (Omega Blend)",
+    subTitle: "Juice Plus+ Omega Blend",
+    intro: "אומגה צמחית לחלוטין - ישר מהמקור (אצות).",
+    image: "cap_omega.jpg",
+    points: 72,
+    benefits: [
+      "שילוב ייחודי של אומגה 3, 5, 6, 7 ו-9.",
+      "100% טבעוני - מופק מאצות ולא מדגים (אין טעם לוואי!).",
+      "טכנולוגיית כבישה קרה השומרת על איכות השמנים.",
+      "ידידותי לסביבה ובר-קיימא."
+    ],
+    usage: "2 קפסולות ביום עם האוכל."
+  },
+  {
+    id: "shake_vanilla",
+    title: "שייק קומפליט - וניל",
+    subTitle: "Complete by Juice Plus+ Vanilla",
+    intro: "ארוחה מלאה ומאוזנת בטעם וניל עשיר.",
+    image: "shake_vanilla.jpg",
+    points: 52, // חצי מארגז מלא
+    benefits: [
+      "חלבון צמחי איכותי (סויה, אפונה, אורז וחומוס).",
+      "עשיר בסיבים תזונתיים לשובע ממושך.",
+      "מתאים לטבעונים וללא גלוטן.",
+      "בסיס מעולה לשייקים עם פירות."
+    ],
+    usage: "כף מדידה אחת עם 250 מ״ל מים/חלב."
+  },
+  {
+    id: "shake_choco",
+    title: "שייק קומפליט - שוקולד",
+    subTitle: "Complete by Juice Plus+ Chocolate",
+    intro: "ארוחה מלאה ומפנקת לחובבי השוקולד.",
+    image: "shake_choco.jpg",
+    points: 52,
+    benefits: [
+      "חלבון צמחי איכותי (13 גרם למנה).",
+      "אינדקס גליקמי נמוך.",
+      "מכיל את כל הוויטמינים והמינרלים הנדרשים לארוחה.",
+      "טעם שוקולדי עשיר ללא רגשות אשם."
+    ],
+    usage: "כף מדידה אחת עם 250 מ״ל מים/חלב."
+  }
 ];
 
-// --- נתוני עצים (ללא שינוי) ---
+// --- חלק 3: מחשבון אסטרטגיה (חבילות ומוצרים) ---
+// אלו האפשרויות שיופיעו במחשבון בדף הדרגה
+window.STRATEGIES = [
+  { name: "חבילת טריו (3 סוגי הקפסולות)", points: 216, price: 388.5 }, // מחיר חודשי משוער
+  { name: "חבילת דואו (פירות וירקות)", points: 144, price: 254 },
+  { name: "חבילת המראה (טריו + שייקים)", points: 320, price: 580 },
+  { name: "שייק קומפליט (מארז מלא)", points: 104, price: 212 },
+  { name: "אומגה בלנד", points: 72, price: 140 },
+  { name: "קפסולות פירות יער (בודד)", points: 72, price: 135 }
+];
+
+// --- חלק 4: עצים (ללא שינוי) ---
 window.RANK_TREES = {
   partner_plus: {
     title: "עץ התקדמות – Partner Plus (P+)",
@@ -219,7 +316,6 @@ window.RANK_TREES = {
     edges: [],
     notes: ["סה\"כ נקודות: 27,170", "קרוב ליעד של 28,000."]
   },
-  // שאר הדרגות כתבנית
   qssc: { title: "עץ התקדמות – QSSC", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"QSSC"}], edges:[], notes:[] },
   ssc: { title: "עץ התקדמות – SSC", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"SSC"}], edges:[], notes:[] },
   qnmd: { title: "עץ התקדמות – QNMD", description: "טרם הוגדר", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"QNMD"}], edges:[], notes:[] },
