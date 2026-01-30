@@ -7,30 +7,27 @@
   <link rel="stylesheet" href="style.css?v=D3_ENGINE" />
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <style>
-    /* עיצוב המחשבון המקצועי */
+    /* עיצוב המחשבון */
     .calc-card {
-      background: white;
-      border: 2px solid #e2e8f0;
+      background: #f8fafc;
+      border: 2px solid #cbd5e1;
       padding: 25px;
       margin-top: 20px;
-      border-radius: 15px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
     }
-    .calc-header { font-size: 1.4rem; font-weight: 800; color: #1e293b; margin-bottom: 15px; }
-    .calc-row { display: flex; gap: 15px; margin-bottom: 15px; flex-wrap: wrap; }
-    .calc-input { flex: 1; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 1rem; }
+    .calc-header { font-size: 1.3rem; font-weight: 800; color: #334155; margin-bottom: 10px; }
+    .calc-row { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
+    .calc-input { flex: 1; min-width: 150px; padding: 12px; border: 1px solid #94a3b8; border-radius: 8px; font-size: 1rem; }
     .calc-btn { 
-      background: #10b981; color: white; padding: 12px 30px; 
-      border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1rem;
+      background: #0ea5e9; color: white; padding: 12px 25px; 
+      border: none; border-radius: 8px; font-weight: bold; cursor: pointer; flex-shrink: 0;
     }
-    .calc-btn:hover { background: #059669; }
     .calc-result { 
-      background: #f0fdf4; border: 1px solid #bbf7d0; 
-      padding: 20px; border-radius: 10px; margin-top: 20px; 
-      display: none; /* מוסתר */
+      background: #dcfce7; border: 1px solid #86efac; color: #14532d;
+      padding: 20px; border-radius: 8px; display: none; text-align: center; margin-top: 15px;
     }
-    .res-number { font-size: 2.5rem; font-weight: 800; color: #15803d; line-height: 1.2; }
-    .res-text { font-size: 1.1rem; color: #166534; }
+    .res-big { font-size: 2.5rem; font-weight: 900; line-height: 1.1; margin: 10px 0; }
   </style>
 </head>
 
@@ -39,7 +36,7 @@
     <div class="topbar-inner">
       <div class="brand-left">
         <a class="btn ghost" href="index.html">חזרה לראשי</a>
-        <a class="btn primary" href="products.html" style="background-color:#ff6b00; margin-right:10px;">קטלוג מוצרים 🍎</a>
+        <a class="btn primary" href="products.html" style="background-color:#ff6b00; margin-right:10px;">מוצרים 🍎</a>
       </div>
       <div class="brand-center">
         <div class="brand-title">המסע המשותף שלנו</div>
@@ -61,28 +58,24 @@
         </section>
 
         <section class="calc-card no-print" id="calculatorSection">
-          <div class="calc-header">🧮 מחשבון אסטרטגיה לסגירת דרגה</div>
-          <div style="margin-bottom:15px; color:#64748b;">
-            היעד שלך לדרגה זו הוא: <b id="targetPointsDisplay" style="color:#0f172a;">0</b> נקודות.
-          </div>
+          <div class="calc-header">🧮 מחשבון אסטרטגיה</div>
+          <div style="margin-bottom:10px;">יעד לדרגה זו: <b id="targetPointsDisplay">0</b> נקודות.</div>
           
           <div class="calc-row">
-            <input type="number" id="currentPointsInput" class="calc-input" placeholder="כמה נקודות יש לך כרגע?">
+            <input type="number" id="currentPointsInput" class="calc-input" placeholder="כמה נקודות יש לך?">
           </div>
           <div class="calc-row">
             <select id="strategySelect" class="calc-input">
-              <option value="" disabled selected>איזה מוצר אתה רוצה למכור?</option>
+              <option value="" disabled selected>בחר חבילה למכירה...</option>
             </select>
             <button class="calc-btn" onclick="calculateStrategy()">חשב</button>
           </div>
 
           <div id="calcResult" class="calc-result">
-            <div class="res-text">כדי לסגור את הדרגה עליך למכור:</div>
-            <div class="res-number" id="ordersNeeded">0</div>
-            <div class="res-text" id="strategyNameResult">חבילות</div>
-            <div style="margin-top:10px; font-size:0.9rem; color:#666;">
-              (חסרות לך <span id="missingPoints">0</span> נקודות)
-            </div>
+            <div>כדי לסגור את הדרגה עליך למכור:</div>
+            <div class="res-big" id="ordersNeeded">0</div>
+            <div id="strategyNameResult">חבילות</div>
+            <div style="font-size:0.85rem; margin-top:5px;">(חסרות <span id="missingPoints">0</span> נקודות)</div>
           </div>
         </section>
 
@@ -111,7 +104,7 @@
   </main>
 
   <script src="brand-core.js"></script>
-  <script src="data-fixed.js?v=CALC_FIXED_2026"></script>
+  <script src="data-fixed.js?v=USER_POINTS_V1"></script>
   <script src="rank-tree.js?v=D3_RENDERER"></script>
 
   <script>
@@ -126,8 +119,7 @@
 
     function initCalculator() {
       const select = document.getElementById("strategySelect");
-      select.innerHTML = '<option value="" disabled selected>איזה מוצר לקדם?</option>';
-      
+      select.innerHTML = '<option value="" disabled selected>בחר חבילה...</option>';
       if (window.STRATEGIES) {
         window.STRATEGIES.forEach(strat => {
           const opt = document.createElement("option");
@@ -139,41 +131,43 @@
     }
 
     function calculateStrategy() {
-      const currentVal = document.getElementById("currentPointsInput").value;
-      if(currentVal === "") { alert("הכנס ניקוד נוכחי"); return; }
-      
-      const current = parseFloat(currentVal);
+      const current = parseFloat(document.getElementById("currentPointsInput").value);
       const stratPoints = parseFloat(document.getElementById("strategySelect").value);
-      const stratName = document.getElementById("strategySelect").options[document.getElementById("strategySelect").selectedIndex].text;
+      
+      const selIndex = document.getElementById("strategySelect").selectedIndex;
+      let stratName = "יחידות";
+      if(selIndex > 0) {
+         stratName = window.STRATEGIES[selIndex-1].name; 
+      }
 
-      if(isNaN(stratPoints)) { alert("בחר מוצר"); return; }
+      if(isNaN(current) || isNaN(stratPoints)) { alert("נא להזין נתונים תקינים"); return; }
 
       const missing = Math.max(0, currentRankTarget - current);
       const needed = Math.ceil(missing / stratPoints);
 
       document.getElementById("missingPoints").textContent = missing.toLocaleString();
       document.getElementById("ordersNeeded").textContent = needed;
-      document.getElementById("strategyNameResult").textContent = stratName.split('(')[0]; // מציג רק את השם בלי הניקוד
-      
+      document.getElementById("strategyNameResult").textContent = "של " + stratName;
       document.getElementById("calcResult").style.display = "block";
+      
+      if (missing <= 0) { document.getElementById("ordersNeeded").textContent = "היעד הושג!"; }
     }
 
     function initRankPage() {
       const id = getRankId();
       const rank = (window.RANKS || []).find(r => r.id === id);
       
-      // בניית תפריט עליון
       const nav = document.getElementById("rankNav");
-      if(window.RANKS && nav) {
-          nav.innerHTML = "";
-          window.RANKS.forEach(r => {
-              const a = document.createElement("a");
-              a.className = "nav-chip";
-              if(r.id===id) a.classList.add("active");
-              a.href = `rank.html?id=${r.id}`;
-              a.textContent = r.nodeCode || r.title;
-              nav.appendChild(a);
-          });
+      if(nav && window.RANKS) {
+        nav.innerHTML = "";
+        window.RANKS.forEach(r => {
+            const a = document.createElement("a");
+            a.className = "nav-chip";
+            if(r.id===id) a.classList.add("active");
+            a.href = `rank.html?id=${r.id}`;
+            a.textContent = r.nodeCode || r.title;
+            nav.appendChild(a);
+        });
       }
 
       if(!rank) { document.getElementById("rankTitle").textContent = "לא נמצא"; return; }
@@ -181,8 +175,6 @@
       document.title = rank.title;
       document.getElementById("rankTitle").textContent = rank.title;
       document.getElementById("rankIntro").textContent = rank.intro;
-      
-      // וידאו ו-QR
       document.getElementById("rankVideo").src = toEmbedUrl(rank.videoUrl);
       if(document.getElementById("printQR")) document.getElementById("printQR").src = qrUrl(rank.videoUrl);
 
@@ -191,11 +183,11 @@
           currentRankTarget = rank.targetPoints;
           document.getElementById("targetPointsDisplay").textContent = currentRankTarget.toLocaleString();
           initCalculator();
+          document.getElementById("calculatorSection").style.display = "block";
       } else {
           document.getElementById("calculatorSection").style.display = "none";
       }
 
-      // בולטים
       const ul = document.getElementById("rankBullets");
       ul.innerHTML = "";
       (rank.bullets||[]).forEach(t => {
