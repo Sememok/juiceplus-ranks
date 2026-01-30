@@ -1,7 +1,7 @@
 /* data-fixed.js
-   ISRAEL 2025 - USER EXACT POINTS
-   - Calculator Strategies updated to specific user list.
-   - Product images linked to simple filenames.
+   ISRAEL 2025 - FINAL USER FILENAMES & EXACT POINTS
+   - Images linked to: cap_berry.jpg, cap_fruit.jpg, etc.
+   - Calculator uses the specific user-provided point list.
 */
 
 // --- חלק 1: דרגות ---
@@ -13,7 +13,8 @@ window.RANKS = [
     intro: "התקדמות ראשונה.",
     videoUrl: "https://youtu.be/M293NdN7Sok?si=da8BUiVp5Qy-Z_5y",
     bullets: ["יעד: 4,000 נקודות.", "עמלה: 14%.", "בונוס: 400 ₪."],
-    nodeCode: "P+"
+    nodeCode: "P+",
+    qrFile: "Partner Plus.png"
   },
   {
     id: "senior_partner",
@@ -22,7 +23,8 @@ window.RANKS = [
     intro: "בניית יציבות.",
     videoUrl: "https://youtu.be/fnG6Eld0SPk?si=7ZozniTLZHIG5qR8",
     bullets: ["יעד: 12,000 נקודות.", "עמלה: 19%.", "בונוס: 1,200 ₪."],
-    nodeCode: "SP"
+    nodeCode: "SP",
+    qrFile: "Senior Partner.png"
   },
   {
     id: "sales_coordinator",
@@ -31,7 +33,8 @@ window.RANKS = [
     intro: "דרגת מנהיגות.",
     videoUrl: "https://youtu.be/cyJb_ecWjyA?si=JjClNcImW1bs86Ig",
     bullets: ["יעד: 28,000 נקודות.", "עמלה: 22%.", "בונוס: 3,600 ₪."],
-    nodeCode: "SC"
+    nodeCode: "SC",
+    qrFile: "Sales Coordinator.png"
   },
   {
     id: "qssc",
@@ -40,7 +43,8 @@ window.RANKS = [
     intro: "בדרך לטופ.",
     videoUrl: "https://youtu.be/ru06kEc9kqE",
     bullets: ["יעד: 56,000 נקודות.", "בונוס: 4,800 ₪."],
-    nodeCode: "QSSC"
+    nodeCode: "QSSC",
+    qrFile: "QSSC.png"
   },
   {
     id: "ssc",
@@ -49,7 +53,8 @@ window.RANKS = [
     intro: "ניהול בכיר.",
     videoUrl: "https://youtu.be/xPwmFecZ8Ms",
     bullets: ["יעד: 111,000 נקודות.", "בונוס: 10,000 ₪."],
-    nodeCode: "SSC"
+    nodeCode: "SSC",
+    qrFile: "SSC.png"
   },
   {
     id: "qnmd",
@@ -58,7 +63,8 @@ window.RANKS = [
     intro: "לפני פסגה.",
     videoUrl: "https://youtu.be/W8Wm_c4kMUo",
     bullets: ["יעד: 222,000 נקודות.", "בונוס: 19,000 ₪."],
-    nodeCode: "QNMD"
+    nodeCode: "QNMD",
+    qrFile: "QNMD.png"
   },
   {
     id: "nmd",
@@ -67,7 +73,8 @@ window.RANKS = [
     intro: "הדרגה הלאומית.",
     videoUrl: "https://youtu.be/muieHSXIocI",
     bullets: ["יעד: 222,000 נקודות.", "בונוס: 39,000 ₪."],
-    nodeCode: "NMD"
+    nodeCode: "NMD",
+    qrFile: "NMD.png"
   },
   {
     id: "imd",
@@ -76,7 +83,8 @@ window.RANKS = [
     intro: "בינלאומי.",
     videoUrl: "https://youtu.be/WeEZlCjHAtU",
     bullets: ["יעד: 444,000 נקודות.", "בונוס: 77,000 ₪."],
-    nodeCode: "IMD"
+    nodeCode: "IMD",
+    qrFile: "IMD.png"
   },
   {
     id: "emd",
@@ -85,7 +93,8 @@ window.RANKS = [
     intro: "אקזקיוטיב.",
     videoUrl: "https://youtu.be/KpKDNIc8R7k",
     bullets: ["יעד: 666,000 נקודות.", "בונוס: 115,000 ₪."],
-    nodeCode: "EMD"
+    nodeCode: "EMD",
+    qrFile: "EMD.png"
   },
   {
     id: "pmd",
@@ -94,27 +103,30 @@ window.RANKS = [
     intro: "פסגת המנהיגות.",
     videoUrl: "https://youtu.be/2i3sVTpFxts",
     bullets: ["יעד: 888,000 נקודות.", "בונוס: 153,000 ₪."],
-    nodeCode: "PMD"
+    nodeCode: "PMD",
+    qrFile: "PMD.png"
   },
   {
     id: "pmd_plus",
     title: "PMD+",
     targetPoints: 1600000,
-    intro: "הטופ של הטופ.",
+    intro: "הדרגה הגבוהה ביותר.",
     videoUrl: "https://youtu.be/MVxQ4LPsj6w",
     bullets: ["יעד: 1,600,000 נקודות.", "בונוס: 200,000 ₪."],
-    nodeCode: "PMD+"
+    nodeCode: "PMD+",
+    qrFile: "PMD+.png"
   }
 ];
 
-// --- חלק 2: מוצרים (תמונות ופרטים) ---
+// --- חלק 2: מוצרים (עם השמות שנתת!) ---
+// הערה: הסרתי את הניקוד מהתצוגה כאן כפי שביקשת
 window.PRODUCTS = [
   {
     id: "berry",
     title: "קפסולות פירות יער",
     subTitle: "Berry Blend",
     intro: "נוגדי חמצון עוצמתיים.",
-    image: "berry.jpg",
+    image: "cap_berry.jpg", 
     benefits: ["אוכמניות, פטל, ענבים, רימון.", "בריאות הלב.", "זרימת דם."],
     usage: "2 ביום."
   },
@@ -123,7 +135,7 @@ window.PRODUCTS = [
     title: "אומגה בלנד",
     subTitle: "Omega Blend",
     intro: "אומגה 100% צמחית.",
-    image: "omega.jpg",
+    image: "cap_omega.jpg",
     benefits: ["אומגה 3, 5, 6, 7, 9.", "ללא דגים.", "כבישה קרה."],
     usage: "2 ביום."
   },
@@ -132,7 +144,7 @@ window.PRODUCTS = [
     title: "קפסולות פירות",
     subTitle: "Fruit Blend",
     intro: "הבסיס היומי שלך.",
-    image: "fruit.jpg",
+    image: "cap_fruit.jpg",
     benefits: ["תפוח, תפוז, אננס.", "ויטמינים טבעיים.", "ללא גלוטן."],
     usage: "2 ביום."
   },
@@ -141,7 +153,7 @@ window.PRODUCTS = [
     title: "קפסולות ירקות",
     subTitle: "Vegetable Blend",
     intro: "הירקות שחסרים לך.",
-    image: "veg.jpg",
+    image: "cap_veg.jpg",
     benefits: ["ברוקולי, גזר, פטרוזיליה.", "ניקוי רעלים.", "חומצה פולית."],
     usage: "2 ביום."
   },
@@ -150,7 +162,7 @@ window.PRODUCTS = [
     title: "שייק קומפליט - וניל",
     subTitle: "Complete Vanilla",
     intro: "ארוחה מלאה בכוס.",
-    image: "vanilla.jpg",
+    image: "shake_vanilla.jpg",
     benefits: ["חלבון צמחי.", "סיבים תזונתיים.", "טעים במיוחד."],
     usage: "כף מדידה עם נוזל."
   },
@@ -159,16 +171,16 @@ window.PRODUCTS = [
     title: "שייק קומפליט - שוקולד",
     subTitle: "Complete Chocolate",
     intro: "פינוק בריא.",
-    image: "choco.jpg",
+    image: "shake_choco.jpg",
     benefits: ["חלבון צמחי.", "לפני/אחרי אימון.", "ללא גלוטן."],
     usage: "כף מדידה עם נוזל."
   }
 ];
 
-// --- חלק 3: מחשבון אסטרטגיה (הרשימה המדויקת שלך) ---
+// --- חלק 3: אסטרטגיות למחשבון (הרשימה המדויקת שלך) ---
 window.STRATEGIES = [
   { name: "קפסולות פירות יער", points: 380 },
-  { name: "מארז דואו (פירות + ירקות)", points: 765 },
+  { name: "מארז פירות וירקות (דואו)", points: 765 },
   { name: "שלישייה (פירות, ירקות, יער)", points: 1145 },
   { name: "רביעייה (שלישייה + אומגה)", points: 1631 },
   { name: "שייק קומפליט (שקיות גדולות)", points: 830 },
