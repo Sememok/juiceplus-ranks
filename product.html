@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>מוצר</title>
+  <link rel="stylesheet" href="style.css?v=PROD_STYLE" />
+  <style>
+    /* התאמות עיצוב למוצר */
+    .product-header-card { text-align: center; padding: 20px; }
+    .product-img-large { max-width: 100%; height: auto; border-radius: 8px; margin-bottom: 15px; max-height: 300px; object-fit: cover; }
+    .usage-box { background: #e8f5e9; padding: 15px; border-radius: 8px; border-right: 4px solid #4CAF50; margin-top: 20px; }
+    .usage-title { font-weight: bold; color: #2e7d32; margin-bottom: 5px; }
+  </style>
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand-left">
+        <a class="btn ghost" href="products.html">חזרה לקטלוג</a>
+      </div>
+      <div class="brand-center">
+        <div class="brand-title" id="pageTitle">פרטי מוצר</div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="rank-text-area" style="max-width: 800px; margin: 0 auto;">
+      
+      <section class="card product-header-card">
+        <div style="font-size: 3rem; margin-bottom: 10px;" id="prodIcon"></div>
+        <h1 id="prodTitle" class="rankTitle">שם המוצר</h1>
+        <p id="prodSub" style="color:#666; font-size:1.1rem; margin-bottom:10px;"></p>
+        <p id="prodIntro" class="rankIntro"></p>
+      </section>
+
+      <section class="card videoWrap" id="videoSection" style="display:none;">
+        <iframe id="prodVideo" class="videoFrame" src="" title="Video" allowfullscreen></iframe>
+      </section>
+
+      <section class="card">
+        <h2 class="sectionTitle">למה זה טוב לי? 🌟</h2>
+        <ul id="prodBullets" class="bullets"></ul>
+        
+        <div class="usage-box">
+          <div class="usage-title">איך משתמשים? 🥄</div>
+          <div id="prodUsage"></div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <script src="data-fixed.js?v=PROD_DATA"></script>
+  <script>
+    function getProdId() { return new URLSearchParams(location.search).get("id"); }
+
+    function toEmbedUrl(youtubeUrl) {
+      if (!youtubeUrl) return "";
+      try {
+        const u = new URL(youtubeUrl);
+        let id = u.hostname.includes("youtu.be") ? u.pathname.replace("/", "") : (u.searchParams.get("v") || "");
+        return id ? ("https://www.youtube.com/embed/" + id) : "";
+      } catch (e) { return ""; }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const id = getProdId();
+      const prod = (window.PRODUCTS || []).find(p => p.id === id);
+
+      if (!id || !prod) {
+        document.getElementById("prodTitle").textContent = "מוצר לא נמצא";
+        return;
+      }
+
+      // מילוי נתונים
+      document.title = prod.title;
+      document.getElementById("prodIcon").textContent = prod.icon;
+      document.getElementById("prodTitle").textContent = prod.title;
+      document.getElementById("prodSub").textContent = prod.subTitle;
+      document.getElementById("prodIntro").textContent = prod.intro;
+      document.getElementById("prodUsage").textContent = prod.usage;
+
+      // רשימת יתרונות
+      const ul = document.getElementById("prodBullets");
+      prod.benefits.forEach(b => {
+        const li = document.createElement("li");
+        li.textContent = b;
+        ul.appendChild(li);
+      });
+
+      // וידאו
+      if (prod.videoUrl) {
+        document.getElementById("videoSection").style.display = "block";
+        document.getElementById("prodVideo").src = toEmbedUrl(prod.videoUrl);
+      }
+    });
+  </script>
+</body>
+</html>
