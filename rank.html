@@ -3,69 +3,34 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>דרגה</title>
+  <title>דרגה ומחשבון</title>
   <link rel="stylesheet" href="style.css?v=D3_ENGINE" />
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <style>
-    /* עיצוב למחשבון */
+    /* עיצוב המחשבון המקצועי */
     .calc-card {
-      background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
-      border: 1px solid #bbf7d0;
-      padding: 20px;
-      margin-top: 15px;
-      border-radius: 12px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    }
-    .calc-title {
-      font-weight: bold;
-      color: #166534;
-      font-size: 1.2rem;
-      margin-bottom: 15px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .calc-row {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 15px;
-      align-items: center;
-    }
-    .calc-input {
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 1rem;
-      flex: 1;
-    }
-    .calc-select {
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 1rem;
-      flex: 1;
       background: white;
+      border: 2px solid #e2e8f0;
+      padding: 25px;
+      margin-top: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
     }
-    .calc-btn {
-      background-color: #16a34a;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: background 0.2s;
+    .calc-header { font-size: 1.4rem; font-weight: 800; color: #1e293b; margin-bottom: 15px; }
+    .calc-row { display: flex; gap: 15px; margin-bottom: 15px; flex-wrap: wrap; }
+    .calc-input { flex: 1; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 1rem; }
+    .calc-btn { 
+      background: #10b981; color: white; padding: 12px 30px; 
+      border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1rem;
     }
-    .calc-btn:hover { background-color: #15803d; }
-    .calc-result {
-      margin-top: 15px;
-      padding: 15px;
-      background: white;
-      border-radius: 8px;
-      border-right: 4px solid #16a34a;
-      display: none; /* מוסתר בהתחלה */
+    .calc-btn:hover { background: #059669; }
+    .calc-result { 
+      background: #f0fdf4; border: 1px solid #bbf7d0; 
+      padding: 20px; border-radius: 10px; margin-top: 20px; 
+      display: none; /* מוסתר */
     }
-    .res-big { font-size: 1.5rem; font-weight: bold; color: #166534; }
+    .res-number { font-size: 2.5rem; font-weight: 800; color: #15803d; line-height: 1.2; }
+    .res-text { font-size: 1.1rem; color: #166534; }
   </style>
 </head>
 
@@ -73,65 +38,57 @@
   <header class="topbar">
     <div class="topbar-inner">
       <div class="brand-left">
-        <div class="brand-logo">
-          <img data-brand="logo" alt="לוגו" style="display:none">
-          <span class="fallback" data-brand="logoFallback">LOGO</span>
-        </div>
         <a class="btn ghost" href="index.html">חזרה לראשי</a>
-        <a class="btn primary" href="products.html" style="background-color: #ff6b00; margin-right: 10px;">למוצרים 🍎</a>
+        <a class="btn primary" href="products.html" style="background-color:#ff6b00; margin-right:10px;">קטלוג מוצרים 🍎</a>
       </div>
-
       <div class="brand-center">
-        <div class="brand-title" data-brand="groupName">המסע המשותף שלנו</div>
-        <div class="brand-sub" data-brand="tagline">מדריך דרגות</div>
+        <div class="brand-title">המסע המשותף שלנו</div>
       </div>
     </div>
   </header>
 
   <main class="container">
     <nav class="rank-nav-container">
-      <div class="rank-nav-label">מעבר מהיר לדרגה:</div>
+      <div class="rank-nav-label">בחר דרגה:</div>
       <div id="rankNav" class="rank-nav-buttons"></div>
     </nav>
 
     <div id="rankPrintLayout">
       <div class="rank-text-area">
-        <section class="card" style="margin-bottom:10px;">
-          <h1 id="rankTitle" class="rankTitle">דרגה</h1>
+        <section class="card">
+          <h1 id="rankTitle" class="rankTitle">טוען...</h1>
           <p id="rankIntro" class="rankIntro"></p>
         </section>
 
-        <section class="calc-card no-print">
-          <div class="calc-title">
-            <span>מחשבון אסטרטגיה 🧮</span>
-          </div>
-          <div style="margin-bottom:10px; font-size:0.9rem; color:#555;">
-            יעד לדרגה זו: <b id="targetPointsDisplay">0</b> נקודות.
+        <section class="calc-card no-print" id="calculatorSection">
+          <div class="calc-header">🧮 מחשבון אסטרטגיה לסגירת דרגה</div>
+          <div style="margin-bottom:15px; color:#64748b;">
+            היעד שלך לדרגה זו הוא: <b id="targetPointsDisplay" style="color:#0f172a;">0</b> נקודות.
           </div>
           
           <div class="calc-row">
             <input type="number" id="currentPointsInput" class="calc-input" placeholder="כמה נקודות יש לך כרגע?">
           </div>
-          
           <div class="calc-row">
-            <select id="strategySelect" class="calc-select">
-              </select>
+            <select id="strategySelect" class="calc-input">
+              <option value="" disabled selected>איזה מוצר אתה רוצה למכור?</option>
+            </select>
             <button class="calc-btn" onclick="calculateStrategy()">חשב</button>
           </div>
 
           <div id="calcResult" class="calc-result">
-            כדי לסגור את הדרגה נשאר לך <b id="missingPoints">0</b> נקודות.<br>
-            זה אומר שצריך עוד:<br>
-            <div class="res-big" id="ordersNeeded">0</div>
-            הזמנות מסוג זה. 🚀
+            <div class="res-text">כדי לסגור את הדרגה עליך למכור:</div>
+            <div class="res-number" id="ordersNeeded">0</div>
+            <div class="res-text" id="strategyNameResult">חבילות</div>
+            <div style="margin-top:10px; font-size:0.9rem; color:#666;">
+              (חסרות לך <span id="missingPoints">0</span> נקודות)
+            </div>
           </div>
         </section>
 
         <section class="card videoWrap">
-          <iframe id="rankVideo" class="videoFrame" src="" title="YouTube video" allowfullscreen></iframe>
+          <iframe id="rankVideo" class="videoFrame" src="" title="Video" allowfullscreen></iframe>
         </section>
-        
-        <div class="videoLink" id="rankVideoLink"></div>
 
         <section class="card">
           <h2 class="sectionTitle">דגשים חשובים</h2>
@@ -141,47 +98,36 @@
 
       <div class="print-only-qr">
         <div class="yt-frame">
-          <div class="yt-label">סרטון הדרכה</div>
-          <img id="printQR" class="yt-qr-img" src="" alt="QR" style="max-width:100px; height:auto;">
-          <div class="yt-sub">סרוק לצפייה בוידאו</div>
+           <div class="yt-label">סרוק לוידאו</div>
+           <img id="printQR" class="yt-qr-img" src="" alt="QR">
         </div>
       </div>
     </div>
 
     <section class="card tree-card-container">
-      <h2 class="sectionTitle no-print">עץ התקדמות לדרגה</h2>
+      <h2 class="sectionTitle no-print">מבנה העץ</h2>
       <div id="rankTreeMount" class="tree-viz-container"></div>
     </section>
   </main>
 
   <script src="brand-core.js"></script>
-  <script src="data-fixed.js?v=STRATEGY_CALC"></script>
+  <script src="data-fixed.js?v=CALC_FIXED_2026"></script>
   <script src="rank-tree.js?v=D3_RENDERER"></script>
 
   <script>
     let currentRankTarget = 0;
 
-    function getRankId() {
-      return new URLSearchParams(location.search).get("id");
+    function getRankId() { return new URLSearchParams(location.search).get("id"); }
+    function toEmbedUrl(url) {
+       if(!url) return "";
+       try { const u = new URL(url); return "https://www.youtube.com/embed/" + (u.hostname.includes("youtu.be")?u.pathname.slice(1):u.searchParams.get("v")); } catch(e){return "";}
     }
+    function qrUrl(t) { return `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(t)}`; }
 
-    function toEmbedUrl(youtubeUrl) {
-      if (!youtubeUrl) return "";
-      try {
-        const u = new URL(youtubeUrl);
-        let id = u.hostname.includes("youtu.be") ? u.pathname.replace("/", "") : (u.searchParams.get("v") || "");
-        return id ? ("https://www.youtube.com/embed/" + id) : "";
-      } catch (e) { return ""; }
-    }
-
-    function qrUrl(text){
-      const t = encodeURIComponent(text || "");
-      return `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${t}`;
-    }
-
-    // --- לוגיקה של המחשבון ---
     function initCalculator() {
       const select = document.getElementById("strategySelect");
+      select.innerHTML = '<option value="" disabled selected>איזה מוצר לקדם?</option>';
+      
       if (window.STRATEGIES) {
         window.STRATEGIES.forEach(strat => {
           const opt = document.createElement("option");
@@ -193,75 +139,70 @@
     }
 
     function calculateStrategy() {
-      const current = parseFloat(document.getElementById("currentPointsInput").value) || 0;
-      const strategyPoints = parseFloat(document.getElementById("strategySelect").value);
+      const currentVal = document.getElementById("currentPointsInput").value;
+      if(currentVal === "") { alert("הכנס ניקוד נוכחי"); return; }
       
+      const current = parseFloat(currentVal);
+      const stratPoints = parseFloat(document.getElementById("strategySelect").value);
+      const stratName = document.getElementById("strategySelect").options[document.getElementById("strategySelect").selectedIndex].text;
+
+      if(isNaN(stratPoints)) { alert("בחר מוצר"); return; }
+
       const missing = Math.max(0, currentRankTarget - current);
-      const orders = Math.ceil(missing / strategyPoints);
+      const needed = Math.ceil(missing / stratPoints);
 
       document.getElementById("missingPoints").textContent = missing.toLocaleString();
-      document.getElementById("ordersNeeded").textContent = orders + " חבילות";
+      document.getElementById("ordersNeeded").textContent = needed;
+      document.getElementById("strategyNameResult").textContent = stratName.split('(')[0]; // מציג רק את השם בלי הניקוד
       
-      const resBox = document.getElementById("calcResult");
-      resBox.style.display = "block";
-      
-      if (missing === 0) {
-        document.getElementById("ordersNeeded").textContent = "היעד הושג! 🎉";
-      }
+      document.getElementById("calcResult").style.display = "block";
     }
 
     function initRankPage() {
       const id = getRankId();
       const rank = (window.RANKS || []).find(r => r.id === id);
-
-      const navContainer = document.getElementById("rankNav");
-      if (window.RANKS && navContainer) {
-        navContainer.innerHTML = "";
-        window.RANKS.forEach(r => {
-          const btn = document.createElement("a");
-          btn.className = "nav-chip";
-          if (r.id === id) btn.classList.add("active");
-          btn.href = `rank.html?id=${r.id}`;
-          btn.textContent = r.nodeCode || r.title;
-          navContainer.appendChild(btn);
-        });
+      
+      // בניית תפריט עליון
+      const nav = document.getElementById("rankNav");
+      if(window.RANKS && nav) {
+          nav.innerHTML = "";
+          window.RANKS.forEach(r => {
+              const a = document.createElement("a");
+              a.className = "nav-chip";
+              if(r.id===id) a.classList.add("active");
+              a.href = `rank.html?id=${r.id}`;
+              a.textContent = r.nodeCode || r.title;
+              nav.appendChild(a);
+          });
       }
 
-      if (!id || !rank) {
-        document.getElementById("rankTitle").textContent = "דרגה לא נמצאה";
-        return;
-      }
+      if(!rank) { document.getElementById("rankTitle").textContent = "לא נמצא"; return; }
 
       document.title = rank.title;
       document.getElementById("rankTitle").textContent = rank.title;
-      document.getElementById("rankIntro").textContent = rank.intro || "";
+      document.getElementById("rankIntro").textContent = rank.intro;
       
-      // הגדרת יעד למחשבון
-      currentRankTarget = rank.targetPoints || 0;
-      document.getElementById("targetPointsDisplay").textContent = currentRankTarget.toLocaleString();
+      // וידאו ו-QR
+      document.getElementById("rankVideo").src = toEmbedUrl(rank.videoUrl);
+      if(document.getElementById("printQR")) document.getElementById("printQR").src = qrUrl(rank.videoUrl);
 
-      const iframe = document.getElementById("rankVideo");
-      const embed = toEmbedUrl(rank.videoUrl);
-      iframe.src = embed;
+      // מחשבון
+      if(rank.targetPoints) {
+          currentRankTarget = rank.targetPoints;
+          document.getElementById("targetPointsDisplay").textContent = currentRankTarget.toLocaleString();
+          initCalculator();
+      } else {
+          document.getElementById("calculatorSection").style.display = "none";
+      }
 
-      const qrImg = document.getElementById("printQR");
-      if(qrImg) { qrImg.src = qrUrl(rank.videoUrl); }
-
-      const linkBox = document.getElementById("rankVideoLink");
-      linkBox.innerHTML = rank.videoUrl
-        ? `קישור לסרטון: <a href="${rank.videoUrl}" target="_blank" rel="noopener">${rank.videoUrl}</a>`
-        : "לא הוגדר סרטון.";
-
+      // בולטים
       const ul = document.getElementById("rankBullets");
       ul.innerHTML = "";
-      (rank.bullets || []).forEach(b => {
-        const li = document.createElement("li");
-        li.textContent = b;
-        ul.appendChild(li);
+      (rank.bullets||[]).forEach(t => {
+          const li = document.createElement("li");
+          li.textContent = t;
+          ul.appendChild(li);
       });
-
-      // אתחול המחשבון
-      initCalculator();
     }
 
     document.addEventListener("DOMContentLoaded", initRankPage);
