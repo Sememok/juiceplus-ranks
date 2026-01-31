@@ -1,8 +1,9 @@
 /* data.js
-   FINAL FIX - TREES RESTORED
-   - Trees: Added 'generation' and 'column' to all nodes so they render.
-   - Images: pointing to 'assets/'
-   - Points: Exact user values.
+   FINAL CORRECT VERSION
+   1. TREES: Restored original specific simulation trees (P+ = 4576, SP = 12090).
+   2. IMAGES: Fixed paths to "assets/".
+   3. POINTS: Exact user values (380, 765, etc.).
+   4. INGREDIENTS: Full detailed text.
 */
 
 // --- 1. רשימת הדרגות ---
@@ -20,7 +21,7 @@ window.RANKS = [
   { id: "pmd_plus", title: "PMD+", targetPoints: 1600000, intro: "הטופ של הטופ.", videoUrl: "https://youtu.be/MVxQ4LPsj6w", bullets: ["יעד: 1,600,000 נקודות.", "בונוס: 200,000 ₪."], nodeCode: "PMD+" }
 ];
 
-// --- 2. מוצרים (עם נתיב assets ורכיבים מלאים) ---
+// --- 2. מוצרים (עם הנתיב assets ורכיבים מלאים) ---
 window.PRODUCTS = [
   {
     id: "fruit",
@@ -61,7 +62,7 @@ window.PRODUCTS = [
     intro: "נוגדי חמצון עוצמתיים מהטבע.",
     image: "assets/cap_berry.jpg",
     ingredients: "ענבים, אוכמניות כחולות, חמוציות, אוכמניות שחורות, אוכמניות בלאק קורנט, אוכמניות בילברי, פטל, רימון, פרי הסמבוק, קקאו וארטישוק.",
-    vitamins: "מכיל ויטמין C וויטמין E.",
+    vitamins: "ויטמין C, ויטמין E.",
     benefits: [
       "נוגדי חמצון חזקים במיוחד.",
       "תמיכה בבריאות הלב וכלי הדם.",
@@ -134,66 +135,51 @@ window.STRATEGIES = [
   { name: "ערכה מלאה + קומפליט קומבי (2561 נק')", points: 2561 }
 ];
 
-// --- 4. עצי דרגות (תוקנו הקואורדינטות כדי שיופיעו!) ---
+// --- 4. עצי דרגות (העצים המקוריים שביקשת לשחזר) ---
 window.RANK_TREES = {
   partner_plus: {
-    title: "מבנה Partner Plus",
-    description: "יעד: 4,000 נקודות",
+    title: "עץ התקדמות – Partner Plus (P+)",
+    description: "תרשים הממחיש הגעה ליעד של 4,000 נקודות.",
     highlightId: "you",
     nodes: [
-      { id: "you", label: "אתה (P+)", code: "P+", pv: 1000, generation: 0, column: 1 },
-      { id: "l1", label: "לקוח/זכיין", code: "P", pv: 1000, generation: 1, column: 0 },
-      { id: "l2", label: "לקוח/זכיין", code: "P", pv: 1000, generation: 1, column: 1 },
-      { id: "l3", label: "לקוח/זכיין", code: "P", pv: 1000, generation: 1, column: 2 }
+      { id: "you",   label: "אתה",   code: "P+", pv: 866, totalVal: "סה״כ: 4,576", generation: 0, column: 1 },
+      { id: "left",  label: "קו שמאל", code: "P",  pv: 283,  generation: 1, column: 0 },
+      { id: "mid",   label: "קו אמצע", code: "P",  pv: 2561, generation: 1, column: 1 },
+      { id: "right", label: "קו ימין", code: "P",  pv: 866,  generation: 1, column: 2 }
     ],
-    edges: [
-      { from: "you", to: "l1" },
-      { from: "you", to: "l2" },
-      { from: "you", to: "l3" }
-    ],
-    notes: ["סה\"כ 4,000 נקודות (אישי + קבוצתי)"]
+    edges: [ { from: "you", to: "left" }, { from: "you", to: "mid" }, { from: "you", to: "right" } ],
+    notes: ["הושג היעד לדרגת Partner Plus!", "סה\"כ: 4,576 נקודות."]
   },
   senior_partner: {
-    title: "מבנה Senior Partner",
-    description: "יעד: 12,000 נקודות",
+    title: "עץ התקדמות – Senior Partner (SP)",
+    description: "תרשים מלא (כולל דור 2).",
     highlightId: "you",
     nodes: [
-      { id: "you", label: "אתה (SP)", code: "SP", pv: 2000, generation: 0, column: 2 },
-      { id: "leg1", label: "קו 1", code: "P+", pv: 3000, generation: 1, column: 0 },
-      { id: "leg2", label: "קו 2", code: "P", pv: 3000, generation: 1, column: 2 },
-      { id: "leg3", label: "קו 3", code: "P", pv: 4000, generation: 1, column: 4 },
-      { id: "sub1", label: "לקוח", code: "C", pv: 0, generation: 2, column: 0 }
+      { id: "you", label: "אתה (SP)", code: "P+", pv: 2561, totalVal: "סה״כ: 12,090", generation: 0, column: 2 },
+      { id: "left_top", label: "זכיין P", code: "P", pv: 4192, generation: 1, column: 0 },
+      { id: "mid_top", label: "לקוח אישי", code: "Client", pv: 2561, generation: 1, column: 2 },
+      { id: "right_top", label: "זכיין P", code: "P", pv: 2776, generation: 1, column: 4 },
+      { id: "left_bot", label: "לקוח/הזמנה", code: "Order", pv: 1631, generation: 2, column: 0 },
+      { id: "right_bot", label: "לקוח/הזמנה", code: "Order", pv: 1145, generation: 2, column: 4 }
     ],
-    edges: [
-      { from: "you", to: "leg1" },
-      { from: "you", to: "leg2" },
-      { from: "you", to: "leg3" },
-      { from: "leg1", to: "sub1" }
-    ],
-    notes: ["כל קו תורם למאמץ הקבוצתי (חוק 50%)"]
+    edges: [ { from: "you", to: "left_top" }, { from: "you", to: "mid_top" }, { from: "you", to: "right_top" }, { from: "left_top", to: "left_bot" }, { from: "right_top", to: "right_bot" } ],
+    notes: ["סה\"כ נקודות: 12,090", "עמדה ביעדי חודשיים רצופים."]
   },
   sales_coordinator: {
-    title: "מבנה SC",
-    description: "מבנה נדרש: 1 PB",
+    title: "עץ התקדמות – Sales Coordinator (SC)",
+    description: "סימולציה מותאמת.",
     highlightId: "you",
-    nodes: [
-      { id: "you", label: "אתה (SC)", code: "SC", pv: 1000, generation: 0, column: 1 },
-      { id: "p1", label: "שותף P+", code: "PB", pv: 4000, generation: 1, column: 1 },
-      { id: "others", label: "שאר הקבוצה", code: "GRP", pv: 23000, generation: 1, column: 2 }
-    ],
-    edges: [
-      { from: "you", to: "p1" },
-      { from: "you", to: "others" }
-    ],
-    notes: ["נדרש זכיין אחד בדרגת P+ ומעלה (PB)"]
+    nodes: [{ id: "you", label: "אתה (SC)", code: "SC", pv: 1245, totalVal: "סה״כ: 27,170", generation: 0, column: 1 }],
+    edges: [],
+    notes: ["סה\"כ נקודות: 27,170", "קרוב ליעד של 28,000."]
   },
-  // מבנה גנרי לשאר הדרגות כדי שלא יקרסו (עם קואורדינטות)
-  qssc: { title: "מבנה QSSC", nodes: [{id:"you", label:"אתה", code:"QSSC", generation:0, column:1}], edges:[], notes:[] },
-  ssc: { title: "מבנה SSC", nodes: [{id:"you", label:"אתה", code:"SSC", generation:0, column:1}], edges:[], notes:[] },
-  qnmd: { title: "מבנה QNMD", nodes: [{id:"you", label:"אתה", code:"QNMD", generation:0, column:1}], edges:[], notes:[] },
-  nmd: { title: "מבנה NMD", nodes: [{id:"you", label:"אתה", code:"NMD", generation:0, column:1}], edges:[], notes:[] },
-  imd: { title: "מבנה IMD", nodes: [{id:"you", label:"אתה", code:"IMD", generation:0, column:1}], edges:[], notes:[] },
-  emd: { title: "מבנה EMD", nodes: [{id:"you", label:"אתה", code:"EMD", generation:0, column:1}], edges:[], notes:[] },
-  pmd: { title: "מבנה PMD", nodes: [{id:"you", label:"אתה", code:"PMD", generation:0, column:1}], edges:[], notes:[] },
-  pmd_plus: { title: "מבנה PMD+", nodes: [{id:"you", label:"אתה", code:"PMD+", generation:0, column:1}], edges:[], notes:[] }
+  // שאר הדרגות - מבנה בסיסי למניעת שגיאות
+  qssc: { title: "עץ התקדמות – QSSC", nodes: [{id:"you", label:"אתה", code:"QSSC", generation:0, column:1}], edges:[], notes:[] },
+  ssc: { title: "עץ התקדמות – SSC", nodes: [{id:"you", label:"אתה", code:"SSC", generation:0, column:1}], edges:[], notes:[] },
+  qnmd: { title: "עץ התקדמות – QNMD", nodes: [{id:"you", label:"אתה", code:"QNMD", generation:0, column:1}], edges:[], notes:[] },
+  nmd: { title: "עץ התקדמות – NMD", nodes: [{id:"you", label:"אתה", code:"NMD", generation:0, column:1}], edges:[], notes:[] },
+  imd: { title: "עץ התקדמות – IMD", nodes: [{id:"you", label:"אתה", code:"IMD", generation:0, column:1}], edges:[], notes:[] },
+  emd: { title: "עץ התקדמות – EMD", nodes: [{id:"you", label:"אתה", code:"EMD", generation:0, column:1}], edges:[], notes:[] },
+  pmd: { title: "עץ התקדמות – PMD", nodes: [{id:"you", label:"אתה", code:"PMD", generation:0, column:1}], edges:[], notes:[] },
+  pmd_plus: { title: "עץ התקדמות – PMD+", nodes: [{id:"you", label:"אתה", code:"PMD+", generation:0, column:1}], edges:[], notes:[] }
 };
