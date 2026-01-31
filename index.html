@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>ראשי - מפת הדרגות</title>
-  <link rel="stylesheet" href="style.css?v=INDEX_STYLE_V2" />
+  <link rel="stylesheet" href="style.css?v=INDEX_STYLE_V3" />
   <style>
     /* עיצוב הגריד */
     .dashboard-grid {
@@ -12,7 +12,7 @@
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 20px;
       padding: 30px 0;
-      padding-bottom: 80px; /* מרווח למטה בשביל הכפתור הצף */
+      padding-bottom: 80px;
     }
     
     .rank-card-link {
@@ -71,12 +71,12 @@
       border-radius: 15px;
     }
 
-    /* --- עיצוב הכפתור הצף החדש --- */
+    /* כפתור צף למוצרים */
     .fab-products {
       position: fixed;
       bottom: 30px;
-      left: 30px; /* בצד שמאל למטה כי אנחנו ב-RTL */
-      background-color: #ff6b00; /* הכתום של המותג */
+      left: 30px;
+      background-color: #ff6b00;
       color: white;
       text-decoration: none;
       padding: 15px 25px;
@@ -88,22 +88,13 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      transition: transform 0.2s, background 0.2s;
+      transition: transform 0.2s;
     }
-    .fab-products:hover {
-      transform: scale(1.05);
-      background-color: #e65100;
-    }
+    .fab-products:hover { transform: scale(1.05); background-color: #e65100; }
     .fab-icon { font-size: 1.5rem; }
 
-    /* התאמה למובייל - שהכפתור לא יסתיר דברים */
     @media (max-width: 600px) {
-      .fab-products {
-        bottom: 20px;
-        left: 20px;
-        padding: 12px 20px;
-        font-size: 1rem;
-      }
+      .fab-products { bottom: 20px; left: 20px; padding: 12px 20px; font-size: 1rem; }
     }
   </style>
 </head>
@@ -112,7 +103,7 @@
   <header class="topbar">
     <div class="topbar-inner">
       <div class="brand-left">
-        <div class="brand-logo">
+         <div class="brand-logo">
           <img data-brand="logo" alt="לוגו" style="display:none">
           <span class="fallback" data-brand="logoFallback">LOGO</span>
         </div>
@@ -134,19 +125,17 @@
     <span>קטלוג מוצרים</span>
   </a>
 
-  <script src="data-fixed.js?v=INDEX_DATA_V2"></script>
+  <script src="logic.js?v=FINAL_LINK"></script>
   
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const grid = document.getElementById("dashboardGrid");
       
-      // בדיקה שהנתונים נטענו
       if(!window.RANKS) {
         grid.innerHTML = "<p style='text-align:center;'>טוען נתונים...</p>";
         return;
       }
 
-      // יצירת כרטיסייה לכל דרגה
       window.RANKS.forEach(rank => {
         const card = document.createElement("a");
         card.className = "rank-card-link";
