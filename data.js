@@ -1,8 +1,8 @@
 /* data.js
-   FINAL VERSION - FIXED TREES & ASSETS
-   - Images: assets/filename.jpg
-   - Points: Exact user values
-   - Trees: Restored coordinates (generation/column) so they appear.
+   FINAL FIX - TREES RESTORED
+   - Trees: Added 'generation' and 'column' to all nodes so they render.
+   - Images: pointing to 'assets/'
+   - Points: Exact user values.
 */
 
 // --- 1. רשימת הדרגות ---
@@ -20,7 +20,7 @@ window.RANKS = [
   { id: "pmd_plus", title: "PMD+", targetPoints: 1600000, intro: "הטופ של הטופ.", videoUrl: "https://youtu.be/MVxQ4LPsj6w", bullets: ["יעד: 1,600,000 נקודות.", "בונוס: 200,000 ₪."], nodeCode: "PMD+" }
 ];
 
-// --- 2. מוצרים (עם הנתיב לתיקיית assets ורכיבים מלאים) ---
+// --- 2. מוצרים (עם נתיב assets ורכיבים מלאים) ---
 window.PRODUCTS = [
   {
     id: "fruit",
@@ -61,7 +61,7 @@ window.PRODUCTS = [
     intro: "נוגדי חמצון עוצמתיים מהטבע.",
     image: "assets/cap_berry.jpg",
     ingredients: "ענבים, אוכמניות כחולות, חמוציות, אוכמניות שחורות, אוכמניות בלאק קורנט, אוכמניות בילברי, פטל, רימון, פרי הסמבוק, קקאו וארטישוק.",
-    vitamins: "ויטמין C, ויטמין E.",
+    vitamins: "מכיל ויטמין C וויטמין E.",
     benefits: [
       "נוגדי חמצון חזקים במיוחד.",
       "תמיכה בבריאות הלב וכלי הדם.",
@@ -134,7 +134,7 @@ window.STRATEGIES = [
   { name: "ערכה מלאה + קומפליט קומבי (2561 נק')", points: 2561 }
 ];
 
-// --- 4. עצי דרגות (מתוקן עם קואורדינטות כדי שיופיעו!) ---
+// --- 4. עצי דרגות (תוקנו הקואורדינטות כדי שיופיעו!) ---
 window.RANK_TREES = {
   partner_plus: {
     title: "מבנה Partner Plus",
@@ -187,7 +187,7 @@ window.RANK_TREES = {
     ],
     notes: ["נדרש זכיין אחד בדרגת P+ ומעלה (PB)"]
   },
-  // שאר הדרגות עם מבנה בסיסי למניעת קריסה
+  // מבנה גנרי לשאר הדרגות כדי שלא יקרסו (עם קואורדינטות)
   qssc: { title: "מבנה QSSC", nodes: [{id:"you", label:"אתה", code:"QSSC", generation:0, column:1}], edges:[], notes:[] },
   ssc: { title: "מבנה SSC", nodes: [{id:"you", label:"אתה", code:"SSC", generation:0, column:1}], edges:[], notes:[] },
   qnmd: { title: "מבנה QNMD", nodes: [{id:"you", label:"אתה", code:"QNMD", generation:0, column:1}], edges:[], notes:[] },
