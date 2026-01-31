@@ -1,35 +1,45 @@
 <!doctype html>
 <html lang="he" dir="rtl">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>פרטי מוצר</title>
-  <link rel="stylesheet" href="style.css?v=999">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>מוצר</title>
+  <link rel="stylesheet" href="style.css?v=RESTORE_OK" />
 </head>
 <body>
   <header class="topbar">
-      <div class="topbar-inner"><a class="btn ghost" href="products.html">לקטלוג</a><div class="brand-title">פרטי מוצר</div></div>
+    <div class="topbar-inner"><div class="brand-left"><a class="btn ghost" href="products.html">קטלוג</a></div><div class="brand-title">פרטי מוצר</div></div>
   </header>
   <main class="container">
       <section class="card" style="text-align:center">
-          <h1 id="title">...</h1>
-          <img id="img" style="max-width:100%; height:300px; object-fit:contain; margin:20px 0">
-          <div style="background:#fffde7; padding:15px; border-radius:8px; text-align:right">
-              <strong>רכיבים:</strong> <span id="ing"></span><br><br>
-              <strong>ויטמינים:</strong> <span id="vit"></span>
-          </div>
+        <h1 id="pTitle">...</h1>
+        <img id="pImg" class="product-img">
+        <div class="ingredients-box">
+            <strong>רכיבים:</strong> <span id="pIng"></span><br><br>
+            <strong>ויטמינים:</strong> <span id="pVit"></span>
+        </div>
+        <div class="nav-actions">
+           <a id="btnPrev" href="#" class="btn-nav">קודם</a>
+           <a id="btnNext" href="#" class="btn-nav">הבא</a>
+        </div>
       </section>
   </main>
-  <script src="data.js?v=999"></script>
+  <script src="data.js?v=RESTORE_OK"></script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-        const id = new URLSearchParams(location.search).get("id");
-        const p = (window.PRODUCTS||[]).find(x => x.id === id);
-        if(!p) return;
-        document.getElementById("title").textContent = p.title;
-        document.getElementById("img").src = p.image;
-        document.getElementById("ing").textContent = p.ingredients;
-        document.getElementById("vit").textContent = p.vitamins;
+      const id = new URLSearchParams(location.search).get("id");
+      const idx = (window.PRODUCTS||[]).findIndex(p => p.id === id);
+      const prod = window.PRODUCTS[idx];
+      if (!prod) return;
+      document.getElementById("pTitle").textContent = prod.title;
+      document.getElementById("pImg").src = prod.image;
+      document.getElementById("pIng").textContent = prod.ingredients;
+      document.getElementById("pVit").textContent = prod.vitamins;
+      
+      const prev = (idx - 1 + window.PRODUCTS.length) % window.PRODUCTS.length;
+      const next = (idx + 1) % window.PRODUCTS.length;
+      document.getElementById("btnPrev").href = `product.html?id=${window.PRODUCTS[prev].id}`;
+      document.getElementById("btnNext").href = `product.html?id=${window.PRODUCTS[next].id}`;
     });
   </script>
 </body>
