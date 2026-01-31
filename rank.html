@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>דרגה</title>
-  <link rel="stylesheet" href="style.css?v=FORCE_UPDATE">
+  <link rel="stylesheet" href="style.css?v=999">
   <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
@@ -24,12 +24,28 @@
     <div class="rank-text-area">
         <section class="card"><h1 id="title">...</h1><p id="intro"></p></section>
         
+        <section class="card no-print">
+            <h3>מחשבון</h3>
+            <div style="margin-bottom:10px">יעד: <b id="targetPoints">0</b></div>
+            <div style="display:flex; gap:10px">
+                <input id="currP" type="number" placeholder="נקודות שיש לך" style="padding:10px; flex:1">
+                <select id="strat" style="padding:10px; flex:1"><option>בחר חבילה</option></select>
+                <button class="btn primary" onclick="calc()">חשב</button>
+            </div>
+            <div id="res" style="display:none; margin-top:15px; text-align:center; font-weight:bold; font-size:1.2em"></div>
+        </section>
+
         <section class="card videoWrap"><iframe id="vid" class="videoFrame" allowfullscreen></iframe></section>
         
         <div class="print-only-qr">
-            <div class="yt-label">סרוק להדרכה 🎥</div>
+            <strong>סרוק להדרכה 🎥</strong><br>
             <img id="qr" class="yt-qr-img">
         </div>
+
+        <section class="card">
+            <h3>דגשים</h3>
+            <ul id="bullets"></ul>
+        </section>
 
         <section class="card tree-card-container">
             <h2>מבנה העץ</h2>
@@ -37,22 +53,51 @@
         </section>
     </div>
   </main>
-  <script src="brand-core.js"></script>
-  <script src="data.js?v=FORCE_UPDATE"></script>
-  <script src="rank-tree.js?v=FORCE_UPDATE"></script>
+  
+  <script src="brand-core.js?v=999"></script>
+  <script src="data.js?v=999"></script>
+  <script src="rank-tree.js?v=999"></script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
         const id = new URLSearchParams(location.search).get("id");
         const r = (window.RANKS||[]).find(x => x.id === id);
         if(!r) return;
+        
         document.getElementById("title").textContent = r.title;
         document.getElementById("intro").textContent = r.intro;
+        document.getElementById("targetPoints").textContent = r.targetPoints.toLocaleString();
         
+        // Video & QR
         const vidUrl = r.videoUrl ? "https://www.youtube.com/embed/" + r.videoUrl.split("/").pop().split("?")[0] : "";
         document.getElementById("vid").src = vidUrl;
-        
         if(r.videoUrl) document.getElementById("qr").src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(r.videoUrl)}`;
+        
+        // Bullets
+        const ul = document.getElementById("bullets");
+        (r.bullets||[]).forEach(b => {
+            const li = document.createElement("li"); li.textContent = b; ul.appendChild(li);
+        });
+
+        // Calculator Init
+        const sel = document.getElementById("strat");
+        (window.STRATEGIES||[]).forEach(s => {
+            const o = document.createElement("option"); o.value = s.points; o.textContent = s.name; sel.appendChild(o);
+        });
     });
+
+    function calc() {
+        const cur = parseFloat(document.getElementById("currP").value) || 0;
+        const pts = parseFloat(document.getElementById("strat").value);
+        const r = (window.RANKS||[]).find(x => x.id === new URLSearchParams(location.search).get("id"));
+        if(!r || !pts) return;
+        
+        const missing = Math.max(0, r.targetPoints - cur);
+        const needed = Math.ceil(missing / pts);
+        
+        const res = document.getElementById("res");
+        res.style.display = "block";
+        res.innerHTML = missing <= 0 ? "היעד הושג!" : `חסר: ${missing.toLocaleString()}<br>צריך למכור: ${needed} חבילות`;
+    }
   </script>
 </body>
 </html>
