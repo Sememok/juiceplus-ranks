@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>פרטי מוצר</title>
-  <link rel="stylesheet" href="style.css?v=PROD_NAV_V2" />
+  <link rel="stylesheet" href="style.css?v=PROD_ASSETS_FIX" />
   <style>
     .product-header-card { text-align: center; padding: 25px; position: relative; }
     .product-img { 
@@ -16,19 +16,26 @@
       display: block;
       box-shadow: 0 5px 20px rgba(0,0,0,0.1);
     }
-    .img-missing-msg {
-        background: #fee2e2; border: 1px solid red; color: #b91c1c;
-        padding: 20px; border-radius: 8px; margin: 20px auto;
-        display: none;
+    
+    /* אזור רכיבים חדש */
+    .ingredients-box {
+      background: #fff8e1;
+      border: 1px solid #ffe082;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 20px 0;
+      text-align: right;
     }
+    .ingredients-title { font-weight: bold; color: #f57f17; margin-bottom: 5px; }
+    
     .usage-box { 
       background: #e8f5e9; 
       padding: 15px; 
       border-radius: 8px; 
       border-right: 4px solid #4CAF50; 
-      margin-top: 20px; 
+      margin-top: 20px;
+      text-align: right;
     }
-    .usage-title { font-weight: bold; color: #2e7d32; margin-bottom: 5px; }
     
     .nav-actions {
       display: flex;
@@ -39,15 +46,9 @@
       padding-top: 20px;
     }
     .btn-nav {
-      background-color: #3b82f6;
-      color: white;
-      padding: 10px 25px;
-      border-radius: 50px;
-      text-decoration: none;
-      font-weight: bold;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
+      background-color: #3b82f6; color: white; padding: 10px 25px;
+      border-radius: 50px; text-decoration: none; font-weight: bold;
+      display: inline-flex; align-items: center; gap: 8px;
       transition: transform 0.2s;
     }
     .btn-nav:hover { background-color: #2563eb; transform: scale(1.05); }
@@ -74,14 +75,8 @@
         <h1 id="prodTitle" class="rankTitle">טוען...</h1>
         <p id="prodSub" style="color:#666; font-size:1.2rem; margin-bottom:10px;"></p>
         
-        <img id="prodImage" class="product-img" src="" alt="תמונת מוצר" 
-             onerror="this.style.display='none'; document.getElementById('errorMsg').style.display='block';">
+        <img id="prodImage" class="product-img" src="" alt="תמונת מוצר" onerror="this.src='https://via.placeholder.com/400x300?text=Image+Missing'">
         
-        <div id="errorMsg" class="img-missing-msg">
-            ⚠️ <b>התמונה לא נמצאה!</b><br>
-            ודא שבתיקייה קיים קובץ בשם: <b id="fileNameMissing"></b>
-        </div>
-
         <p id="prodIntro" class="rankIntro" style="margin-top:15px;"></p>
         
         <div class="nav-actions">
@@ -91,10 +86,18 @@
       </section>
 
       <section class="card">
+        <div class="ingredients-box" id="ingBox" style="display:none;">
+            <div class="ingredients-title">🥗 רכיבים:</div>
+            <div id="prodIngredients" style="margin-bottom:10px;"></div>
+            <div class="ingredients-title">💊 ויטמינים:</div>
+            <div id="prodVitamins"></div>
+        </div>
+
         <h2 class="sectionTitle">יתרונות מרכזיים 🌟</h2>
         <ul id="prodBullets" class="bullets"></ul>
+        
         <div class="usage-box">
-          <div class="usage-title">איך משתמשים? 🥄</div>
+          <div style="font-weight:bold; color:#2e7d32; margin-bottom:5px;">איך משתמשים? 🥄</div>
           <div id="prodUsage"></div>
         </div>
       </section>
@@ -102,7 +105,7 @@
     </div>
   </main>
 
-  <script src="logic.js?v=DEBUG_2"></script>
+  <script src="logic.js?v=ASSETS_FIX"></script>
   <script>
     function getProdId() { return new URLSearchParams(location.search).get("id"); }
 
@@ -126,9 +129,14 @@
       document.getElementById("prodSub").textContent = prod.subTitle;
       document.getElementById("prodIntro").textContent = prod.intro;
       document.getElementById("prodUsage").textContent = prod.usage;
-      
-      document.getElementById("prodImage").src = prod.image;
-      document.getElementById("fileNameMissing").textContent = prod.image; // לשם דיבוג
+      document.getElementById("prodImage").src = prod.image; // הנתיב כבר כולל assets/
+
+      // מילוי רכיבים
+      if (prod.ingredients) {
+          document.getElementById("ingBox").style.display = "block";
+          document.getElementById("prodIngredients").textContent = prod.ingredients;
+          document.getElementById("prodVitamins").textContent = prod.vitamins || "עשיר בויטמינים ומינרלים טבעיים.";
+      }
 
       const ul = document.getElementById("prodBullets");
       prod.benefits.forEach(b => {
