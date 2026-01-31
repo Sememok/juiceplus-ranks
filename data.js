@@ -1,7 +1,7 @@
 /* data.js
-   FINAL CORRECTED VERSION
-   1. TREES RESTORED: Original simulation data (P+=4576, SP=12090, SC=27170).
-   2. IMAGES FIXED: pointing to "assets/" folder.
+   FINAL CORRECTED VERSION - RESTORED
+   1. TREES: Original simulation data (P+=4576, SP=12090, SC=27170).
+   2. IMAGES: Fixed to "assets/" folder.
    3. INGREDIENTS: Full text from PDF.
    4. POINTS: Exact user values.
 */
@@ -21,7 +21,7 @@ window.RANKS = [
   { id: "pmd_plus", title: "PMD+", targetPoints: 1600000, intro: "הדרגה הגבוהה ביותר בתוכנית.", videoUrl: "https://youtu.be/MVxQ4LPsj6w", bullets: ["יעד: 1,600,000 נקודות.", "בונוס: 200,000 ₪."], nodeCode: "PMD+" }
 ];
 
-// --- 2. מוצרים (נתיב assets + פירוט מלא) ---
+// --- 2. מוצרים ---
 window.PRODUCTS = [
   {
     id: "fruit",
@@ -31,12 +31,7 @@ window.PRODUCTS = [
     image: "assets/cap_fruit.jpg",
     ingredients: "תפוחים, חמוציות, תפוזים, אננס, דובדבני אסרולה, אפרסקים, מנגו, תמרים, שזיפים וסלק סוכר.",
     vitamins: "ויטמין A, ויטמין C, ויטמין E וחומצה פולית.",
-    benefits: [
-      "מגשר על הפער בין התזונה המצויה לרצויה.",
-      "ויטמין A: מסייע לשמירה על בריאות העור.",
-      "ויטמין C: תורם לייצור קולגן ובריאות החניכיים.",
-      "ויטמין E: מגן על התאים ממתח חמצוני."
-    ],
+    benefits: ["מגשר על הפער בין התזונה המצויה לרצויה.", "ויטמין A: מסייע לשמירה על בריאות העור.", "ויטמין C: תורם לייצור קולגן ובריאות החניכיים.", "ויטמין E: מגן על התאים ממתח חמצוני."],
     usage: "2 קפסולות ביום עם כוס מים גדולה."
   },
   {
@@ -47,12 +42,7 @@ window.PRODUCTS = [
     image: "assets/cap_veg.jpg",
     ingredients: "גזר, פטרוזיליה, ברוקולי, קייל, כרוב לבן, עגבניות, תרד, שום וסלק.",
     vitamins: "ויטמין A, ויטמין C, ויטמין E וחומצה פולית.",
-    benefits: [
-      "תמיכה במערכת החיסון (חומצה פולית).",
-      "הגנה על התאים מנזקי חמצון.",
-      "תמיכה בתהליכי ניקוי טבעיים.",
-      "ללא גלוטן וללא הנדסה גנטית."
-    ],
+    benefits: ["תמיכה במערכת החיסון (חומצה פולית).", "הגנה על התאים מנזקי חמצון.", "תמיכה בתהליכי ניקוי טבעיים.", "ללא גלוטן וללא הנדסה גנטית."],
     usage: "2 קפסולות ביום עם כוס מים גדולה."
   },
   {
@@ -63,12 +53,7 @@ window.PRODUCTS = [
     image: "assets/cap_berry.jpg",
     ingredients: "ענבים, אוכמניות כחולות, חמוציות, אוכמניות שחורות, אוכמניות בלאק קורנט, אוכמניות בילברי, פטל, רימון, פרי הסמבוק, קקאו וארטישוק.",
     vitamins: "מכיל ויטמין C וויטמין E.",
-    benefits: [
-      "נוגדי חמצון חזקים במיוחד.",
-      "תמיכה בבריאות הלב וכלי הדם.",
-      "שיפור זרימת דם והתאוששות.",
-      "שמירה על מראה עור בריא וחיוני."
-    ],
+    benefits: ["נוגדי חמצון חזקים במיוחד.", "תמיכה בבריאות הלב וכלי הדם.", "שיפור זרימת דם והתאוששות.", "שמירה על מראה עור בריא וחיוני."],
     usage: "2 קפסולות ביום."
   },
   {
@@ -79,12 +64,7 @@ window.PRODUCTS = [
     image: "assets/cap_omega.jpg",
     ingredients: "שמן אצות, שמן זרעי רימונים, שמן פטל, שמן אשחר ים (אובליפיחה), שמן חריע, שמן עגבניות.",
     vitamins: "אומגה 3, 5, 6, 7 ו-9.",
-    benefits: [
-      "מופק בכבישה קרה לשמירה על איכות השמנים.",
-      "ללא טעם לוואי של דגים (מקור צמחי).",
-      "תמיכה בראייה, תפקוד המוח והלב.",
-      "ידידותי לסביבה ובר-קיימא."
-    ],
+    benefits: ["מופק בכבישה קרה לשמירה על איכות השמנים.", "ללא טעם לוואי של דגים (מקור צמחי).", "תמיכה בראייה, תפקוד המוח והלב.", "ידידותי לסביבה ובר-קיימא."],
     usage: "2 קפסולות ביום עם האוכל."
   },
   {
@@ -95,12 +75,7 @@ window.PRODUCTS = [
     image: "assets/shake_vanilla.jpg",
     ingredients: "חלבון סויה, חלבון אפונה, חלבון אורז, אבקת חומוס, סיבים תזונתיים.",
     vitamins: "פרופיל מלא של ויטמינים ומינרלים.",
-    benefits: [
-      "חלבון צמחי איכותי (13 גרם למנה).",
-      "אינדקס גליקמי נמוך (מתאים לשמירה על משקל).",
-      "עשיר בסיבים לתחושת שובע.",
-      "מתאים לטבעונים וללא גלוטן."
-    ],
+    benefits: ["חלבון צמחי איכותי (13 גרם למנה).", "אינדקס גליקמי נמוך (מתאים לשמירה על משקל).", "עשיר בסיבים לתחושת שובע.", "מתאים לטבעונים וללא גלוטן."],
     usage: "כף מדידה אחת עם 250 מ״ל מים או חלב צמחי."
   },
   {
@@ -111,17 +86,12 @@ window.PRODUCTS = [
     image: "assets/shake_choco.jpg",
     ingredients: "חלבון סויה, חלבון אפונה, חלבון אורז, אבקת חומוס, קקאו.",
     vitamins: "פרופיל מלא של ויטמינים ומינרלים.",
-    benefits: [
-      "טעם שוקולדי עשיר ללא רגשות אשם.",
-      "תומך בבניית שריר ואנרגיה.",
-      "מקור מצוין לחלבון וסיבים.",
-      "פתרון מהיר לארוחת בוקר או אחרי אימון."
-    ],
+    benefits: ["טעם שוקולדי עשיר ללא רגשות אשם.", "תומך בבניית שריר ואנרגיה.", "מקור מצוין לחלבון וסיבים.", "פתרון מהיר לארוחת בוקר או אחרי אימון."],
     usage: "כף מדידה אחת עם 250 מ״ל מים או חלב צמחי."
   }
 ];
 
-// --- 3. אסטרטגיות למחשבון (ניקוד מעודכן) ---
+// --- 3. אסטרטגיות למחשבון ---
 window.STRATEGIES = [
   { name: "קפסולות פירות יער (380 נק')", points: 380 },
   { name: "מארז דואו - פירות וירקות (765 נק')", points: 765 },
@@ -135,11 +105,11 @@ window.STRATEGIES = [
   { name: "ערכה מלאה + קומפליט קומבי (2561 נק')", points: 2561 }
 ];
 
-// --- 4. עצי דרגות (העצים המקוריים עם הנתונים המדויקים) ---
+// --- 4. עצי דרגות (העצים המקוריים עם נתוני מיקום!) ---
 window.RANK_TREES = {
   partner_plus: {
-    title: "עץ התקדמות – Partner Plus (P+)",
-    description: "תרשים הממחיש הגעה ליעד של 4,000 נקודות.",
+    title: "מבנה Partner Plus (סימולציה)",
+    description: "יעד: 4,000 נקודות",
     highlightId: "you",
     nodes: [
       { id: "you",   label: "אתה (P+)",   code: "P+", pv: 866, totalVal: "סה״כ: 4,576", generation: 0, column: 1 },
@@ -151,11 +121,11 @@ window.RANK_TREES = {
     notes: ["הושג היעד לדרגת Partner Plus!", "סה\"כ: 4,576 נקודות."]
   },
   senior_partner: {
-    title: "עץ התקדמות – Senior Partner (SP)",
-    description: "תרשים מלא (כולל דור 2).",
+    title: "מבנה Senior Partner (סימולציה)",
+    description: "יעד: 12,000 נקודות",
     highlightId: "you",
     nodes: [
-      { id: "you", label: "אתה (SP)", code: "P+", pv: 2561, totalVal: "סה״כ: 12,090", generation: 0, column: 2 },
+      { id: "you", label: "אתה (SP)", code: "SP", pv: 2561, totalVal: "סה״כ: 12,090", generation: 0, column: 2 },
       { id: "left_top", label: "זכיין P", code: "P", pv: 4192, generation: 1, column: 0 },
       { id: "mid_top", label: "לקוח אישי", code: "Client", pv: 2561, generation: 1, column: 2 },
       { id: "right_top", label: "זכיין P", code: "P", pv: 2776, generation: 1, column: 4 },
@@ -166,24 +136,23 @@ window.RANK_TREES = {
     notes: ["סה\"כ נקודות: 12,090", "עמדה ביעדי חודשיים רצופים."]
   },
   sales_coordinator: {
-    title: "עץ התקדמות – Sales Coordinator (SC)",
-    description: "סימולציה מותאמת.",
+    title: "מבנה Sales Coordinator (סימולציה)",
+    description: "יעד: 28,000 נקודות",
     highlightId: "you",
     nodes: [
-        { id: "you", label: "אתה (SC)", code: "SC", pv: 1245, totalVal: "סה״כ: 27,170", generation: 0, column: 2 },
-        { id: "pb", label: "זכיין PB", code: "P+", pv: 4500, generation: 1, column: 1 },
-        { id: "team", label: "שאר הקבוצה", code: "GRP", pv: 21425, generation: 1, column: 3 }
+      { id: "you", label: "אתה (SC)", code: "SC", pv: 1245, totalVal: "סה״כ: 27,170", generation: 0, column: 2 },
+      { id: "pb", label: "זכיין PB", code: "P+", pv: 4500, generation: 1, column: 1 },
+      { id: "team", label: "שאר הקבוצה", code: "GRP", pv: 21425, generation: 1, column: 3 }
     ],
     edges: [ { from: "you", to: "pb" }, { from: "you", to: "team" } ],
     notes: ["סה\"כ נקודות: 27,170", "קרוב ליעד של 28,000."]
   },
-  // שאר הדרגות
-  qssc: { title: "עץ התקדמות – QSSC", nodes: [{id:"you", label:"אתה", code:"QSSC", generation:0, column:1}], edges:[], notes:[] },
-  ssc: { title: "עץ התקדמות – SSC", nodes: [{id:"you", label:"אתה", code:"SSC", generation:0, column:1}], edges:[], notes:[] },
-  qnmd: { title: "עץ התקדמות – QNMD", nodes: [{id:"you", label:"אתה", code:"QNMD", generation:0, column:1}], edges:[], notes:[] },
-  nmd: { title: "עץ התקדמות – NMD", nodes: [{id:"you", label:"אתה", code:"NMD", generation:0, column:1}], edges:[], notes:[] },
-  imd: { title: "עץ התקדמות – IMD", nodes: [{id:"you", label:"אתה", code:"IMD", generation:0, column:1}], edges:[], notes:[] },
-  emd: { title: "עץ התקדמות – EMD", nodes: [{id:"you", label:"אתה", code:"EMD", generation:0, column:1}], edges:[], notes:[] },
-  pmd: { title: "עץ התקדמות – PMD", nodes: [{id:"you", label:"אתה", code:"PMD", generation:0, column:1}], edges:[], notes:[] },
-  pmd_plus: { title: "עץ התקדמות – PMD+", nodes: [{id:"you", label:"אתה", code:"PMD+", generation:0, column:1}], edges:[], notes:[] }
+  qssc: { title: "מבנה QSSC", nodes: [{id:"you", label:"אתה", code:"QSSC", generation:0, column:1}], edges:[], notes:[] },
+  ssc: { title: "מבנה SSC", nodes: [{id:"you", label:"אתה", code:"SSC", generation:0, column:1}], edges:[], notes:[] },
+  qnmd: { title: "מבנה QNMD", nodes: [{id:"you", label:"אתה", code:"QNMD", generation:0, column:1}], edges:[], notes:[] },
+  nmd: { title: "מבנה NMD", nodes: [{id:"you", label:"אתה", code:"NMD", generation:0, column:1}], edges:[], notes:[] },
+  imd: { title: "מבנה IMD", nodes: [{id:"you", label:"אתה", code:"IMD", generation:0, column:1}], edges:[], notes:[] },
+  emd: { title: "מבנה EMD", nodes: [{id:"you", label:"אתה", code:"EMD", generation:0, column:1}], edges:[], notes:[] },
+  pmd: { title: "מבנה PMD", nodes: [{id:"you", label:"אתה", code:"PMD", generation:0, column:1}], edges:[], notes:[] },
+  pmd_plus: { title: "מבנה PMD+", nodes: [{id:"you", label:"אתה", code:"PMD+", generation:0, column:1}], edges:[], notes:[] }
 };
