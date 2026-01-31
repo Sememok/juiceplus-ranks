@@ -1,26 +1,114 @@
 /* data.js
-   MASTER FILE - ISRAEL 2025
-   - Images: Linked to "assets/" folder.
-   - Points: Exact user list (380, 765, etc.)
-   - Ingredients: Detailed list from PDF.
+   FIXED VERSION - NO SYNTAX ERRORS
+   - Images: assets/filename.jpg
+   - Points: Exact user values
+   - Text: Detailed ingredients from PDF
 */
 
 // --- 1. רשימת הדרגות ---
 window.RANKS = [
-  { id: "partner_plus", title: "Partner Plus", targetPoints: 4000, intro: "התקדמות ראשונה.", videoUrl: "https://youtu.be/M293NdN7Sok", bullets: ["יעד: 4,000 נקודות.", "עמלה: 14%.", "בונוס: 400 ₪."], nodeCode: "P+" },
-  { id: "senior_partner", title: "Senior Partner", targetPoints: 12000, intro: "בניית יציבות.", videoUrl: "https://youtu.be/fnG6Eld0SPk", bullets: ["יעד: 12,000 נקודות.", "עמלה: 19%.", "בונוס: 1,200 ₪."], nodeCode: "SP" },
-  { id: "sales_coordinator", title: "Sales Coordinator", targetPoints: 28000, intro: "דרגת מנהיגות.", videoUrl: "https://youtu.be/cyJb_ecWjyA", bullets: ["יעד: 28,000 נקודות.", "עמלה: 22%.", "בונוס: 3,600 ₪."], nodeCode: "SC" },
-  { id: "qssc", title: "QSSC", targetPoints: 56000, intro: "בדרך לטופ.", videoUrl: "https://youtu.be/ru06kEc9kqE", bullets: ["יעד: 56,000 נקודות.", "בונוס: 4,800 ₪."], nodeCode: "QSSC" },
-  { id: "ssc", title: "Senior Sales Coordinator", targetPoints: 111000, intro: "ניהול בכיר.", videoUrl: "https://youtu.be/xPwmFecZ8Ms", bullets: ["יעד: 111,000 נקודות.", "בונוס: 10,000 ₪."], nodeCode: "SSC" },
-  { id: "qnmd", title: "QNMD", targetPoints: 222000, intro: "לפני פסגה.", videoUrl: "https://youtu.be/W8Wm_c4kMUo", bullets: ["יעד: 222,000 נקודות.", "בונוס: 19,000 ₪."], nodeCode: "QNMD" },
-  { id: "nmd", title: "NMD", targetPoints: 222000, intro: "הדרגה הלאומית.", videoUrl: "https://youtu.be/muieHSXIocI", bullets: ["יעד: 222,000 נקודות.", "בונוס: 39,000 ₪."], nodeCode: "NMD" },
-  { id: "imd", title: "IMD", targetPoints: 444000, intro: "בינלאומי.", videoUrl: "https://youtu.be/WeEZlCjHAtU", bullets: ["יעד: 444,000 נקודות.", "בונוס: 77,000 ₪."], nodeCode: "IMD" },
-  { id: "emd", title: "EMD", targetPoints: 666000, intro: "אקזקיוטיב.", videoUrl: "https://youtu.be/KpKDNIc8R7k", bullets: ["יעד: 666,000 נקודות.", "בונוס: 115,000 ₪."], nodeCode: "EMD" },
-  { id: "pmd", title: "PMD", targetPoints: 888000, intro: "פסגת המנהיגות.", videoUrl: "https://youtu.be/2i3sVTpFxts", bullets: ["יעד: 888,000 נקודות.", "בונוס: 153,000 ₪."], nodeCode: "PMD" },
-  { id: "pmd_plus", title: "PMD+", targetPoints: 1600000, intro: "הטופ של הטופ.", videoUrl: "https://youtu.be/MVxQ4LPsj6w", bullets: ["יעד: 1,600,000 נקודות.", "בונוס: 200,000 ₪."], nodeCode: "PMD+" }
+  {
+    id: "partner_plus",
+    title: "Partner Plus",
+    targetPoints: 4000,
+    intro: "התקדמות ראשונה.",
+    videoUrl: "https://youtu.be/M293NdN7Sok",
+    bullets: ["יעד: 4,000 נקודות.", "עמלה: 14%.", "בונוס: 400 ₪."],
+    nodeCode: "P+"
+  },
+  {
+    id: "senior_partner",
+    title: "Senior Partner",
+    targetPoints: 12000,
+    intro: "בניית יציבות.",
+    videoUrl: "https://youtu.be/fnG6Eld0SPk",
+    bullets: ["יעד: 12,000 נקודות.", "עמלה: 19%.", "בונוס: 1,200 ₪."],
+    nodeCode: "SP"
+  },
+  {
+    id: "sales_coordinator",
+    title: "Sales Coordinator",
+    targetPoints: 28000,
+    intro: "דרגת מנהיגות.",
+    videoUrl: "https://youtu.be/cyJb_ecWjyA",
+    bullets: ["יעד: 28,000 נקודות.", "עמלה: 22%.", "בונוס: 3,600 ₪."],
+    nodeCode: "SC"
+  },
+  {
+    id: "qssc",
+    title: "QSSC",
+    targetPoints: 56000,
+    intro: "בדרך לטופ.",
+    videoUrl: "https://youtu.be/ru06kEc9kqE",
+    bullets: ["יעד: 56,000 נקודות.", "בונוס: 4,800 ₪."],
+    nodeCode: "QSSC"
+  },
+  {
+    id: "ssc",
+    title: "Senior Sales Coordinator",
+    targetPoints: 111000,
+    intro: "ניהול בכיר.",
+    videoUrl: "https://youtu.be/xPwmFecZ8Ms",
+    bullets: ["יעד: 111,000 נקודות.", "בונוס: 10,000 ₪."],
+    nodeCode: "SSC"
+  },
+  {
+    id: "qnmd",
+    title: "QNMD",
+    targetPoints: 222000,
+    intro: "לפני פסגה.",
+    videoUrl: "https://youtu.be/W8Wm_c4kMUo",
+    bullets: ["יעד: 222,000 נקודות.", "בונוס: 19,000 ₪."],
+    nodeCode: "QNMD"
+  },
+  {
+    id: "nmd",
+    title: "NMD",
+    targetPoints: 222000,
+    intro: "הדרגה הלאומית.",
+    videoUrl: "https://youtu.be/muieHSXIocI",
+    bullets: ["יעד: 222,000 נקודות.", "בונוס: 39,000 ₪."],
+    nodeCode: "NMD"
+  },
+  {
+    id: "imd",
+    title: "IMD",
+    targetPoints: 444000,
+    intro: "בינלאומי.",
+    videoUrl: "https://youtu.be/WeEZlCjHAtU",
+    bullets: ["יעד: 444,000 נקודות.", "בונוס: 77,000 ₪."],
+    nodeCode: "IMD"
+  },
+  {
+    id: "emd",
+    title: "EMD",
+    targetPoints: 666000,
+    intro: "אקזקיוטיב.",
+    videoUrl: "https://youtu.be/KpKDNIc8R7k",
+    bullets: ["יעד: 666,000 נקודות.", "בונוס: 115,000 ₪."],
+    nodeCode: "EMD"
+  },
+  {
+    id: "pmd",
+    title: "PMD",
+    targetPoints: 888000,
+    intro: "פסגת המנהיגות.",
+    videoUrl: "https://youtu.be/2i3sVTpFxts",
+    bullets: ["יעד: 888,000 נקודות.", "בונוס: 153,000 ₪."],
+    nodeCode: "PMD"
+  },
+  {
+    id: "pmd_plus",
+    title: "PMD+",
+    targetPoints: 1600000,
+    intro: "הטופ של הטופ.",
+    videoUrl: "https://youtu.be/MVxQ4LPsj6w",
+    bullets: ["יעד: 1,600,000 נקודות.", "בונוס: 200,000 ₪."],
+    nodeCode: "PMD+"
+  }
 ];
 
-// --- 2. מוצרים (עם נתיב assets ורכיבים מלאים) ---
+// --- 2. מוצרים (עם פירוט מלא ונתיב assets) ---
 window.PRODUCTS = [
   {
     id: "fruit",
@@ -32,8 +120,8 @@ window.PRODUCTS = [
     vitamins: "מכיל ויטמין A, ויטמין C, ויטמין E וחומצה פולית.",
     benefits: [
       "מגשר על הפער בין התזונה המצויה לרצויה.",
-      "ויטמין A: שומר על בריאות העור.",
-      "ויטמין C: תורם לייצור קולגן ובריאות החניכיים.",
+      "ויטמין A: מסייע לשמירה על בריאות העור.",
+      "ויטמין C: מסייע לייצור קולגן ובריאות החניכיים.",
       "ויטמין E: מגן על התאים ממתח חמצוני."
     ],
     usage: "2 קפסולות ביום עם כוס מים גדולה."
@@ -60,7 +148,7 @@ window.PRODUCTS = [
     subTitle: "Berry Blend",
     intro: "נוגדי חמצון עוצמתיים מהטבע.",
     image: "assets/cap_berry.jpg",
-    ingredients: "ענבים, אוכמניות כחולות, חמוציות, אוכמניות שחורות, אוכמניות בלאק קורנט, אוכמניות בילברי, פטל, רימון, פרי הסמבוק, קקאו וארטישוק.",
+    ingredients: "ענבים, אוכמניות כחולות, חמוציות, אוכמניות שחורות, אוכמניות בלאק קורנט, בילברי, פטל, רימון, פרי הסמבוק, קקאו וארטישוק.",
     vitamins: "מכיל ויטמין C וויטמין E.",
     benefits: [
       "נוגדי חמצון חזקים במיוחד.",
@@ -120,14 +208,14 @@ window.PRODUCTS = [
   }
 ];
 
-// --- 3. אסטרטגיות למחשבון (לפי הרשימה המדויקת שלך) ---
+// --- 3. אסטרטגיות למחשבון (ניקוד מעודכן) ---
 window.STRATEGIES = [
   { name: "קפסולות פירות יער (380 נק')", points: 380 },
   { name: "מארז דואו - פירות וירקות (765 נק')", points: 765 },
   { name: "שלישייה - פירות, ירקות, יער (1145 נק')", points: 1145 },
   { name: "רביעייה - שלישייה + אומגה (1631 נק')", points: 1631 },
-  { name: "שייק קומפליט (שקיות גדולות - טעם אחד)", points: 830 },
-  { name: "קומפליט קומבי (מיקס טעמים)", points: 930 },
+  { name: "שייק קומפליט (שקיות גדולות) (830 נק')", points: 830 },
+  { name: "קומפליט קומבי - 2 הטעמים (930 נק')", points: 930 },
   { name: "קפסולות אומגה בלנד (486 נק')", points: 486 },
   { name: "אומגה בלנד + פירות יער (866 נק')", points: 866 },
   { name: "ערכה מלאה + קומפליט רגיל (2461 נק')", points: 2461 },
