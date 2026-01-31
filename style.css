@@ -1,122 +1,120 @@
+/* style.css - FINAL WITH PRINT & BRANDING */
+
 :root {
-  --bg: #f8fafc;
-  --card: #ffffff;
-  --text: #1e293b;
-  --muted: #64748b;
-  --line: #e2e8f0;
-  --brand: #16a34a;
-  --brand-hover: #15803d;
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --radius: 12px;
+    --primary: #16a34a;
+    --primary-dark: #15803d;
+    --secondary: #ff6b00;
+    --bg: #f3f4f6;
+    --text: #1f2937;
 }
 
-* { box-sizing: border-box; }
-html, body { height: 100%; margin: 0; }
 body {
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  background: var(--bg); color: var(--text); line-height: 1.4;
+    margin: 0;
+    font-family: system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    direction: rtl;
+    padding-top: 70px;
 }
-img { max-width: 100%; height: auto; display: block; }
-a { color: inherit; text-decoration: none; }
 
-/* === Layout === */
-.container { width: min(1000px, 94vw); margin: 30px auto 80px; }
+/* --- Header & Branding --- */
 .topbar {
-  background: rgba(255, 255, 255, 0.95); border-bottom: 1px solid var(--line);
-  position: sticky; top: 0; z-index: 100; backdrop-filter: blur(5px);
+    position: fixed;
+    top: 0; right: 0; left: 0;
+    height: 60px;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
 }
+
 .topbar-inner {
-  width: min(1000px, 94vw); margin: 0 auto; padding: 10px 0;
-  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
-.brand-left { display: flex; align-items: center; gap: 12px; }
-.brand-logo {
-  width: 48px; height: 48px; border-radius: 10px; border: 1px solid var(--line); 
-  background: #fff; display: flex; align-items: center; justify-content: center; overflow: hidden;
-}
-.brand-text { display: flex; flex-direction: column; }
-.brand-title { font-weight: 800; font-size: 1.1rem; }
-.brand-sub { font-size: 0.85rem; color: var(--muted); }
-.brand-center { display: none; }
-@media (min-width: 768px) { .brand-center { display: block; text-align: center; } }
 
+/* לוגו מותאם אישית */
+.brand-logo { cursor: pointer; display: flex; align-items: center; }
+.brand-logo img { max-height: 45px; display: block; }
+.brand-center { text-align: center; }
+.brand-title { font-weight: 800; font-size: 1.2rem; color: var(--primary); }
+.brand-sub { font-size: 0.8rem; color: #666; }
+
+/* Buttons */
 .btn {
-  display: inline-flex; align-items: center; justify-content: center;
-  padding: 8px 16px; border-radius: 8px; border: 1px solid var(--line);
-  background: #fff; font-weight: 600; cursor: pointer; color: var(--text);
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: 0.2s;
+    font-size: 0.9rem;
+    display: inline-block;
+    border: none;
+    cursor: pointer;
 }
-.btn.primary { background: var(--brand); border-color: var(--brand); color: #fff; }
+.btn.ghost { color: #666; background: #f3f4f6; }
+.btn.ghost:hover { background: #e5e7eb; }
+.btn.primary { background: var(--secondary); color: white; }
+.btn.primary:hover { background: #e65100; }
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Cards */
 .card {
-  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
-  padding: 20px; box-shadow: var(--shadow-sm); margin-bottom: 20px;
-}
-.rank-nav-container { margin-bottom: 20px; padding: 0 10px; }
-.rank-nav-label { font-size: 0.85rem; color: var(--muted); margin-bottom: 6px; font-weight: 700; }
-.rank-nav-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
-.nav-chip {
-  background: #fff; border: 1px solid var(--line); padding: 6px 12px;
-  border-radius: 20px; font-size: 0.85rem; font-weight: 600;
-}
-.nav-chip.active { background: var(--brand); color: #fff; border-color: var(--brand); }
-.rankTitle { font-size: 1.8rem; font-weight: 800; color: var(--brand); margin: 0 0 10px; }
-.sectionTitle { font-size: 1.2rem; font-weight: 700; margin: 0 0 12px; }
-.videoWrap { border-radius: var(--radius); overflow: hidden; background: #000; }
-.videoFrame { width: 100%; aspect-ratio: 16/9; border: 0; display: block; }
-.videoLink { margin-top: 10px; font-size: 0.85rem; color: var(--muted); text-align: center; }
-.print-only-qr { display: none !important; }
-
-/* === D3 TREE STYLES === */
-.tree-viz-container {
-  width: 100%; overflow-x: auto; text-align: center; padding: 20px 0;
-}
-.link { fill: none; stroke: #cbd5e1; stroke-width: 2px; }
-.node-rect {
-  fill: #fff; stroke: #e2e8f0; stroke-width: 1.5px; rx: 8px; ry: 8px;
-  filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.05));
-}
-.node-rect.is-here { stroke: var(--brand); stroke-width: 2.5px; fill: #f0fdf4; }
-.node-code-badge { font-size: 11px; font-weight: 800; fill: #64748b; }
-.node-label { font-size: 14px; font-weight: 700; fill: #1e293b; }
-.node-pv { font-size: 12px; fill: #1e293b; }
-.node-pv-val { font-weight: 800; }
-.here-label-rect { fill: var(--brand); rx: 10px; ry: 10px; }
-.here-label-text {
-  fill: #fff; font-size: 11px; font-weight: 700; text-anchor: middle; dominant-baseline: middle;
-}
-.tree-notes-box {
-  margin-top: 20px; padding: 15px; background: #f8fafc; border-top: 1px solid var(--line);
-  font-size: 0.9rem; text-align: right;
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
 
-/* === PRINT STYLES (Fixed Top Margin) === */
+.sectionTitle {
+    color: var(--primary-dark);
+    border-bottom: 2px solid #e5e7eb;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+}
+
+/* Video */
+.videoWrap { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 10px; background: #000; }
+.videoFrame { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0; }
+
+/* Bullets */
+.bullets { padding-right: 20px; line-height: 1.6; }
+.bullets li { margin-bottom: 8px; }
+
+/* QR Code Section (מוסתר במסך רגיל) */
+.print-only-qr { display: none; text-align: center; margin-top: 30px; border: 2px solid #000; padding: 20px; border-radius: 10px; }
+.yt-label { font-weight: bold; font-size: 1.2rem; margin-bottom: 10px; }
+.yt-qr-img { width: 150px; height: 150px; }
+
+/* --- PRINT STYLES (הגדרות הדפסה) --- */
 @media print {
-  @page { size: A4 landscape; margin: 8mm; }
-  body { background: #fff; color: #000; }
-  .topbar, .btn, .videoWrap, .videoLink, .rank-nav-container, .no-print { display: none !important; }
-  .container, .card { width: 100%; max-width: none; margin: 0; padding: 0; border: none; box-shadow: none; }
-
-  #rankPrintLayout {
-    display: flex; justify-content: space-between; align-items: flex-start;
-    border-bottom: 2px solid #eee; padding-bottom: 15px; margin-bottom: 20px;
-  }
-  .rankTitle { font-size: 22pt; color: #16a34a; margin: 0; }
-  .rankIntro { font-size: 12pt; margin: 5px 0; color: #444; }
-  .bullets li { margin-bottom: 5px; }
-
-  .print-only-qr { display: block !important; }
-  .yt-frame { border: 2px solid #d32f2f; border-radius: 8px; padding: 5px; text-align: center; width: 110px; }
-  .yt-frame::before { content: "▶ סרטון"; color: #d32f2f; font-weight: bold; font-size: 9pt; display: block; }
-  .yt-qr-img { width: 80px; height: 80px; }
-
-  .tree-card-container { page-break-inside: avoid; }
-  /* הוספתי ריפוד עליון של 30px כדי לדחוף את העץ למטה בהדפסה */
-  .tree-viz-container { 
-    padding: 30px 0 0 0; 
-    overflow: visible; display: flex; justify-content: center; 
-  }
-  .tree-svg-content { max-width: 100%; height: auto; }
-  .link { stroke: #999 !important; stroke-width: 1.5px !important; }
-  .node-rect { stroke: #000 !important; filter: none !important; }
-  .node-rect.is-here { stroke-width: 3px !important; fill: #eee !important; }
-  .tree-notes-box { border-top: 2px solid #eee; background: none; }
+    body { background: white; padding-top: 0; font-size: 12pt; }
+    .topbar, .btn, .nav-chip, .no-print, .fab-products, .calc-card, .nav-actions { display: none !important; }
+    
+    .container { max-width: 100%; padding: 0; margin: 0; }
+    .card { box-shadow: none; border: 1px solid #ddd; page-break-inside: avoid; margin-bottom: 15px; }
+    
+    /* מציג את ה-QR רק בהדפסה */
+    .print-only-qr { display: flex !important; flex-direction: column; align-items: center; border: 1px solid #ccc; page-break-inside: avoid; }
+    
+    /* הופך את הוידאו ללא נראה בהדפסה */
+    .videoWrap { display: none; }
+    
+    /* מסדר את העץ */
+    .tree-card-container { page-break-before: always; }
+    
+    a { text-decoration: none; color: black; }
 }
