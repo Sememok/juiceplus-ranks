@@ -1,25 +1,22 @@
-/* style.css */
+/* style.css - Clean Restore */
 :root { --primary: #16a34a; --secondary: #ff6b00; --bg: #f3f4f6; --text: #1f2937; }
 body { margin: 0; font-family: system-ui, sans-serif; background: var(--bg); color: var(--text); direction: rtl; padding-top: 70px; }
 .topbar { position: fixed; top: 0; left: 0; right: 0; height: 60px; background: white; display: flex; align-items: center; padding: 0 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); z-index: 1000; }
 .topbar-inner { width: 100%; max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
-.brand-logo { cursor: pointer; display: flex; align-items: center; }
-.brand-logo img { max-height: 40px; }
 .brand-title { font-weight: 800; font-size: 1.2rem; color: var(--primary); }
-.btn { text-decoration: none; padding: 8px 16px; border-radius: 6px; font-weight: bold; cursor: pointer; border: none; display:inline-block;}
+.brand-sub { font-size: 0.8rem; color: #666; }
+.btn { text-decoration: none; padding: 8px 16px; border-radius: 6px; font-weight: bold; font-size: 0.9rem; border: none; cursor: pointer; display: inline-block; }
 .btn.ghost { background: #f3f4f6; color: #333; }
 .btn.primary { background: var(--secondary); color: white; }
 .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
 .card { background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-.print-only-qr { display: none; border: 2px solid black; padding: 20px; text-align: center; margin-top: 20px; border-radius: 10px; }
-.yt-qr-img { width: 150px; height: 150px; }
+.sectionTitle { color: var(--primary-dark); border-bottom: 2px solid #e5e7eb; padding-bottom: 10px; margin-bottom: 15px; font-size: 1.3rem; }
 .videoWrap { position: relative; padding-bottom: 56.25%; height: 0; background: #000; border-radius: 10px; overflow: hidden; }
 .videoFrame { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
-@media print {
-    .topbar, .btn, .no-print, .fab-products { display: none !important; }
-    body { padding-top: 0; background: white; }
-    .print-only-qr { display: flex !important; flex-direction: column; align-items: center; }
-    .videoWrap { display: none; }
-    .card { box-shadow: none; border: 1px solid #ccc; page-break-inside: avoid; }
-    .tree-card-container { page-break-before: always; }
-}
+.bullets li { margin-bottom: 8px; }
+.products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; padding: 20px 0; }
+.product-card { background: white; border-radius: 15px; padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); text-align: center; cursor: pointer; border: 1px solid #eee; display: flex; flex-direction: column; align-items: center; }
+.product-img { max-width: 100%; height: auto; max-height: 400px; margin: 20px auto; display: block; object-fit: contain; }
+.ingredients-box { background: #fffde7; border: 1px solid #fff59d; padding: 15px; border-radius: 8px; margin: 20px 0; text-align: right; }
+.nav-actions { display: flex; justify-content: space-between; margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px; }
+.btn-nav { background-color: #3b82f6; color: white; padding: 10px 25px; border-radius: 50px; text-decoration: none; font-weight: bold; }
