@@ -1,46 +1,27 @@
 <!doctype html>
 <html lang="he" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>קטלוג מוצרים</title>
-  <link rel="stylesheet" href="style.css?v=CLEAN_PRODS" />
-  <style>
-    .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; padding: 20px 0; }
-    .product-card { background: white; border-radius: 15px; padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); text-align: center; transition: transform 0.2s; cursor: pointer; border: 1px solid #eee; display: flex; flex-direction: column; align-items: center; }
-    .product-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); border-color: #ff6b00; }
-    .prod-img-thumb { width: 100%; height: 220px; object-fit: contain; margin-bottom: 15px; border-radius: 8px; background-color: #fff; }
-    .prod-title { font-weight: bold; font-size: 1.2rem; margin-bottom: 5px; color: #2C3E50; }
-    .btn-view { background: #ff6b00; color: white; padding: 8px 20px; border-radius: 20px; text-decoration: none; font-weight: bold; display: inline-block; margin-top: auto; }
-  </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>מוצרים</title>
+  <link rel="stylesheet" href="style.css?v=FORCE_UPDATE">
+  <style>.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }</style>
 </head>
 <body>
   <header class="topbar">
-    <div class="topbar-inner">
-      <div class="brand-left"><a class="btn ghost" href="index.html">חזרה לראשי</a></div>
-      <div class="brand-center"><div class="brand-title">המוצרים שלנו</div></div>
-    </div>
+      <div class="topbar-inner"><a class="btn ghost" href="index.html">חזרה</a><div class="brand-title">מוצרים</div></div>
   </header>
-  <main class="container"><div class="products-grid" id="productsGrid"></div></main>
-  <script src="brand-core.js"></script>
-  <script src="data.js?v=CLEAN_RESTORE"></script>
+  <main class="container"><div class="grid" id="grid"></div></main>
+  <script src="data.js?v=FORCE_UPDATE"></script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      const grid = document.getElementById("productsGrid");
-      if (!window.PRODUCTS) { grid.innerHTML = "טוען מוצרים..."; return; }
-      window.PRODUCTS.forEach(prod => {
-        const card = document.createElement("div");
-        card.className = "product-card";
-        card.onclick = () => location.href = `product.html?id=${prod.id}`;
-        const imgSrc = prod.image || ''; 
-        card.innerHTML = `
-          <img src="${imgSrc}" class="prod-img-thumb" alt="${prod.title}" onerror="this.src='https://via.placeholder.com/300x300?text=Image+Missing'">
-          <div class="prod-title">${prod.title}</div>
-          <div style="color:#666; font-size:0.9rem; margin-bottom:15px; flex-grow:1;">${prod.intro}</div>
-          <span class="btn-view">לפרטים נוספים</span>
-        `;
-        grid.appendChild(card);
-      });
+        const grid = document.getElementById("grid");
+        (window.PRODUCTS||[]).forEach(p => {
+            const d = document.createElement("div"); d.className = "card"; d.style.textAlign="center";
+            d.onclick = () => location.href = `product.html?id=${p.id}`;
+            d.innerHTML = `<img src="${p.image}" style="height:150px; object-fit:contain"><h3 style="margin:10px 0">${p.title}</h3><div class="btn primary">פרטים</div>`;
+            grid.appendChild(d);
+        });
     });
   </script>
 </body>
