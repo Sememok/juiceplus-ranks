@@ -6,7 +6,7 @@ body { margin: 0; font-family: system-ui, sans-serif; background: var(--bg); col
 .brand-logo { cursor: pointer; display: flex; align-items: center; }
 .brand-logo img { max-height: 40px; }
 .brand-title { font-weight: 800; font-size: 1.2rem; color: var(--primary); }
-.btn { text-decoration: none; padding: 8px 16px; border-radius: 6px; font-weight: bold; cursor: pointer; border: none; }
+.btn { text-decoration: none; padding: 8px 16px; border-radius: 6px; font-weight: bold; cursor: pointer; border: none; display:inline-block;}
 .btn.ghost { background: #f3f4f6; color: #333; }
 .btn.primary { background: var(--secondary); color: white; }
 .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
