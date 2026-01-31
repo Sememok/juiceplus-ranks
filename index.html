@@ -1,15 +1,15 @@
 <!doctype html>
 <html lang="he" dir="rtl">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>ראשי</title>
-  <link rel="stylesheet" href="style.css?v=999">
+  <link rel="stylesheet" href="style.css?v=RESTORE_OK" />
   <style>
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; padding: 30px 0; }
-    .rank-link { background: white; border-radius: 12px; padding: 25px; text-decoration: none; color: inherit; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-top: 5px solid #16a34a; text-align: center; display: block; }
-    .rank-code { font-size: 2.5rem; font-weight: 800; color: #166534; }
-    .fab { position: fixed; bottom: 30px; left: 30px; background: #ff6b00; color: white; padding: 15px 25px; border-radius: 50px; text-decoration: none; font-weight: bold; box-shadow: 0 4px 20px rgba(255,107,0,0.4); display: flex; gap: 10px; align-items: center; }
+    .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; padding: 30px 0; }
+    .rank-card-link { background: white; border-radius: 12px; padding: 25px; text-decoration: none; color: inherit; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-top: 5px solid #16a34a; text-align: center; display: block; }
+    .rank-code { font-size: 2.5rem; font-weight: 800; color: #166534; margin-bottom: 10px; }
+    .fab-products { position: fixed; bottom: 30px; left: 30px; background-color: #ff6b00; color: white; padding: 15px 25px; border-radius: 50px; text-decoration: none; font-weight: bold; box-shadow: 0 4px 20px rgba(255,107,0,0.4); display: flex; gap: 10px; align-items: center; }
   </style>
 </head>
 <body>
@@ -17,24 +17,25 @@
     <div class="topbar-inner">
       <div class="brand-left"></div>
       <div class="brand-center">
-        <div class="brand-logo"><img data-brand="logo" style="display:none"><span data-brand="logoFallback">LOGO</span></div>
-        <div class="brand-title" data-brand="title">המסע המשותף</div>
+        <div class="brand-title">המסע המשותף שלנו</div>
+        <div class="brand-sub">בחר דרגה כדי להתחיל</div>
       </div>
     </div>
   </header>
-  <main class="container"><div class="grid" id="grid"></div></main>
-  <a href="products.html" class="fab"><span>🍎</span><span>קטלוג מוצרים</span></a>
-  <script src="brand-core.js?v=999"></script>
-  <script src="data.js?v=999"></script>
+  <main class="container"><div class="dashboard-grid" id="dashboardGrid"></div></main>
+  <a href="products.html" class="fab-products"><span>🍎</span><span>קטלוג מוצרים</span></a>
+  <script src="data.js?v=RESTORE_OK"></script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-        const grid = document.getElementById("grid");
-        if(!window.RANKS) { grid.innerHTML = "טוען..."; return; }
-        window.RANKS.forEach(r => {
-            const a = document.createElement("a"); a.className = "rank-link"; a.href = `rank.html?id=${r.id}`;
-            a.innerHTML = `<div class="rank-code">${r.nodeCode}</div><div>${r.title}</div>`;
-            grid.appendChild(a);
-        });
+      const grid = document.getElementById("dashboardGrid");
+      if(!window.RANKS) { grid.innerHTML = "טוען..."; return; }
+      window.RANKS.forEach(rank => {
+        const card = document.createElement("a");
+        card.className = "rank-card-link";
+        card.href = `rank.html?id=${rank.id}`; 
+        card.innerHTML = `<div class="rank-code">${rank.nodeCode}</div><div>${rank.title}</div>`;
+        grid.appendChild(card);
+      });
     });
   </script>
 </body>
