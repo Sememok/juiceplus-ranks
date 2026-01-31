@@ -1,8 +1,8 @@
 /* data.js
-   FINAL GOLDEN VERSION
-   1. TREES: Complex structures restored matching screenshots (SC = 27,170, SP = 12,090).
-   2. TEXT: Full rank descriptions and product details.
-   3. IMAGES: "assets/" folder.
+   FINAL "GOLDEN" VERSION
+   1. TREES: Complex structure restored (SC matches screenshot with 7 legs).
+   2. CONTENT: Full ingredients & details.
+   3. IMAGES: assets/ folder.
 */
 
 // --- 1. רשימת הדרגות (פירוט מלא) ---
@@ -25,7 +25,7 @@ window.RANKS = [
     id: "senior_partner",
     title: "Senior Partner",
     targetPoints: 12000,
-    intro: "בניית יציבות ולקוחות חוזרים.",
+    intro: "בניית יציבות וצוות.",
     videoUrl: "https://youtu.be/fnG6Eld0SPk",
     bullets: [
       "יעד: 12,000 נקודות.",
@@ -39,13 +39,14 @@ window.RANKS = [
     id: "sales_coordinator",
     title: "Sales Coordinator",
     targetPoints: 28000,
-    intro: "הדרגה הניהולית הראשונה.",
+    intro: "הדרגה הניהולית המשמעותית הראשונה.",
     videoUrl: "https://youtu.be/cyJb_ecWjyA",
     bullets: [
       "יעד: 28,000 נקודות.",
-      "עמלה ישירה: 22% (מקסימלית).",
+      "עמלה ישירה: 22% (מקסימלית על מכירות אישיות).",
       "בונוס חד פעמי: 3,600 ₪.",
-      "דרישה: מבנה PB (זכיין אחד בדרגת P+ ומעלה)."
+      "דרישה: מבנה PB (זכיין אחד בדרגת P+ ומעלה).",
+      "הטבה: פתיחת דורות ועמלות ניהול."
     ],
     nodeCode: "SC"
   },
@@ -59,7 +60,7 @@ window.RANKS = [
   { id: "pmd_plus", title: "PMD+", targetPoints: 1600000, intro: "הטופ של הטופ.", videoUrl: "https://youtu.be/MVxQ4LPsj6w", bullets: ["יעד: 1,600,000 נקודות.", "בונוס: 200,000 ₪."], nodeCode: "PMD+" }
 ];
 
-// --- 2. מוצרים (עם נתיב assets ורכיבים מלאים) ---
+// --- 2. מוצרים (עם הנתיב assets ורכיבים מלאים מה-PDF) ---
 window.PRODUCTS = [
   {
     id: "fruit",
@@ -99,7 +100,7 @@ window.PRODUCTS = [
     subTitle: "Berry Blend",
     intro: "נוגדי חמצון עוצמתיים מהטבע.",
     image: "assets/cap_berry.jpg",
-    ingredients: "ענבים, אוכמניות כחולות, חמוציות, אוכמניות שחורות, אוכמניות בלאק קורנט, אוכמניות בילברי, פטל, רימון, פרי הסמבוק, קקאו וארטישוק.",
+    ingredients: "ענבים, אוכמניות כחולות, חמוציות, אוכמניות שחורות, אוכמניות בלאק קורנט, בילברי, פטל, רימון, פרי הסמבוק, קקאו וארטישוק.",
     vitamins: "מכיל ויטמין C וויטמין E.",
     benefits: [
       "נוגדי חמצון חזקים במיוחד.",
@@ -173,11 +174,11 @@ window.STRATEGIES = [
   { name: "ערכה מלאה + קומפליט קומבי (2561 נק')", points: 2561 }
 ];
 
-// --- 4. עצי דרגות מורכבים (בדיוק כמו בצילומי המסך) ---
+// --- 4. עצי דרגות מורכבים (השחזור המדויק לפי צילום המסך) ---
 window.RANK_TREES = {
   partner_plus: {
     title: "מבנה Partner Plus (סימולציה)",
-    description: "יעד: 4,000 נקודות | סה\"כ מוצג: 4,576",
+    description: "יעד: 4,000 נקודות",
     highlightId: "you",
     nodes: [
       { id: "you", label: "אתה (P+)", code: "P+", pv: 866, totalVal: "4,576", generation: 0, column: 2 },
@@ -195,10 +196,10 @@ window.RANK_TREES = {
 
   senior_partner: {
     title: "מבנה Senior Partner (סימולציה)",
-    description: "יעד: 12,000 נקודות | סה\"כ מוצג: 12,090",
+    description: "יעד: 12,000 נקודות",
     highlightId: "you",
     nodes: [
-      { id: "you", label: "אתה (SP)", code: "P+", pv: 2561, totalVal: "12,090", generation: 0, column: 2 },
+      { id: "you", label: "אתה (SP)", code: "SP", pv: 2561, totalVal: "12,090", generation: 0, column: 2 },
       // שורה 1
       { id: "leg1", label: "זכיין P", code: "P", pv: 4192, generation: 1, column: 0 },
       { id: "leg2", label: "לקוח אישי", code: "Client", pv: 2561, generation: 1, column: 2 },
@@ -219,13 +220,13 @@ window.RANK_TREES = {
 
   sales_coordinator: {
     title: "מבנה Sales Coordinator (סימולציה מלאה)",
-    description: "יעד: 28,000 נקודות | סה\"כ מוצג: 27,170 (קרוב ליעד)",
+    description: "יעד: 28,000 נקודות (בסימולציה: 27,170)",
     highlightId: "you",
     nodes: [
       // רמה 0: אתה
       { id: "you", label: "אתה (SC)", code: "SC", pv: 1245, totalVal: "27,170", generation: 0, column: 3 },
       
-      // רמה 1: הרגליים הישירות
+      // רמה 1: הרגליים הישירות (7 רגליים פרוסות לרוחב)
       { id: "leg1", label: "זכיין P", code: "P", pv: 2561, generation: 1, column: 0 },
       { id: "leg2", label: "זכיין P+ (PB)", code: "P+", pv: 4300, generation: 1, column: 1 },
       { id: "leg3", label: "זכיין P", code: "P", pv: 930, generation: 1, column: 2 },
@@ -239,7 +240,7 @@ window.RANK_TREES = {
       { id: "leg5_sub", label: "זכיין P", code: "P", pv: 2561, generation: 2, column: 4 },
       { id: "leg7_sub", label: "לקוח", code: "Client", pv: 436, generation: 2, column: 6 },
 
-      // רמה 3
+      // רמה 3: עומק
       { id: "leg7_sub_sub", label: "זכיין P", code: "P", pv: 2561, generation: 3, column: 6 }
     ],
     edges: [
@@ -259,11 +260,11 @@ window.RANK_TREES = {
       "דרישת סף: שמירה על הדרגה למשך 2 חודשים רצופים.",
       "סה\"כ נקודות מעודכן: 27,170 (היעד 28,000).",
       "בונוס דרגה כולל: 3,600 ₪.",
-      "מבנה רחב: מציג ארגון עם 7 רגליים ישירות."
+      "חלוקת תשלום: 1,200 בחודש ראשון + 2,400 בחודש שני."
     ]
   },
 
-  // שאר הדרגות (מבנה בסיסי תקין כדי שלא יקרסו)
+  // שאר הדרגות (מבנה בסיסי למניעת שגיאות)
   qssc: { title: "מבנה QSSC", nodes: [{id:"you", label:"אתה", code:"QSSC", generation:0, column:1}], edges:[], notes:[] },
   ssc: { title: "מבנה SSC", nodes: [{id:"you", label:"אתה", code:"SSC", generation:0, column:1}], edges:[], notes:[] },
   qnmd: { title: "מבנה QNMD", nodes: [{id:"you", label:"אתה", code:"QNMD", generation:0, column:1}], edges:[], notes:[] },
