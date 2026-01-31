@@ -1,30 +1,25 @@
 /* brand-core.js */
 document.addEventListener("DOMContentLoaded", () => {
     loadBrand();
-    const logoArea = document.querySelector('.brand-logo');
-    if(logoArea) {
-        logoArea.title = "לחץ כאן כדי לשנות לוגו ושם";
-        logoArea.onclick = () => {
-            const newName = prompt("הכנס את שם המותג / הקבוצה שלך:");
-            if(newName) localStorage.setItem("myBrandName", newName);
-            const newLogo = prompt("הכנס קישור לתמונת לוגו (URL):");
-            if(newLogo) localStorage.setItem("myBrandLogo", newLogo);
+    const logoEl = document.querySelector('.brand-logo');
+    if(logoEl) {
+        logoEl.onclick = () => {
+            const name = prompt("שם המותג:");
+            if(name) localStorage.setItem("myBrandName", name);
+            const logo = prompt("קישור ללוגו:");
+            if(logo) localStorage.setItem("myBrandLogo", logo);
             loadBrand();
-        }
+        };
     }
 });
 function loadBrand() {
-    const savedName = localStorage.getItem("myBrandName");
-    const savedLogo = localStorage.getItem("myBrandLogo");
-    const titles = document.querySelectorAll('[data-brand="title"]');
-    titles.forEach(el => { if(savedName) el.textContent = savedName; });
+    const name = localStorage.getItem("myBrandName");
+    const logo = localStorage.getItem("myBrandLogo");
+    document.querySelectorAll('[data-brand="title"]').forEach(el => { if(name) el.textContent = name; });
     const logos = document.querySelectorAll('img[data-brand="logo"]');
     const fallbacks = document.querySelectorAll('span[data-brand="logoFallback"]');
-    if (savedLogo) {
-        logos.forEach(img => { img.src = savedLogo; img.style.display = 'block'; });
-        fallbacks.forEach(span => span.style.display = 'none');
-    } else {
-        logos.forEach(img => img.style.display = 'none');
-        fallbacks.forEach(span => { span.style.display = 'block'; if(savedName) span.textContent = savedName; });
+    if(logo) {
+        logos.forEach(el => { el.src = logo; el.style.display = 'block'; });
+        fallbacks.forEach(el => el.style.display = 'none');
     }
 }
