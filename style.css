@@ -1,120 +1,41 @@
-/* style.css - FINAL WITH PRINT & BRANDING */
-
-:root {
-    --primary: #16a34a;
-    --primary-dark: #15803d;
-    --secondary: #ff6b00;
-    --bg: #f3f4f6;
-    --text: #1f2937;
-}
-
-body {
-    margin: 0;
-    font-family: system-ui, -apple-system, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    direction: rtl;
-    padding-top: 70px;
-}
-
-/* --- Header & Branding --- */
-.topbar {
-    position: fixed;
-    top: 0; right: 0; left: 0;
-    height: 60px;
-    background: white;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    padding: 0 20px;
-}
-
-.topbar-inner {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-/* לוגו מותאם אישית */
+/* style.css - FINAL */
+:root { --primary: #16a34a; --primary-dark: #15803d; --secondary: #ff6b00; --bg: #f3f4f6; --text: #1f2937; }
+body { margin: 0; font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); direction: rtl; padding-top: 70px; }
+.topbar { position: fixed; top: 0; right: 0; left: 0; height: 60px; background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.1); z-index: 1000; display: flex; align-items: center; padding: 0 20px; }
+.topbar-inner { width: 100%; max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
 .brand-logo { cursor: pointer; display: flex; align-items: center; }
 .brand-logo img { max-height: 45px; display: block; }
-.brand-center { text-align: center; }
 .brand-title { font-weight: 800; font-size: 1.2rem; color: var(--primary); }
 .brand-sub { font-size: 0.8rem; color: #666; }
-
-/* Buttons */
-.btn {
-    text-decoration: none;
-    padding: 8px 16px;
-    border-radius: 6px;
-    font-weight: bold;
-    transition: 0.2s;
-    font-size: 0.9rem;
-    display: inline-block;
-    border: none;
-    cursor: pointer;
-}
+.btn { text-decoration: none; padding: 8px 16px; border-radius: 6px; font-weight: bold; transition: 0.2s; font-size: 0.9rem; display: inline-block; border: none; cursor: pointer; }
 .btn.ghost { color: #666; background: #f3f4f6; }
 .btn.ghost:hover { background: #e5e7eb; }
 .btn.primary { background: var(--secondary); color: white; }
 .btn.primary:hover { background: #e65100; }
-
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-/* Cards */
-.card {
-    background: white;
-    border-radius: 12px;
-    padding: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-}
-
-.sectionTitle {
-    color: var(--primary-dark);
-    border-bottom: 2px solid #e5e7eb;
-    padding-bottom: 10px;
-    margin-bottom: 15px;
-    font-size: 1.3rem;
-}
-
-/* Video */
+.container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+.card { background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+.sectionTitle { color: var(--primary-dark); border-bottom: 2px solid #e5e7eb; padding-bottom: 10px; margin-bottom: 15px; font-size: 1.3rem; }
 .videoWrap { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 10px; background: #000; }
 .videoFrame { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0; }
-
-/* Bullets */
 .bullets { padding-right: 20px; line-height: 1.6; }
 .bullets li { margin-bottom: 8px; }
-
-/* QR Code Section (מוסתר במסך רגיל) */
 .print-only-qr { display: none; text-align: center; margin-top: 30px; border: 2px solid #000; padding: 20px; border-radius: 10px; }
 .yt-label { font-weight: bold; font-size: 1.2rem; margin-bottom: 10px; }
 .yt-qr-img { width: 150px; height: 150px; }
-
-/* --- PRINT STYLES (הגדרות הדפסה) --- */
+.nav-actions { display: flex; justify-content: space-between; margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px; }
+.btn-nav { background-color: #3b82f6; color: white; padding: 10px 25px; border-radius: 50px; text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 8px; transition: transform 0.2s; }
+.btn-nav:hover { background-color: #2563eb; transform: scale(1.05); }
+.btn-ghost { background: #f1f5f9; color: #333; }
+.ingredients-box { background: #fff8e1; border: 1px solid #ffe082; padding: 15px; border-radius: 8px; margin: 20px 0; text-align: right; }
+.ingredients-title { font-weight: bold; color: #f57f17; margin-bottom: 5px; }
+.usage-box { background: #e8f5e9; padding: 15px; border-radius: 8px; border-right: 4px solid #4CAF50; margin-top: 20px; text-align: right; }
 @media print {
     body { background: white; padding-top: 0; font-size: 12pt; }
     .topbar, .btn, .nav-chip, .no-print, .fab-products, .calc-card, .nav-actions { display: none !important; }
-    
     .container { max-width: 100%; padding: 0; margin: 0; }
     .card { box-shadow: none; border: 1px solid #ddd; page-break-inside: avoid; margin-bottom: 15px; }
-    
-    /* מציג את ה-QR רק בהדפסה */
     .print-only-qr { display: flex !important; flex-direction: column; align-items: center; border: 1px solid #ccc; page-break-inside: avoid; }
-    
-    /* הופך את הוידאו ללא נראה בהדפסה */
     .videoWrap { display: none; }
-    
-    /* מסדר את העץ */
     .tree-card-container { page-break-before: always; }
-    
     a { text-decoration: none; color: black; }
 }
