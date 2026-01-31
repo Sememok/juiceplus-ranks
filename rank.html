@@ -4,10 +4,10 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>דרגה ומחשבון</title>
-  <link rel="stylesheet" href="style.css?v=FULL_RESTORE" />
+  <link rel="stylesheet" href="style.css?v=CLEAN_RANK" />
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <style>
-    .calc-card { background: #f0f9ff; border: 2px solid #bae6fd; padding: 25px; margin-top: 20px; border-radius: 12px; }
+    .calc-card { background: #f0f9ff; border: 2px solid #bae6fd; padding: 25px; margin-top: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
     .calc-header { font-size: 1.3rem; font-weight: 800; color: #0369a1; margin-bottom: 10px; }
     .calc-row { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
     .calc-input { flex: 1; padding: 12px; border: 1px solid #94a3b8; border-radius: 8px; font-size: 1rem; }
@@ -21,126 +21,132 @@
     <div class="topbar-inner">
       <div class="brand-left">
         <a class="btn ghost" href="index.html">חזרה לראשי</a>
-        <button class="btn primary no-print" onclick="window.print()">🖨️ הדפס</button>
+        <a class="btn primary" href="products.html" style="background-color:#ff6b00; margin-right:10px;">מוצרים 🍎</a>
       </div>
       <div class="brand-center">
-         <div class="brand-logo"><img data-brand="logo" alt="לוגו" style="display:none;margin:0 auto;"><span class="fallback" data-brand="logoFallback">LOGO</span></div>
-         <div class="brand-title" data-brand="title">מדריך דרגות</div>
+        <div class="brand-title">המסע המשותף שלנו</div>
       </div>
     </div>
   </header>
+
   <main class="container">
-    <nav class="rank-nav-container no-print"><div class="rank-nav-label">בחר דרגה:</div><div id="rankNav" class="rank-nav-buttons"></div></nav>
-    <div id="rankPrintLayout">
-      <div class="rank-text-area">
-        <section class="card"><h1 id="rankTitle" class="rankTitle">טוען...</h1><p id="rankIntro" class="rankIntro"></p></section>
-        
-        <section class="calc-card no-print" id="calculatorSection">
-          <div class="calc-header">🧮 מחשבון אסטרטגיה</div>
-          <div style="margin-bottom:10px;">יעד: <b id="targetPointsDisplay">0</b> נקודות.</div>
-          <div class="calc-row">
-            <input type="number" id="currentPointsInput" class="calc-input" placeholder="כמה נקודות יש לך?">
-          </div>
-          <div class="calc-row">
-            <select id="strategySelect" class="calc-input"><option value="" disabled selected>בחר חבילה...</option></select>
-            <button class="calc-btn" onclick="calculateStrategy()">חשב</button>
-          </div>
-          <div id="calcResult" class="calc-result">
-            <div>חסר לך <b id="missingPoints">0</b> נקודות.</div>
-            <div>צריך למכור עוד:</div>
-            <div class="res-big" id="ordersNeeded">0</div>
-            <div id="strategyNameResult">חבילות</div>
-          </div>
-        </section>
+    <nav class="rank-nav-container">
+      <div class="rank-nav-label">בחר דרגה:</div>
+      <div id="rankNav" class="rank-nav-buttons"></div>
+    </nav>
 
-        <section class="card videoWrap"><iframe id="rankVideo" class="videoFrame" src="" title="Video" allowfullscreen></iframe></section>
-        
-        <div class="print-only-qr">
-            <div class="yt-label">סרוק להדרכה 🎥</div>
-            <img id="printQR" class="yt-qr-img" src="" alt="QR">
+    <div class="rank-text-area">
+      <section class="card">
+        <h1 id="rankTitle" class="rankTitle">טוען...</h1>
+        <p id="rankIntro" class="rankIntro"></p>
+      </section>
+
+      <section class="calc-card" id="calculatorSection">
+        <div class="calc-header">🧮 מחשבון אסטרטגיה</div>
+        <div style="margin-bottom:10px;">יעד לדרגה זו: <b id="targetPointsDisplay">0</b> נקודות.</div>
+        <div class="calc-row">
+          <input type="number" id="currentPointsInput" class="calc-input" placeholder="כמה נקודות יש לך כרגע?">
         </div>
+        <div class="calc-row">
+          <select id="strategySelect" class="calc-input"><option value="" disabled selected>בחר חבילה...</option></select>
+          <button class="calc-btn" onclick="calculateStrategy()">חשב</button>
+        </div>
+        <div id="calcResult" class="calc-result">
+          <div>כדי לסגור את הדרגה חסר לך <b id="missingPoints">0</b> נקודות.</div>
+          <div>צריך למכור עוד:</div>
+          <div class="res-big" id="ordersNeeded">0</div>
+          <div id="strategyNameResult">חבילות</div>
+        </div>
+      </section>
 
-        <section class="card"><h2 class="sectionTitle">דגשים</h2><ul id="rankBullets" class="bullets"></ul></section>
-      </div>
+      <section class="card videoWrap">
+        <iframe id="rankVideo" class="videoFrame" src="" title="Video" allowfullscreen></iframe>
+      </section>
+
+      <section class="card">
+        <h2 class="sectionTitle">דגשים חשובים</h2>
+        <ul id="rankBullets" class="bullets"></ul>
+      </section>
     </div>
-    
+
     <section class="card tree-card-container">
-        <h2 class="sectionTitle no-print">מבנה העץ</h2>
-        <div id="rankTreeMount" class="tree-viz-container" style="min-height:300px;"></div>
+      <h2 class="sectionTitle">מבנה העץ</h2>
+      <div id="rankTreeMount" class="tree-viz-container"></div>
     </section>
   </main>
-  
+
   <script src="brand-core.js"></script>
-  <script src="data.js?v=RECOVERY_MODE"></script>
-  <script src="rank-tree.js?v=RECOVERY_MODE"></script>
-  
+  <script src="data.js?v=CLEAN_RESTORE"></script>
+  <script src="rank-tree.js?v=D3_RENDERER"></script>
+
   <script>
-    // Logic for rank page (Nav, Calc, Video)
     let currentRankTarget = 0;
     function getRankId() { return new URLSearchParams(location.search).get("id"); }
     function toEmbedUrl(url) { if(!url) return ""; try { const u = new URL(url); return "https://www.youtube.com/embed/" + (u.hostname.includes("youtu.be")?u.pathname.slice(1):u.searchParams.get("v")); } catch(e){return "";} }
-    function qrUrl(t) { return `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(t)}`; }
     
     function initCalculator() {
       const select = document.getElementById("strategySelect");
       select.innerHTML = '<option value="" disabled selected>בחר חבילה...</option>';
-      if (window.STRATEGIES) { window.STRATEGIES.forEach(strat => { const opt = document.createElement("option"); opt.value = strat.points; opt.textContent = `${strat.name}`; select.appendChild(opt); }); }
+      if (window.STRATEGIES) {
+        window.STRATEGIES.forEach(strat => {
+          const opt = document.createElement("option");
+          opt.value = strat.points;
+          opt.textContent = `${strat.name}`;
+          select.appendChild(opt);
+        });
+      }
     }
-    
+
     function calculateStrategy() {
       const current = parseFloat(document.getElementById("currentPointsInput").value);
       const stratPoints = parseFloat(document.getElementById("strategySelect").value);
       const selIndex = document.getElementById("strategySelect").selectedIndex;
       let stratName = "יחידות";
       if(selIndex > 0) stratName = window.STRATEGIES[selIndex-1].name;
-      if(isNaN(current) || isNaN(stratPoints)) { alert("נא להזין נתונים"); return; }
+      if(isNaN(current) || isNaN(stratPoints)) { alert("נא להזין נתונים תקינים"); return; }
       const missing = Math.max(0, currentRankTarget - current);
       const needed = Math.ceil(missing / stratPoints);
       document.getElementById("missingPoints").textContent = missing.toLocaleString();
       document.getElementById("ordersNeeded").textContent = needed;
       document.getElementById("strategyNameResult").textContent = "של " + stratName;
       document.getElementById("calcResult").style.display = "block";
-      if (missing <= 0) document.getElementById("ordersNeeded").textContent = "היעד הושג! 🎉";
+      if (missing <= 0) { document.getElementById("ordersNeeded").textContent = "היעד הושג! 🎉"; }
     }
 
-    document.addEventListener("DOMContentLoaded", () => {
+    function initRankPage() {
       const id = getRankId();
       const rank = (window.RANKS || []).find(r => r.id === id);
       const nav = document.getElementById("rankNav");
-      
-      if(nav && window.RANKS) { 
-          nav.innerHTML = ""; 
-          window.RANKS.forEach(r => { 
-              const a = document.createElement("a"); 
-              a.className = "nav-chip"; 
-              if(r.id===id) a.classList.add("active"); 
-              a.href = `rank.html?id=${r.id}`; 
-              a.textContent = r.nodeCode || r.title; 
-              nav.appendChild(a); 
-          }); 
+      if(nav && window.RANKS) {
+        nav.innerHTML = "";
+        window.RANKS.forEach(r => {
+            const a = document.createElement("a");
+            a.className = "nav-chip";
+            if(r.id===id) a.classList.add("active");
+            a.href = `rank.html?id=${r.id}`;
+            a.textContent = r.nodeCode || r.title;
+            nav.appendChild(a);
+        });
       }
-
       if(!rank) { document.getElementById("rankTitle").textContent = "לא נמצא"; return; }
-      
-      document.title = rank.title; 
-      document.getElementById("rankTitle").textContent = rank.title; 
-      document.getElementById("rankIntro").textContent = rank.intro; 
+      document.title = rank.title;
+      document.getElementById("rankTitle").textContent = rank.title;
+      document.getElementById("rankIntro").textContent = rank.intro;
       document.getElementById("rankVideo").src = toEmbedUrl(rank.videoUrl);
-      if(document.getElementById("printQR")) document.getElementById("printQR").src = qrUrl(rank.videoUrl);
-
-      if(rank.targetPoints) { 
-          currentRankTarget = rank.targetPoints; 
-          document.getElementById("targetPointsDisplay").textContent = currentRankTarget.toLocaleString(); 
-          initCalculator(); 
-          document.getElementById("calculatorSection").style.display = "block"; 
-      } else { 
-          document.getElementById("calculatorSection").style.display = "none"; 
+      
+      if(rank.targetPoints) {
+          currentRankTarget = rank.targetPoints;
+          document.getElementById("targetPointsDisplay").textContent = currentRankTarget.toLocaleString();
+          initCalculator();
+          document.getElementById("calculatorSection").style.display = "block";
+      } else {
+          document.getElementById("calculatorSection").style.display = "none";
       }
-
-      const ul = document.getElementById("rankBullets"); 
-      ul.innerHTML = ""; 
+      const ul = document.getElementById("rankBullets");
+      ul.innerHTML = "";
       (rank.bullets||[]).forEach(t => { const li = document.createElement("li"); li.textContent = t; ul.appendChild(li); });
-    });
+    }
+    document.addEventListener("DOMContentLoaded", initRankPage);
   </script>
 </body>
 </html>
