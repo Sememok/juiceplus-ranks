@@ -16,6 +16,11 @@
       display: block;
       box-shadow: 0 5px 20px rgba(0,0,0,0.1);
     }
+    .img-missing-msg {
+        background: #fee2e2; border: 1px solid red; color: #b91c1c;
+        padding: 20px; border-radius: 8px; margin: 20px auto;
+        display: none;
+    }
     .usage-box { 
       background: #e8f5e9; 
       padding: 15px; 
@@ -69,8 +74,14 @@
         <h1 id="prodTitle" class="rankTitle">טוען...</h1>
         <p id="prodSub" style="color:#666; font-size:1.2rem; margin-bottom:10px;"></p>
         
-        <img id="prodImage" class="product-img" src="" alt="תמונת מוצר" onerror="this.src='https://via.placeholder.com/400x300?text=Image+Missing'">
+        <img id="prodImage" class="product-img" src="" alt="תמונת מוצר" 
+             onerror="this.style.display='none'; document.getElementById('errorMsg').style.display='block';">
         
+        <div id="errorMsg" class="img-missing-msg">
+            ⚠️ <b>התמונה לא נמצאה!</b><br>
+            ודא שבתיקייה קיים קובץ בשם: <b id="fileNameMissing"></b>
+        </div>
+
         <p id="prodIntro" class="rankIntro" style="margin-top:15px;"></p>
         
         <div class="nav-actions">
@@ -91,7 +102,7 @@
     </div>
   </main>
 
-  <script src="logic.js?v=1"></script>
+  <script src="logic.js?v=DEBUG_2"></script>
   <script>
     function getProdId() { return new URLSearchParams(location.search).get("id"); }
 
@@ -115,7 +126,9 @@
       document.getElementById("prodSub").textContent = prod.subTitle;
       document.getElementById("prodIntro").textContent = prod.intro;
       document.getElementById("prodUsage").textContent = prod.usage;
+      
       document.getElementById("prodImage").src = prod.image;
+      document.getElementById("fileNameMissing").textContent = prod.image; // לשם דיבוג
 
       const ul = document.getElementById("prodBullets");
       prod.benefits.forEach(b => {
@@ -124,7 +137,7 @@
         ul.appendChild(li);
       });
 
-      // לוגיקה למעבר מוצרים (במעגל)
+      // לוגיקה למעבר מוצרים
       const prevIndex = (idx - 1 + window.PRODUCTS.length) % window.PRODUCTS.length;
       const nextIndex = (idx + 1) % window.PRODUCTS.length;
       
