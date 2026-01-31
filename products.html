@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>קטלוג מוצרים</title>
-  <link rel="stylesheet" href="style.css?v=DEBUG_MODE" />
+  <link rel="stylesheet" href="style.css?v=CATALOG_ASSETS" />
   <style>
     .products-grid {
       display: grid;
@@ -36,21 +36,10 @@
       object-fit: contain;
       margin-bottom: 15px;
       border-radius: 8px;
-      background-color: #f9f9f9;
+      background-color: #fff;
     }
     .prod-title { font-weight: bold; font-size: 1.2rem; margin-bottom: 5px; color: #2C3E50; }
     
-    /* עיצוב להודעת שגיאה בתמונה */
-    .img-error-text {
-      color: red;
-      font-weight: bold;
-      font-size: 0.8rem;
-      background: #fee2e2;
-      padding: 5px;
-      border-radius: 4px;
-      display: none; /* מוסתר כברירת מחדל */
-    }
-
     .btn-view {
       background: #ff6b00; color: white; padding: 8px 20px;
       border-radius: 20px; text-decoration: none; font-weight: bold;
@@ -74,7 +63,7 @@
     <div class="products-grid" id="productsGrid"></div>
   </main>
 
-  <script src="logic.js?v=DEBUG_2"></script>
+  <script src="logic.js?v=ASSETS_FIX"></script>
   
   <script>
     document.addEventListener("DOMContentLoaded", () => {
@@ -88,24 +77,12 @@
       window.PRODUCTS.forEach(prod => {
         const card = document.createElement("div");
         card.className = "product-card";
-        card.onclick = (e) => {
-            // מונע לחיצה אם לוחצים על הודעת השגיאה (לצורך סימון טקסט)
-            if(e.target.classList.contains('img-error-text')) return;
-            location.href = `product.html?id=${prod.id}`;
-        };
+        card.onclick = () => location.href = `product.html?id=${prod.id}`;
         
         const imgSrc = prod.image || ''; 
         
         card.innerHTML = `
-          <img src="${imgSrc}" class="prod-img-thumb" alt="${prod.title}" 
-               onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-          
-          <div class="img-error-text">
-             לא נמצא הקובץ:<br>
-             <b>${imgSrc}</b><br>
-             (ודא שהוא בתיקייה)
-          </div>
-
+          <img src="${imgSrc}" class="prod-img-thumb" alt="${prod.title}" onerror="this.src='https://via.placeholder.com/300x300?text=Check+Assets+Folder'">
           <div class="prod-title">${prod.title}</div>
           <div style="color:#666; font-size:0.9rem; margin-bottom:15px; flex-grow:1;">${prod.intro}</div>
           <span class="btn-view">לפרטים נוספים</span>
