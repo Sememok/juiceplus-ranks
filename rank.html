@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>דרגה ומחשבון</title>
-  <link rel="stylesheet" href="style.css?v=NEW_LOGIC" />
+  <link rel="stylesheet" href="style.css?v=RANK_FINAL" />
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <style>
     /* עיצוב המחשבון */
@@ -62,20 +62,20 @@
           <div style="margin-bottom:10px;">יעד לדרגה זו: <b id="targetPointsDisplay">0</b> נקודות.</div>
           
           <div class="calc-row">
-            <input type="number" id="currentPointsInput" class="calc-input" placeholder="כמה נקודות יש לך?">
+            <input type="number" id="currentPointsInput" class="calc-input" placeholder="כמה נקודות יש לך כרגע?">
           </div>
           <div class="calc-row">
             <select id="strategySelect" class="calc-input">
-              <option value="" disabled selected>בחר חבילה למכירה...</option>
+              <option value="" disabled selected>בחר חבילה לחישוב...</option>
             </select>
             <button class="calc-btn" onclick="calculateStrategy()">חשב</button>
           </div>
 
           <div id="calcResult" class="calc-result">
-            <div>כדי לסגור את הדרגה עליך למכור:</div>
+            <div>כדי לסגור את הדרגה חסר לך <b id="missingPoints">0</b> נקודות.</div>
+            <div>זה אומר שצריך למכור עוד:</div>
             <div class="res-big" id="ordersNeeded">0</div>
             <div id="strategyNameResult">חבילות</div>
-            <div style="font-size:0.85rem; margin-top:5px;">(חסרות <span id="missingPoints">0</span> נקודות)</div>
           </div>
         </section>
 
@@ -104,7 +104,7 @@
   </main>
 
   <script src="brand-core.js"></script>
-  <script src="logic.js?v=1"></script>
+  <script src="data.js?v=FINAL_FULL"></script>
   <script src="rank-tree.js?v=D3_RENDERER"></script>
 
   <script>
@@ -150,7 +150,7 @@
       document.getElementById("strategyNameResult").textContent = "של " + stratName;
       document.getElementById("calcResult").style.display = "block";
       
-      if (missing <= 0) { document.getElementById("ordersNeeded").textContent = "היעד הושג!"; }
+      if (missing <= 0) { document.getElementById("ordersNeeded").textContent = "היעד הושג! 🎉"; }
     }
 
     function initRankPage() {
@@ -178,7 +178,7 @@
       document.getElementById("rankVideo").src = toEmbedUrl(rank.videoUrl);
       if(document.getElementById("printQR")) document.getElementById("printQR").src = qrUrl(rank.videoUrl);
 
-      // מחשבון
+      // הפעלת מחשבון אם יש יעד
       if(rank.targetPoints) {
           currentRankTarget = rank.targetPoints;
           document.getElementById("targetPointsDisplay").textContent = currentRankTarget.toLocaleString();
