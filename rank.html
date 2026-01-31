@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>דרגה ומחשבון</title>
-  <link rel="stylesheet" href="style.css?v=RESTORE_TREE" />
+  <link rel="stylesheet" href="style.css?v=FINAL_PRINT" />
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <style>
     .calc-card { background: #f0f9ff; border: 2px solid #bae6fd; padding: 25px; margin-top: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
@@ -21,19 +21,26 @@
     <div class="topbar-inner">
       <div class="brand-left">
         <a class="btn ghost" href="index.html">חזרה לראשי</a>
-        <a class="btn primary" href="products.html" style="background-color:#ff6b00; margin-right:10px;">מוצרים 🍎</a>
+        <button class="btn primary no-print" onclick="window.print()" style="margin-right:10px;">🖨️ הדפס</button>
       </div>
-      <div class="brand-center"><div class="brand-title">המסע המשותף שלנו</div></div>
+      <div class="brand-center" style="text-align:center;">
+         <div class="brand-logo">
+            <img data-brand="logo" alt="לוגו" style="display:none; margin:0 auto;">
+            <span class="fallback" data-brand="logoFallback">LOGO</span>
+         </div>
+         <div class="brand-title" data-brand="title">מדריך דרגות</div>
+      </div>
     </div>
   </header>
   <main class="container">
-    <nav class="rank-nav-container"><div class="rank-nav-label">בחר דרגה:</div><div id="rankNav" class="rank-nav-buttons"></div></nav>
+    <nav class="rank-nav-container no-print"><div class="rank-nav-label">בחר דרגה:</div><div id="rankNav" class="rank-nav-buttons"></div></nav>
     <div id="rankPrintLayout">
       <div class="rank-text-area">
         <section class="card">
           <h1 id="rankTitle" class="rankTitle">טוען...</h1>
           <p id="rankIntro" class="rankIntro"></p>
         </section>
+        
         <section class="calc-card no-print" id="calculatorSection">
           <div class="calc-header">🧮 מחשבון אסטרטגיה</div>
           <div style="margin-bottom:10px;">יעד לדרגה זו: <b id="targetPointsDisplay">0</b> נקודות.</div>
@@ -51,15 +58,22 @@
             <div id="strategyNameResult">חבילות</div>
           </div>
         </section>
+
         <section class="card videoWrap"><iframe id="rankVideo" class="videoFrame" src="" title="Video" allowfullscreen></iframe></section>
+        
+        <div class="print-only-qr">
+            <div class="yt-label">סרוק לצפייה בהדרכה 🎥</div>
+            <img id="printQR" class="yt-qr-img" src="" alt="QR">
+        </div>
+
         <section class="card"><h2 class="sectionTitle">דגשים חשובים</h2><ul id="rankBullets" class="bullets"></ul></section>
       </div>
-      <div class="print-only-qr"><div class="yt-frame"><div class="yt-label">סרוק לוידאו</div><img id="printQR" class="yt-qr-img" src="" alt="QR"></div></div>
     </div>
     <section class="card tree-card-container"><h2 class="sectionTitle no-print">מבנה העץ</h2><div id="rankTreeMount" class="tree-viz-container"></div></section>
   </main>
+  
   <script src="brand-core.js"></script>
-  <script src="data.js?v=RESTORED_TREES"></script>
+  <script src="data.js?v=FINAL_DATA"></script>
   <script src="rank-tree.js?v=D3_RENDERER"></script>
   <script>
     let currentRankTarget = 0;
