@@ -1,9 +1,8 @@
 /* data.js
-   FINAL CORRECT VERSION
-   1. TREES: Restored original specific simulation trees (P+ = 4576, SP = 12090).
-   2. IMAGES: Fixed paths to "assets/".
-   3. POINTS: Exact user values (380, 765, etc.).
-   4. INGREDIENTS: Full detailed text.
+   FINAL RESTORED VERSION
+   1. TREES: Restored YOUR specific trees (P+ 4576, SP 12090, SC 27170).
+   2. IMAGES: Fixed to 'assets/'.
+   3. INGREDIENTS: Full detail.
 */
 
 // --- 1. רשימת הדרגות ---
@@ -21,7 +20,7 @@ window.RANKS = [
   { id: "pmd_plus", title: "PMD+", targetPoints: 1600000, intro: "הטופ של הטופ.", videoUrl: "https://youtu.be/MVxQ4LPsj6w", bullets: ["יעד: 1,600,000 נקודות.", "בונוס: 200,000 ₪."], nodeCode: "PMD+" }
 ];
 
-// --- 2. מוצרים (עם הנתיב assets ורכיבים מלאים) ---
+// --- 2. מוצרים (עם פירוט מלא ונתיב assets) ---
 window.PRODUCTS = [
   {
     id: "fruit",
@@ -62,7 +61,7 @@ window.PRODUCTS = [
     intro: "נוגדי חמצון עוצמתיים מהטבע.",
     image: "assets/cap_berry.jpg",
     ingredients: "ענבים, אוכמניות כחולות, חמוציות, אוכמניות שחורות, אוכמניות בלאק קורנט, אוכמניות בילברי, פטל, רימון, פרי הסמבוק, קקאו וארטישוק.",
-    vitamins: "ויטמין C, ויטמין E.",
+    vitamins: "מכיל ויטמין C וויטמין E.",
     benefits: [
       "נוגדי חמצון חזקים במיוחד.",
       "תמיכה בבריאות הלב וכלי הדם.",
@@ -135,7 +134,7 @@ window.STRATEGIES = [
   { name: "ערכה מלאה + קומפליט קומבי (2561 נק')", points: 2561 }
 ];
 
-// --- 4. עצי דרגות (העצים המקוריים שביקשת לשחזר) ---
+// --- 4. עצי דרגות (משוחזרים לגרסה המקורית והמפורטת) ---
 window.RANK_TREES = {
   partner_plus: {
     title: "עץ התקדמות – Partner Plus (P+)",
@@ -155,7 +154,7 @@ window.RANK_TREES = {
     description: "תרשים מלא (כולל דור 2).",
     highlightId: "you",
     nodes: [
-      { id: "you", label: "אתה (SP)", code: "P+", pv: 2561, totalVal: "סה״כ: 12,090", generation: 0, column: 2 },
+      { id: "you", label: "אתה (SP)", code: "SP", pv: 2561, totalVal: "סה״כ: 12,090", generation: 0, column: 2 },
       { id: "left_top", label: "זכיין P", code: "P", pv: 4192, generation: 1, column: 0 },
       { id: "mid_top", label: "לקוח אישי", code: "Client", pv: 2561, generation: 1, column: 2 },
       { id: "right_top", label: "זכיין P", code: "P", pv: 2776, generation: 1, column: 4 },
@@ -173,7 +172,7 @@ window.RANK_TREES = {
     edges: [],
     notes: ["סה\"כ נקודות: 27,170", "קרוב ליעד של 28,000."]
   },
-  // שאר הדרגות - מבנה בסיסי למניעת שגיאות
+  // שאר הדרגות - מבנה בסיסי תקין עם קואורדינטות
   qssc: { title: "עץ התקדמות – QSSC", nodes: [{id:"you", label:"אתה", code:"QSSC", generation:0, column:1}], edges:[], notes:[] },
   ssc: { title: "עץ התקדמות – SSC", nodes: [{id:"you", label:"אתה", code:"SSC", generation:0, column:1}], edges:[], notes:[] },
   qnmd: { title: "עץ התקדמות – QNMD", nodes: [{id:"you", label:"אתה", code:"QNMD", generation:0, column:1}], edges:[], notes:[] },
