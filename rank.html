@@ -4,38 +4,58 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>דרגה</title>
-  <link rel="stylesheet" href="style.css?v=EMERGENCY_FIX_2">
+  <link rel="stylesheet" href="style.css?v=MENU_FIXED">
   <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
   <header class="topbar">
     <div class="topbar-inner">
-      <div class="brand-left"><a class="btn ghost" href="index.html">חזרה</a><button class="btn primary no-print" onclick="window.print()">🖨️</button></div>
+      <div class="brand-left"><a class="btn ghost" href="index.html">ראשי</a><button class="btn primary no-print" onclick="window.print()">🖨️</button></div>
       <div class="brand-center"><div class="brand-logo"><img data-brand="logo" style="display:none"><span data-brand="logoFallback">LOGO</span></div></div>
     </div>
   </header>
+  
   <main class="container">
+    <nav class="rank-nav-container no-print">
+       <div class="rank-nav-label">בחר דרגה:</div>
+       <div id="rankNav" class="rank-nav-buttons"></div>
+    </nav>
+
     <div class="rank-text-area">
       <section class="card"><h1 id="rankTitle">...</h1><p id="rankIntro"></p></section>
-      
-      <section class="card videoWrap"><iframe id="rankVideo" class="videoFrame" allowfullscreen></iframe></section>
       
       <section class="card tree-card-container">
         <h2 class="sectionTitle">מבנה העץ</h2>
         <div id="rankTreeMount"></div>
       </section>
 
+      <section class="card videoWrap"><iframe id="rankVideo" class="videoFrame" allowfullscreen></iframe></section>
       <section class="card"><ul id="rankBullets" class="bullets"></ul></section>
     </div>
   </main>
 
-  <script src="brand-core.js?v=EMERGENCY_FIX_2"></script>
-  <script src="data.js?v=EMERGENCY_FIX_2"></script>
-  <script src="rank-tree.js?v=EMERGENCY_FIX_2"></script>
+  <script src="brand-core.js?v=FIX"></script>
+  <script src="data.js?v=FIX"></script>
+  <script src="rank-tree.js?v=FIX"></script>
   
   <script>
     document.addEventListener("DOMContentLoaded", () => {
         const id = new URLSearchParams(location.search).get("id");
+        
+        // בניית התפריט (התיקון!)
+        const nav = document.getElementById("rankNav");
+        if(nav && window.RANKS) {
+            nav.innerHTML = "";
+            window.RANKS.forEach(r => {
+                const a = document.createElement("a");
+                a.className = "nav-chip";
+                if(r.id === id) a.classList.add("active");
+                a.href = `rank.html?id=${r.id}`;
+                a.textContent = r.nodeCode || r.title;
+                nav.appendChild(a);
+            });
+        }
+
         const r = (window.RANKS||[]).find(x => x.id === id);
         if(!r) return;
         document.getElementById("rankTitle").textContent = r.title;
@@ -43,7 +63,7 @@
         if(r.videoUrl) document.getElementById("rankVideo").src = "https://www.youtube.com/embed/" + r.videoUrl.split("/").pop().split("?")[0];
         
         const ul = document.getElementById("rankBullets");
-        if(r.bullets) r.bullets.forEach(b => { const li = document.createElement("li"); li.textContent = b; ul.appendChild(li); });
+        if(r.bullets) { ul.innerHTML = ""; r.bullets.forEach(b => { const li = document.createElement("li"); li.textContent = b; ul.appendChild(li); }); }
     });
   </script>
 </body>
