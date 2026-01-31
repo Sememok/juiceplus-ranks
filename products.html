@@ -1,27 +1,28 @@
 <!doctype html>
 <html lang="he" dir="rtl">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>מוצרים</title>
-  <link rel="stylesheet" href="style.css?v=999">
-  <style>.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>קטלוג</title>
+  <link rel="stylesheet" href="style.css?v=RESTORE_OK" />
 </head>
 <body>
   <header class="topbar">
-      <div class="topbar-inner"><a class="btn ghost" href="index.html">חזרה</a><div class="brand-title">מוצרים</div></div>
+    <div class="topbar-inner"><div class="brand-left"><a class="btn ghost" href="index.html">חזרה</a></div><div class="brand-title">מוצרים</div></div>
   </header>
-  <main class="container"><div class="grid" id="grid"></div></main>
-  <script src="data.js?v=999"></script>
+  <main class="container"><div class="products-grid" id="productsGrid"></div></main>
+  <script src="data.js?v=RESTORE_OK"></script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-        const grid = document.getElementById("grid");
-        (window.PRODUCTS||[]).forEach(p => {
-            const d = document.createElement("div"); d.className = "card"; d.style.textAlign="center";
-            d.onclick = () => location.href = `product.html?id=${p.id}`;
-            d.innerHTML = `<img src="${p.image}" style="height:150px; object-fit:contain"><h3 style="margin:10px 0">${p.title}</h3><div class="btn primary">פרטים</div>`;
-            grid.appendChild(d);
-        });
+      const grid = document.getElementById("productsGrid");
+      if (!window.PRODUCTS) return;
+      window.PRODUCTS.forEach(prod => {
+        const card = document.createElement("div");
+        card.className = "product-card";
+        card.onclick = () => location.href = `product.html?id=${prod.id}`;
+        card.innerHTML = `<img src="${prod.image}" class="prod-img-thumb"><div style="font-weight:bold">${prod.title}</div><div class="btn primary" style="margin-top:10px">פרטים</div>`;
+        grid.appendChild(card);
+      });
     });
   </script>
 </body>
