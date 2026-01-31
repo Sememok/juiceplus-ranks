@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
         logoEl.onclick = () => {
             const name = prompt("שם המותג:");
             if(name) localStorage.setItem("myBrandName", name);
-            const logo = prompt("קישור ללוגו:");
+            const logo = prompt("קישור ללוגו (URL):");
             if(logo) localStorage.setItem("myBrandLogo", logo);
             loadBrand();
         };
