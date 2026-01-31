@@ -1,70 +1,49 @@
 <!doctype html>
 <html lang="he" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>דרגה</title>
-  <link rel="stylesheet" href="style.css?v=RESTORE_OK" />
+  <link rel="stylesheet" href="style.css?v=EMERGENCY_FIX_2">
   <script src="https://d3js.org/d3.v7.min.js"></script>
-  <style>
-    .calc-card { background: #f0f9ff; border: 2px solid #bae6fd; padding: 25px; margin-top: 20px; border-radius: 12px; }
-    .calc-header { font-size: 1.3rem; font-weight: 800; color: #0369a1; margin-bottom: 10px; }
-    .calc-row { display: flex; gap: 10px; margin-bottom: 15px; }
-    .calc-input { flex: 1; padding: 12px; border: 1px solid #94a3b8; border-radius: 8px; font-size: 1rem; }
-    .calc-btn { background: #0284c7; color: white; padding: 12px 25px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
-    .calc-result { background: #ffffff; border: 1px solid #e2e8f0; padding: 20px; border-radius: 8px; display: none; text-align: center; margin-top: 15px; }
-  </style>
 </head>
 <body>
   <header class="topbar">
     <div class="topbar-inner">
-      <div class="brand-left"><a class="btn ghost" href="index.html">חזרה</a></div>
-      <div class="brand-center"><div class="brand-title">פרטי דרגה</div></div>
+      <div class="brand-left"><a class="btn ghost" href="index.html">חזרה</a><button class="btn primary no-print" onclick="window.print()">🖨️</button></div>
+      <div class="brand-center"><div class="brand-logo"><img data-brand="logo" style="display:none"><span data-brand="logoFallback">LOGO</span></div></div>
     </div>
   </header>
   <main class="container">
     <div class="rank-text-area">
       <section class="card"><h1 id="rankTitle">...</h1><p id="rankIntro"></p></section>
-      <section class="calc-card">
-        <div class="calc-header">🧮 מחשבון</div>
-        <div style="margin-bottom:10px;">יעד: <b id="targetPointsDisplay">0</b></div>
-        <div class="calc-row"><input type="number" id="currentPointsInput" class="calc-input" placeholder="נקודות קיימות"></div>
-        <div class="calc-row"><select id="strategySelect" class="calc-input"><option>בחר חבילה</option></select><button class="calc-btn" onclick="calc()">חשב</button></div>
-        <div id="calcResult" class="calc-result"></div>
-      </section>
+      
       <section class="card videoWrap"><iframe id="rankVideo" class="videoFrame" allowfullscreen></iframe></section>
-      <section class="card"><h2 class="sectionTitle">דגשים</h2><ul id="rankBullets" class="bullets"></ul></section>
+      
+      <section class="card tree-card-container">
+        <h2 class="sectionTitle">מבנה העץ</h2>
+        <div id="rankTreeMount"></div>
+      </section>
+
+      <section class="card"><ul id="rankBullets" class="bullets"></ul></section>
     </div>
-    <section class="card tree-card-container"><h2 class="sectionTitle">מבנה העץ</h2><div id="rankTreeMount"></div></section>
   </main>
-  <script src="data.js?v=RESTORE_OK"></script>
-  <script src="rank-tree.js?v=RESTORE_OK"></script>
+
+  <script src="brand-core.js?v=EMERGENCY_FIX_2"></script>
+  <script src="data.js?v=EMERGENCY_FIX_2"></script>
+  <script src="rank-tree.js?v=EMERGENCY_FIX_2"></script>
+  
   <script>
-    function calc() {
-        const cur = parseFloat(document.getElementById("currentPointsInput").value) || 0;
-        const pts = parseFloat(document.getElementById("strategySelect").value);
-        const r = (window.RANKS||[]).find(x => x.id === new URLSearchParams(location.search).get("id"));
-        if(!r || !pts) return;
-        const mis = Math.max(0, r.targetPoints - cur);
-        const need = Math.ceil(mis / pts);
-        const res = document.getElementById("calcResult");
-        res.style.display = "block";
-        res.innerHTML = mis <= 0 ? "היעד הושג!" : `חסר: <b>${mis.toLocaleString()}</b><br>צריך למכור: <b>${need}</b> חבילות`;
-    }
     document.addEventListener("DOMContentLoaded", () => {
         const id = new URLSearchParams(location.search).get("id");
         const r = (window.RANKS||[]).find(x => x.id === id);
         if(!r) return;
         document.getElementById("rankTitle").textContent = r.title;
         document.getElementById("rankIntro").textContent = r.intro;
-        document.getElementById("rankVideo").src = r.videoUrl ? "https://www.youtube.com/embed/" + r.videoUrl.split("/").pop().split("?")[0] : "";
-        if(r.targetPoints) document.getElementById("targetPointsDisplay").textContent = r.targetPoints.toLocaleString();
+        if(r.videoUrl) document.getElementById("rankVideo").src = "https://www.youtube.com/embed/" + r.videoUrl.split("/").pop().split("?")[0];
         
         const ul = document.getElementById("rankBullets");
-        (r.bullets||[]).forEach(b => { const li = document.createElement("li"); li.textContent = b; ul.appendChild(li); });
-        
-        const sel = document.getElementById("strategySelect");
-        (window.STRATEGIES||[]).forEach(s => { const o = document.createElement("option"); o.value = s.points; o.textContent = s.name; sel.appendChild(o); });
+        if(r.bullets) r.bullets.forEach(b => { const li = document.createElement("li"); li.textContent = b; ul.appendChild(li); });
     });
   </script>
 </body>
