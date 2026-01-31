@@ -4,9 +4,10 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>דרגה ומחשבון</title>
-  <link rel="stylesheet" href="style.css?v=D3_ENGINE" />
+  <link rel="stylesheet" href="style.css?v=NEW_LOGIC" />
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <style>
+    /* עיצוב המחשבון */
     .calc-card {
       background: #f0f9ff;
       border: 2px solid #bae6fd;
@@ -15,7 +16,7 @@
       border-radius: 12px;
       box-shadow: 0 4px 6px rgba(0,0,0,0.05);
     }
-    .calc-header { font-size: 1.3rem; font-weight: 800; color: #0369a1; margin-bottom: 15px; }
+    .calc-header { font-size: 1.3rem; font-weight: 800; color: #0369a1; margin-bottom: 10px; }
     .calc-row { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
     .calc-input { flex: 1; padding: 12px; border: 1px solid #94a3b8; border-radius: 8px; font-size: 1rem; }
     .calc-btn { 
@@ -57,24 +58,24 @@
         </section>
 
         <section class="calc-card no-print" id="calculatorSection">
-          <div class="calc-header">🧮 מחשבון אסטרטגיה (מבוסס ניקוד מעודכן)</div>
+          <div class="calc-header">🧮 מחשבון אסטרטגיה</div>
           <div style="margin-bottom:10px;">יעד לדרגה זו: <b id="targetPointsDisplay">0</b> נקודות.</div>
           
           <div class="calc-row">
-            <input type="number" id="currentPointsInput" class="calc-input" placeholder="כמה נקודות יש לך כרגע?">
+            <input type="number" id="currentPointsInput" class="calc-input" placeholder="כמה נקודות יש לך?">
           </div>
           <div class="calc-row">
             <select id="strategySelect" class="calc-input">
-              <option value="" disabled selected>בחר חבילה לחישוב...</option>
+              <option value="" disabled selected>בחר חבילה למכירה...</option>
             </select>
             <button class="calc-btn" onclick="calculateStrategy()">חשב</button>
           </div>
 
           <div id="calcResult" class="calc-result">
-            <div>כדי לסגור את הדרגה חסר לך <b id="missingPoints">0</b> נקודות.</div>
-            <div>זה אומר שצריך למכור עוד:</div>
+            <div>כדי לסגור את הדרגה עליך למכור:</div>
             <div class="res-big" id="ordersNeeded">0</div>
             <div id="strategyNameResult">חבילות</div>
+            <div style="font-size:0.85rem; margin-top:5px;">(חסרות <span id="missingPoints">0</span> נקודות)</div>
           </div>
         </section>
 
@@ -103,7 +104,7 @@
   </main>
 
   <script src="brand-core.js"></script>
-  <script src="data-fixed.js?v=REAL_USER_POINTS_V2"></script>
+  <script src="logic.js?v=1"></script>
   <script src="rank-tree.js?v=D3_RENDERER"></script>
 
   <script>
@@ -123,7 +124,7 @@
         window.STRATEGIES.forEach(strat => {
           const opt = document.createElement("option");
           opt.value = strat.points;
-          opt.textContent = `${strat.name} (${strat.points} נק')`;
+          opt.textContent = `${strat.name}`;
           select.appendChild(opt);
         });
       }
@@ -149,7 +150,7 @@
       document.getElementById("strategyNameResult").textContent = "של " + stratName;
       document.getElementById("calcResult").style.display = "block";
       
-      if (missing <= 0) { document.getElementById("ordersNeeded").textContent = "היעד הושג! 🎉"; }
+      if (missing <= 0) { document.getElementById("ordersNeeded").textContent = "היעד הושג!"; }
     }
 
     function initRankPage() {
@@ -177,7 +178,7 @@
       document.getElementById("rankVideo").src = toEmbedUrl(rank.videoUrl);
       if(document.getElementById("printQR")) document.getElementById("printQR").src = qrUrl(rank.videoUrl);
 
-      // הפעלת מחשבון אם יש יעד
+      // מחשבון
       if(rank.targetPoints) {
           currentRankTarget = rank.targetPoints;
           document.getElementById("targetPointsDisplay").textContent = currentRankTarget.toLocaleString();
