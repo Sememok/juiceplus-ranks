@@ -4,89 +4,37 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>קטלוג מוצרים</title>
-  <link rel="stylesheet" href="style.css?v=PRODS_FINAL" />
+  <link rel="stylesheet" href="style.css?v=PRODS_FINAL_V2" />
   <style>
-    .products-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 25px;
-      padding: 20px 0;
-    }
-    .product-card {
-      background: white;
-      border-radius: 15px;
-      padding: 20px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-      text-align: center;
-      transition: transform 0.2s;
-      cursor: pointer;
-      border: 1px solid #eee;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .product-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-      border-color: #ff6b00;
-    }
-    .prod-img-thumb {
-      width: 100%;
-      height: 220px;
-      object-fit: contain;
-      margin-bottom: 15px;
-      border-radius: 8px;
-      background-color: #fff;
-    }
+    .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; padding: 20px 0; }
+    .product-card { background: white; border-radius: 15px; padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); text-align: center; transition: transform 0.2s; cursor: pointer; border: 1px solid #eee; display: flex; flex-direction: column; align-items: center; }
+    .product-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); border-color: #ff6b00; }
+    .prod-img-thumb { width: 100%; height: 220px; object-fit: contain; margin-bottom: 15px; border-radius: 8px; background-color: #fff; }
     .prod-title { font-weight: bold; font-size: 1.2rem; margin-bottom: 5px; color: #2C3E50; }
-    
-    .btn-view {
-      background: #ff6b00; color: white; padding: 8px 20px;
-      border-radius: 20px; text-decoration: none; font-weight: bold;
-      display: inline-block; margin-top: auto;
-    }
+    .btn-view { background: #ff6b00; color: white; padding: 8px 20px; border-radius: 20px; text-decoration: none; font-weight: bold; display: inline-block; margin-top: auto; }
   </style>
 </head>
 <body>
   <header class="topbar">
     <div class="topbar-inner">
-      <div class="brand-left">
-        <a class="btn ghost" href="index.html">חזרה לראשי</a>
-      </div>
-      <div class="brand-center">
-        <div class="brand-title">המוצרים שלנו</div>
-      </div>
+      <div class="brand-left"><a class="btn ghost" href="index.html">חזרה לראשי</a></div>
+      <div class="brand-center"><div class="brand-title">המוצרים שלנו</div></div>
     </div>
   </header>
-
-  <main class="container">
-    <div class="products-grid" id="productsGrid"></div>
-  </main>
-
+  <main class="container"><div class="products-grid" id="productsGrid"></div></main>
   <script src="data.js?v=FINAL_FULL"></script>
-  
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const grid = document.getElementById("productsGrid");
-      
-      if (!window.PRODUCTS) {
-        grid.innerHTML = "טוען מוצרים...";
-        return;
-      }
-
+      if (!window.PRODUCTS) { grid.innerHTML = "טוען מוצרים..."; return; }
       window.PRODUCTS.forEach(prod => {
         const card = document.createElement("div");
         card.className = "product-card";
         card.onclick = () => location.href = `product.html?id=${prod.id}`;
-        
-        const imgSrc = prod.image || ''; 
-        
-        card.innerHTML = `
-          <img src="${imgSrc}" class="prod-img-thumb" alt="${prod.title}" onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'">
+        card.innerHTML = `<img src="${prod.image}" class="prod-img-thumb" alt="${prod.title}" onerror="this.src='https://via.placeholder.com/300x300?text=Error+Loading'">
           <div class="prod-title">${prod.title}</div>
           <div style="color:#666; font-size:0.9rem; margin-bottom:15px; flex-grow:1;">${prod.intro}</div>
-          <span class="btn-view">לפרטים נוספים</span>
-        `;
+          <span class="btn-view">לפרטים נוספים</span>`;
         grid.appendChild(card);
       });
     });
