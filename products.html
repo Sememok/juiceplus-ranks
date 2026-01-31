@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>קטלוג מוצרים</title>
-  <link rel="stylesheet" href="style.css?v=CATALOG_ASSETS" />
+  <link rel="stylesheet" href="style.css?v=PRODS_FINAL" />
   <style>
     .products-grid {
       display: grid;
@@ -63,7 +63,7 @@
     <div class="products-grid" id="productsGrid"></div>
   </main>
 
-  <script src="logic.js?v=ASSETS_FIX"></script>
+  <script src="data.js?v=FINAL_FULL"></script>
   
   <script>
     document.addEventListener("DOMContentLoaded", () => {
@@ -82,7 +82,7 @@
         const imgSrc = prod.image || ''; 
         
         card.innerHTML = `
-          <img src="${imgSrc}" class="prod-img-thumb" alt="${prod.title}" onerror="this.src='https://via.placeholder.com/300x300?text=Check+Assets+Folder'">
+          <img src="${imgSrc}" class="prod-img-thumb" alt="${prod.title}" onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'">
           <div class="prod-title">${prod.title}</div>
           <div style="color:#666; font-size:0.9rem; margin-bottom:15px; flex-grow:1;">${prod.intro}</div>
           <span class="btn-view">לפרטים נוספים</span>
