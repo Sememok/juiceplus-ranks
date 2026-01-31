@@ -1,65 +1,49 @@
-// brand-core.js - גרסה יציבה ופשוטה
-const DEFAULT_LOGO_URL = "assets/ourway.jpg";
-const STORAGE_KEY = "jp_brand";
+/* brand-core.js - Brand Management */
 
-const BRAND_DEFAULT = {
-  groupName: "המסע המשותף שלנו",
-  tagline: "חוברת הדרגות – מדריך וידאו לזכיין חדש",
-  logoDataUrl: ""
-};
+document.addEventListener("DOMContentLoaded", () => {
+    loadBrand();
+    
+    // מאפשר עריכה בלחיצה על אזור הלוגו
+    const logoArea = document.querySelector('.brand-logo');
+    if(logoArea) {
+        logoArea.title = "לחץ כאן כדי לשנות לוגו ושם";
+        logoArea.onclick = () => {
+            const newName = prompt("הכנס את שם המותג / הקבוצה שלך:");
+            if(newName) localStorage.setItem("myBrandName", newName);
+            
+            const newLogo = prompt("הכנס קישור לתמונת לוגו (URL):");
+            if(newLogo) localStorage.setItem("myBrandLogo", newLogo);
+            
+            loadBrand();
+        }
+    }
+});
 
 function loadBrand() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return { ...BRAND_DEFAULT };
-    return { ...BRAND_DEFAULT, ...JSON.parse(raw) };
-  } catch {
-    return { ...BRAND_DEFAULT };
-  }
+    const savedName = localStorage.getItem("myBrandName");
+    const savedLogo = localStorage.getItem("myBrandLogo");
+
+    // עדכון כותרות
+    const titles = document.querySelectorAll('[data-brand="title"]');
+    titles.forEach(el => {
+        if(savedName) el.textContent = savedName;
+    });
+
+    // עדכון לוגו
+    const logos = document.querySelectorAll('img[data-brand="logo"]');
+    const fallbacks = document.querySelectorAll('span[data-brand="logoFallback"]');
+
+    if (savedLogo) {
+        logos.forEach(img => {
+            img.src = savedLogo;
+            img.style.display = 'block';
+        });
+        fallbacks.forEach(span => span.style.display = 'none');
+    } else {
+        logos.forEach(img => img.style.display = 'none');
+        fallbacks.forEach(span => {
+            span.style.display = 'block';
+            if(savedName) span.textContent = savedName;
+        });
+    }
 }
-
-function saveBrand(b) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(b));
-}
-
-function resetBrand() {
-  localStorage.removeItem(STORAGE_KEY);
-}
-
-function applyBrandToPage() {
-  const b = loadBrand();
-
-  // 1. עדכון טקסטים
-  document.querySelectorAll("[data-brand='groupName']").forEach(el => {
-    if(el) el.textContent = b.groupName;
-  });
-  document.querySelectorAll("[data-brand='tagline']").forEach(el => {
-    if(el) el.textContent = b.tagline;
-  });
-
-  // 2. טיפול בלוגו - פשוט וישיר
-  // אם יש מידע שמור (ארוך מספיק כדי להיות תמונה) נשתמש בו, אחרת בברירת המחדל
-  let chosenSrc = DEFAULT_LOGO_URL;
-  if (b.logoDataUrl && b.logoDataUrl.length > 50) {
-    chosenSrc = b.logoDataUrl;
-  }
-
-  document.querySelectorAll("[data-brand='logo']").forEach(img => {
-    // מציגים תמיד, ללא הסתרה
-    img.style.display = "block";
-    img.src = chosenSrc;
-    
-    // אם התמונה נשברת, ננסה להציג את ברירת המחדל כגיבוי אחרון
-    img.onerror = function() {
-      console.warn("Logo failed to load:", this.src);
-      // מונע לולאה אינסופית
-      if (this.src.includes("ourway.jpg")) return; 
-      this.src = DEFAULT_LOGO_URL;
-    };
-  });
-  
-  // הסתרת טקסט הגיבוי אם יש תמונה
-  document.querySelectorAll(".fallback").forEach(el => el.style.display = "none");
-}
-
-document.addEventListener("DOMContentLoaded", applyBrandToPage);
