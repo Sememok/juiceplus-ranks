@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>ראשי - מפת הדרגות</title>
-  <link rel="stylesheet" href="style.css?v=INDEX_FINAL_V2" />
+  <link rel="stylesheet" href="style.css?v=INDEX_RESTORE" />
   <style>
     .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; padding: 30px 0; padding-bottom: 80px; }
     .rank-card-link { background: white; border-radius: 12px; padding: 25px; text-decoration: none; color: inherit; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-top: 5px solid #16a34a; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; align-items: center; text-align: center; position: relative; overflow: hidden; }
@@ -31,14 +31,9 @@
       </div>
     </div>
   </header>
-  <main class="container">
-    <div class="dashboard-grid" id="dashboardGrid"></div>
-  </main>
-  <a href="products.html" class="fab-products">
-    <span class="fab-icon">🍎</span>
-    <span>קטלוג מוצרים</span>
-  </a>
-  <script src="data.js?v=FINAL_FULL"></script>
+  <main class="container"><div class="dashboard-grid" id="dashboardGrid"></div></main>
+  <a href="products.html" class="fab-products"><span class="fab-icon">🍎</span><span>קטלוג מוצרים</span></a>
+  <script src="data.js?v=FINAL_RESTORE"></script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const grid = document.getElementById("dashboardGrid");
