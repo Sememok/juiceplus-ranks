@@ -1,12 +1,4 @@
-/* data.js
-   FINAL CORRECTED VERSION
-   1. TREES RESTORED: Original simulation data (P+=4576, SP=12090, SC=27170).
-   2. IMAGES FIXED: pointing to "assets/" folder.
-   3. INGREDIENTS: Full text from PDF.
-   4. POINTS: Exact user values.
-*/
-
-// --- 1. רשימת הדרגות ---
+/* data.js */
 window.RANKS = [
   { id: "partner_plus", title: "Partner Plus", targetPoints: 4000, intro: "התקדמות ראשונה: בניית בסיס לקוחות ראשוני.", videoUrl: "https://youtu.be/M293NdN7Sok", bullets: ["יעד: 4,000 נקודות.", "עמלה: 14%.", "בונוס: 400 ₪."], nodeCode: "P+" },
   { id: "senior_partner", title: "Senior Partner", targetPoints: 12000, intro: "בניית יציבות ולקוחות חוזרים.", videoUrl: "https://youtu.be/fnG6Eld0SPk", bullets: ["יעד: 12,000 נקודות.", "עמלה: 19%.", "בונוס: 1,200 ₪."], nodeCode: "SP" },
@@ -21,169 +13,75 @@ window.RANKS = [
   { id: "pmd_plus", title: "PMD+", targetPoints: 1600000, intro: "הדרגה הגבוהה ביותר בתוכנית.", videoUrl: "https://youtu.be/MVxQ4LPsj6w", bullets: ["יעד: 1,600,000 נקודות.", "בונוס: 200,000 ₪."], nodeCode: "PMD+" }
 ];
 
-// --- 2. מוצרים (נתיב assets + פירוט מלא) ---
 window.PRODUCTS = [
-  {
-    id: "fruit",
-    title: "תערובת פירות (אדום)",
-    subTitle: "Fruit Blend",
-    intro: "המיטב של המטע, בתוך קפסולה.",
-    image: "assets/cap_fruit.jpg",
-    ingredients: "תפוחים, חמוציות, תפוזים, אננס, דובדבני אסרולה, אפרסקים, מנגו, תמרים, שזיפים וסלק סוכר.",
-    vitamins: "ויטמין A, ויטמין C, ויטמין E וחומצה פולית.",
-    benefits: [
-      "מגשר על הפער בין התזונה המצויה לרצויה.",
-      "ויטמין A: מסייע לשמירה על בריאות העור.",
-      "ויטמין C: תורם לייצור קולגן ובריאות החניכיים.",
-      "ויטמין E: מגן על התאים ממתח חמצוני."
-    ],
-    usage: "2 קפסולות ביום עם כוס מים גדולה."
-  },
-  {
-    id: "veg",
-    title: "תערובת ירקות (ירוק)",
-    subTitle: "Vegetable Blend",
-    intro: "השלמה תזונתית של ירקות חיוניים.",
-    image: "assets/cap_veg.jpg",
-    ingredients: "גזר, פטרוזיליה, ברוקולי, קייל, כרוב לבן, עגבניות, תרד, שום וסלק.",
-    vitamins: "ויטמין A, ויטמין C, ויטמין E וחומצה פולית.",
-    benefits: [
-      "תמיכה במערכת החיסון (חומצה פולית).",
-      "הגנה על התאים מנזקי חמצון.",
-      "תמיכה בתהליכי ניקוי טבעיים.",
-      "ללא גלוטן וללא הנדסה גנטית."
-    ],
-    usage: "2 קפסולות ביום עם כוס מים גדולה."
-  },
-  {
-    id: "berry",
-    title: "תערובת פירות יער (סגול)",
-    subTitle: "Berry Blend",
-    intro: "נוגדי חמצון עוצמתיים מהטבע.",
-    image: "assets/cap_berry.jpg",
-    ingredients: "ענבים, אוכמניות כחולות, חמוציות, אוכמניות שחורות, אוכמניות בלאק קורנט, אוכמניות בילברי, פטל, רימון, פרי הסמבוק, קקאו וארטישוק.",
-    vitamins: "מכיל ויטמין C וויטמין E.",
-    benefits: [
-      "נוגדי חמצון חזקים במיוחד.",
-      "תמיכה בבריאות הלב וכלי הדם.",
-      "שיפור זרימת דם והתאוששות.",
-      "שמירה על מראה עור בריא וחיוני."
-    ],
-    usage: "2 קפסולות ביום."
-  },
-  {
-    id: "omega",
-    title: "תערובת אומגה (Omega Blend)",
-    subTitle: "100% Plant Based Omega",
-    intro: "אומגה צמחית לחלוטין - ישר מהמקור (אצות).",
-    image: "assets/cap_omega.jpg",
-    ingredients: "שמן אצות, שמן זרעי רימונים, שמן פטל, שמן אשחר ים (אובליפיחה), שמן חריע, שמן עגבניות.",
-    vitamins: "אומגה 3, 5, 6, 7 ו-9.",
-    benefits: [
-      "מופק בכבישה קרה לשמירה על איכות השמנים.",
-      "ללא טעם לוואי של דגים (מקור צמחי).",
-      "תמיכה בראייה, תפקוד המוח והלב.",
-      "ידידותי לסביבה ובר-קיימא."
-    ],
-    usage: "2 קפסולות ביום עם האוכל."
-  },
-  {
-    id: "vanilla",
-    title: "שייק קומפליט - וניל",
-    subTitle: "Complete Vanilla",
-    intro: "ארוחה מלאה ומאוזנת בטעם וניל.",
-    image: "assets/shake_vanilla.jpg",
-    ingredients: "חלבון סויה, חלבון אפונה, חלבון אורז, אבקת חומוס, סיבים תזונתיים.",
-    vitamins: "פרופיל מלא של ויטמינים ומינרלים.",
-    benefits: [
-      "חלבון צמחי איכותי (13 גרם למנה).",
-      "אינדקס גליקמי נמוך (מתאים לשמירה על משקל).",
-      "עשיר בסיבים לתחושת שובע.",
-      "מתאים לטבעונים וללא גלוטן."
-    ],
-    usage: "כף מדידה אחת עם 250 מ״ל מים או חלב צמחי."
-  },
-  {
-    id: "choco",
-    title: "שייק קומפליט - שוקולד",
-    subTitle: "Complete Chocolate",
-    intro: "פינוק בריא ומזין בטעם שוקולד.",
-    image: "assets/shake_choco.jpg",
-    ingredients: "חלבון סויה, חלבון אפונה, חלבון אורז, אבקת חומוס, קקאו.",
-    vitamins: "פרופיל מלא של ויטמינים ומינרלים.",
-    benefits: [
-      "טעם שוקולדי עשיר ללא רגשות אשם.",
-      "תומך בבניית שריר ואנרגיה.",
-      "מקור מצוין לחלבון וסיבים.",
-      "פתרון מהיר לארוחת בוקר או אחרי אימון."
-    ],
-    usage: "כף מדידה אחת עם 250 מ״ל מים או חלב צמחי."
-  }
+  { id: "fruit", title: "תערובת פירות (אדום)", subTitle: "Fruit Blend", intro: "המיטב של המטע, בתוך קפסולה.", image: "assets/cap_fruit.jpg", ingredients: "תפוחים, חמוציות, תפוזים, אננס, דובדבני אסרולה, אפרסקים, מנגו, תמרים, שזיפים וסלק סוכר.", vitamins: "ויטמין A, ויטמין C, ויטמין E וחומצה פולית.", benefits: ["מגשר על הפער התזונתי.", "ויטמין A: בריאות העור.", "ויטמין C: ייצור קולגן.", "ויטמין E: נוגד חמצון."], usage: "2 קפסולות ביום." },
+  { id: "veg", title: "תערובת ירקות (ירוק)", subTitle: "Vegetable Blend", intro: "השלמה תזונתית של ירקות חיוניים.", image: "assets/cap_veg.jpg", ingredients: "גזר, פטרוזיליה, ברוקולי, קייל, כרוב לבן, עגבניות, תרד, שום וסלק.", vitamins: "ויטמין A, ויטמין C, ויטמין E וחומצה פולית.", benefits: ["תמיכה במערכת החיסון.", "הגנה על התאים.", "ניקוי רעלים."], usage: "2 קפסולות ביום." },
+  { id: "berry", title: "תערובת פירות יער (סגול)", subTitle: "Berry Blend", intro: "נוגדי חמצון עוצמתיים מהטבע.", image: "assets/cap_berry.jpg", ingredients: "ענבים, אוכמניות כחולות, חמוציות, אוכמניות שחורות, בלאק קורנט, בילברי, פטל, רימון, סמבוק, קקאו וארטישוק.", vitamins: "ויטמין C, ויטמין E.", benefits: ["נוגדי חמצון חזקים.", "בריאות הלב.", "שיפור זרימת דם."], usage: "2 קפסולות ביום." },
+  { id: "omega", title: "תערובת אומגה (Omega)", subTitle: "100% Plant Based", intro: "אומגה צמחית לחלוטין מאצות.", image: "assets/cap_omega.jpg", ingredients: "שמן אצות, שמן זרעי רימונים, פטל, אשחר ים, חריע ועגבניות.", vitamins: "אומגה 3, 5, 6, 7 ו-9.", benefits: ["מופק בכבישה קרה.", "ללא טעם לוואי.", "תמיכה במוח ובלב."], usage: "2 קפסולות ביום." },
+  { id: "vanilla", title: "שייק וניל", subTitle: "Complete Vanilla", intro: "ארוחה מלאה ומאוזנת.", image: "assets/shake_vanilla.jpg", ingredients: "חלבון סויה, אפונה, אורז, חומוס (13 גרם חלבון).", vitamins: "ויטמינים ומינרלים מלאים.", benefits: ["אינדקס גליקמי נמוך.", "עשיר בסיבים.", "ללא גלוטן."], usage: "כף מדידה עם 250 מ״ל נוזל." },
+  { id: "choco", title: "שייק שוקולד", subTitle: "Complete Chocolate", intro: "פינוק בריא ומזין.", image: "assets/shake_choco.jpg", ingredients: "חלבון סויה, אפונה, אורז, חומוס וקקאו.", vitamins: "ויטמינים ומינרלים מלאים.", benefits: ["טעם עשיר.", "תומך בבניית שריר.", "פתרון מהיר לארוחה."], usage: "כף מדידה עם 250 מ״ל נוזל." }
 ];
 
-// --- 3. אסטרטגיות למחשבון (ניקוד מעודכן) ---
 window.STRATEGIES = [
   { name: "קפסולות פירות יער (380 נק')", points: 380 },
-  { name: "מארז דואו - פירות וירקות (765 נק')", points: 765 },
-  { name: "שלישייה - פירות, ירקות, יער (1145 נק')", points: 1145 },
-  { name: "רביעייה - שלישייה + אומגה (1631 נק')", points: 1631 },
-  { name: "שייק קומפליט (שקיות גדולות) (830 נק')", points: 830 },
-  { name: "קומפליט קומבי - 2 הטעמים (930 נק')", points: 930 },
-  { name: "קפסולות אומגה בלנד (486 נק')", points: 486 },
-  { name: "אומגה בלנד + פירות יער (866 נק')", points: 866 },
-  { name: "ערכה מלאה + קומפליט רגיל (2461 נק')", points: 2461 },
-  { name: "ערכה מלאה + קומפליט קומבי (2561 נק')", points: 2561 }
+  { name: "מארז דואו (765 נק')", points: 765 },
+  { name: "שלישייה (1145 נק')", points: 1145 },
+  { name: "רביעייה (1631 נק')", points: 1631 },
+  { name: "שייק קומפליט (830 נק')", points: 830 },
+  { name: "קומפליט קומבי (930 נק')", points: 930 },
+  { name: "קפסולות אומגה (486 נק')", points: 486 },
+  { name: "אומגה + יער (866 נק')", points: 866 },
+  { name: "ערכה מלאה + רגיל (2461 נק')", points: 2461 },
+  { name: "ערכה מלאה + קומבי (2561 נק')", points: 2561 }
 ];
 
-// --- 4. עצי דרגות (העצים המקוריים עם הנתונים המדויקים) ---
 window.RANK_TREES = {
   partner_plus: {
-    title: "עץ התקדמות – Partner Plus (P+)",
-    description: "תרשים הממחיש הגעה ליעד של 4,000 נקודות.",
+    title: "מבנה Partner Plus",
+    description: "יעד: 4,000 נקודות",
     highlightId: "you",
     nodes: [
-      { id: "you",   label: "אתה (P+)",   code: "P+", pv: 866, totalVal: "סה״כ: 4,576", generation: 0, column: 1 },
-      { id: "left",  label: "קו שמאל", code: "P",  pv: 283,  generation: 1, column: 0 },
-      { id: "mid",   label: "קו אמצע", code: "P",  pv: 2561, generation: 1, column: 1 },
-      { id: "right", label: "קו ימין", code: "P",  pv: 866,  generation: 1, column: 2 }
+      { id: "you", label: "אתה (P+)", code: "P+", pv: 1000, generation: 0, column: 1 },
+      { id: "l1", label: "לקוח/זכיין", code: "P", pv: 1000, generation: 1, column: 0 },
+      { id: "l2", label: "לקוח/זכיין", code: "P", pv: 1000, generation: 1, column: 1 },
+      { id: "l3", label: "לקוח/זכיין", code: "P", pv: 1000, generation: 1, column: 2 }
     ],
-    edges: [ { from: "you", to: "left" }, { from: "you", to: "mid" }, { from: "you", to: "right" } ],
-    notes: ["הושג היעד לדרגת Partner Plus!", "סה\"כ: 4,576 נקודות."]
+    edges: [{from:"you",to:"l1"}, {from:"you",to:"l2"}, {from:"you",to:"l3"}],
+    notes: ["סה\"כ 4,000 נקודות"]
   },
   senior_partner: {
-    title: "עץ התקדמות – Senior Partner (SP)",
-    description: "תרשים מלא (כולל דור 2).",
+    title: "מבנה Senior Partner",
+    description: "יעד: 12,000 נקודות",
     highlightId: "you",
     nodes: [
-      { id: "you", label: "אתה (SP)", code: "P+", pv: 2561, totalVal: "סה״כ: 12,090", generation: 0, column: 2 },
-      { id: "left_top", label: "זכיין P", code: "P", pv: 4192, generation: 1, column: 0 },
-      { id: "mid_top", label: "לקוח אישי", code: "Client", pv: 2561, generation: 1, column: 2 },
-      { id: "right_top", label: "זכיין P", code: "P", pv: 2776, generation: 1, column: 4 },
-      { id: "left_bot", label: "לקוח/הזמנה", code: "Order", pv: 1631, generation: 2, column: 0 },
-      { id: "right_bot", label: "לקוח/הזמנה", code: "Order", pv: 1145, generation: 2, column: 4 }
+      { id: "you", label: "אתה (SP)", code: "SP", pv: 2000, generation: 0, column: 2 },
+      { id: "l1", label: "קו 1", code: "P+", pv: 3000, generation: 1, column: 0 },
+      { id: "l2", label: "קו 2", code: "P", pv: 3000, generation: 1, column: 2 },
+      { id: "l3", label: "קו 3", code: "P", pv: 4000, generation: 1, column: 4 },
+      { id: "s1", label: "לקוח", code: "C", pv: 0, generation: 2, column: 0 }
     ],
-    edges: [ { from: "you", to: "left_top" }, { from: "you", to: "mid_top" }, { from: "you", to: "right_top" }, { from: "left_top", to: "left_bot" }, { from: "right_top", to: "right_bot" } ],
-    notes: ["סה\"כ נקודות: 12,090", "עמדה ביעדי חודשיים רצופים."]
+    edges: [{from:"you",to:"l1"}, {from:"you",to:"l2"}, {from:"you",to:"l3"}, {from:"l1",to:"s1"}],
+    notes: ["סה\"כ 12,090 נקודות"]
   },
   sales_coordinator: {
-    title: "עץ התקדמות – Sales Coordinator (SC)",
-    description: "סימולציה מותאמת.",
+    title: "מבנה Sales Coordinator",
+    description: "יעד: 28,000 + PB",
     highlightId: "you",
     nodes: [
-        { id: "you", label: "אתה (SC)", code: "SC", pv: 1245, totalVal: "סה״כ: 27,170", generation: 0, column: 2 },
-        { id: "pb", label: "זכיין PB", code: "P+", pv: 4500, generation: 1, column: 1 },
-        { id: "team", label: "שאר הקבוצה", code: "GRP", pv: 21425, generation: 1, column: 3 }
+      { id: "you", label: "אתה (SC)", code: "SC", pv: 1245, generation: 0, column: 1 },
+      { id: "pb", label: "זכיין PB", code: "P+", pv: 4500, generation: 1, column: 0 },
+      { id: "grp", label: "שאר הקבוצה", code: "GRP", pv: 21425, generation: 1, column: 2 }
     ],
-    edges: [ { from: "you", to: "pb" }, { from: "you", to: "team" } ],
-    notes: ["סה\"כ נקודות: 27,170", "קרוב ליעד של 28,000."]
+    edges: [{from:"you",to:"pb"}, {from:"you",to:"grp"}],
+    notes: ["סה\"כ 27,170 נקודות"]
   },
-  // שאר הדרגות
-  qssc: { title: "עץ התקדמות – QSSC", nodes: [{id:"you", label:"אתה", code:"QSSC", generation:0, column:1}], edges:[], notes:[] },
-  ssc: { title: "עץ התקדמות – SSC", nodes: [{id:"you", label:"אתה", code:"SSC", generation:0, column:1}], edges:[], notes:[] },
-  qnmd: { title: "עץ התקדמות – QNMD", nodes: [{id:"you", label:"אתה", code:"QNMD", generation:0, column:1}], edges:[], notes:[] },
-  nmd: { title: "עץ התקדמות – NMD", nodes: [{id:"you", label:"אתה", code:"NMD", generation:0, column:1}], edges:[], notes:[] },
-  imd: { title: "עץ התקדמות – IMD", nodes: [{id:"you", label:"אתה", code:"IMD", generation:0, column:1}], edges:[], notes:[] },
-  emd: { title: "עץ התקדמות – EMD", nodes: [{id:"you", label:"אתה", code:"EMD", generation:0, column:1}], edges:[], notes:[] },
-  pmd: { title: "עץ התקדמות – PMD", nodes: [{id:"you", label:"אתה", code:"PMD", generation:0, column:1}], edges:[], notes:[] },
-  pmd_plus: { title: "עץ התקדמות – PMD+", nodes: [{id:"you", label:"אתה", code:"PMD+", generation:0, column:1}], edges:[], notes:[] }
+  // מבנה בסיסי לשאר הדרגות
+  qssc: { title: "מבנה QSSC", nodes: [{id:"you", label:"אתה", code:"QSSC", generation:0, column:1}], edges:[], notes:[] },
+  ssc: { title: "מבנה SSC", nodes: [{id:"you", label:"אתה", code:"SSC", generation:0, column:1}], edges:[], notes:[] },
+  qnmd: { title: "מבנה QNMD", nodes: [{id:"you", label:"אתה", code:"QNMD", generation:0, column:1}], edges:[], notes:[] },
+  nmd: { title: "מבנה NMD", nodes: [{id:"you", label:"אתה", code:"NMD", generation:0, column:1}], edges:[], notes:[] },
+  imd: { title: "מבנה IMD", nodes: [{id:"you", label:"אתה", code:"IMD", generation:0, column:1}], edges:[], notes:[] },
+  emd: { title: "מבנה EMD", nodes: [{id:"you", label:"אתה", code:"EMD", generation:0, column:1}], edges:[], notes:[] },
+  pmd: { title: "מבנה PMD", nodes: [{id:"you", label:"אתה", code:"PMD", generation:0, column:1}], edges:[], notes:[] },
+  pmd_plus: { title: "מבנה PMD+", nodes: [{id:"you", label:"אתה", code:"PMD+", generation:0, column:1}], edges:[], notes:[] }
 };
