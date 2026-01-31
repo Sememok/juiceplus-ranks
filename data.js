@@ -1,8 +1,9 @@
-/* data.js - FINAL CONTENT */
+/* data.js - FINAL "CARD LAYOUT" VERSION */
+
 window.RANKS = [
-  { id: "partner_plus", title: "Partner Plus", targetPoints: 4000, intro: "התקדמות ראשונה.", videoUrl: "https://youtu.be/M293NdN7Sok", bullets: ["יעד: 4,000 נקודות.", "עמלה: 14%.", "בונוס: 400 ₪."], nodeCode: "P+" },
-  { id: "senior_partner", title: "Senior Partner", targetPoints: 12000, intro: "בניית יציבות.", videoUrl: "https://youtu.be/fnG6Eld0SPk", bullets: ["יעד: 12,000 נקודות.", "עמלה: 19%.", "בונוס: 1,200 ₪."], nodeCode: "SP" },
-  { id: "sales_coordinator", title: "Sales Coordinator", targetPoints: 28000, intro: "דרגת מנהיגות.", videoUrl: "https://youtu.be/cyJb_ecWjyA", bullets: ["יעד: 28,000 נקודות.", "עמלה: 22%.", "בונוס: 3,600 ₪."], nodeCode: "SC" },
+  { id: "partner_plus", title: "Partner Plus", targetPoints: 4000, intro: "התקדמות ראשונה.", videoUrl: "https://youtu.be/M293NdN7Sok", bullets: ["יעד: 4,000 נקודות.", "בונוס: 400 ₪."], nodeCode: "P+" },
+  { id: "senior_partner", title: "Senior Partner", targetPoints: 12000, intro: "בניית יציבות.", videoUrl: "https://youtu.be/fnG6Eld0SPk", bullets: ["יעד: 12,000 נקודות.", "בונוס: 1,200 ₪."], nodeCode: "SP" },
+  { id: "sales_coordinator", title: "Sales Coordinator", targetPoints: 28000, intro: "דרגת מנהיגות.", videoUrl: "https://youtu.be/cyJb_ecWjyA", bullets: ["יעד: 28,000 נקודות.", "בונוס: 3,600 ₪."], nodeCode: "SC" },
   { id: "qssc", title: "QSSC", targetPoints: 56000, intro: "בדרך לטופ.", videoUrl: "https://youtu.be/ru06kEc9kqE", bullets: ["יעד: 56,000 נקודות.", "בונוס: 4,800 ₪."], nodeCode: "QSSC" },
   { id: "ssc", title: "Senior Sales Coordinator", targetPoints: 111000, intro: "ניהול בכיר.", videoUrl: "https://youtu.be/xPwmFecZ8Ms", bullets: ["יעד: 111,000 נקודות.", "בונוס: 10,000 ₪."], nodeCode: "SSC" },
   { id: "qnmd", title: "QNMD", targetPoints: 222000, intro: "לפני פסגה.", videoUrl: "https://youtu.be/W8Wm_c4kMUo", bullets: ["יעד: 222,000 נקודות.", "בונוס: 19,000 ₪."], nodeCode: "QNMD" },
@@ -14,12 +15,12 @@ window.RANKS = [
 ];
 
 window.PRODUCTS = [
-  { id: "fruit", title: "תערובת פירות", subTitle: "Fruit Blend", intro: "המיטב של המטע.", image: "assets/cap_fruit.jpg", ingredients: "תפוחים, חמוציות...", vitamins: "ויטמין A,C,E", benefits: ["בריאות העור"], usage: "2 ביום" },
-  { id: "veg", title: "תערובת ירקות", subTitle: "Vegetable Blend", intro: "ירקות חיוניים.", image: "assets/cap_veg.jpg", ingredients: "גזר, כרוב...", vitamins: "ויטמין A,C,E", benefits: ["חיזוק המערכת"], usage: "2 ביום" },
-  { id: "berry", title: "תערובת פירות יער", subTitle: "Berry Blend", intro: "נוגדי חמצון.", image: "assets/cap_berry.jpg", ingredients: "ענבים, פטל...", vitamins: "ויטמין C,E", benefits: ["זרימת דם"], usage: "2 ביום" },
-  { id: "omega", title: "אומגה בלנד", subTitle: "Omega Blend", intro: "אומגה צמחית.", image: "assets/cap_omega.jpg", ingredients: "שמן אצות...", vitamins: "אומגה 3,5,6,7,9", benefits: ["מוח ולב"], usage: "2 ביום" },
-  { id: "vanilla", title: "שייק וניל", subTitle: "Complete Vanilla", intro: "ארוחה מלאה.", image: "assets/shake_vanilla.jpg", ingredients: "חלבון סויה...", vitamins: "ויטמינים ומינרלים", benefits: ["שובע"], usage: "כף מדידה" },
-  { id: "choco", title: "שייק שוקולד", subTitle: "Complete Chocolate", intro: "ארוחה מלאה.", image: "assets/shake_choco.jpg", ingredients: "חלבון סויה...", vitamins: "ויטמינים ומינרלים", benefits: ["אנרגיה"], usage: "כף מדידה" }
+  { id: "fruit", title: "פירות (אדום)", subTitle: "Fruit Blend", intro: "המיטב של המטע.", image: "assets/cap_fruit.jpg", ingredients: "תפוחים, חמוציות...", vitamins: "A, C, E", benefits: ["בריאות העור"], usage: "2 ביום" },
+  { id: "veg", title: "ירקות (ירוק)", subTitle: "Vegetable Blend", intro: "ירקות חיוניים.", image: "assets/cap_veg.jpg", ingredients: "גזר, כרוב...", vitamins: "A, C, E", benefits: ["חיזוק"], usage: "2 ביום" },
+  { id: "berry", title: "פירות יער (סגול)", subTitle: "Berry Blend", intro: "נוגדי חמצון.", image: "assets/cap_berry.jpg", ingredients: "ענבים, פטל...", vitamins: "C, E", benefits: ["זרימת דם"], usage: "2 ביום" },
+  { id: "omega", title: "אומגה בלנד", subTitle: "Omega Blend", intro: "אומגה צמחית.", image: "assets/cap_omega.jpg", ingredients: "אצות, רימונים...", vitamins: "אומגה 3,5,6,7,9", benefits: ["מוח ולב"], usage: "2 ביום" },
+  { id: "vanilla", title: "שייק וניל", subTitle: "Complete Vanilla", intro: "ארוחה מלאה.", image: "assets/shake_vanilla.jpg", ingredients: "חלבון סויה...", vitamins: "מולטי ויטמין", benefits: ["שובע"], usage: "כף מדידה" },
+  { id: "choco", title: "שייק שוקולד", subTitle: "Complete Chocolate", intro: "ארוחה מלאה.", image: "assets/shake_choco.jpg", ingredients: "חלבון סויה...", vitamins: "מולטי ויטמין", benefits: ["אנרגיה"], usage: "כף מדידה" }
 ];
 
 window.STRATEGIES = [
@@ -35,7 +36,6 @@ window.STRATEGIES = [
   { name: "ערכה מלאה + קומבי (2561 נק')", points: 2561 }
 ];
 
-// --- העצים המדויקים (שיחזור לפי התמונה) ---
 window.RANK_TREES = {
   partner_plus: {
     title: "מבנה Partner Plus",
@@ -47,7 +47,7 @@ window.RANK_TREES = {
       { id: "l3", label: "הזמנה", code: "P", pv: 866, generation: 1, column: 2 }
     ],
     edges: [{from:"you",to:"l1"}, {from:"you",to:"l2"}, {from:"you",to:"l3"}],
-    notes: ["הושג היעד: 4,576 נקודות."]
+    notes: ["יעד 4,000 הושג."]
   },
   senior_partner: {
     title: "מבנה Senior Partner",
@@ -55,32 +55,36 @@ window.RANK_TREES = {
     nodes: [
       { id: "you", label: "אתה", code: "SP", pv: 2561, generation: 0, column: 2 },
       { id: "l1", label: "זכיין", code: "P", pv: 4192, generation: 1, column: 0 },
-      { id: "l2", label: "לקוח", code: "Client", pv: 2561, generation: 1, column: 2 },
+      { id: "l2", label: "לקוח", code: "C", pv: 2561, generation: 1, column: 2 },
       { id: "l3", label: "זכיין", code: "P", pv: 2776, generation: 1, column: 4 },
-      { id: "sub1", label: "הזמנה", code: "Order", pv: 1631, generation: 2, column: 0 },
-      { id: "sub2", label: "הזמנה", code: "Order", pv: 1145, generation: 2, column: 4 }
+      { id: "sub1", label: "הזמנה", code: "O", pv: 1631, generation: 2, column: 0 },
+      { id: "sub2", label: "הזמנה", code: "O", pv: 1145, generation: 2, column: 4 }
     ],
     edges: [{from:"you",to:"l1"}, {from:"you",to:"l2"}, {from:"you",to:"l3"}, {from:"l1",to:"sub1"}, {from:"l3",to:"sub2"}],
-    notes: ["סה\"כ 12,090 נקודות."]
+    notes: ["יעד 12,000 הושג."]
   },
-  // SC - שחזור לפי התמונה (7 רגליים)
+  
+  // SC: פרוס לרוחב (0 עד 6 עמודות) כדי שייראה כמו בתמונה
   sales_coordinator: {
-    title: "מבנה Sales Coordinator",
+    title: "מבנה Sales Coordinator (מבט רחב)",
     highlightId: "you",
     nodes: [
-      { id: "you", label: "אתה (SC)", code: "SC", pv: 1245, generation: 0, column: 3 },
+      { id: "you", label: "אתה (SC)", code: "SC", pv: 1245, generation: 0, column: 3 }, // אמצע
+      
       // שורה 1
       { id: "leg1", label: "זכיין", code: "P", pv: 2561, generation: 1, column: 0 },
-      { id: "leg2", label: "זכיין (P+)", code: "P+", pv: 4300, generation: 1, column: 1 },
+      { id: "leg2", label: "זכיין", code: "P+", pv: 4300, generation: 1, column: 1 },
       { id: "leg3", label: "זכיין", code: "P", pv: 930, generation: 1, column: 2 },
       { id: "leg4", label: "זכיין", code: "P", pv: 2561, generation: 1, column: 3 },
       { id: "leg5", label: "זכיין", code: "P", pv: 2561, generation: 1, column: 4 },
       { id: "leg6", label: "לקוח", code: "C", pv: 1631, generation: 1, column: 5 },
       { id: "leg7", label: "לקוח", code: "C", pv: 2561, generation: 1, column: 6 },
+
       // שורה 2
       { id: "sub4", label: "זכיין", code: "P", pv: 2561, generation: 2, column: 3 },
       { id: "sub5", label: "זכיין", code: "P", pv: 2561, generation: 2, column: 4 },
       { id: "sub7", label: "לקוח", code: "C", pv: 436, generation: 2, column: 6 },
+
       // שורה 3
       { id: "subsub7", label: "זכיין", code: "P", pv: 2561, generation: 3, column: 6 }
     ],
@@ -89,8 +93,9 @@ window.RANK_TREES = {
       {from:"leg4",to:"sub4"}, {from:"leg5",to:"sub5"}, {from:"leg7",to:"sub7"},
       {from:"sub7",to:"subsub7"}
     ],
-    notes: ["סה\"כ 28,100 נקודות.", "בונוס: 3,600 ₪."]
+    notes: ["סה\"כ: 28,100 נקודות.", "בונוס דרגה: 3,600 ₪ (1,200 + 2,400)."]
   },
+  
   qssc: { title: "מבנה QSSC", nodes: [{id:"you", label:"אתה", code:"QSSC", generation:0, column:1}], edges:[], notes:[] },
   ssc: { title: "מבנה SSC", nodes: [{id:"you", label:"אתה", code:"SSC", generation:0, column:1}], edges:[], notes:[] },
   qnmd: { title: "מבנה QNMD", nodes: [{id:"you", label:"אתה", code:"QNMD", generation:0, column:1}], edges:[], notes:[] },
