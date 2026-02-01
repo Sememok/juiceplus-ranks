@@ -1,4 +1,4 @@
-/* rank-tree.js */
+/* rank-tree.js - RECTANGLES */
 document.addEventListener("DOMContentLoaded", () => {
     const mount = document.getElementById("rankTreeMount");
     if (!mount) return;
@@ -26,7 +26,6 @@ function drawTree(data, container) {
     const xScale = d3.scaleLinear().domain([0, 6]).range([70, width - 70]);
     const yScale = d3.scaleLinear().domain([0, 3]).range([60, height - 100]);
 
-    // קווים
     if (data.edges) {
         svg.selectAll("line").data(data.edges).enter().append("line")
             .attr("x1", d => getNodeX(d.from, data.nodes, xScale))
@@ -37,7 +36,6 @@ function drawTree(data, container) {
             .attr("stroke-width", 2);
     }
 
-    // כרטיסים (מלבנים)
     const nodes = svg.selectAll("g").data(data.nodes).enter().append("g")
         .attr("transform", d => `translate(${xScale(d.column)},${yScale(d.generation)})`);
 
