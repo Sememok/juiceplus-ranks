@@ -1,4 +1,4 @@
-/* data.js - FIXED MATH & STRUCTURE */
+/* data.js */
 
 window.RANKS = [
   { id: "partner_plus", title: "Partner Plus", targetPoints: 4000, intro: "התקדמות ראשונה.", videoUrl: "https://youtu.be/M293NdN7Sok", bullets: ["יעד: 4,000 נקודות.", "בונוס: 400 ₪."], nodeCode: "P+" },
@@ -36,9 +36,7 @@ window.STRATEGIES = [
   { name: "ערכה מלאה + קומבי (2561 נק')", points: 2561 }
 ];
 
-// --- 4. עצי דרגות ---
 window.RANK_TREES = {
-  // P+ (לפי התמונה: 4,576 סה"כ)
   partner_plus: {
     title: "מבנה Partner Plus",
     highlightId: "you",
@@ -52,7 +50,6 @@ window.RANK_TREES = {
     notes: ["סה\"כ בתרשים: 4,576 נקודות (יעד 4,000 הושג)."]
   },
 
-  // SP
   senior_partner: {
     title: "מבנה Senior Partner",
     highlightId: "you",
@@ -68,15 +65,11 @@ window.RANK_TREES = {
     notes: ["סה\"כ בתרשים: 12,090 נקודות."]
   },
 
-  // SC - מטימטיקה מתוקנת!
   sales_coordinator: {
     title: "מבנה Sales Coordinator",
     highlightId: "you",
     nodes: [
-      // רמה 0
       { id: "you", label: "אתה (SC)", code: "SC", pv: 1245, generation: 0, column: 3 },
-      
-      // רמה 1 (7 רגליים)
       { id: "leg1", label: "זכיין", code: "P", pv: 2561, generation: 1, column: 0 },
       { id: "leg2", label: "זכיין (PB)", code: "P+", pv: 4300, generation: 1, column: 1 },
       { id: "leg3", label: "זכיין", code: "P", pv: 930, generation: 1, column: 2 },
@@ -84,13 +77,9 @@ window.RANK_TREES = {
       { id: "leg5", label: "זכיין", code: "P", pv: 2561, generation: 1, column: 4 },
       { id: "leg6", label: "לקוח", code: "Client", pv: 1631, generation: 1, column: 5 },
       { id: "leg7", label: "לקוח", code: "Client", pv: 2561, generation: 1, column: 6 },
-
-      // רמה 2
       { id: "sub4", label: "זכיין", code: "P", pv: 2561, generation: 2, column: 3 },
       { id: "sub5", label: "זכיין", code: "P", pv: 2561, generation: 2, column: 4 },
       { id: "sub7", label: "לקוח", code: "Client", pv: 436, generation: 2, column: 6 },
-
-      // רמה 3
       { id: "subsub7", label: "זכיין", code: "P", pv: 2561, generation: 3, column: 6 }
     ],
     edges: [
@@ -98,7 +87,6 @@ window.RANK_TREES = {
       {from:"leg4",to:"sub4"}, {from:"leg5",to:"sub5"}, {from:"leg7",to:"sub7"},
       {from:"sub7",to:"subsub7"}
     ],
-    // חישוב מדויק: 1245 + 2561 + 4300 + 930 + 5122 + 5122 + 1631 + 5558 = 26,469
     notes: [
       "סה\"כ מוצג בתרשים: 26,469 נקודות.",
       "יעד סופי לדרגה: 28,000 נקודות.",
@@ -107,12 +95,12 @@ window.RANK_TREES = {
     ]
   },
   
-  qssc: { title: "מבנה QSSC", nodes: [{id:"you", label:"אתה", code:"QSSC", generation:0, column:1}], edges:[], notes:[] },
-  ssc: { title: "SSC", nodes: [{id:"you", label:"אתה", code:"SSC", generation:0, column:1}], edges:[], notes:[] },
-  qnmd: { title: "QNMD", nodes: [{id:"you", label:"אתה", code:"QNMD", generation:0, column:1}], edges:[], notes:[] },
-  nmd: { title: "NMD", nodes: [{id:"you", label:"אתה", code:"NMD", generation:0, column:1}], edges:[], notes:[] },
-  imd: { title: "IMD", nodes: [{id:"you", label:"אתה", code:"IMD", generation:0, column:1}], edges:[], notes:[] },
-  emd: { title: "EMD", nodes: [{id:"you", label:"אתה", code:"EMD", generation:0, column:1}], edges:[], notes:[] },
-  pmd: { title: "PMD", nodes: [{id:"you", label:"אתה", code:"PMD", generation:0, column:1}], edges:[], notes:[] },
-  pmd_plus: { title: "PMD+", nodes: [{id:"you", label:"אתה", code:"PMD+", generation:0, column:1}], edges:[], notes:[] }
+  qssc: { title: "מבנה QSSC", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"QSSC", generation:0, column:0}], edges:[], notes:[] },
+  ssc: { title: "מבנה SSC", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"SSC", generation:0, column:0}], edges:[], notes:[] },
+  qnmd: { title: "מבנה QNMD", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"QNMD", generation:0, column:0}], edges:[], notes:[] },
+  nmd: { title: "מבנה NMD", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"NMD", generation:0, column:0}], edges:[], notes:[] },
+  imd: { title: "מבנה IMD", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"IMD", generation:0, column:0}], edges:[], notes:[] },
+  emd: { title: "מבנה EMD", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"EMD", generation:0, column:0}], edges:[], notes:[] },
+  pmd: { title: "מבנה PMD", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"PMD", generation:0, column:0}], edges:[], notes:[] },
+  pmd_plus: { title: "מבנה PMD+", highlightId: "you", nodes: [{id:"you", label:"אתה", code:"PMD+", generation:0, column:0}], edges:[], notes:[] }
 };
