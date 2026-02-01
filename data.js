@@ -1,10 +1,9 @@
-/* data.js - FINAL FIXED DATA */
+/* data.js - FIXED MATH & STRUCTURE */
 
-// 1. רשימת הדרגות
 window.RANKS = [
-  { id: "partner_plus", title: "Partner Plus", targetPoints: 4000, intro: "התקדמות ראשונה.", videoUrl: "https://youtu.be/M293NdN7Sok", bullets: ["יעד: 4,000 נקודות.", "עמלה: 14%.", "בונוס: 400 ₪."], nodeCode: "P+" },
-  { id: "senior_partner", title: "Senior Partner", targetPoints: 12000, intro: "בניית יציבות.", videoUrl: "https://youtu.be/fnG6Eld0SPk", bullets: ["יעד: 12,000 נקודות.", "עמלה: 19%.", "בונוס: 1,200 ₪."], nodeCode: "SP" },
-  { id: "sales_coordinator", title: "Sales Coordinator", targetPoints: 28000, intro: "דרגת מנהיגות.", videoUrl: "https://youtu.be/cyJb_ecWjyA", bullets: ["יעד: 28,000 נקודות.", "עמלה: 22%.", "בונוס: 3,600 ₪."], nodeCode: "SC" },
+  { id: "partner_plus", title: "Partner Plus", targetPoints: 4000, intro: "התקדמות ראשונה.", videoUrl: "https://youtu.be/M293NdN7Sok", bullets: ["יעד: 4,000 נקודות.", "בונוס: 400 ₪."], nodeCode: "P+" },
+  { id: "senior_partner", title: "Senior Partner", targetPoints: 12000, intro: "בניית יציבות.", videoUrl: "https://youtu.be/fnG6Eld0SPk", bullets: ["יעד: 12,000 נקודות.", "בונוס: 1,200 ₪."], nodeCode: "SP" },
+  { id: "sales_coordinator", title: "Sales Coordinator", targetPoints: 28000, intro: "דרגת מנהיגות.", videoUrl: "https://youtu.be/cyJb_ecWjyA", bullets: ["יעד: 28,000 נקודות.", "בונוס: 3,600 ₪."], nodeCode: "SC" },
   { id: "qssc", title: "QSSC", targetPoints: 56000, intro: "בדרך לטופ.", videoUrl: "https://youtu.be/ru06kEc9kqE", bullets: ["יעד: 56,000 נקודות.", "בונוס: 4,800 ₪."], nodeCode: "QSSC" },
   { id: "ssc", title: "Senior Sales Coordinator", targetPoints: 111000, intro: "ניהול בכיר.", videoUrl: "https://youtu.be/xPwmFecZ8Ms", bullets: ["יעד: 111,000 נקודות.", "בונוס: 10,000 ₪."], nodeCode: "SSC" },
   { id: "qnmd", title: "QNMD", targetPoints: 222000, intro: "לפני פסגה.", videoUrl: "https://youtu.be/W8Wm_c4kMUo", bullets: ["יעד: 222,000 נקודות.", "בונוס: 19,000 ₪."], nodeCode: "QNMD" },
@@ -15,7 +14,6 @@ window.RANKS = [
   { id: "pmd_plus", title: "PMD+", targetPoints: 1600000, intro: "הטופ.", videoUrl: "https://youtu.be/MVxQ4LPsj6w", bullets: ["יעד: 1,600,000 נקודות.", "בונוס: 200,000 ₪."], nodeCode: "PMD+" }
 ];
 
-// 2. מוצרים
 window.PRODUCTS = [
   { id: "fruit", title: "פירות (אדום)", subTitle: "Fruit Blend", intro: "המיטב של המטע.", image: "assets/cap_fruit.jpg", ingredients: "תפוחים, חמוציות...", vitamins: "A, C, E", benefits: ["בריאות העור"], usage: "2 ביום" },
   { id: "veg", title: "ירקות (ירוק)", subTitle: "Vegetable Blend", intro: "ירקות חיוניים.", image: "assets/cap_veg.jpg", ingredients: "גזר, כרוב...", vitamins: "A, C, E", benefits: ["חיזוק"], usage: "2 ביום" },
@@ -25,7 +23,6 @@ window.PRODUCTS = [
   { id: "choco", title: "שייק שוקולד", subTitle: "Complete Chocolate", intro: "ארוחה מלאה.", image: "assets/shake_choco.jpg", ingredients: "חלבון סויה...", vitamins: "ויטמינים ומינרלים", benefits: ["אנרגיה"], usage: "כף מדידה" }
 ];
 
-// 3. אסטרטגיות למחשבון
 window.STRATEGIES = [
   { name: "קפסולות פירות יער (380 נק')", points: 380 },
   { name: "מארז דואו (765 נק')", points: 765 },
@@ -39,8 +36,9 @@ window.STRATEGIES = [
   { name: "ערכה מלאה + קומבי (2561 נק')", points: 2561 }
 ];
 
-// 4. עצי דרגות מדויקים
+// --- 4. עצי דרגות ---
 window.RANK_TREES = {
+  // P+ (לפי התמונה: 4,576 סה"כ)
   partner_plus: {
     title: "מבנה Partner Plus",
     highlightId: "you",
@@ -51,9 +49,10 @@ window.RANK_TREES = {
       { id: "l3", label: "ימין", code: "P", pv: 866, generation: 1, column: 2 }
     ],
     edges: [{from:"you",to:"l1"}, {from:"you",to:"l2"}, {from:"you",to:"l3"}],
-    notes: ["סה\"כ 4,576 נקודות."]
+    notes: ["סה\"כ בתרשים: 4,576 נקודות (יעד 4,000 הושג)."]
   },
-  
+
+  // SP
   senior_partner: {
     title: "מבנה Senior Partner",
     highlightId: "you",
@@ -66,31 +65,32 @@ window.RANK_TREES = {
       { id: "sub2", label: "הזמנה", code: "O", pv: 1145, generation: 2, column: 4 }
     ],
     edges: [{from:"you",to:"l1"}, {from:"you",to:"l2"}, {from:"you",to:"l3"}, {from:"l1",to:"sub1"}, {from:"l3",to:"sub2"}],
-    notes: ["סה\"כ 12,090 נקודות."]
+    notes: ["סה\"כ בתרשים: 12,090 נקודות."]
   },
 
-  // SC - שחזור מדויק 1:1 לתמונה (עם המספרים הנכונים!)
+  // SC - מטימטיקה מתוקנת!
   sales_coordinator: {
-    title: "מבנה Sales Coordinator (28,100)",
+    title: "מבנה Sales Coordinator",
     highlightId: "you",
     nodes: [
+      // רמה 0
       { id: "you", label: "אתה (SC)", code: "SC", pv: 1245, generation: 0, column: 3 },
       
-      // שורה 1 (7 רגליים)
+      // רמה 1 (7 רגליים)
       { id: "leg1", label: "זכיין", code: "P", pv: 2561, generation: 1, column: 0 },
-      { id: "leg2", label: "זכיין", code: "P+", pv: 4300, generation: 1, column: 1 },
+      { id: "leg2", label: "זכיין (PB)", code: "P+", pv: 4300, generation: 1, column: 1 },
       { id: "leg3", label: "זכיין", code: "P", pv: 930, generation: 1, column: 2 },
       { id: "leg4", label: "זכיין", code: "P", pv: 2561, generation: 1, column: 3 },
       { id: "leg5", label: "זכיין", code: "P", pv: 2561, generation: 1, column: 4 },
       { id: "leg6", label: "לקוח", code: "Client", pv: 1631, generation: 1, column: 5 },
       { id: "leg7", label: "לקוח", code: "Client", pv: 2561, generation: 1, column: 6 },
 
-      // שורה 2 (ילדים)
+      // רמה 2
       { id: "sub4", label: "זכיין", code: "P", pv: 2561, generation: 2, column: 3 },
       { id: "sub5", label: "זכיין", code: "P", pv: 2561, generation: 2, column: 4 },
       { id: "sub7", label: "לקוח", code: "Client", pv: 436, generation: 2, column: 6 },
 
-      // שורה 3 (נכד)
+      // רמה 3
       { id: "subsub7", label: "זכיין", code: "P", pv: 2561, generation: 3, column: 6 }
     ],
     edges: [
@@ -98,15 +98,21 @@ window.RANK_TREES = {
       {from:"leg4",to:"sub4"}, {from:"leg5",to:"sub5"}, {from:"leg7",to:"sub7"},
       {from:"sub7",to:"subsub7"}
     ],
-    notes: ["סה\"כ: 28,100 נקודות.", "בונוס דרגה: 3,600 ₪ (1,200 + 2,400)."]
+    // חישוב מדויק: 1245 + 2561 + 4300 + 930 + 5122 + 5122 + 1631 + 5558 = 26,469
+    notes: [
+      "סה\"כ מוצג בתרשים: 26,469 נקודות.",
+      "יעד סופי לדרגה: 28,000 נקודות.",
+      "חסר להשלמה: 1,531 נקודות.",
+      "בונוס צפוי: 3,600 ₪."
+    ]
   },
   
   qssc: { title: "מבנה QSSC", nodes: [{id:"you", label:"אתה", code:"QSSC", generation:0, column:1}], edges:[], notes:[] },
-  ssc: { title: "מבנה SSC", nodes: [{id:"you", label:"אתה", code:"SSC", generation:0, column:1}], edges:[], notes:[] },
-  qnmd: { title: "מבנה QNMD", nodes: [{id:"you", label:"אתה", code:"QNMD", generation:0, column:1}], edges:[], notes:[] },
-  nmd: { title: "מבנה NMD", nodes: [{id:"you", label:"אתה", code:"NMD", generation:0, column:1}], edges:[], notes:[] },
-  imd: { title: "מבנה IMD", nodes: [{id:"you", label:"אתה", code:"IMD", generation:0, column:1}], edges:[], notes:[] },
-  emd: { title: "מבנה EMD", nodes: [{id:"you", label:"אתה", code:"EMD", generation:0, column:1}], edges:[], notes:[] },
-  pmd: { title: "מבנה PMD", nodes: [{id:"you", label:"אתה", code:"PMD", generation:0, column:1}], edges:[], notes:[] },
-  pmd_plus: { title: "מבנה PMD+", nodes: [{id:"you", label:"אתה", code:"PMD+", generation:0, column:1}], edges:[], notes:[] }
+  ssc: { title: "SSC", nodes: [{id:"you", label:"אתה", code:"SSC", generation:0, column:1}], edges:[], notes:[] },
+  qnmd: { title: "QNMD", nodes: [{id:"you", label:"אתה", code:"QNMD", generation:0, column:1}], edges:[], notes:[] },
+  nmd: { title: "NMD", nodes: [{id:"you", label:"אתה", code:"NMD", generation:0, column:1}], edges:[], notes:[] },
+  imd: { title: "IMD", nodes: [{id:"you", label:"אתה", code:"IMD", generation:0, column:1}], edges:[], notes:[] },
+  emd: { title: "EMD", nodes: [{id:"you", label:"אתה", code:"EMD", generation:0, column:1}], edges:[], notes:[] },
+  pmd: { title: "PMD", nodes: [{id:"you", label:"אתה", code:"PMD", generation:0, column:1}], edges:[], notes:[] },
+  pmd_plus: { title: "PMD+", nodes: [{id:"you", label:"אתה", code:"PMD+", generation:0, column:1}], edges:[], notes:[] }
 };
