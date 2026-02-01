@@ -1,4 +1,4 @@
-/* rank-tree.js - RECTANGLES */
+/* rank-tree.js - CARDS STYLE */
 document.addEventListener("DOMContentLoaded", () => {
     const mount = document.getElementById("rankTreeMount");
     if (!mount) return;
@@ -39,9 +39,9 @@ function drawTree(data, container) {
     const nodes = svg.selectAll("g").data(data.nodes).enter().append("g")
         .attr("transform", d => `translate(${xScale(d.column)},${yScale(d.generation)})`);
 
+    // מלבן
     const cardW = 110;
     const cardH = 55;
-
     nodes.append("rect")
         .attr("x", -cardW/2).attr("y", -cardH/2)
         .attr("width", cardW).attr("height", cardH)
@@ -50,10 +50,12 @@ function drawTree(data, container) {
         .attr("stroke", d => d.id === (data.highlightId || "you") ? "#16a34a" : "#64748b")
         .attr("stroke-width", 2);
 
+    // שם דרגה
     nodes.append("text").text(d => d.code)
         .attr("dy", -5).attr("text-anchor", "middle")
         .style("font-size", "14px").style("font-weight", "800").style("fill", "#1e293b");
 
+    // נקודות PV
     nodes.append("text").text(d => d.pv ? `PV ${d.pv.toLocaleString()}` : "")
         .attr("dy", 15).attr("text-anchor", "middle")
         .style("font-size", "11px").style("font-weight", "600").style("fill", "#0f766e");
