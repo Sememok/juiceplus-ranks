@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מפת דרגות - גרסה מתוקנת</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        :root { --primary: #16a34a; --secondary: #ff6b00; --bg: #f8fafc; --text: #1e293b; }
+        body { margin: 0; font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); padding-top: 70px; }
+        
+        /* Navbar */
+        .topbar { position: fixed; top: 0; left: 0; right: 0; height: 60px; background: white; display: flex; align-items: center; padding: 0 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); z-index: 1000; }
+        .topbar-inner { width: 100%; max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .brand-title { font-weight: 800; font-size: 1.2rem; color: var(--primary); }
+
+        /* Layout */
+        .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+        .card { background: white; border-radius: 16px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
+
+        /* Typography */
+        h1 { margin: 0 0 10px 0; color: var(--primary); }
+        .rank-intro { color: #64748b; font-size: 1.1rem; margin-bottom: 20px; }
+
+        /* Calculator */
+        .calc-box { background: #f0fdf4; border: 1px solid #bbf7d0; padding: 20px; border-radius: 12px; margin-bottom: 20px; }
+        .calc-header { font-weight: bold; color: #15803d; margin-bottom: 10px; display: flex; justify-content: space-between; }
+        .calc-row { display: flex; gap: 10px; }
+        input, select { padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; flex: 1; font-size: 1rem; }
+        button.calc-btn { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        .calc-result { margin-top: 15px; padding-top: 10px; border-top: 1px dashed #bbf7d0; font-weight: bold; color: #15803d; display: none; }
+
+        /* Navigation */
+        .nav-scroller { overflow-x: auto; white-space: nowrap; padding-bottom: 10px; margin-bottom: 15px; }
+        .nav-btn { display: inline-block; padding: 8px 16px; margin-left: 8px; background: white; border: 1px solid #cbd5e1; border-radius: 20px; text-decoration: none; color: #64748b; font-weight: 600; cursor: pointer; }
+        .nav-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+        /* Tree Visualization */
+        .tree-container { overflow-x: auto; text-align: center; padding: 20px 0; }
+        .math-summary { background: #fffbeb; padding: 10px; border-radius: 8px; border: 1px solid #fcd34d; margin-top: 10px; font-size: 0.9rem; color: #92400e; text-align: center; }
+
+        /* Video */
+        .video-wrap { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; background: black; }
+        .video-wrap iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+
+        /* Lists */
+        ul.bullets { padding-right: 20px; line-height: 1.6; }
+        
+        @media print { .no-print { display: none; } body { padding-top: 0; } }
+    </style>
+</head>
+<body>
+
+<header class="topbar">
+    <div class="topbar-inner">
+        <div class="brand-title">מפת הדרגות</div>
+        <button class="nav-btn no-print" onclick="window.print()">🖨️ הדפס</button>
+    </div>
+</header>
+
+<main class="container">
+    
+    <div class="nav-scroller no-print" id="navContainer"></div>
+
+    <div class="rank-content">
+        <div class="card">
+            <h1 id="rTitle">...</h1>
+            <div id="rIntro" class="rank-intro">...</div>
+            
+            <div class="calc-box no-print" id="calcSection">
+                <div class="calc-header">
+                    <span>🧮 מחשבון יעד</span>
+                    <span id="targetDisplay">יעד: 0</span>
+                </div>
+                <div class="calc-row">
+                    <input type="number" id="currPoints" placeholder="נקודות קיימות">
+                    <select id="packType">
+                        <option value="380">פירות יער (380)</option>
+                        <option value="765">דואו (765)</option>
+                        <option value="1145">שלישייה (1145)</option>
+                        <option value="1631">רביעייה (1631)</option>
+                        <option value="2561">ערכה מלאה (2561)</option>
+                    </select>
+                    <button class="calc-btn" onclick="runCalc()">חשב</button>
+                </div>
+                <div id="calcRes" class="calc-result"></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="video-wrap"><iframe id="rVideo" allowfullscreen></iframe></div>
+        </div>
+
+        <div class="card">
+            <h3>דגשים</h3>
+            <ul id="rBullets" class="bullets"></ul>
+        </div>
+
+        <div class="card">
+            <h2 style="border-bottom:1px solid #eee; padding-bottom:10px;">מבנה העץ (סימולציה)</h2>
+            <div id="treeMount" class="tree-container"></div>
+            <div id="mathSum" class="math-summary"></div>
+        </div>
+    </div>
+</main>
+
+<script>
+// --- נתונים (מעודכנים לפי התמונות) ---
+const RANKS = [
+    { 
+        id: "partner_plus", title: "Partner Plus (P+)", target: 4000, 
+        intro: "התקדמות ראשונה.", video: "M293NdN7Sok", 
+        bullets: ["יעד: 4,000 נקודות.", "עמלה: 14%.", "בונוס: 400 ₪."],
+        tree: {
+            nodes: [
+                { id: "me", code: "P+", pv: 866, col: 1, row: 0, type: "me" },
+                { id: "l", code: "P", pv: 283, col: 0, row: 1 },
+                { id: "m", code: "P", pv: 2561, col: 1, row: 1 },
+                { id: "r", code: "P", pv: 866, col: 2, row: 1 }
+            ],
+            edges: [{s:"me",t:"l"}, {s:"me",t:"m"}, {s:"me",t:"r"}]
+        }
+    },
+    { 
+        id: "senior_partner", title: "Senior Partner (SP)", target: 12000, 
+        intro: "בניית יציבות.", video: "fnG6Eld0SPk", 
+        bullets: ["יעד: 12,000 נקודות.", "עמלה: 19%.", "בונוס: 1,200 ₪."],
+        tree: {
+            nodes: [
+                { id: "me", code: "SP", pv: 2561, col: 2, row: 0, type: "me" },
+                { id: "l1", code: "P", pv: 4192, col: 0, row: 1 },
+                { id: "l2", code: "C", pv: 2561, col: 2, row: 1 },
+                { id: "l3", code: "P", pv: 2776, col: 4, row: 1 },
+                { id: "s1", code: "O", pv: 1631, col: 0, row: 2 },
+                { id: "s2", code: "O", pv: 1145, col: 4, row: 2 }
+            ],
+            edges: [{s:"me",t:"l1"}, {s:"me",t:"l2"}, {s:"me",t:"l3"}, {s:"l1",t:"s1"}, {s:"l3",t:"s2"}]
+        }
+    },
+    { 
+        id: "sales_coordinator", title: "Sales Coordinator (SC)", target: 28000, 
+        intro: "דרגת מנהיגות.", video: "cyJb_ecWjyA", 
+        bullets: ["יעד: 28,000 נקודות.", "עמלה: 22%.", "בונוס: 3,600 ₪."],
+        tree: {
+            // הנתונים המדויקים מהתמונה שלך
+            nodes: [
+                { id: "me", code: "SC", pv: 1245, col: 3, row: 0, type: "me" },
+                // שורה 1 (7 רגליים)
+                { id: "l1", code: "P", pv: 2561, col: 0, row: 1 },
+                { id: "l2", code: "P+", pv: 4300, col: 1, row: 1 },
+                { id: "l3", code: "P", pv: 930, col: 2, row: 1 },
+                { id: "l4", code: "P", pv: 2561, col: 3, row: 1 },
+                { id: "l5", code: "P", pv: 2561, col: 4, row: 1 },
+                { id: "l6", code: "C", pv: 1631, col: 5, row: 1 },
+                { id: "l7", code: "C", pv: 2561, col: 6, row: 1 },
+                // שורה 2
+                { id: "c4", code: "P", pv: 2561, col: 3, row: 2 },
+                { id: "c5", code: "P", pv: 2561, col: 4, row: 2 },
+                { id: "c7", code: "C", pv: 436, col: 6, row: 2 },
+                // שורה 3
+                { id: "g7", code: "P", pv: 2561, col: 6, row: 3 }
+            ],
+            edges: [
+                {s:"me",t:"l1"},{s:"me",t:"l2"},{s:"me",t:"l3"},{s:"me",t:"l4"},{s:"me",t:"l5"},{s:"me",t:"l6"},{s:"me",t:"l7"},
+                {s:"l4",t:"c4"},{s:"l5",t:"c5"},{s:"l7",t:"c7"},
+                {s:"c7",t:"g7"}
+            ]
+        }
+    },
+    // שאר הדרגות (בסיסיות למניעת קריסה)
+    { id: "qssc", title: "QSSC", target: 56000, intro: "בדרך לטופ.", video: "ru06kEc9kqE", bullets: [], tree: {nodes:[{id:"me",code:"QSSC",pv:0,col:1,row:0}], edges:[]} },
+    { id: "ssc", title: "SSC", target: 111000, intro: "ניהול בכיר.", video: "xPwmFecZ8Ms", bullets: [], tree: {nodes:[{id:"me",code:"SSC",pv:0,col:1,row:0}], edges:[]} },
+    { id: "qnmd", title: "QNMD", target: 222000, intro: "טרום פסגה.", video: "W8Wm_c4kMUo", bullets: [], tree: {nodes:[{id:"me",code:"QNMD",pv:0,col:1,row:0}], edges:[]} },
+    { id: "nmd", title: "NMD", target: 222000, intro: "הדרגה הלאומית.", video: "muieHSXIocI", bullets: [], tree: {nodes:[{id:"me",code:"NMD",pv:0,col:1,row:0}], edges:[]} },
+    { id: "imd", title: "IMD", target: 444000, intro: "בינלאומי.", video: "WeEZlCjHAtU", bullets: [], tree: {nodes:[{id:"me",code:"IMD",pv:0,col:1,row:0}], edges:[]} },
+    { id: "emd", title: "EMD", target: 666000, intro: "Executive.", video: "KpKDNIc8R7k", bullets: [], tree: {nodes:[{id:"me",code:"EMD",pv:0,col:1,row:0}], edges:[]} },
+    { id: "pmd", title: "PMD", target: 888000, intro: "פסגת המנהיגות.", video: "2i3sVTpFxts", bullets: [], tree: {nodes:[{id:"me",code:"PMD",pv:0,col:1,row:0}], edges:[]} },
+    { id: "pmd_plus", title: "PMD+", target: 1600000, intro: "הטופ.", video: "MVxQ4LPsj6w", bullets: [], tree: {nodes:[{id:"me",code:"PMD+",pv:0,col:1,row:0}], edges:[]} }
+];
+
+let currentRank = null;
+
+// --- אתחול ---
+document.addEventListener("DOMContentLoaded", () => {
+    // בניית תפריט
+    const nav = document.getElementById("navContainer");
+    RANKS.forEach((r, idx) => {
+        const btn = document.createElement("button");
+        btn.className = "nav-btn" + (idx===0 ? " active" : "");
+        btn.textContent = r.nodeCode || r.title; // שם קצר
+        btn.onclick = () => loadRank(r.id);
+        nav.appendChild(btn);
+    });
+
+    // טעינת ברירת מחדל (או לפי URL)
+    const urlId = new URLSearchParams(location.search).get("id");
+    loadRank(urlId || "partner_plus");
+});
+
+function loadRank(id) {
+    currentRank = RANKS.find(r => r.id === id) || RANKS[0];
+    
+    // עדכון UI
+    document.querySelectorAll(".nav-btn").forEach(b => {
+        b.classList.toggle("active", b.textContent === (currentRank.nodeCode || currentRank.title));
+    });
+
+    document.getElementById("rTitle").textContent = currentRank.title;
+    document.getElementById("rIntro").textContent = currentRank.intro;
+    document.getElementById("targetDisplay").textContent = `יעד: ${currentRank.target.toLocaleString()}`;
+    
+    // וידאו
+    const vidId = currentRank.video.includes("youtu") ? currentRank.video.split("/").pop() : currentRank.video;
+    document.getElementById("rVideo").src = `https://www.youtube.com/embed/${vidId}`;
+
+    // בולטים
+    const ul = document.getElementById("rBullets");
+    ul.innerHTML = "";
+    (currentRank.bullets || []).forEach(b => {
+        const li = document.createElement("li");
+        li.textContent = b;
+        ul.appendChild(li);
+    });
+
+    // ציור העץ
+    drawTree(currentRank.tree);
+}
+
+// --- לוגיקת מחשבון ---
+function runCalc() {
+    const cur = parseFloat(document.getElementById("currPoints").value) || 0;
+    const pack = parseFloat(document.getElementById("packType").value);
+    const target = currentRank.target;
+    const missing = Math.max(0, target - cur);
+    const needed = Math.ceil(missing / pack);
+    
+    const el = document.getElementById("calcRes");
+    el.style.display = "block";
+    if (missing <= 0) {
+        el.textContent = "🎉 היעד הושג!";
+        el.style.color = "green";
+    } else {
+        el.innerHTML = `חסר: ${missing.toLocaleString()} נק'.<br>צריך למכור עוד: ${needed} יחידות.`;
+        el.style.color = "#15803d";
+    }
+}
+
+// --- לוגיקת ציור (D3) ---
+function drawTree(data) {
+    const container = document.getElementById("treeMount");
+    container.innerHTML = "";
+    
+    // חישוב סכום אוטומטי (כדי שהמטימטיקה תהיה נכונה תמיד)
+    let totalPV = 0;
+    data.nodes.forEach(n => totalPV += n.pv);
+    
+    const summary = document.getElementById("mathSum");
+    summary.innerHTML = `סה"כ נקודות בתרשים: <b>${totalPV.toLocaleString()}</b> <br> (יעד הדרגה: ${currentRank.target.toLocaleString()})`;
+    if(totalPV >= currentRank.target) {
+        summary.style.background = "#dcfce7";
+        summary.style.borderColor = "#16a34a";
+        summary.innerHTML += " ✅ היעד הושג!";
+    } else {
+        summary.style.background = "#fffbeb";
+        summary.style.borderColor = "#fcd34d";
+    }
+
+    // הגדרות SVG
+    const width = 1000;
+    const height = 500;
+    const svg = d3.select(container).append("svg")
+        .attr("viewBox", `0 0 ${width} ${height}`)
+        .style("width", "100%")
+        .style("height", "auto")
+        .style("background", "white")
+        .style("border-radius", "10px");
+
+    // סולמות
+    const xScale = d3.scaleLinear().domain([0, 6]).range([70, width - 70]);
+    const yScale = d3.scaleLinear().domain([0, 3]).range([60, height - 100]);
+
+    // פונקציות עזר למיקום
+    const getX = (id) => { const n = data.nodes.find(x => x.id === id); return xScale(n.col); };
+    const getY = (id) => { const n = data.nodes.find(x => x.id === id); return yScale(n.row); };
+
+    // קווים
+    svg.selectAll("line")
+        .data(data.edges)
+        .enter().append("line")
+        .attr("x1", d => getX(d.s))
+        .attr("y1", d => getY(d.s) + 25)
+        .attr("x2", d => getX(d.t))
+        .attr("y2", d => getY(d.t) - 25)
+        .attr("stroke", "#94a3b8")
+        .attr("stroke-width", 2);
+
+    // צמתים
+    const nodes = svg.selectAll("g")
+        .data(data.nodes)
+        .enter().append("g")
+        .attr("transform", d => `translate(${xScale(d.col)},${yScale(d.row)})`);
+
+    // מלבן
+    nodes.append("rect")
+        .attr("x", -50).attr("y", -25)
+        .attr("width", 100).attr("height", 50)
+        .attr("rx", 6)
+        .attr("fill", d => d.type === "me" ? "#dcfce7" : "white")
+        .attr("stroke", d => d.type === "me" ? "#16a34a" : "#64748b")
+        .attr("stroke-width", 2);
+
+    // טקסט קוד
+    nodes.append("text").text(d => d.code)
+        .attr("dy", -5).attr("text-anchor", "middle")
+        .style("font-weight", "bold").style("fill", "#333");
+
+    // טקסט נקודות
+    nodes.append("text").text(d => d.pv.toLocaleString())
+        .attr("dy", 15).attr("text-anchor", "middle")
+        .style("font-size", "12px").style("fill", "#059669").style("font-weight", "bold");
+}
+</script>
+
+</body>
+</html>
