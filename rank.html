@@ -4,8 +4,18 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>דרגה</title>
-  <link rel="stylesheet" href="style.css?v=FINAL_9999">
+  <link rel="stylesheet" href="style.css?v=CALC_FIXED">
   <script src="https://d3js.org/d3.v7.min.js"></script>
+  <style>
+    /* סגנונות ספציפיים למחשבון */
+    .calc-card { background: #f0f9ff; border: 2px solid #bae6fd; padding: 25px; margin-bottom: 20px; border-radius: 12px; }
+    .calc-header { font-size: 1.3rem; font-weight: 800; color: #0369a1; margin-bottom: 10px; }
+    .calc-row { display: flex; gap: 10px; margin-bottom: 15px; }
+    .calc-input { flex: 1; padding: 12px; border: 1px solid #94a3b8; border-radius: 8px; font-size: 1rem; }
+    .calc-btn { background: #0284c7; color: white; padding: 12px 25px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
+    .calc-result { background: #ffffff; border: 1px solid #e2e8f0; padding: 20px; border-radius: 8px; display: none; text-align: center; margin-top: 15px; }
+    .res-big { font-size: 2.5rem; font-weight: 900; color: #0284c7; line-height: 1.1; margin: 10px 0; }
+  </style>
 </head>
 <body>
   <header class="topbar">
@@ -23,9 +33,27 @@
     <div class="rank-text-area">
       <section class="card"><h1 id="rankTitle">...</h1><p id="rankIntro"></p></section>
       
+      <section class="calc-card no-print" id="calculatorSection">
+        <div class="calc-header">🧮 מחשבון אסטרטגיה</div>
+        <div style="margin-bottom:10px;">יעד לדרגה: <b id="targetPointsDisplay">0</b> נקודות.</div>
+        <div class="calc-row">
+          <input type="number" id="currentPointsInput" class="calc-input" placeholder="כמה נקודות יש לך כרגע?">
+        </div>
+        <div class="calc-row">
+          <select id="strategySelect" class="calc-input"><option value="" disabled selected>בחר חבילה...</option></select>
+          <button class="calc-btn" onclick="calculateStrategy()">חשב</button>
+        </div>
+        <div id="calcResult" class="calc-result">
+          <div>חסר לך <b id="missingPoints">0</b> נקודות.</div>
+          <div>צריך למכור עוד:</div>
+          <div class="res-big" id="ordersNeeded">0</div>
+          <div id="strategyNameResult">חבילות</div>
+        </div>
+      </section>
+
       <section class="card videoWrap"><iframe id="rankVideo" class="videoFrame" allowfullscreen></iframe></section>
       
-      <section class="card"><ul id="rankBullets" class="bullets"></ul></section>
+      <section class="card"><h3>דגשים</h3><ul id="rankBullets" class="bullets"></ul></section>
 
       <section class="card tree-card-container">
         <h2 class="sectionTitle">מבנה העץ</h2>
@@ -34,11 +62,33 @@
     </div>
   </main>
 
-  <script src="brand-core.js?v=FINAL_9999"></script>
-  <script src="data.js?v=FINAL_9999"></script>
-  <script src="rank-tree.js?v=FINAL_9999"></script>
+  <script src="brand-core.js?v=CALC_FIXED"></script>
+  <script src="data.js?v=CALC_FIXED"></script>
+  <script src="rank-tree.js?v=CALC_FIXED"></script>
   
   <script>
+    let currentRankTarget = 0;
+
+    function calculateStrategy() {
+      const current = parseFloat(document.getElementById("currentPointsInput").value) || 0;
+      const stratPoints = parseFloat(document.getElementById("strategySelect").value);
+      const selIndex = document.getElementById("strategySelect").selectedIndex;
+      let stratName = "יחידות";
+      if(selIndex > 0) stratName = window.STRATEGIES[selIndex-1].name;
+
+      if(isNaN(stratPoints)) { alert("נא לבחור חבילה"); return; }
+
+      const missing = Math.max(0, currentRankTarget - current);
+      const needed = Math.ceil(missing / stratPoints);
+
+      document.getElementById("missingPoints").textContent = missing.toLocaleString();
+      document.getElementById("ordersNeeded").textContent = needed;
+      document.getElementById("strategyNameResult").textContent = "של " + stratName;
+      document.getElementById("calcResult").style.display = "block";
+      
+      if (missing <= 0) document.getElementById("ordersNeeded").textContent = "היעד הושג! 🎉";
+    }
+
     document.addEventListener("DOMContentLoaded", () => {
         const id = new URLSearchParams(location.search).get("id");
         
@@ -58,10 +108,28 @@
 
         const r = (window.RANKS||[]).find(x => x.id === id);
         if(!r) return;
+        
         document.getElementById("rankTitle").textContent = r.title;
         document.getElementById("rankIntro").textContent = r.intro;
         if(r.videoUrl) document.getElementById("rankVideo").src = "https://www.youtube.com/embed/" + r.videoUrl.split("/").pop().split("?")[0];
         
+        // אתחול מחשבון
+        if(r.targetPoints) {
+            currentRankTarget = r.targetPoints;
+            document.getElementById("targetPointsDisplay").textContent = currentRankTarget.toLocaleString();
+            const sel = document.getElementById("strategySelect");
+            if(window.STRATEGIES) {
+                window.STRATEGIES.forEach(s => {
+                    const opt = document.createElement("option");
+                    opt.value = s.points;
+                    opt.textContent = s.name;
+                    sel.appendChild(opt);
+                });
+            }
+        } else {
+            document.getElementById("calculatorSection").style.display = "none";
+        }
+
         const ul = document.getElementById("rankBullets");
         if(r.bullets) { ul.innerHTML = ""; r.bullets.forEach(b => { const li = document.createElement("li"); li.textContent = b; ul.appendChild(li); }); }
     });
