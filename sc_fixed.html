@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Coordinator - סימולציה מלאה</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        :root { --primary: #16a34a; --bg: #f8fafc; --text: #1e293b; --card-bg: #ffffff; }
+        body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; }
+        
+        /* Layout */
+        .container { max-width: 1000px; margin: 0 auto; }
+        .card { background: var(--card-bg); border-radius: 12px; padding: 25px; margin-bottom: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border: 1px solid #e2e8f0; }
+        
+        /* Typography */
+        h1 { margin: 0 0 10px 0; color: var(--primary); font-size: 1.8rem; }
+        p { margin: 0; color: #64748b; font-size: 1.1rem; }
+        
+        /* Calculator */
+        .calc-box { background: #f0fdf4; border: 1px solid #bbf7d0; padding: 20px; border-radius: 10px; margin-top: 20px; }
+        .calc-title { font-weight: bold; font-size: 1.1rem; margin-bottom: 10px; color: #166534; display: flex; align-items: center; gap: 8px; }
+        .calc-row { display: flex; gap: 10px; flex-wrap: wrap; }
+        input, select { padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; flex: 1; font-size: 1rem; }
+        button { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: bold; cursor: pointer; }
+        button:hover { background: #15803d; }
+        .calc-result { margin-top: 15px; padding-top: 15px; border-top: 1px solid #bbf7d0; text-align: center; display: none; }
+        
+        /* Tree */
+        .tree-container { overflow-x: auto; padding: 20px 0; text-align: center; }
+        .node-rect { fill: #fff; stroke: #cbd5e1; stroke-width: 2px; }
+        .node-rect.active { fill: #dcfce7; stroke: #16a34a; stroke-width: 3px; }
+        
+        /* Lists */
+        ul { padding-right: 20px; margin: 0; }
+        li { margin-bottom: 5px; }
+
+        /* Video */
+        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 10px; background: #000; }
+        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="card">
+        <h1>Sales Coordinator (SC)</h1>
+        <p>דרגת מנהיגות משמעותית. ניהול צוות רחב.</p>
+    </div>
+
+    <div class="card">
+        <div class="calc-box">
+            <div class="calc-title">🧮 מחשבון אסטרטגיה</div>
+            <div style="margin-bottom:10px;">יעד לדרגה: <b>28,000</b> נקודות</div>
+            <div class="calc-row">
+                <input type="number" id="myPoints" placeholder="הכנס נקודות קיימות">
+                <select id="packageType">
+                    <option value="380">פירות יער (380)</option>
+                    <option value="765">דואו (765)</option>
+                    <option value="1145">שלישייה (1145)</option>
+                    <option value="1631">רביעייה (1631)</option>
+                    <option value="2561">ערכה מלאה (2561)</option>
+                </select>
+                <button onclick="calculate()">חשב</button>
+            </div>
+            <div id="result" class="calc-result"></div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="video-wrapper">
+            <iframe src="https://www.youtube.com/embed/cyJb_ecWjyA" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>דגשים ובונוסים</h3>
+        <ul>
+            <li><strong>יעד:</strong> 28,000 נקודות.</li>
+            <li><strong>עמלה:</strong> 22% על מכירה אישית.</li>
+            <li><strong>בונוס:</strong> 3,600 ₪ (חלוקה: 1,200 בחודש הראשון, 2,400 בשני).</li>
+            <li><strong>דרישה:</strong> מבנה PB (זכיין אחד בדרגת P+ לפחות).</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2 style="border-bottom:1px solid #eee; padding-bottom:10px;">מבנה העץ (סימולציה)</h2>
+        <div id="treeViz" class="tree-container"></div>
+        <div style="text-align:center; color:#666; font-size:0.9rem; margin-top:10px;">
+            סה"כ נקודות בעץ: <b>28,100</b> (היעד הושג!)
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- נתוני העץ המדויקים מהתמונה שלך (SC) ---
+    const treeData = {
+        nodes: [
+            // רמה 0: אתה
+            { id: "you", code: "SC", pv: 1245, col: 3.5, row: 0, type: "me" },
+            
+            // רמה 1: 7 רגליים (0 עד 6)
+            { id: "l1", code: "P", pv: 2561, col: 0, row: 1 },
+            { id: "l2", code: "P+", pv: 4300, col: 1, row: 1 }, // PB
+            { id: "l3", code: "P", pv: 930, col: 2, row: 1 },
+            { id: "l4", code: "P", pv: 2561, col: 3, row: 1 }, // יש ילד
+            { id: "l5", code: "P", pv: 2561, col: 4, row: 1 }, // יש ילד
+            { id: "l6", code: "Client", pv: 1631, col: 5, row: 1 },
+            { id: "l7", code: "Client", pv: 2561, col: 6, row: 1 }, // יש ילד
+
+            // רמה 2: ילדים
+            { id: "l4_c", code: "P", pv: 2561, col: 3, row: 2 },
+            { id: "l5_c", code: "P", pv: 2561, col: 4, row: 2 },
+            { id: "l7_c", code: "Client", pv: 436, col: 6, row: 2 }, // יש נכד
+
+            // רמה 3: נכד
+            { id: "l7_g", code: "P", pv: 2561, col: 6, row: 3 }
+        ],
+        edges: [
+            { from: "you", to: "l1" }, { from: "you", to: "l2" }, { from: "you", to: "l3" },
+            { from: "you", to: "l4" }, { from: "you", to: "l5" }, { from: "you", to: "l6" }, { from: "you", to: "l7" },
+            { from: "l4", to: "l4_c" }, { from: "l5", to: "l5_c" }, { from: "l7", to: "l7_c" },
+            { from: "l7_c", to: "l7_g" }
+        ]
+    };
+
+    // --- לוגיקת ציור העץ (D3) ---
+    function renderTree() {
+        const container = document.getElementById("treeViz");
+        const width = 900;
+        const height = 500;
+        
+        const svg = d3.select(container).append("svg")
+            .attr("viewBox", `0 0 ${width} ${height}`)
+            .style("max-width", "100%")
+            .style("height", "auto");
+
+        const xScale = d3.scaleLinear().domain([0, 6.5]).range([50, width - 50]);
+        const yScale = d3.scaleLinear().domain([0, 3]).range([50, height - 80]);
+
+        // קווים
+        svg.selectAll("line")
+            .data(treeData.edges)
+            .enter().append("line")
+            .attr("x1", d => getNode(d.from).col * (width/7) + 50) // חישוב מיקום פשוט יותר ליציבות
+            .attr("y1", d => getNode(d.from).row * 120 + 50)
+            .attr("x2", d => getNode(d.to).col * (width/7) + 50)
+            .attr("y2", d => getNode(d.to).row * 120 + 50)
+            .attr("stroke", "#94a3b8")
+            .attr("stroke-width", 2);
+
+        // כרטיסים
+        const nodes = svg.selectAll("g")
+            .data(treeData.nodes)
+            .enter().append("g")
+            .attr("transform", d => `translate(${d.col * (width/7) + 50}, ${d.row * 120 + 50})`);
+
+        // רקע לבן לכרטיס כדי להסתיר קווים
+        nodes.append("rect")
+            .attr("x", -45).attr("y", -25)
+            .attr("width", 90).attr("height", 50)
+            .attr("rx", 6)
+            .attr("fill", d => d.type === "me" ? "#dcfce7" : "white")
+            .attr("stroke", d => d.type === "me" ? "#16a34a" : "#64748b")
+            .attr("stroke-width", d => d.type === "me" ? 3 : 1.5);
+
+        // טקסט קוד
+        nodes.append("text")
+            .text(d => d.code)
+            .attr("dy", -5)
+            .attr("text-anchor", "middle")
+            .style("font-weight", "bold")
+            .style("font-size", "14px")
+            .style("fill", "#333");
+
+        // טקסט נקודות
+        nodes.append("text")
+            .text(d => d.pv.toLocaleString())
+            .attr("dy", 15)
+            .attr("text-anchor", "middle")
+            .style("font-size", "12px")
+            .style("fill", "#059669")
+            .style("font-weight", "bold");
+    }
+
+    function getNode(id) { return treeData.nodes.find(n => n.id === id); }
+
+    // --- לוגיקת מחשבון ---
+    function calculate() {
+        const current = parseFloat(document.getElementById("myPoints").value) || 0;
+        const packPoints = parseFloat(document.getElementById("packageType").value);
+        const target = 28000;
+        
+        const missing = Math.max(0, target - current);
+        const needed = Math.ceil(missing / packPoints);
+        
+        const el = document.getElementById("result");
+        el.style.display = "block";
+        
+        if(missing <= 0) {
+            el.innerHTML = "<h3 style='color:green'>🎉 היעד הושג!</h3>";
+        } else {
+            el.innerHTML = `חסר: <b>${missing.toLocaleString()}</b> נקודות.<br>צריך למכור עוד <b>${needed}</b> יחידות.`;
+        }
+    }
+
+    // הרצת העץ בטעינה
+    renderTree();
+</script>
+
+</body>
+</html>
