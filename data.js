@@ -1,10 +1,4 @@
-/* data.js
-   FINAL CORRECTED VERSION - REAL DATA ONLY
-   SC Total: 28,100 (7 Legs)
-   P+ Total: 4,576 (3 Legs)
-*/
-
-// --- 1. רשימת הדרגות ---
+/* data.js - FINAL FORCE UPDATE */
 window.RANKS = [
   { id: "partner_plus", title: "Partner Plus", targetPoints: 4000, intro: "התקדמות ראשונה.", videoUrl: "https://youtu.be/M293NdN7Sok", bullets: ["יעד: 4,000 נקודות.", "עמלה: 14%.", "בונוס: 400 ₪."], nodeCode: "P+" },
   { id: "senior_partner", title: "Senior Partner", targetPoints: 12000, intro: "בניית יציבות.", videoUrl: "https://youtu.be/fnG6Eld0SPk", bullets: ["יעד: 12,000 נקודות.", "עמלה: 19%.", "בונוס: 1,200 ₪."], nodeCode: "SP" },
@@ -19,7 +13,6 @@ window.RANKS = [
   { id: "pmd_plus", title: "PMD+", targetPoints: 1600000, intro: "הטופ.", videoUrl: "https://youtu.be/MVxQ4LPsj6w", bullets: ["יעד: 1,600,000 נקודות.", "בונוס: 200,000 ₪."], nodeCode: "PMD+" }
 ];
 
-// --- 2. מוצרים ---
 window.PRODUCTS = [
   { id: "fruit", title: "פירות (אדום)", subTitle: "Fruit Blend", intro: "המיטב של המטע.", image: "assets/cap_fruit.jpg", ingredients: "תפוחים, חמוציות...", vitamins: "A, C, E", benefits: ["בריאות העור"], usage: "2 ביום" },
   { id: "veg", title: "ירקות (ירוק)", subTitle: "Vegetable Blend", intro: "ירקות חיוניים.", image: "assets/cap_veg.jpg", ingredients: "גזר, כרוב...", vitamins: "A, C, E", benefits: ["חיזוק"], usage: "2 ביום" },
@@ -42,29 +35,26 @@ window.STRATEGIES = [
   { name: "ערכה מלאה + קומבי (2561 נק')", points: 2561 }
 ];
 
-// --- 4. עצי דרגות מדויקים לפי התמונות ---
 window.RANK_TREES = {
-  // P+ (לפי התמונה: 3 רגליים, סה"כ 4576)
   partner_plus: {
-    title: "מבנה Partner Plus",
+    title: "Partner Plus (P+)",
     highlightId: "you",
     nodes: [
       { id: "you", label: "אתה", code: "P+", pv: 866, generation: 0, column: 1 },
-      { id: "left", label: "שמאל", code: "P", pv: 283, generation: 1, column: 0 },
-      { id: "mid", label: "אמצע", code: "P", pv: 2561, generation: 1, column: 1 },
-      { id: "right", label: "ימין", code: "P", pv: 866, generation: 1, column: 2 }
+      { id: "l1", label: "שמאל", code: "P", pv: 283, generation: 1, column: 0 },
+      { id: "l2", label: "אמצע", code: "P", pv: 2561, generation: 1, column: 1 },
+      { id: "l3", label: "ימין", code: "P", pv: 866, generation: 1, column: 2 }
     ],
-    edges: [{from:"you",to:"left"}, {from:"you",to:"mid"}, {from:"you",to:"right"}],
+    edges: [{from:"you",to:"l1"}, {from:"you",to:"l2"}, {from:"you",to:"l3"}],
     notes: ["סה\"כ 4,576 נקודות."]
   },
-
   senior_partner: {
-    title: "מבנה Senior Partner",
+    title: "Senior Partner (SP)",
     highlightId: "you",
     nodes: [
       { id: "you", label: "אתה", code: "SP", pv: 2561, generation: 0, column: 2 },
       { id: "l1", label: "זכיין", code: "P", pv: 4192, generation: 1, column: 0 },
-      { id: "l2", label: "לקוח", code: "Client", pv: 2561, generation: 1, column: 2 },
+      { id: "l2", label: "לקוח", code: "C", pv: 2561, generation: 1, column: 2 },
       { id: "l3", label: "זכיין", code: "P", pv: 2776, generation: 1, column: 4 },
       { id: "sub1", label: "הזמנה", code: "O", pv: 1631, generation: 2, column: 0 },
       { id: "sub2", label: "הזמנה", code: "O", pv: 1145, generation: 2, column: 4 }
@@ -72,30 +62,21 @@ window.RANK_TREES = {
     edges: [{from:"you",to:"l1"}, {from:"you",to:"l2"}, {from:"you",to:"l3"}, {from:"l1",to:"sub1"}, {from:"l3",to:"sub2"}],
     notes: ["סה\"כ 12,090 נקודות."]
   },
-
-  // SC - שחזור מדויק 1:1 לתמונה (7 רגליים לרוחב)
   sales_coordinator: {
-    title: "מבנה Sales Coordinator (28,100)",
+    title: "Sales Coordinator (SC)",
     highlightId: "you",
     nodes: [
-      // שורה 0: אתה (1245)
-      { id: "you", label: "אתה", code: "SC", pv: 1245, generation: 0, column: 3 },
-      
-      // שורה 1: 7 רגליים פרוסות (0 עד 6)
+      { id: "you", label: "אתה (SC)", code: "SC", pv: 1245, generation: 0, column: 3 },
       { id: "leg1", label: "זכיין", code: "P", pv: 2561, generation: 1, column: 0 },
-      { id: "leg2", label: "זכיין", code: "P+", pv: 4300, generation: 1, column: 1 },
+      { id: "leg2", label: "זכיין (P+)", code: "P+", pv: 4300, generation: 1, column: 1 },
       { id: "leg3", label: "זכיין", code: "P", pv: 930, generation: 1, column: 2 },
       { id: "leg4", label: "זכיין", code: "P", pv: 2561, generation: 1, column: 3 },
       { id: "leg5", label: "זכיין", code: "P", pv: 2561, generation: 1, column: 4 },
       { id: "leg6", label: "לקוח", code: "C", pv: 1631, generation: 1, column: 5 },
       { id: "leg7", label: "לקוח", code: "C", pv: 2561, generation: 1, column: 6 },
-
-      // שורה 2: ילדים
       { id: "sub4", label: "זכיין", code: "P", pv: 2561, generation: 2, column: 3 },
       { id: "sub5", label: "זכיין", code: "P", pv: 2561, generation: 2, column: 4 },
       { id: "sub7", label: "לקוח", code: "C", pv: 436, generation: 2, column: 6 },
-
-      // שורה 3: נכד
       { id: "subsub7", label: "זכיין", code: "P", pv: 2561, generation: 3, column: 6 }
     ],
     edges: [
@@ -105,14 +86,12 @@ window.RANK_TREES = {
     ],
     notes: ["סה\"כ 28,100 נקודות.", "בונוס: 3,600 ₪."]
   },
-  
-  // שאר הדרגות
-  qssc: { title: "מבנה QSSC", nodes: [{id:"you", label:"אתה", code:"QSSC", generation:0, column:1}], edges:[], notes:[] },
-  ssc: { title: "מבנה SSC", nodes: [{id:"you", label:"אתה", code:"SSC", generation:0, column:1}], edges:[], notes:[] },
-  qnmd: { title: "מבנה QNMD", nodes: [{id:"you", label:"אתה", code:"QNMD", generation:0, column:1}], edges:[], notes:[] },
-  nmd: { title: "מבנה NMD", nodes: [{id:"you", label:"אתה", code:"NMD", generation:0, column:1}], edges:[], notes:[] },
-  imd: { title: "מבנה IMD", nodes: [{id:"you", label:"אתה", code:"IMD", generation:0, column:1}], edges:[], notes:[] },
-  emd: { title: "מבנה EMD", nodes: [{id:"you", label:"אתה", code:"EMD", generation:0, column:1}], edges:[], notes:[] },
-  pmd: { title: "מבנה PMD", nodes: [{id:"you", label:"אתה", code:"PMD", generation:0, column:1}], edges:[], notes:[] },
-  pmd_plus: { title: "מבנה PMD+", nodes: [{id:"you", label:"אתה", code:"PMD+", generation:0, column:1}], edges:[], notes:[] }
+  qssc: { title: "QSSC", nodes: [{id:"you", label:"אתה", code:"QSSC", generation:0, column:1}], edges:[], notes:[] },
+  ssc: { title: "SSC", nodes: [{id:"you", label:"אתה", code:"SSC", generation:0, column:1}], edges:[], notes:[] },
+  qnmd: { title: "QNMD", nodes: [{id:"you", label:"אתה", code:"QNMD", generation:0, column:1}], edges:[], notes:[] },
+  nmd: { title: "NMD", nodes: [{id:"you", label:"אתה", code:"NMD", generation:0, column:1}], edges:[], notes:[] },
+  imd: { title: "IMD", nodes: [{id:"you", label:"אתה", code:"IMD", generation:0, column:1}], edges:[], notes:[] },
+  emd: { title: "EMD", nodes: [{id:"you", label:"אתה", code:"EMD", generation:0, column:1}], edges:[], notes:[] },
+  pmd: { title: "PMD", nodes: [{id:"you", label:"אתה", code:"PMD", generation:0, column:1}], edges:[], notes:[] },
+  pmd_plus: { title: "PMD+", nodes: [{id:"you", label:"אתה", code:"PMD+", generation:0, column:1}], edges:[], notes:[] }
 };
