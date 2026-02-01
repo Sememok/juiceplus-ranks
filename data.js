@@ -54,15 +54,18 @@ window.RANK_TREES = {
     title: "מבנה Senior Partner",
     highlightId: "you",
     nodes: [
-      { id: "you", label: "אתה", code: "SP", pv: 2561, generation: 0, column: 2 },
+      { id: "you", label: "אתה", code: "SP", pv: 2561, generation: 0, column: 1 },
       { id: "l1", label: "זכיין", code: "P", pv: 4192, generation: 1, column: 0 },
-      { id: "l2", label: "לקוח", code: "C", pv: 2561, generation: 1, column: 2 },
-      { id: "l3", label: "זכיין", code: "P", pv: 2776, generation: 1, column: 4 },
-      { id: "sub1", label: "הזמנה", code: "O", pv: 1631, generation: 2, column: 0 },
-      { id: "sub2", label: "הזמנה", code: "O", pv: 1145, generation: 2, column: 4 }
+      { id: "l2", label: "לקוח", code: "לקוח", pv: 2561, generation: 1, column: 1 },
+      { id: "l3", label: "זכיין", code: "P", pv: 2776, generation: 1, column: 2 }
     ],
-    edges: [{from:"you",to:"l1"}, {from:"you",to:"l2"}, {from:"you",to:"l3"}, {from:"l1",to:"sub1"}, {from:"l3",to:"sub2"}],
-    notes: ["סה\"כ בתרשים: 12,090 נקודות."]
+    edges: [{from:"you",to:"l1"}, {from:"you",to:"l2"}, {from:"you",to:"l3"}],
+    notes: [
+      "סה\"כ בתרשים: 12,090 נקודות (יעד 12,000 הושג).",
+      "זכיין שמאל (P 4,192): הזמנה 90 + לקוח כלשהו.",
+      "זכיין ימין (P 2,776): הזמנה 1,145 + הזמנה 946 + לקוח 6,000.",
+      "בונוס צפוי: 1,200 ₪."
+    ]
   },
 
   sales_coordinator: {
@@ -91,7 +94,8 @@ window.RANK_TREES = {
       "סה\"כ מוצג בתרשים: 26,469 נקודות.",
       "יעד סופי לדרגה: 28,000 נקודות.",
       "חסר להשלמה: 1,531 נקודות.",
-      "בונוס צפוי: 3,600 ₪."
+      "מינימום 2 רגופים (P+) נדרשים.",
+      "בונוס צפוי: 3,600 ₪ (כולל 1,200 ₪ תשומה + 2,400 ₪ הלוכתני)."
     ]
   },
   
