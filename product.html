@@ -3,43 +3,60 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>מוצר</title>
-  <link rel="stylesheet" href="style.css?v=RESTORE_OK" />
+  <title>מוצר – Juice Plus+</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header class="topbar">
-    <div class="topbar-inner"><div class="brand-left"><a class="btn ghost" href="products.html">קטלוג</a></div><div class="brand-title">פרטי מוצר</div></div>
+    <div class="topbar-inner">
+      <div class="brand-left">
+        <a class="btn ghost" href="products.html">← חזרה לקטלוג</a>
+      </div>
+      <div class="brand-center">
+        <div class="brand-title">🍎 Juice Plus+</div>
+      </div>
+    </div>
   </header>
+
   <main class="container">
-      <section class="card" style="text-align:center">
-        <h1 id="pTitle">...</h1>
-        <img id="pImg" class="product-img">
-        <div class="ingredients-box">
-            <strong>רכיבים:</strong> <span id="pIng"></span><br><br>
-            <strong>ויטמינים:</strong> <span id="pVit"></span>
-        </div>
-        <div class="nav-actions">
-           <a id="btnPrev" href="#" class="btn-nav">קודם</a>
-           <a id="btnNext" href="#" class="btn-nav">הבא</a>
-        </div>
-      </section>
+    <div id="productDetail"></div>
   </main>
-  <script src="data.js?v=RESTORE_OK"></script>
+
+  <script src="data.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const id = new URLSearchParams(location.search).get("id");
-      const idx = (window.PRODUCTS||[]).findIndex(p => p.id === id);
-      const prod = window.PRODUCTS[idx];
-      if (!prod) return;
-      document.getElementById("pTitle").textContent = prod.title;
-      document.getElementById("pImg").src = prod.image;
-      document.getElementById("pIng").textContent = prod.ingredients;
-      document.getElementById("pVit").textContent = prod.vitamins;
-      
-      const prev = (idx - 1 + window.PRODUCTS.length) % window.PRODUCTS.length;
-      const next = (idx + 1) % window.PRODUCTS.length;
-      document.getElementById("btnPrev").href = `product.html?id=${window.PRODUCTS[prev].id}`;
-      document.getElementById("btnNext").href = `product.html?id=${window.PRODUCTS[next].id}`;
+      const container = document.getElementById("productDetail");
+
+      if (!id || !window.PRODUCTS) {
+        location.href = "products.html";
+        return;
+      }
+
+      const p = window.PRODUCTS.find(x => x.id === id);
+      if (!p) {
+        location.href = "products.html";
+        return;
+      }
+
+      document.title = p.title + " – Juice Plus+";
+
+      container.innerHTML = `
+        <section class="card">
+          <div class="product-detail-hero">
+            <img src="${p.image}" class="product-detail-img" alt="${p.title}" onerror="this.style.background='#e2e8f0'">
+            <div class="product-detail-info">
+              <h1>${p.title}</h1>
+              <p style="color:#64748b; font-size:1.05rem;">${p.subTitle}</p>
+              <p style="color:#475569;">${p.intro}</p>
+              <div class="detail-row"><strong>מרכיבים:</strong> ${p.ingredients}</div>
+              <div class="detail-row"><strong>ויטמינים:</strong> ${p.vitamins}</div>
+              <div class="detail-row"><strong>יתרונות:</strong> ${p.benefits.join(", ")}</div>
+              <div class="detail-row"><strong>מינון:</strong> ${p.usage}</div>
+            </div>
+          </div>
+        </section>
+      `;
     });
   </script>
 </body>
