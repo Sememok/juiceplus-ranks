@@ -3,46 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>מפת דרגות - גרסה סופית מאוחדת</title>
+    <title>מפת דרגות - גרסה סופית</title>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <style>
-        :root { --primary: #16a34a; --secondary: #ff6b00; --bg: #f8fafc; --text: #1e293b; }
-        body { margin: 0; font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); padding-top: 70px; padding-bottom: 50px; }
+        :root { --primary: #16a34a; --bg: #f8fafc; --text: #1e293b; }
+        body { margin: 0; font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); padding: 20px; padding-top: 80px; }
         
-        /* Topbar */
+        /* סרגל עליון */
         .topbar { position: fixed; top: 0; left: 0; right: 0; height: 60px; background: white; display: flex; align-items: center; padding: 0 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); z-index: 1000; border-bottom: 1px solid #e2e8f0; }
-        .brand { font-weight: 800; font-size: 1.4rem; color: var(--primary); margin-left: 20px; }
-        .brand span { color: #64748b; font-weight: 400; font-size: 1rem; }
+        .brand { font-weight: 800; font-size: 1.4rem; color: var(--primary); }
 
-        /* Container & Cards */
-        .container { max-width: 1000px; margin: 0 auto; padding: 0 15px; }
+        /* כרטיסים כלליים */
+        .container { max-width: 1100px; margin: 0 auto; }
         .card { background: white; border-radius: 12px; padding: 25px; margin-bottom: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
         
-        /* Typography */
-        h1 { margin: 0 0 5px 0; color: var(--primary); font-size: 1.8rem; }
-        .subtitle { color: #64748b; font-size: 1.1rem; margin-bottom: 15px; }
-        h3 { margin-top: 0; color: #334155; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px; }
+        /* כפתורי ניווט */
+        .nav-wrapper { overflow-x: auto; white-space: nowrap; padding-bottom: 10px; margin-bottom: 10px; }
+        .nav-btn { display: inline-block; padding: 8px 20px; margin-left: 10px; background: white; border: 1px solid #cbd5e1; border-radius: 20px; cursor: pointer; font-weight: bold; color: #64748b; transition: 0.2s; }
+        .nav-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
 
-        /* Navigation */
-        .nav-scroll { overflow-x: auto; white-space: nowrap; padding-bottom: 10px; margin-bottom: 20px; }
-        .nav-btn { display: inline-block; padding: 8px 18px; margin-left: 10px; background: white; border: 1px solid #cbd5e1; border-radius: 25px; color: #64748b; font-weight: 600; cursor: pointer; transition: all 0.2s; }
-        .nav-btn:hover { border-color: var(--primary); color: var(--primary); }
-        .nav-btn.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 6px -1px rgba(22, 163, 74, 0.3); }
+        /* מחשבון */
+        .calc-box { background: #f0fdf4; border: 1px solid #bbf7d0; padding: 15px; border-radius: 10px; margin-top: 15px; }
+        .calc-row { display: flex; gap: 10px; margin-top: 10px; }
+        input, select { padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; flex: 1; }
+        button.action-btn { background: var(--primary); color: white; border: none; padding: 0 20px; border-radius: 6px; font-weight: bold; cursor: pointer; }
+        .calc-res { margin-top: 10px; font-weight: bold; color: #166534; display: none; padding-top: 10px; border-top: 1px dashed #86efac; }
 
-        /* Calculator */
-        .calc-wrapper { background: #f0fdf4; border: 1px solid #bbf7d0; padding: 20px; border-radius: 10px; }
-        .calc-row { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
-        .calc-input { flex: 1; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 1rem; }
-        .calc-btn { background: var(--primary); color: white; border: none; padding: 0 25px; border-radius: 6px; font-weight: bold; cursor: pointer; }
-        .calc-res { margin-top: 15px; padding-top: 10px; border-top: 1px dashed #86efac; font-weight: bold; color: #166534; display: none; }
+        /* עץ */
+        .tree-container { overflow-x: auto; text-align: center; padding: 20px 0; min-height: 300px; }
+        .math-summary { background: #fffbeb; border: 1px solid #fcd34d; color: #92400e; padding: 10px; text-align: center; font-weight: bold; border-radius: 8px; margin-top: 5px; }
 
-        /* Tree Visualization */
-        .tree-wrapper { overflow-x: auto; text-align: center; padding: 20px 0; }
-        .math-box { background: #fffbeb; border: 1px solid #fcd34d; color: #92400e; padding: 10px; border-radius: 8px; text-align: center; font-weight: bold; margin-top: 10px; }
-
-        /* List & Video */
-        ul.bullets { padding-right: 20px; color: #475569; line-height: 1.6; }
-        .video-box { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 10px; background: #000; }
+        /* וידאו */
+        .video-box { position: relative; padding-bottom: 56.25%; height: 0; background: #000; border-radius: 10px; overflow: hidden; }
         .video-box iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
 
         @media print { .no-print { display: none; } }
@@ -51,279 +43,127 @@
 <body>
 
 <div class="topbar">
-    <div class="container" style="width:100%; display:flex; justify-content:space-between; align-items:center;">
-        <div class="brand">Juice Plus+ <span>מפת הדרגות</span></div>
-        <button onclick="window.print()" class="nav-btn no-print" style="margin:0;">🖨️ הדפס</button>
+    <div class="container" style="width:100%; display:flex; justify-content:space-between;">
+        <div class="brand">Juice Plus+</div>
+        <button class="nav-btn no-print" onclick="window.print()">🖨️ הדפס</button>
     </div>
 </div>
 
 <div class="container">
-    <div id="navContainer" class="nav-scroll no-print"></div>
+    <div id="navMenu" class="nav-wrapper no-print"></div>
 
-    <div id="mainContent">
-        <div class="card">
-            <h1 id="rTitle">...</h1>
-            <div id="rIntro" class="subtitle">...</div>
-            
-            <div class="calc-wrapper no-print">
-                <div style="font-weight:bold; color:#15803d;">🧮 מחשבון יעד לדרגה</div>
-                <div class="calc-row">
-                    <input type="number" id="currP" class="calc-input" placeholder="נקודות קיימות אצלך">
-                    <select id="packType" class="calc-input">
-                        <option value="380">פירות יער (380)</option>
-                        <option value="765">דואו (765)</option>
-                        <option value="1145">שלישייה (1145)</option>
-                        <option value="1631">רביעייה (1631)</option>
-                        <option value="2561">ערכה מלאה (2561)</option>
-                    </select>
-                    <button onclick="calc()" class="calc-btn">חשב</button>
-                </div>
-                <div id="calcRes" class="calc-res"></div>
+    <div class="card">
+        <h1 id="rTitle" style="margin:0; color:#16a34a;">...</h1>
+        <p id="rIntro" style="color:#64748b; font-size:1.1rem;">...</p>
+        
+        <div class="calc-box no-print">
+            <div style="display:flex; justify-content:space-between;">
+                <b>🧮 מחשבון יעד</b>
+                <span id="targetText">יעד: 0</span>
             </div>
+            <div class="calc-row">
+                <input type="number" id="currPoints" placeholder="נקודות קיימות">
+                <select id="packType">
+                    <option value="380">פירות יער (380)</option>
+                    <option value="765">דואו (765)</option>
+                    <option value="1145">שלישייה (1145)</option>
+                    <option value="1631">רביעייה (1631)</option>
+                    <option value="2561">ערכה מלאה (2561)</option>
+                </select>
+                <button class="action-btn" onclick="calculate()">חשב</button>
+            </div>
+            <div id="calcResult" class="calc-res"></div>
         </div>
+    </div>
 
-        <div class="card">
-            <h3>סרטון הדרכה</h3>
-            <div class="video-box"><iframe id="rVideo" allowfullscreen></iframe></div>
-            <br>
-            <h3>דגשים חשובים</h3>
-            <ul id="rBullets" class="bullets"></ul>
+    <div class="card">
+        <h3>סרטון הדרכה</h3>
+        <div class="video-box"><iframe id="rVideo" allowfullscreen></iframe></div>
+        <div style="margin-top:20px;">
+            <h3>דגשים ובונוסים</h3>
+            <ul id="rBullets" style="padding-right:20px; line-height:1.6;"></ul>
         </div>
+    </div>
 
-        <div class="card">
-            <h3 style="text-align:center;">מבנה העץ (סימולציה)</h3>
-            <div id="treeMount" class="tree-wrapper"></div>
-            <div id="mathBox" class="math-box"></div>
-        </div>
+    <div class="card">
+        <h3 style="text-align:center; border-bottom:1px solid #eee; padding-bottom:10px;">מבנה העץ (סימולציה)</h3>
+        <div id="mathBox" class="math-summary"></div>
+        <div id="treeArea" class="tree-container"></div>
     </div>
 </div>
 
 <script>
-// --- הנתונים המדויקים מהתמונות ---
-const DATA = {
-    // SC - שחזור מדויק 7 רגליים
-    "sc": {
-        title: "Sales Coordinator (SC)",
-        target: 28000,
-        intro: "דרגת מנהיגות. ניהול צוות רחב.",
-        video: "cyJb_ecWjyA",
-        bullets: [
-            "יעד: 28,000 נקודות.",
-            "בונוס: 3,600 ₪ (1,200 בחודש הראשון + 2,400 בשני).",
-            "דרישה: מבנה PB (זכיין אחד P+).",
-            "עמלה: 22%."
-        ],
-        tree: {
-            nodes: [
-                // שורה 0: אתה
-                { id: "me", code: "SC", pv: 1245, col: 3, row: 0, type: "me" },
-                // שורה 1 (7 רגליים)
-                { id: "l1", code: "P", pv: 2561, col: 0, row: 1 },
-                { id: "l2", code: "P+", pv: 4300, col: 1, row: 1 }, // PB
-                { id: "l3", code: "P", pv: 930, col: 2, row: 1 },
-                { id: "l4", code: "P", pv: 2561, col: 3, row: 1 }, // יש ילד
-                { id: "l5", code: "P", pv: 2561, col: 4, row: 1 }, // יש ילד
-                { id: "l6", code: "Client", pv: 1631, col: 5, row: 1 },
-                { id: "l7", code: "Client", pv: 2561, col: 6, row: 1 }, // יש ילד
-                // שורה 2 (ילדים)
-                { id: "c4", code: "P", pv: 2561, col: 3, row: 2 },
-                { id: "c5", code: "P", pv: 2561, col: 4, row: 2 },
-                { id: "c7", code: "Client", pv: 436, col: 6, row: 2 }, // יש נכד
-                // שורה 3 (נכד)
-                { id: "g7", code: "P", pv: 2561, col: 6, row: 3 }
+    // --- הנתונים המדויקים (HARDCODED) ---
+    const RANKS = {
+        // Sales Coordinator: שחזור מדויק 1:1 לתמונה (7 רגליים, 28,100 נקודות)
+        "sc": {
+            title: "Sales Coordinator (SC)",
+            target: 28000,
+            intro: "דרגת מנהיגות. ניהול צוות רחב.",
+            video: "cyJb_ecWjyA",
+            bullets: [
+                "יעד: 28,000 נקודות.",
+                "בונוס: 3,600 ₪ (חלוקה: 1,200 + 2,400).",
+                "דרישה: מבנה PB (זכיין אחד P+).",
+                "עמלה: 22%."
             ],
-            edges: [
-                {s:"me",t:"l1"},{s:"me",t:"l2"},{s:"me",t:"l3"},{s:"me",t:"l4"},{s:"me",t:"l5"},{s:"me",t:"l6"},{s:"me",t:"l7"},
-                {s:"l4",t:"c4"},{s:"l5",t:"c5"},{s:"l7",t:"c7"},
-                {s:"c7",t:"g7"}
-            ]
-        }
-    },
-    // Partner Plus
-    "pp": {
-        title: "Partner Plus (P+)",
-        target: 4000,
-        intro: "התקדמות ראשונה.",
-        video: "M293NdN7Sok",
-        bullets: ["יעד: 4,000 נקודות.", "בונוס: 400 ₪.", "עמלה: 14%."],
-        tree: {
-            nodes: [
-                { id: "me", code: "P+", pv: 866, col: 1, row: 0, type: "me" },
-                { id: "l", code: "P", pv: 283, col: 0, row: 1 },
-                { id: "m", code: "P", pv: 2561, col: 1, row: 1 },
-                { id: "r", code: "P", pv: 866, col: 2, row: 1 }
-            ],
-            edges: [{s:"me",t:"l"}, {s:"me",t:"m"}, {s:"me",t:"r"}]
-        }
-    },
-    // Senior Partner
-    "sp": {
-        title: "Senior Partner (SP)",
-        target: 12000,
-        intro: "בניית יציבות.",
-        video: "fnG6Eld0SPk",
-        bullets: ["יעד: 12,000 נקודות.", "בונוס: 1,200 ₪.", "עמלה: 19%."],
-        tree: {
-            nodes: [
-                { id: "me", code: "SP", pv: 2561, col: 2, row: 0, type: "me" },
-                { id: "l1", code: "P", pv: 4192, col: 0, row: 1 },
-                { id: "l2", code: "Client", pv: 2561, col: 2, row: 1 },
-                { id: "l3", code: "P", pv: 2776, col: 4, row: 1 },
-                { id: "c1", code: "Order", pv: 1631, col: 0, row: 2 },
-                { id: "c3", code: "Order", pv: 1145, col: 4, row: 2 }
-            ],
-            edges: [{s:"me",t:"l1"},{s:"me",t:"l2"},{s:"me",t:"l3"},{s:"l1",t:"c1"},{s:"l3",t:"c3"}]
-        }
-    },
-    // Placeholder for others
-    "qssc": { title: "QSSC", target: 56000, intro: "בדרך לטופ.", video: "ru06kEc9kqE", bullets: ["יעד: 56,000"], tree: {nodes:[{id:"me",code:"QSSC",pv:0,col:1,row:0}], edges:[]} },
-    "ssc": { title: "SSC", target: 111000, intro: "ניהול בכיר.", video: "xPwmFecZ8Ms", bullets: ["יעד: 111,000"], tree: {nodes:[{id:"me",code:"SSC",pv:0,col:1,row:0}], edges:[]} },
-    "qnmd": { title: "QNMD", target: 222000, intro: "טרום פסגה.", video: "W8Wm_c4kMUo", bullets: ["יעד: 222,000"], tree: {nodes:[{id:"me",code:"QNMD",pv:0,col:1,row:0}], edges:[]} },
-    "nmd": { title: "NMD", target: 222000, intro: "הדרגה הלאומית.", video: "muieHSXIocI", bullets: ["יעד: 222,000"], tree: {nodes:[{id:"me",code:"NMD",pv:0,col:1,row:0}], edges:[]} },
-    "imd": { title: "IMD", target: 444000, intro: "בינלאומי.", video: "WeEZlCjHAtU", bullets: ["יעד: 444,000"], tree: {nodes:[{id:"me",code:"IMD",pv:0,col:1,row:0}], edges:[]} },
-    "emd": { title: "EMD", target: 666000, intro: "אקזקיוטיב.", video: "KpKDNIc8R7k", bullets: ["יעד: 666,000"], tree: {nodes:[{id:"me",code:"EMD",pv:0,col:1,row:0}], edges:[]} },
-    "pmd": { title: "PMD", target: 888000, intro: "פסגת המנהיגות.", video: "2i3sVTpFxts", bullets: ["יעד: 888,000"], tree: {nodes:[{id:"me",code:"PMD",pv:0,col:1,row:0}], edges:[]} },
-    "pmd_plus": { title: "PMD+", target: 1600000, intro: "הטופ.", video: "MVxQ4LPsj6w", bullets: ["יעד: 1,600,000"], tree: {nodes:[{id:"me",code:"PMD+",pv:0,col:1,row:0}], edges:[]} }
-};
+            // מבנה העץ המדויק
+            tree: {
+                nodes: [
+                    // רמה 0: אתה
+                    { id: "me", code: "SC", pv: 1245, col: 3.5, row: 0, type: "me" },
+                    
+                    // רמה 1: 7 רגליים
+                    { id: "l1", code: "P", pv: 2561, col: 0, row: 1 },
+                    { id: "l2", code: "P+", pv: 4300, col: 1, row: 1 }, // PB
+                    { id: "l3", code: "P", pv: 930, col: 2, row: 1 },
+                    { id: "l4", code: "P", pv: 2561, col: 3, row: 1 },
+                    { id: "l5", code: "P", pv: 2561, col: 4, row: 1 },
+                    { id: "l6", code: "Client", pv: 1631, col: 5, row: 1 },
+                    { id: "l7", code: "Client", pv: 2561, col: 6, row: 1 },
 
-let currentKey = "sc"; // ברירת מחדל Sales Coordinator
+                    // רמה 2: ילדים
+                    { id: "c4", code: "P", pv: 2561, col: 3, row: 2 }, // ילד של 4
+                    { id: "c5", code: "P", pv: 2561, col: 4, row: 2 }, // ילד של 5
+                    { id: "c7", code: "Client", pv: 436, col: 6, row: 2 }, // ילד של 7
 
-document.addEventListener("DOMContentLoaded", () => {
-    const nav = document.getElementById("navContainer");
-    
-    // יצירת כפתורי ניווט
-    Object.keys(DATA).forEach(key => {
-        const btn = document.createElement("button");
-        btn.className = "nav-btn";
-        if(key === currentKey) btn.classList.add("active");
-        btn.textContent = DATA[key].title.split("(")[0];
-        btn.onclick = () => loadRank(key);
-        nav.appendChild(btn);
-    });
-
-    loadRank(currentKey);
-});
-
-function loadRank(key) {
-    currentKey = key;
-    const data = DATA[key];
-    
-    // עדכון כפתורים
-    document.querySelectorAll(".nav-btn").forEach(b => {
-        b.classList.toggle("active", b.textContent.includes(data.title.split("(")[0]));
-    });
-
-    // עדכון טקסט
-    document.getElementById("rTitle").textContent = data.title;
-    document.getElementById("rIntro").textContent = data.intro;
-    
-    // וידאו
-    const vId = data.video.includes("youtu") ? data.video.split("/").pop() : data.video;
-    document.getElementById("rVideo").src = `https://www.youtube.com/embed/${vId}`;
-
-    // בולטים
-    const ul = document.getElementById("rBullets");
-    ul.innerHTML = "";
-    data.bullets.forEach(b => {
-        const li = document.createElement("li");
-        li.textContent = b;
-        ul.appendChild(li);
-    });
-
-    // ציור עץ
-    drawTree(data.tree, data.target);
-}
-
-function calc() {
-    const cur = parseFloat(document.getElementById("currP").value) || 0;
-    const pkg = parseFloat(document.getElementById("packType").value);
-    const target = DATA[currentKey].target;
-    const missing = Math.max(0, target - cur);
-    const needed = Math.ceil(missing / pkg);
-    
-    const res = document.getElementById("calcRes");
-    res.style.display = "block";
-    if(missing <= 0) {
-        res.innerHTML = "🎉 היעד הושג!";
-        res.style.color = "green";
-    } else {
-        res.innerHTML = `חסר: ${missing.toLocaleString()} נקודות.<br>צריך למכור עוד ${needed} יחידות.`;
-        res.style.color = "#166534";
-    }
-}
-
-function drawTree(treeData, target) {
-    const container = document.getElementById("treeMount");
-    container.innerHTML = "";
-    
-    // 1. מתמטיקה בזמן אמת (סכום כל הריבועים)
-    let total = 0;
-    treeData.nodes.forEach(n => total += n.pv);
-    const mathBox = document.getElementById("mathBox");
-    mathBox.innerHTML = `סה"כ נקודות בתרשים: <b>${total.toLocaleString()}</b> (יעד: ${target.toLocaleString()})`;
-    mathBox.style.background = total >= target ? "#dcfce7" : "#fffbeb";
-    mathBox.style.borderColor = total >= target ? "#16a34a" : "#fcd34d";
-
-    // 2. ציור D3
-    const width = 1000;
-    const height = 500;
-    const svg = d3.select(container).append("svg")
-        .attr("viewBox", `0 0 ${width} ${height}`)
-        .style("width", "100%")
-        .style("height", "auto");
-
-    // סולמות
-    const xScale = d3.scaleLinear().domain([0, 6]).range([70, width - 70]);
-    const yScale = d3.scaleLinear().domain([0, 3]).range([60, height - 100]);
-
-    const getX = (id) => { const n = treeData.nodes.find(x => x.id === id); return xScale(n.col); };
-    const getY = (id) => { const n = treeData.nodes.find(x => x.id === id); return yScale(n.row); };
-
-    // קווים
-    svg.selectAll("line")
-        .data(treeData.edges)
-        .enter().append("line")
-        .attr("x1", d => getX(d.s))
-        .attr("y1", d => getY(d.s) + 25)
-        .attr("x2", d => getX(d.t))
-        .attr("y2", d => getY(d.t) - 25)
-        .attr("stroke", "#cbd5e1")
-        .attr("stroke-width", 2);
-
-    // צמתים
-    const nodes = svg.selectAll("g")
-        .data(treeData.nodes)
-        .enter().append("g")
-        .attr("transform", d => `translate(${xScale(d.col)},${yScale(d.row)})`);
-
-    const w = 110, h = 55;
-
-    // מלבן (Card)
-    nodes.append("rect")
-        .attr("x", -w/2).attr("y", -h/2)
-        .attr("width", w).attr("height", h)
-        .attr("rx", 6)
-        .attr("fill", d => d.type === "me" ? "#dcfce7" : "white")
-        .attr("stroke", d => d.type === "me" ? "#16a34a" : "#64748b")
-        .attr("stroke-width", 2);
-
-    // טקסט קוד
-    nodes.append("text").text(d => d.code)
-        .attr("dy", -5).attr("text-anchor", "middle")
-        .style("font-weight", "bold").style("fill", "#1e293b");
-
-    // טקסט נקודות
-    nodes.append("text").text(d => `PV ${d.pv.toLocaleString()}`)
-        .attr("dy", 15).attr("text-anchor", "middle")
-        .style("font-size", "11px").style("fill", "#059669").style("font-weight", "bold");
-        
-    // תווית "אתה כאן" לירוק
-    nodes.filter(d => d.type === "me").append("text")
-        .text("אתה")
-        .attr("dy", -35).attr("text-anchor", "middle")
-        .style("font-size", "11px").style("fill", "#16a34a").style("font-weight","bold");
-}
-</script>
-
-</body>
-</html>
+                    // רמה 3: נכד
+                    { id: "g7", code: "P", pv: 2561, col: 6, row: 3 } // נכד של 7
+                ],
+                edges: [
+                    {s:"me",t:"l1"}, {s:"me",t:"l2"}, {s:"me",t:"l3"}, {s:"me",t:"l4"}, {s:"me",t:"l5"}, {s:"me",t:"l6"}, {s:"me",t:"l7"},
+                    {s:"l4",t:"c4"}, {s:"l5",t:"c5"}, {s:"l7",t:"c7"},
+                    {s:"c7",t:"g7"}
+                ]
+            }
+        },
+        // Partner Plus: שחזור מדויק (4,576 נקודות)
+        "pp": {
+            title: "Partner Plus (P+)",
+            target: 4000,
+            intro: "התקדמות ראשונה.",
+            video: "M293NdN7Sok",
+            bullets: ["יעד: 4,000 נקודות.", "בונוס: 400 ₪.", "עמלה: 14%."],
+            tree: {
+                nodes: [
+                    { id: "me", code: "P+", pv: 866, col: 1, row: 0, type: "me" },
+                    { id: "l", code: "P", pv: 283, col: 0, row: 1 },
+                    { id: "m", code: "P", pv: 2561, col: 1, row: 1 },
+                    { id: "r", code: "P", pv: 866, col: 2, row: 1 }
+                ],
+                edges: [{s:"me",t:"l"}, {s:"me",t:"m"}, {s:"me",t:"r"}]
+            }
+        },
+        // Senior Partner
+        "sp": {
+            title: "Senior Partner (SP)",
+            target: 12000,
+            intro: "בניית יציבות.",
+            video: "fnG6Eld0SPk",
+            bullets: ["יעד: 12,000 נקודות.", "בונוס: 1,200 ₪."],
+            tree: {
+                nodes: [
+                    { id: "me", code: "SP", pv: 2561, col: 2, row: 0, type: "me" },
+                    { id: "l1", code: "P", pv: 4192, col: 0, row: 1 },
+                    { id: "l2", code: "Client", pv: 2561, col: 2, row: 1 },
+                    { id
