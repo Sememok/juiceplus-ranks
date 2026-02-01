@@ -3,24 +3,43 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>קטלוג</title>
-  <link rel="stylesheet" href="style.css?v=RESTORE_OK" />
+  <title>קטלוג מוצרים – Juice Plus+</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header class="topbar">
-    <div class="topbar-inner"><div class="brand-left"><a class="btn ghost" href="index.html">חזרה</a></div><div class="brand-title">מוצרים</div></div>
+    <div class="topbar-inner">
+      <div class="brand-left">
+        <a class="btn ghost" href="index.html">← חזרה</a>
+      </div>
+      <div class="brand-center">
+        <div class="brand-title">🍎 קטלוג מוצרים</div>
+      </div>
+    </div>
   </header>
-  <main class="container"><div class="products-grid" id="productsGrid"></div></main>
-  <script src="data.js?v=RESTORE_OK"></script>
+
+  <main class="container">
+    <div class="products-grid" id="productsGrid"></div>
+  </main>
+
+  <script src="data.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const grid = document.getElementById("productsGrid");
-      if (!window.PRODUCTS) return;
+      if (!window.PRODUCTS) {
+        grid.innerHTML = "<p style='text-align:center; color:#94a3b8; padding:40px 0;'>טוען מוצרים...</p>";
+        return;
+      }
       window.PRODUCTS.forEach(prod => {
         const card = document.createElement("div");
         card.className = "product-card";
         card.onclick = () => location.href = `product.html?id=${prod.id}`;
-        card.innerHTML = `<img src="${prod.image}" class="prod-img-thumb"><div style="font-weight:bold">${prod.title}</div><div class="btn primary" style="margin-top:10px">פרטים</div>`;
+        card.innerHTML = `
+          <img src="${prod.image}" class="prod-img-thumb" alt="${prod.title}" onerror="this.style.background='#e2e8f0'">
+          <div style="font-weight:700; margin-bottom:6px;">${prod.title}</div>
+          <div style="color:#64748b; font-size:0.85rem; margin-bottom:12px;">${prod.subTitle}</div>
+          <div class="btn primary" style="width:100%; justify-content:center;">פרטים →</div>
+        `;
         grid.appendChild(card);
       });
     });
