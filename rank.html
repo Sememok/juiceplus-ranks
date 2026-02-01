@@ -3,135 +3,240 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>דרגה</title>
-  <link rel="stylesheet" href="style.css?v=CALC_FIXED">
+  <title>דרגה – Juice Plus+</title>
+  <link rel="stylesheet" href="style.css">
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <style>
-    /* סגנונות ספציפיים למחשבון */
-    .calc-card { background: #f0f9ff; border: 2px solid #bae6fd; padding: 25px; margin-bottom: 20px; border-radius: 12px; }
-    .calc-header { font-size: 1.3rem; font-weight: 800; color: #0369a1; margin-bottom: 10px; }
-    .calc-row { display: flex; gap: 10px; margin-bottom: 15px; }
-    .calc-input { flex: 1; padding: 12px; border: 1px solid #94a3b8; border-radius: 8px; font-size: 1rem; }
-    .calc-btn { background: #0284c7; color: white; padding: 12px 25px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
-    .calc-result { background: #ffffff; border: 1px solid #e2e8f0; padding: 20px; border-radius: 8px; display: none; text-align: center; margin-top: 15px; }
-    .res-big { font-size: 2.5rem; font-weight: 900; color: #0284c7; line-height: 1.1; margin: 10px 0; }
+    .calc-card {
+      background: #f0f9ff;
+      border: 2px solid #bae6fd;
+      padding: 25px;
+      margin-bottom: 25px;
+      border-radius: 14px;
+    }
+    .calc-header {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #0369a1;
+      margin-bottom: 12px;
+    }
+    .calc-target-line {
+      margin-bottom: 14px;
+      color: #475569;
+      font-size: 0.95rem;
+    }
+    .calc-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+    .calc-input {
+      flex: 1;
+      min-width: 180px;
+      padding: 12px 16px;
+      border: 1px solid #94a3b8;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: inherit;
+      direction: rtl;
+    }
+    .calc-input:focus { outline: none; border-color: #0284c7; box-shadow: 0 0 0 3px rgba(2,132,199,0.15); }
+    .calc-btn {
+      background: #0284c7;
+      color: white;
+      padding: 12px 28px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .calc-btn:hover { background: #0369a1; }
+    .calc-result {
+      background: white;
+      border: 1px solid #e2e8f0;
+      padding: 22px;
+      border-radius: 10px;
+      display: none;
+      text-align: center;
+      margin-top: 10px;
+    }
+    .res-big {
+      font-size: 2.8rem;
+      font-weight: 900;
+      color: #0284c7;
+      line-height: 1.1;
+      margin: 10px 0;
+    }
+    .res-label { color: #64748b; font-size: 0.9rem; }
+    .sectionTitle { color: var(--primary); margin-top: 0; }
   </style>
 </head>
 <body>
   <header class="topbar">
     <div class="topbar-inner">
-      <div class="brand-left"><a class="btn ghost" href="index.html">חזרה</a><button class="btn primary no-print" onclick="window.print()">🖨️</button></div>
-      <div class="brand-center"><div class="brand-logo"><img data-brand="logo" style="display:none"><span data-brand="logoFallback">LOGO</span></div></div>
+      <div class="brand-left">
+        <a class="btn ghost" href="index.html">← חזרה</a>
+        <button class="btn primary no-print" onclick="window.print()">🖨️ הדפס</button>
+      </div>
+      <div class="brand-center">
+        <div class="brand-logo">
+          <img data-brand="logo" style="display:none">
+          <span data-brand="logoFallback">Juice Plus+</span>
+        </div>
+      </div>
     </div>
   </header>
-  
+
   <main class="container">
-    <nav class="rank-nav-container no-print" style="margin-bottom:20px; overflow-x:auto;">
-       <div id="rankNav" class="rank-nav-buttons" style="display:flex; gap:10px;"></div>
+    <nav class="rank-nav-container no-print">
+      <div id="rankNav"></div>
     </nav>
 
-    <div class="rank-text-area">
-      <section class="card"><h1 id="rankTitle">...</h1><p id="rankIntro"></p></section>
-      
-      <section class="calc-card no-print" id="calculatorSection">
-        <div class="calc-header">🧮 מחשבון אסטרטגיה</div>
-        <div style="margin-bottom:10px;">יעד לדרגה: <b id="targetPointsDisplay">0</b> נקודות.</div>
-        <div class="calc-row">
-          <input type="number" id="currentPointsInput" class="calc-input" placeholder="כמה נקודות יש לך כרגע?">
-        </div>
-        <div class="calc-row">
-          <select id="strategySelect" class="calc-input"><option value="" disabled selected>בחר חבילה...</option></select>
-          <button class="calc-btn" onclick="calculateStrategy()">חשב</button>
-        </div>
-        <div id="calcResult" class="calc-result">
-          <div>חסר לך <b id="missingPoints">0</b> נקודות.</div>
-          <div>צריך למכור עוד:</div>
-          <div class="res-big" id="ordersNeeded">0</div>
-          <div id="strategyNameResult">חבילות</div>
-        </div>
-      </section>
+    <section class="card">
+      <h1 id="rankTitle" style="margin-top:0; color: var(--primary);"></h1>
+      <p id="rankIntro" style="color:#475569;"></p>
+    </section>
 
-      <section class="card videoWrap"><iframe id="rankVideo" class="videoFrame" allowfullscreen></iframe></section>
-      
-      <section class="card"><h3>דגשים</h3><ul id="rankBullets" class="bullets"></ul></section>
+    <section class="calc-card no-print" id="calculatorSection">
+      <div class="calc-header">🧮 מחשבון אסטרטגיה</div>
+      <div class="calc-target-line">יעד לדרגה: <b id="targetPointsDisplay">0</b> נקודות</div>
+      <div class="calc-row">
+        <input type="number" id="currentPointsInput" class="calc-input" placeholder="כמה נקודות יש לך כרגע?">
+      </div>
+      <div class="calc-row">
+        <select id="strategySelect" class="calc-input">
+          <option value="" disabled selected>בחר חבילה...</option>
+        </select>
+        <button class="calc-btn" onclick="calculateStrategy()">חשב</button>
+      </div>
+      <div id="calcResult" class="calc-result">
+        <div class="res-label">חסר לך <b id="missingPoints">0</b> נקודות</div>
+        <div class="res-label">צריך למכור עוד:</div>
+        <div class="res-big" id="ordersNeeded">0</div>
+        <div class="res-label" id="strategyNameResult">חבילות</div>
+      </div>
+    </section>
 
-      <section class="card tree-card-container">
-        <h2 class="sectionTitle">מבנה העץ</h2>
-        <div id="rankTreeMount"></div>
-      </section>
-    </div>
+    <section class="videoWrap" id="videoSection">
+      <iframe id="rankVideo" class="videoFrame" allowfullscreen></iframe>
+    </section>
+
+    <section class="card">
+      <h3 style="margin-top:0; color: var(--text);">📌 דגשים</h3>
+      <ul id="rankBullets" class="bullets"></ul>
+    </section>
+
+    <section class="card">
+      <h2 class="sectionTitle" style="margin-top:0;">🌳 מבנה העץ</h2>
+      <div id="rankTreeMount"></div>
+    </section>
   </main>
 
-  <script src="brand-core.js?v=CALC_FIXED"></script>
-  <script src="data.js?v=CALC_FIXED"></script>
-  <script src="rank-tree.js?v=CALC_FIXED"></script>
-  
+  <script src="data.js"></script>
+  <script src="rank-tree.js"></script>
+  <script src="brand-core.js"></script>
   <script>
     let currentRankTarget = 0;
+
+    function getYoutubeId(url) {
+      if (!url) return null;
+      const shortMatch = url.match(/youtu\.be\/([\w-]+)/);
+      if (shortMatch) return shortMatch[1];
+      const longMatch = url.match(/youtube\.com\/watch\?v=([\w-]+)/);
+      if (longMatch) return longMatch[1];
+      const embedMatch = url.match(/youtube\.com\/embed\/([\w-]+)/);
+      if (embedMatch) return embedMatch[1];
+      return null;
+    }
 
     function calculateStrategy() {
       const current = parseFloat(document.getElementById("currentPointsInput").value) || 0;
       const stratPoints = parseFloat(document.getElementById("strategySelect").value);
       const selIndex = document.getElementById("strategySelect").selectedIndex;
       let stratName = "יחידות";
-      if(selIndex > 0) stratName = window.STRATEGIES[selIndex-1].name;
+      if (selIndex > 0 && window.STRATEGIES) stratName = window.STRATEGIES[selIndex - 1].name;
 
-      if(isNaN(stratPoints)) { alert("נא לבחור חבילה"); return; }
+      if (isNaN(stratPoints) || stratPoints === 0) {
+        alert("נא לבחור חבילה תחילה");
+        return;
+      }
 
       const missing = Math.max(0, currentRankTarget - current);
       const needed = Math.ceil(missing / stratPoints);
 
       document.getElementById("missingPoints").textContent = missing.toLocaleString();
-      document.getElementById("ordersNeeded").textContent = needed;
-      document.getElementById("strategyNameResult").textContent = "של " + stratName;
       document.getElementById("calcResult").style.display = "block";
-      
-      if (missing <= 0) document.getElementById("ordersNeeded").textContent = "היעד הושג! 🎉";
+
+      if (missing <= 0) {
+        document.getElementById("ordersNeeded").textContent = "היעד הושג! 🎉";
+        document.getElementById("strategyNameResult").textContent = "";
+      } else {
+        document.getElementById("ordersNeeded").textContent = needed;
+        document.getElementById("strategyNameResult").textContent = "של " + stratName;
+      }
     }
 
     document.addEventListener("DOMContentLoaded", () => {
-        const id = new URLSearchParams(location.search).get("id");
-        
-        // תפריט
-        const nav = document.getElementById("rankNav");
-        if(nav && window.RANKS) {
-            nav.innerHTML = "";
-            window.RANKS.forEach(r => {
-                const a = document.createElement("a");
-                a.className = "nav-chip"; a.style.padding="8px 15px"; a.style.background="#fff"; a.style.border="1px solid #ccc"; a.style.borderRadius="20px"; a.style.textDecoration="none"; a.style.color="#333";
-                if(r.id === id) { a.style.background = "#16a34a"; a.style.color = "white"; }
-                a.href = `rank.html?id=${r.id}`;
-                a.textContent = r.nodeCode || r.title;
-                nav.appendChild(a);
-            });
-        }
+      const id = new URLSearchParams(location.search).get("id");
 
-        const r = (window.RANKS||[]).find(x => x.id === id);
-        if(!r) return;
-        
-        document.getElementById("rankTitle").textContent = r.title;
-        document.getElementById("rankIntro").textContent = r.intro;
-        if(r.videoUrl) document.getElementById("rankVideo").src = "https://www.youtube.com/embed/" + r.videoUrl.split("/").pop().split("?")[0];
-        
-        // אתחול מחשבון
-        if(r.targetPoints) {
-            currentRankTarget = r.targetPoints;
-            document.getElementById("targetPointsDisplay").textContent = currentRankTarget.toLocaleString();
-            const sel = document.getElementById("strategySelect");
-            if(window.STRATEGIES) {
-                window.STRATEGIES.forEach(s => {
-                    const opt = document.createElement("option");
-                    opt.value = s.points;
-                    opt.textContent = s.name;
-                    sel.appendChild(opt);
-                });
-            }
-        } else {
-            document.getElementById("calculatorSection").style.display = "none";
-        }
+      if (!id || !window.RANKS || !window.RANKS.find(r => r.id === id)) {
+        location.href = "index.html";
+        return;
+      }
 
-        const ul = document.getElementById("rankBullets");
-        if(r.bullets) { ul.innerHTML = ""; r.bullets.forEach(b => { const li = document.createElement("li"); li.textContent = b; ul.appendChild(li); }); }
+      // Nav chips
+      const nav = document.getElementById("rankNav");
+      window.RANKS.forEach(r => {
+        const a = document.createElement("a");
+        a.className = "nav-chip" + (r.id === id ? " active" : "");
+        a.href = `rank.html?id=${r.id}`;
+        a.textContent = r.nodeCode || r.title;
+        nav.appendChild(a);
+      });
+
+      // Rank data
+      const r = window.RANKS.find(x => x.id === id);
+      document.title = r.title + " – Juice Plus+";
+      document.getElementById("rankTitle").textContent = r.title;
+      document.getElementById("rankIntro").textContent = r.intro;
+
+      // Video
+      const ytId = getYoutubeId(r.videoUrl);
+      if (ytId) {
+        document.getElementById("rankVideo").src = `https://www.youtube.com/embed/${ytId}`;
+      } else {
+        document.getElementById("videoSection").style.display = "none";
+      }
+
+      // Calculator
+      if (r.targetPoints) {
+        currentRankTarget = r.targetPoints;
+        document.getElementById("targetPointsDisplay").textContent = currentRankTarget.toLocaleString();
+        const sel = document.getElementById("strategySelect");
+        if (window.STRATEGIES) {
+          window.STRATEGIES.forEach(s => {
+            const opt = document.createElement("option");
+            opt.value = s.points;
+            opt.textContent = s.name;
+            sel.appendChild(opt);
+          });
+        }
+      } else {
+        document.getElementById("calculatorSection").style.display = "none";
+      }
+
+      // Bullets
+      const ul = document.getElementById("rankBullets");
+      if (r.bullets) {
+        r.bullets.forEach(b => {
+          const li = document.createElement("li");
+          li.textContent = b;
+          ul.appendChild(li);
+        });
+      }
     });
   </script>
 </body>
