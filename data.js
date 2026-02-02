@@ -2,8 +2,8 @@
 
 window.RANKS = [
   { id: "partner_plus", title: "Partner Plus", targetPoints: 4000, intro: "התקדמות ראשונה.", videoUrl: "https://youtu.be/M293NdN7Sok", bullets: ["יעד: 4,000 נקודות.", "בונוס: 400 ₪."], nodeCode: "P+" },
-  { id: "senior_partner", title: "Senior Partner", targetPoints: 12000, intro: "בניית יציבות.", videoUrl: "https://youtu.be/fnG6Eld0SPk", bullets: ["יעד: 12,000 נקודות.", "בונוס: 1,200 ₪."], nodeCode: "SP" },
-  { id: "sales_coordinator", title: "Sales Coordinator", targetPoints: 28000, intro: "דרגת מנהיגות.", videoUrl: "https://youtu.be/cyJb_ecWjyA", bullets: ["יעד: 28,000 נקודות.", "בונוס: 3,600 ₪."], nodeCode: "SC" },
+  { id: "senior_partner", title: "Senior Partner", targetPoints: 12000, intro: "בניית יציבות.", videoUrl: "https://youtu.be/fnG6Eld0SPk", bullets: ["יעד: 12,000 נקודות.", "✅ חובה להכשיר 2 חודשים רצופים!", "חודש 1: בונוס 400 ₪.", "חודש 2: בונוס 800 ₪.", "סה\"כ בונוס: 1,200 ₪."], nodeCode: "SP" },
+  { id: "sales_coordinator", title: "Sales Coordinator", targetPoints: 28000, intro: "דרגת מנהיגות.", videoUrl: "https://youtu.be/cyJb_ecWjyA", bullets: ["יעד: 28,000 נקודות.", "✅ חובה להכשיר 2 חודשים רצופים!", "חודש 1: בונוס 1,200 ₪.", "חודש 2: בונוס 2,400 ₪.", "סה\"כ בונוס: 3,600 ₪."], nodeCode: "SC" },
   { id: "qssc", title: "QSSC", targetPoints: 56000, intro: "בדרך לטופ.", videoUrl: "https://youtu.be/ru06kEc9kqE", bullets: ["יעד: 56,000 נקודות.", "בונוס: 4,800 ₪."], nodeCode: "QSSC" },
   { id: "ssc", title: "Senior Sales Coordinator", targetPoints: 111000, intro: "ניהול בכיר.", videoUrl: "https://youtu.be/xPwmFecZ8Ms", bullets: ["יעד: 111,000 נקודות.", "בונוס: 10,000 ₪."], nodeCode: "SSC" },
   { id: "qnmd", title: "QNMD", targetPoints: 222000, intro: "לפני פסגה.", videoUrl: "https://youtu.be/W8Wm_c4kMUo", bullets: ["יעד: 222,000 נקודות.", "בונוס: 19,000 ₪."], nodeCode: "QNMD" },
@@ -72,7 +72,7 @@ window.RANK_TREES = {
     title: "מבנה Sales Coordinator",
     highlightId: "you",
     nodes: [
-      { id: "you", label: "אתה (SC)", code: "SC", pv: 1245, generation: 0, column: 3 },
+      { id: "you", label: "אתה (SC)", code: "SC", pv: 1245, generation: 0, column: 4 },
       { id: "leg1", label: "זכיין", code: "P", pv: 2561, generation: 1, column: 0 },
       { id: "leg2", label: "זכיין (PB)", code: "P+", pv: 4300, generation: 1, column: 1 },
       { id: "leg3", label: "זכיין", code: "P", pv: 930, generation: 1, column: 2 },
@@ -80,20 +80,21 @@ window.RANK_TREES = {
       { id: "leg5", label: "זכיין", code: "P", pv: 2561, generation: 1, column: 4 },
       { id: "leg6", label: "לקוח", code: "Client", pv: 1631, generation: 1, column: 5 },
       { id: "leg7", label: "לקוח", code: "Client", pv: 2561, generation: 1, column: 6 },
+      { id: "leg8", label: "זכיין חדש", code: "P", pv: 1531, generation: 1, column: 7 },
       { id: "sub4", label: "זכיין", code: "P", pv: 2561, generation: 2, column: 3 },
       { id: "sub5", label: "זכיין", code: "P", pv: 2561, generation: 2, column: 4 },
       { id: "sub7", label: "לקוח", code: "Client", pv: 436, generation: 2, column: 6 },
       { id: "subsub7", label: "זכיין", code: "P", pv: 2561, generation: 3, column: 6 }
     ],
     edges: [
-      {from:"you",to:"leg1"}, {from:"you",to:"leg2"}, {from:"you",to:"leg3"}, {from:"you",to:"leg4"}, {from:"you",to:"leg5"}, {from:"you",to:"leg6"}, {from:"you",to:"leg7"},
+      {from:"you",to:"leg1"}, {from:"you",to:"leg2"}, {from:"you",to:"leg3"}, {from:"you",to:"leg4"}, {from:"you",to:"leg5"}, {from:"you",to:"leg6"}, {from:"you",to:"leg7"}, {from:"you",to:"leg8"},
       {from:"leg4",to:"sub4"}, {from:"leg5",to:"sub5"}, {from:"leg7",to:"sub7"},
       {from:"sub7",to:"subsub7"}
     ],
     notes: [
-      "סה\"כ מוצג בתרשים: 26,469 נקודות.",
-      "יעד סופי לדרגה: 28,000 נקודות.",
-      "חסר להשלמה: 1,531 נקודות.",
+      "סה\"כ מוצג בתרשים: 28,000 נקודות (עם הרגל החדשה).",
+      "יעד סופי לדרגה: 28,000 נקודות - הושג! ✓",
+      "הרגל החדשה (P 1,531) משלימה את היעד.",
       "מינימום 2 רגופים (P+) נדרשים.",
       "בונוס צפוי: 3,600 ₪ (כולל 1,200 ₪ תשומה + 2,400 ₪ הלוכתני)."
     ]
