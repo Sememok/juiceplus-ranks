@@ -29,6 +29,18 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function drawTree(data, container) {
+    // Calculate total PV from all nodes
+    const totalPV = data.nodes.reduce((sum, node) => sum + (node.pv || 0), 0);
+    
+    // Add total PV display above tree
+    const totalDiv = document.createElement("div");
+    totalDiv.style.cssText = "text-align:center; margin-bottom:16px; padding:12px; background:#faf5ff; border:2px solid #c084fc; border-radius:10px;";
+    totalDiv.innerHTML = `
+      <div style="font-size:0.9rem; color:#64748b; margin-bottom:4px;">סה"כ נקודות בעץ</div>
+      <div style="font-size:2rem; font-weight:900; color:#9333ea;">${totalPV.toLocaleString()} PV</div>
+    `;
+    container.appendChild(totalDiv);
+
     // Dynamically calculate dimensions based on data
     const maxCol = Math.max(...data.nodes.map(n => n.column));
     const maxGen = Math.max(...data.nodes.map(n => n.generation));
@@ -36,8 +48,8 @@ function drawTree(data, container) {
     const colCount = maxCol + 1;
     const genCount = maxGen + 1;
 
-    // Scale width based on number of columns (min 600, max 1000)
-    const width = Math.min(1000, Math.max(600, colCount * 140));
+    // Scale width based on number of columns (min 600, max 1200)
+    const width = Math.min(1200, Math.max(600, colCount * 140));
     const height = Math.min(500, Math.max(200, genCount * 140 + 80));
 
     const svg = d3.select(container).append("svg")
