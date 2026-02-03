@@ -1,4 +1,4 @@
-/* rank-tree.js - עם תצוגת בונוסים ויזואלית משופרת ורווחים מתוקנים */
+/* rank-tree.js - עם תמיכה בעצים גדולים וגלילה אופקית */
 document.addEventListener("DOMContentLoaded", () => {
     const mount = document.getElementById("rankTreeMount");
     if (!mount) return;
@@ -149,34 +149,65 @@ function drawTree(data, container, rankId, rankData) {
 
     const colCount = maxCol + 1;
     const genCount = maxGen + 1;
+    const nodeCount = data.nodes.length;
 
-    // FIXED: Increased spacing between nodes - using larger multipliers
-    const nodeSpacingX = 130; // Increased from 120
-    const nodeSpacingY = 180; // Increased from 160
+    // FIXED: Dynamic sizing based on tree complexity
+    // Keep minimum readable card size
+    const cardW = 90;
+    const cardH = 58;
     
-    // Scale width based on number of columns (min 800, max 2000)
-    const width = Math.min(2000, Math.max(800, colCount * nodeSpacingX + 150));
-    const height = Math.min(800, Math.max(320, genCount * nodeSpacingY + 120));
+    // Calculate spacing - minimum spacing that keeps cards readable
+    const minSpacingX = cardW + 30; // Minimum horizontal spacing
+    const minSpacingY = cardH + 80; // Minimum vertical spacing
+    
+    // For large trees, use fixed spacing and allow horizontal scroll
+    const nodeSpacingX = minSpacingX;
+    const nodeSpacingY = minSpacingY;
+    
+    // Calculate actual width needed (no maximum - allow scroll)
+    const actualWidth = Math.max(800, colCount * nodeSpacingX + 200);
+    const height = Math.max(400, genCount * nodeSpacingY + 150);
 
-    const svg = d3.select(container).append("svg")
-        .attr("width", "100%")
+    // Create scrollable container for large trees
+    const scrollContainer = document.createElement("div");
+    scrollContainer.style.cssText = `
+        overflow-x: auto;
+        overflow-y: hidden;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        background: #ffffff;
+        padding: 10px;
+        margin-bottom: 10px;
+    `;
+    
+    // Add scroll hint for large trees
+    if (actualWidth > 900) {
+        const scrollHint = document.createElement("div");
+        scrollHint.style.cssText = "text-align:center; color:#64748b; font-size:0.85rem; margin-bottom:8px; padding:6px; background:#f1f5f9; border-radius:6px;";
+        scrollHint.innerHTML = "👈 גלול ימינה ושמאלה לצפייה בעץ המלא 👉";
+        container.appendChild(scrollHint);
+    }
+    
+    container.appendChild(scrollContainer);
+
+    const svg = d3.select(scrollContainer).append("svg")
+        .attr("width", actualWidth)
         .attr("height", height)
-        .attr("viewBox", `0 0 ${width} ${height}`)
         .style("background", "#ffffff")
-        .style("border-radius", "8px")
-        .style("border", "1px solid #f1f5f9");
+        .style("display", "block")
+        .style("min-width", actualWidth + "px");
 
-    // Dynamic scales based on actual data range with more padding
-    const xScale = d3.scaleLinear().domain([0, maxCol || 1]).range([90, width - 90]);
-    const yScale = d3.scaleLinear().domain([0, maxGen || 1]).range([70, height - 80]);
+    // Dynamic scales based on actual data range with padding
+    const xScale = d3.scaleLinear().domain([0, maxCol || 1]).range([100, actualWidth - 100]);
+    const yScale = d3.scaleLinear().domain([0, maxGen || 1]).range([80, height - 80]);
 
     // Draw edges (lines)
     if (data.edges && data.edges.length > 0) {
         svg.selectAll("line").data(data.edges).enter().append("line")
             .attr("x1", d => getNodeX(d.from, data.nodes, xScale))
-            .attr("y1", d => getNodeY(d.from, data.nodes, yScale) + 35)
+            .attr("y1", d => getNodeY(d.from, data.nodes, yScale) + cardH/2 + 5)
             .attr("x2", d => getNodeX(d.to, data.nodes, xScale))
-            .attr("y2", d => getNodeY(d.to, data.nodes, yScale) - 35)
+            .attr("y2", d => getNodeY(d.to, data.nodes, yScale) - cardH/2 - 5)
             .attr("stroke", "#cbd5e1")
             .attr("stroke-width", 2);
     }
@@ -186,9 +217,6 @@ function drawTree(data, container, rankId, rankData) {
         .attr("class", "node")
         .attr("transform", d => `translate(${xScale(d.column)},${yScale(d.generation)})`);
 
-    // FIXED: Smaller card size to prevent overlap
-    const cardW = 85; // Reduced from 100
-    const cardH = 55; // Reduced from 62
     const isHighlight = d => d.id === (data.highlightId || "you");
     const isPBLeg = d => d.isPBLeg || d.pbQualified;
     const isPOBLeg = d => d.isPOBLeg;
@@ -225,59 +253,59 @@ function drawTree(data, container, rankId, rankData) {
         if (isPBLeg(d) && isPOBLeg(d)) {
             // Both PB and POB
             g.append("circle")
-                .attr("cx", -cardW/2 + 8)
-                .attr("cy", -cardH/2 + 8)
-                .attr("r", 7)
+                .attr("cx", -cardW/2 + 10)
+                .attr("cy", -cardH/2 + 10)
+                .attr("r", 8)
                 .attr("fill", "#a855f7");
             g.append("text")
-                .attr("x", -cardW/2 + 8)
-                .attr("y", -cardH/2 + 11)
+                .attr("x", -cardW/2 + 10)
+                .attr("y", -cardH/2 + 13)
                 .attr("text-anchor", "middle")
-                .style("font-size", "7px")
+                .style("font-size", "8px")
                 .style("fill", "white")
                 .style("font-weight", "bold")
                 .text("PB");
                 
             g.append("circle")
-                .attr("cx", cardW/2 - 8)
-                .attr("cy", -cardH/2 + 8)
-                .attr("r", 7)
+                .attr("cx", cardW/2 - 10)
+                .attr("cy", -cardH/2 + 10)
+                .attr("r", 8)
                 .attr("fill", "#f97316");
             g.append("text")
-                .attr("x", cardW/2 - 8)
-                .attr("y", -cardH/2 + 11)
+                .attr("x", cardW/2 - 10)
+                .attr("y", -cardH/2 + 13)
                 .attr("text-anchor", "middle")
-                .style("font-size", "6px")
+                .style("font-size", "7px")
                 .style("fill", "white")
                 .style("font-weight", "bold")
                 .text("POB");
         } else if (isPBLeg(d)) {
             // Only PB
             g.append("circle")
-                .attr("cx", -cardW/2 + 8)
-                .attr("cy", -cardH/2 + 8)
-                .attr("r", 7)
+                .attr("cx", -cardW/2 + 10)
+                .attr("cy", -cardH/2 + 10)
+                .attr("r", 8)
                 .attr("fill", "#a855f7");
             g.append("text")
-                .attr("x", -cardW/2 + 8)
-                .attr("y", -cardH/2 + 11)
+                .attr("x", -cardW/2 + 10)
+                .attr("y", -cardH/2 + 13)
                 .attr("text-anchor", "middle")
-                .style("font-size", "7px")
+                .style("font-size", "8px")
                 .style("fill", "white")
                 .style("font-weight", "bold")
                 .text("PB");
         } else if (isPOBLeg(d)) {
             // Only POB
             g.append("circle")
-                .attr("cx", cardW/2 - 8)
-                .attr("cy", -cardH/2 + 8)
-                .attr("r", 7)
+                .attr("cx", cardW/2 - 10)
+                .attr("cy", -cardH/2 + 10)
+                .attr("r", 8)
                 .attr("fill", "#f97316");
             g.append("text")
-                .attr("x", cardW/2 - 8)
-                .attr("y", -cardH/2 + 11)
+                .attr("x", cardW/2 - 10)
+                .attr("y", -cardH/2 + 13)
                 .attr("text-anchor", "middle")
-                .style("font-size", "6px")
+                .style("font-size", "7px")
                 .style("fill", "white")
                 .style("font-weight", "bold")
                 .text("POB");
@@ -289,7 +317,7 @@ function drawTree(data, container, rankId, rankData) {
         .text(d => d.code || "")
         .attr("dy", -8)
         .attr("text-anchor", "middle")
-        .style("font-size", "12px")
+        .style("font-size", "13px")
         .style("font-weight", "800")
         .style("fill", d => {
             if (isHighlight(d)) return "#166534";
@@ -302,9 +330,9 @@ function drawTree(data, container, rankId, rankData) {
     // PV label (middle)
     nodes.append("text")
         .text(d => d.pv ? `PV ${d.pv.toLocaleString()}` : "")
-        .attr("dy", 8)
+        .attr("dy", 10)
         .attr("text-anchor", "middle")
-        .style("font-size", "9px")
+        .style("font-size", "10px")
         .style("font-weight", "600")
         .style("fill", "#0f766e");
 
@@ -316,13 +344,13 @@ function drawTree(data, container, rankId, rankData) {
         if (bonusColors.length === 0) return;
         
         const g = d3.select(this);
-        const dotSize = 6;
-        const startX = -((bonusColors.length - 1) * (dotSize + 2)) / 2;
+        const dotSize = 7;
+        const startX = -((bonusColors.length - 1) * (dotSize + 3)) / 2;
         
         bonusColors.forEach((bonus, i) => {
             g.append("circle")
-                .attr("cx", startX + i * (dotSize + 2))
-                .attr("cy", 20)
+                .attr("cx", startX + i * (dotSize + 3))
+                .attr("cy", cardH/2 - 8)
                 .attr("r", dotSize / 2)
                 .attr("fill", bonus.color)
                 .style("filter", "drop-shadow(0 1px 2px rgba(0,0,0,0.2))")
