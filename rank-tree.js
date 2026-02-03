@@ -1,4 +1,4 @@
-/* rank-tree.js - עם תמיכה בעצים גדולים, גלילה אופקית ו-Popup מסך מלא */
+/* rank-tree.js - עם תמיכה בעצים גדולים, גלילה אופקית ו-Popup מסך מלא מותאם */
 
 // Global variables for popup
 let currentTreeData = null;
@@ -66,29 +66,31 @@ function createPopupContainer() {
         left: 0;
         width: 100vw;
         height: 100vh;
-        background: rgba(0,0,0,0.85);
+        background: rgba(0,0,0,0.92);
         z-index: 9999;
-        overflow: auto;
+        overflow: hidden;
     `;
     
     overlay.innerHTML = `
         <div id="treePopupContent" style="
             position: relative;
-            min-height: 100vh;
-            padding: 20px;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
             box-sizing: border-box;
         ">
             <button id="closePopupBtn" style="
                 position: fixed;
-                top: 20px;
-                left: 20px;
+                top: 15px;
+                left: 15px;
                 background: #ef4444;
                 color: white;
                 border: none;
-                width: 50px;
-                height: 50px;
+                width: 45px;
+                height: 45px;
                 border-radius: 50%;
-                font-size: 24px;
+                font-size: 22px;
                 cursor: pointer;
                 z-index: 10001;
                 box-shadow: 0 4px 12px rgba(0,0,0,0.3);
@@ -100,39 +102,40 @@ function createPopupContainer() {
             <div id="popupHeader" style="
                 background: linear-gradient(135deg, #166534 0%, #15803d 100%);
                 color: white;
-                padding: 20px;
-                border-radius: 16px;
-                margin-bottom: 20px;
+                padding: 12px 20px;
                 text-align: center;
+                flex-shrink: 0;
             ">
-                <h2 id="popupTitle" style="margin:0 0 10px 0; font-size:1.8rem;"></h2>
-                <div id="popupSubtitle" style="opacity:0.9;"></div>
+                <h2 id="popupTitle" style="margin:0 0 5px 0; font-size:1.4rem;"></h2>
+                <div id="popupSubtitle" style="opacity:0.9; font-size:0.95rem;"></div>
             </div>
             
             <div id="popupLegend" style="
                 display: flex;
                 flex-wrap: wrap;
-                gap: 16px;
+                gap: 10px;
                 justify-content: center;
-                margin-bottom: 20px;
-                padding: 16px;
+                padding: 10px 15px;
                 background: white;
-                border-radius: 12px;
+                flex-shrink: 0;
             "></div>
             
             <div id="popupTreeContainer" style="
+                flex: 1;
                 background: white;
-                border-radius: 16px;
-                padding: 20px;
-                overflow: auto;
-                margin-bottom: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                overflow: hidden;
+                padding: 10px;
             "></div>
             
             <div id="popupInfo" style="
                 background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-                border-radius: 16px;
-                padding: 20px;
-                margin-bottom: 20px;
+                padding: 12px 20px;
+                flex-shrink: 0;
+                max-height: 120px;
+                overflow-y: auto;
             "></div>
         </div>
     `;
@@ -155,6 +158,14 @@ function createPopupContainer() {
             closeTreePopup();
         }
     });
+    
+    // Handle window resize
+    window.addEventListener('resize', () => {
+        const overlay = document.getElementById('treePopupOverlay');
+        if (overlay && overlay.style.display === 'block') {
+            drawPopupTree();
+        }
+    });
 }
 
 function openTreePopup() {
@@ -172,90 +183,280 @@ function openTreePopup() {
         subtitle.textContent = `סה"כ ${currentTreeData.nodes.reduce((sum, n) => sum + (n.pv || 0), 0).toLocaleString()} נקודות PV`;
     }
     
-    // Set legend
+    // Set legend (compact version)
     const legendDiv = document.getElementById('popupLegend');
     legendDiv.innerHTML = `
-        <div style="display:flex; align-items:center; gap:8px; padding:8px 16px; background:#f8fafc; border-radius:8px;">
-            <span style="width:16px; height:16px; background:#dcfce7; border:2px solid #16a34a; border-radius:4px;"></span>
-            <span style="font-weight:600;">אתה (הדרגה הנוכחית)</span>
+        <div style="display:flex; align-items:center; gap:6px; padding:5px 10px; background:#f8fafc; border-radius:6px; font-size:0.8rem;">
+            <span style="width:14px; height:14px; background:#dcfce7; border:2px solid #16a34a; border-radius:3px;"></span>
+            <span>אתה</span>
         </div>
-        <div style="display:flex; align-items:center; gap:8px; padding:8px 16px; background:#f8fafc; border-radius:8px;">
-            <span style="width:16px; height:16px; background:#f3e8ff; border:2px solid #a855f7; border-radius:4px;"></span>
-            <span style="font-weight:600;">🟣 רגל PB מוסמכת</span>
+        <div style="display:flex; align-items:center; gap:6px; padding:5px 10px; background:#f8fafc; border-radius:6px; font-size:0.8rem;">
+            <span style="width:14px; height:14px; background:#f3e8ff; border:2px solid #a855f7; border-radius:3px;"></span>
+            <span>🟣 PB</span>
         </div>
-        <div style="display:flex; align-items:center; gap:8px; padding:8px 16px; background:#f8fafc; border-radius:8px;">
-            <span style="width:16px; height:16px; background:#ffedd5; border:2px solid #f97316; border-radius:4px;"></span>
-            <span style="font-weight:600;">🟠 רגל POB מוסמכת</span>
+        <div style="display:flex; align-items:center; gap:6px; padding:5px 10px; background:#f8fafc; border-radius:6px; font-size:0.8rem;">
+            <span style="width:14px; height:14px; background:#ffedd5; border:2px solid #f97316; border-radius:3px;"></span>
+            <span>🟠 POB</span>
         </div>
-        <div style="display:flex; align-items:center; gap:8px; padding:8px 16px; background:#f8fafc; border-radius:8px;">
-            <span style="width:16px; height:16px; background:#fef3c7; border:2px solid #f59e0b; border-radius:4px;"></span>
-            <span style="font-weight:600;">🟡 רגל PB + POB</span>
+        <div style="display:flex; align-items:center; gap:6px; padding:5px 10px; background:#f8fafc; border-radius:6px; font-size:0.8rem;">
+            <span style="width:14px; height:14px; background:#fef3c7; border:2px solid #f59e0b; border-radius:3px;"></span>
+            <span>🟡 PB+POB</span>
         </div>
-        <div style="display:flex; align-items:center; gap:8px; padding:8px 16px; background:#f8fafc; border-radius:8px;">
-            <span style="width:16px; height:16px; background:#3b82f6; border-radius:50%;"></span>
-            <span>עמלת מכירה 10%</span>
+        <div style="display:flex; align-items:center; gap:6px; padding:5px 10px; background:#f8fafc; border-radius:6px; font-size:0.8rem;">
+            <span style="width:12px; height:12px; background:#3b82f6; border-radius:50%;"></span>
+            <span>מכירה 10%</span>
         </div>
-        <div style="display:flex; align-items:center; gap:8px; padding:8px 16px; background:#f8fafc; border-radius:8px;">
-            <span style="width:16px; height:16px; background:#22c55e; border-radius:50%;"></span>
-            <span>עמלת צוות 4-5%</span>
+        <div style="display:flex; align-items:center; gap:6px; padding:5px 10px; background:#f8fafc; border-radius:6px; font-size:0.8rem;">
+            <span style="width:12px; height:12px; background:#22c55e; border-radius:50%;"></span>
+            <span>צוות 4-5%</span>
         </div>
     `;
     
-    // Draw tree in popup (larger)
-    const treeContainer = document.getElementById('popupTreeContainer');
-    treeContainer.innerHTML = '';
-    drawTree(currentTreeData, treeContainer, currentRankId, currentRankData, true);
+    // Draw tree that fits the screen
+    drawPopupTree();
     
-    // Set info section
+    // Set info section (compact)
     const infoDiv = document.getElementById('popupInfo');
-    let infoHTML = '<h3 style="margin:0 0 16px 0; color:#0369a1;">📋 פירוט הדרישות והבונוסים</h3>';
+    let infoHTML = '<div style="display:flex; flex-wrap:wrap; gap:15px; justify-content:center; font-size:0.85rem;">';
     
     if (currentRankData) {
-        infoHTML += '<div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:16px;">';
-        
-        // Requirements card
-        infoHTML += `
-            <div style="background:white; padding:16px; border-radius:12px; border-right:4px solid #0ea5e9;">
-                <h4 style="margin:0 0 12px 0; color:#0369a1;">📊 דרישות הדרגה</h4>
-                <div style="color:#475569; line-height:1.8;">
-                    <div>• יעד נקודות: <b>${currentRankData.targetPoints?.toLocaleString() || 'N/A'}</b></div>
-                    ${currentRankData.pbLegs ? `<div>• רגלי PB: <b style="color:#a855f7;">${currentRankData.pbLegs} רגליים</b></div>` : ''}
-                    ${currentRankData.pobLegs ? `<div>• רגלי POB: <b style="color:#f97316;">${currentRankData.pobLegs} רגליים</b></div>` : ''}
-                    ${currentRankData.certificationMonths ? `<div>• הסמכה: <b>${currentRankData.certificationRequired || currentRankData.certificationMonths} מתוך ${currentRankData.certificationMonths} חודשים</b></div>` : ''}
-                </div>
-            </div>
-        `;
-        
-        // Bonuses card
-        infoHTML += `
-            <div style="background:white; padding:16px; border-radius:12px; border-right:4px solid #f59e0b;">
-                <h4 style="margin:0 0 12px 0; color:#92400e;">💰 בונוסים</h4>
-                <div style="color:#475569; line-height:1.8;">
-                    ${currentRankData.totalBonus ? `<div>• בונוס מעבר דרגה: <b style="color:#166534;">${currentRankData.totalBonus.toLocaleString()} ₪</b></div>` : ''}
-                    <div>• עמלת מכירה: <b>10%</b> על לקוחות</div>
-                    <div>• עמלת צוות: <b>4-5%</b> על זכיינים</div>
-                    ${currentRankData.pbLegs ? `<div>• בונוס PB: <b style="color:#a855f7;">3-4%</b> על דורות 1-5</div>` : ''}
-                    ${currentRankData.pobLegs ? `<div>• בונוס POB: <b style="color:#f97316;">3%</b> על SC ומעלה</div>` : ''}
-                </div>
-            </div>
-        `;
-        
-        infoHTML += '</div>';
+        infoHTML += `<span><b>יעד:</b> ${currentRankData.targetPoints?.toLocaleString() || 'N/A'} נק'</span>`;
+        if (currentRankData.pbLegs) {
+            infoHTML += `<span><b style="color:#a855f7;">רגלי PB:</b> ${currentRankData.pbLegs}</span>`;
+        }
+        if (currentRankData.pobLegs) {
+            infoHTML += `<span><b style="color:#f97316;">רגלי POB:</b> ${currentRankData.pobLegs}</span>`;
+        }
+        if (currentRankData.totalBonus) {
+            infoHTML += `<span><b style="color:#166534;">בונוס:</b> ${currentRankData.totalBonus.toLocaleString()} ₪</span>`;
+        }
     }
     
-    // Notes
+    // Add key notes
     if (currentTreeData.notes && currentTreeData.notes.length > 0) {
-        infoHTML += `
-            <div style="margin-top:16px; padding:16px; background:#f0fdf4; border-radius:12px; border-right:4px solid #22c55e;">
-                <h4 style="margin:0 0 12px 0; color:#166534;">📝 הערות חשובות</h4>
-                <div style="color:#166534; line-height:1.8;">
-                    ${currentTreeData.notes.map(n => `<div>• ${n}</div>`).join('')}
-                </div>
-            </div>
-        `;
+        const keyNotes = currentTreeData.notes.slice(0, 3);
+        keyNotes.forEach(n => {
+            infoHTML += `<span style="color:#166534;">📝 ${n}</span>`;
+        });
     }
     
+    infoHTML += '</div>';
     infoDiv.innerHTML = infoHTML;
+}
+
+function drawPopupTree() {
+    const treeContainer = document.getElementById('popupTreeContainer');
+    if (!treeContainer || !currentTreeData) return;
+    
+    treeContainer.innerHTML = '';
+    
+    // Get available space
+    const containerRect = treeContainer.getBoundingClientRect();
+    const availableWidth = containerRect.width - 20;
+    const availableHeight = containerRect.height - 20;
+    
+    // Calculate tree dimensions
+    const maxCol = Math.max(...currentTreeData.nodes.map(n => n.column));
+    const maxGen = Math.max(...currentTreeData.nodes.map(n => n.generation));
+    const colCount = maxCol + 1;
+    const genCount = maxGen + 1;
+    
+    // Calculate optimal card size to fit everything
+    const baseCardW = 85;
+    const baseCardH = 55;
+    const baseSpacingX = 100;
+    const baseSpacingY = 90;
+    
+    // Calculate required dimensions at base size
+    const requiredWidth = colCount * baseSpacingX + 150;
+    const requiredHeight = genCount * baseSpacingY + 100;
+    
+    // Calculate scale factor to fit in available space
+    const scaleX = availableWidth / requiredWidth;
+    const scaleY = availableHeight / requiredHeight;
+    const scale = Math.min(scaleX, scaleY, 1.2); // Don't scale up too much
+    
+    // Apply scale
+    const cardW = Math.max(50, baseCardW * scale);
+    const cardH = Math.max(35, baseCardH * scale);
+    const spacingX = baseSpacingX * scale;
+    const spacingY = baseSpacingY * scale;
+    
+    // Calculate actual SVG dimensions
+    const svgWidth = colCount * spacingX + cardW + 50;
+    const svgHeight = genCount * spacingY + cardH + 50;
+    
+    // Create SVG
+    const svg = d3.select(treeContainer).append("svg")
+        .attr("width", svgWidth)
+        .attr("height", svgHeight)
+        .style("background", "#ffffff")
+        .style("border-radius", "12px")
+        .style("display", "block");
+
+    // Dynamic scales
+    const xScale = d3.scaleLinear().domain([0, maxCol || 1]).range([cardW/2 + 25, svgWidth - cardW/2 - 25]);
+    const yScale = d3.scaleLinear().domain([0, maxGen || 1]).range([cardH/2 + 25, svgHeight - cardH/2 - 25]);
+
+    // Draw edges (lines)
+    if (currentTreeData.edges && currentTreeData.edges.length > 0) {
+        svg.selectAll("line").data(currentTreeData.edges).enter().append("line")
+            .attr("x1", d => getNodeX(d.from, currentTreeData.nodes, xScale))
+            .attr("y1", d => getNodeY(d.from, currentTreeData.nodes, yScale) + cardH/2 + 3)
+            .attr("x2", d => getNodeX(d.to, currentTreeData.nodes, xScale))
+            .attr("y2", d => getNodeY(d.to, currentTreeData.nodes, yScale) - cardH/2 - 3)
+            .attr("stroke", "#cbd5e1")
+            .attr("stroke-width", Math.max(1, 2 * scale));
+    }
+
+    // Draw nodes
+    const nodes = svg.selectAll("g.node").data(currentTreeData.nodes).enter().append("g")
+        .attr("class", "node")
+        .attr("transform", d => `translate(${xScale(d.column)},${yScale(d.generation)})`);
+
+    const isHighlight = d => d.id === (currentTreeData.highlightId || "you");
+    const isPBLeg = d => d.isPBLeg || d.pbQualified;
+    const isPOBLeg = d => d.isPOBLeg;
+
+    // Card background
+    nodes.append("rect")
+        .attr("x", -cardW / 2)
+        .attr("y", -cardH / 2)
+        .attr("width", cardW)
+        .attr("height", cardH)
+        .attr("rx", Math.max(4, 8 * scale))
+        .attr("fill", d => {
+            if (isHighlight(d)) return "#dcfce7";
+            if (isPOBLeg(d) && isPBLeg(d)) return "#fef3c7";
+            if (isPOBLeg(d)) return "#ffedd5";
+            if (isPBLeg(d)) return "#f3e8ff";
+            return "#fff";
+        })
+        .attr("stroke", d => {
+            if (isHighlight(d)) return "#16a34a";
+            if (isPOBLeg(d) && isPBLeg(d)) return "#f59e0b";
+            if (isPOBLeg(d)) return "#f97316";
+            if (isPBLeg(d)) return "#a855f7";
+            return "#cbd5e1";
+        })
+        .attr("stroke-width", d => (isHighlight(d) || isPBLeg(d) || isPOBLeg(d)) ? Math.max(1.5, 2.5 * scale) : Math.max(1, 1.5 * scale))
+        .style("filter", "drop-shadow(0 2px 4px rgba(0,0,0,0.08))");
+
+    // PB/POB indicator badges
+    const badgeSize = Math.max(6, 10 * scale);
+    const badgeFontSize = Math.max(6, 9 * scale) + 'px';
+    
+    nodes.each(function(d) {
+        if (d.id === "you") return;
+        const g = d3.select(this);
+        
+        if (isPBLeg(d) && isPOBLeg(d)) {
+            g.append("circle")
+                .attr("cx", -cardW/2 + badgeSize + 2)
+                .attr("cy", -cardH/2 + badgeSize + 2)
+                .attr("r", badgeSize)
+                .attr("fill", "#a855f7");
+            g.append("text")
+                .attr("x", -cardW/2 + badgeSize + 2)
+                .attr("y", -cardH/2 + badgeSize + 5)
+                .attr("text-anchor", "middle")
+                .style("font-size", badgeFontSize)
+                .style("fill", "white")
+                .style("font-weight", "bold")
+                .text("PB");
+                
+            g.append("circle")
+                .attr("cx", cardW/2 - badgeSize - 2)
+                .attr("cy", -cardH/2 + badgeSize + 2)
+                .attr("r", badgeSize)
+                .attr("fill", "#f97316");
+            g.append("text")
+                .attr("x", cardW/2 - badgeSize - 2)
+                .attr("y", -cardH/2 + badgeSize + 5)
+                .attr("text-anchor", "middle")
+                .style("font-size", badgeFontSize)
+                .style("fill", "white")
+                .style("font-weight", "bold")
+                .text("POB");
+        } else if (isPBLeg(d)) {
+            g.append("circle")
+                .attr("cx", -cardW/2 + badgeSize + 2)
+                .attr("cy", -cardH/2 + badgeSize + 2)
+                .attr("r", badgeSize)
+                .attr("fill", "#a855f7");
+            g.append("text")
+                .attr("x", -cardW/2 + badgeSize + 2)
+                .attr("y", -cardH/2 + badgeSize + 5)
+                .attr("text-anchor", "middle")
+                .style("font-size", badgeFontSize)
+                .style("fill", "white")
+                .style("font-weight", "bold")
+                .text("PB");
+        } else if (isPOBLeg(d)) {
+            g.append("circle")
+                .attr("cx", cardW/2 - badgeSize - 2)
+                .attr("cy", -cardH/2 + badgeSize + 2)
+                .attr("r", badgeSize)
+                .attr("fill", "#f97316");
+            g.append("text")
+                .attr("x", cardW/2 - badgeSize - 2)
+                .attr("y", -cardH/2 + badgeSize + 5)
+                .attr("text-anchor", "middle")
+                .style("font-size", badgeFontSize)
+                .style("fill", "white")
+                .style("font-weight", "bold")
+                .text("POB");
+        }
+    });
+
+    // Code label (top)
+    const codeFontSize = Math.max(8, 13 * scale) + 'px';
+    nodes.append("text")
+        .text(d => d.code || "")
+        .attr("dy", -cardH/4)
+        .attr("text-anchor", "middle")
+        .style("font-size", codeFontSize)
+        .style("font-weight", "800")
+        .style("fill", d => {
+            if (isHighlight(d)) return "#166534";
+            if (isPOBLeg(d) && isPBLeg(d)) return "#b45309";
+            if (isPOBLeg(d)) return "#c2410c";
+            if (isPBLeg(d)) return "#7c3aed";
+            return "#1e293b";
+        });
+
+    // PV label (middle)
+    const pvFontSize = Math.max(6, 10 * scale) + 'px';
+    nodes.append("text")
+        .text(d => d.pv ? `PV ${d.pv.toLocaleString()}` : "")
+        .attr("dy", cardH/4)
+        .attr("text-anchor", "middle")
+        .style("font-size", pvFontSize)
+        .style("font-weight", "600")
+        .style("fill", "#0f766e");
+
+    // Bonus indicators (bottom) - colored dots
+    const dotSize = Math.max(4, 7 * scale);
+    nodes.each(function(d) {
+        if (d.id === "you") return;
+        
+        const bonusColors = window.getNodeBonusColors ? window.getNodeBonusColors(d, currentRankId) : [];
+        if (bonusColors.length === 0) return;
+        
+        const g = d3.select(this);
+        const startX = -((bonusColors.length - 1) * (dotSize + 2)) / 2;
+        
+        bonusColors.forEach((bonus, i) => {
+            g.append("circle")
+                .attr("cx", startX + i * (dotSize + 2))
+                .attr("cy", cardH/2 - dotSize - 2)
+                .attr("r", dotSize / 2)
+                .attr("fill", bonus.color)
+                .style("filter", "drop-shadow(0 1px 2px rgba(0,0,0,0.2))")
+                .append("title")
+                .text(bonus.label);
+        });
+    });
 }
 
 function closeTreePopup() {
@@ -379,13 +580,13 @@ function drawTree(data, container, rankId, rankData, isPopup = false) {
     const colCount = maxCol + 1;
     const genCount = maxGen + 1;
 
-    // Card sizes - larger for popup
-    const cardW = isPopup ? 110 : 90;
-    const cardH = isPopup ? 70 : 58;
+    // Card sizes
+    const cardW = 90;
+    const cardH = 58;
     
-    // Spacing - more generous for popup
-    const minSpacingX = isPopup ? (cardW + 50) : (cardW + 30);
-    const minSpacingY = isPopup ? (cardH + 100) : (cardH + 80);
+    // Spacing
+    const minSpacingX = cardW + 30;
+    const minSpacingY = cardH + 80;
     
     const nodeSpacingX = minSpacingX;
     const nodeSpacingY = minSpacingY;
@@ -404,29 +605,26 @@ function drawTree(data, container, rankId, rankData, isPopup = false) {
         background: #ffffff;
         padding: 10px;
         margin-bottom: 10px;
-        ${isPopup ? 'max-height: 60vh;' : ''}
-        cursor: ${isPopup ? 'default' : 'pointer'};
+        cursor: pointer;
     `;
     
-    // Add click to open popup (only in regular view)
-    if (!isPopup) {
-        // Add hint to click for fullscreen
-        const clickHint = document.createElement("div");
-        clickHint.style.cssText = "text-align:center; color:#0369a1; font-size:0.9rem; margin-bottom:8px; padding:10px; background:linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); border-radius:8px; cursor:pointer; transition: all 0.2s;";
-        clickHint.innerHTML = "🔍 <b>לחץ כאן לצפייה במסך מלא</b> - עם הסברים מפורטים";
-        clickHint.onmouseover = () => { clickHint.style.background = 'linear-gradient(135deg, #bfdbfe 0%, #93c5fd 100%)'; };
-        clickHint.onmouseout = () => { clickHint.style.background = 'linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%)'; };
-        clickHint.onclick = openTreePopup;
-        container.appendChild(clickHint);
-        
-        // Also make the tree clickable
-        scrollContainer.onclick = openTreePopup;
-        scrollContainer.onmouseover = () => { scrollContainer.style.boxShadow = '0 0 0 3px rgba(59, 130, 246, 0.3)'; };
-        scrollContainer.onmouseout = () => { scrollContainer.style.boxShadow = 'none'; };
-    }
+    // Add click to open popup
+    // Add hint to click for fullscreen
+    const clickHint = document.createElement("div");
+    clickHint.style.cssText = "text-align:center; color:#0369a1; font-size:0.9rem; margin-bottom:8px; padding:10px; background:linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); border-radius:8px; cursor:pointer; transition: all 0.2s;";
+    clickHint.innerHTML = "🔍 <b>לחץ כאן לצפייה במסך מלא</b> - העץ יתאים לגודל המסך";
+    clickHint.onmouseover = () => { clickHint.style.background = 'linear-gradient(135deg, #bfdbfe 0%, #93c5fd 100%)'; };
+    clickHint.onmouseout = () => { clickHint.style.background = 'linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%)'; };
+    clickHint.onclick = openTreePopup;
+    container.appendChild(clickHint);
+    
+    // Also make the tree clickable
+    scrollContainer.onclick = openTreePopup;
+    scrollContainer.onmouseover = () => { scrollContainer.style.boxShadow = '0 0 0 3px rgba(59, 130, 246, 0.3)'; };
+    scrollContainer.onmouseout = () => { scrollContainer.style.boxShadow = 'none'; };
     
     // Add scroll hint for large trees
-    if (actualWidth > 900 && !isPopup) {
+    if (actualWidth > 900) {
         const scrollHint = document.createElement("div");
         scrollHint.style.cssText = "text-align:center; color:#64748b; font-size:0.85rem; margin-bottom:8px; padding:6px; background:#f1f5f9; border-radius:6px;";
         scrollHint.innerHTML = "👈 גלול ימינה ושמאלה לצפייה בעץ המלא 👉";
@@ -494,8 +692,8 @@ function drawTree(data, container, rankId, rankData, isPopup = false) {
     nodes.each(function(d) {
         if (d.id === "you") return;
         const g = d3.select(this);
-        const badgeSize = isPopup ? 10 : 8;
-        const fontSize = isPopup ? '9px' : '8px';
+        const badgeSize = 8;
+        const fontSize = '8px';
         
         if (isPBLeg(d) && isPOBLeg(d)) {
             g.append("circle")
@@ -557,10 +755,10 @@ function drawTree(data, container, rankId, rankData, isPopup = false) {
     });
 
     // Code label (top)
-    const codeFontSize = isPopup ? '15px' : '13px';
+    const codeFontSize = '13px';
     nodes.append("text")
         .text(d => d.code || "")
-        .attr("dy", isPopup ? -10 : -8)
+        .attr("dy", -8)
         .attr("text-anchor", "middle")
         .style("font-size", codeFontSize)
         .style("font-weight", "800")
@@ -573,10 +771,10 @@ function drawTree(data, container, rankId, rankData, isPopup = false) {
         });
 
     // PV label (middle)
-    const pvFontSize = isPopup ? '12px' : '10px';
+    const pvFontSize = '10px';
     nodes.append("text")
         .text(d => d.pv ? `PV ${d.pv.toLocaleString()}` : "")
-        .attr("dy", isPopup ? 12 : 10)
+        .attr("dy", 10)
         .attr("text-anchor", "middle")
         .style("font-size", pvFontSize)
         .style("font-weight", "600")
@@ -590,7 +788,7 @@ function drawTree(data, container, rankId, rankData, isPopup = false) {
         if (bonusColors.length === 0) return;
         
         const g = d3.select(this);
-        const dotSize = isPopup ? 9 : 7;
+        const dotSize = 7;
         const startX = -((bonusColors.length - 1) * (dotSize + 3)) / 2;
         
         bonusColors.forEach((bonus, i) => {
