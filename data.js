@@ -392,17 +392,17 @@ window.RANK_TREES = {
     nodes: [
       { id: "you", label: "אתה (SC)", code: "SC", pv: 1245, generation: 0, column: 4 },
       { id: "leg1", label: "זכיין", code: "P", pv: 2561, generation: 1, column: 0 },
-      { id: "leg2", label: "זכיין (P+)", code: "P+", pv: 4300, generation: 1, column: 1, isPBLeg: true },
-      { id: "leg3", label: "זכיין", code: "P", pv: 930, generation: 1, column: 2 },
-      { id: "leg4", label: "זכיין", code: "P", pv: 2561, generation: 1, column: 3 },
-      { id: "leg5", label: "זכיין", code: "P", pv: 2561, generation: 1, column: 4 },
-      { id: "leg6", label: "לקוח", code: "Client", pv: 1631, generation: 1, column: 5 },
-      { id: "leg7", label: "לקוח", code: "Client", pv: 2561, generation: 1, column: 6 },
-      { id: "leg8", label: "זכיין חדש", code: "P", pv: 1531, generation: 1, column: 7 },
-      { id: "sub4", label: "זכיין", code: "P", pv: 2561, generation: 2, column: 3 },
-      { id: "sub5", label: "זכיין", code: "P", pv: 2561, generation: 2, column: 4 },
-      { id: "sub7", label: "לקוח", code: "Client", pv: 436, generation: 2, column: 6 },
-      { id: "subsub7", label: "זכיין", code: "P", pv: 2561, generation: 3, column: 6 }
+      { id: "leg2", label: "זכיין (P+)", code: "P+", pv: 4300, generation: 1, column: 1.5, isPBLeg: true },
+      { id: "leg3", label: "זכיין", code: "P", pv: 930, generation: 1, column: 3 },
+      { id: "leg4", label: "זכיין", code: "P", pv: 2561, generation: 1, column: 4.5 },
+      { id: "leg5", label: "זכיין", code: "P", pv: 2561, generation: 1, column: 6 },
+      { id: "leg6", label: "לקוח", code: "Client", pv: 1631, generation: 1, column: 7.5 },
+      { id: "leg7", label: "לקוח", code: "Client", pv: 2561, generation: 1, column: 9 },
+      { id: "leg8", label: "זכיין חדש", code: "P", pv: 1531, generation: 1, column: 10.5 },
+      { id: "sub4", label: "זכיין", code: "P", pv: 2561, generation: 2, column: 4.5 },
+      { id: "sub5", label: "זכיין", code: "P", pv: 2561, generation: 2, column: 6 },
+      { id: "sub7", label: "לקוח", code: "Client", pv: 436, generation: 2, column: 9 },
+      { id: "subsub7", label: "זכיין", code: "P", pv: 2561, generation: 3, column: 9 }
     ],
     edges: [
       {from:"you",to:"leg1"}, {from:"you",to:"leg2"}, {from:"you",to:"leg3"}, {from:"you",to:"leg4"}, {from:"you",to:"leg5"}, {from:"you",to:"leg6"}, {from:"you",to:"leg7"}, {from:"you",to:"leg8"},
@@ -422,27 +422,27 @@ window.RANK_TREES = {
     title: "מבנה QSSC - Qualifying Senior Sales Coordinator",
     highlightId: "you",
     nodes: [
-      { id: "you", label: "אתה", code: "QSSC", pv: 1500, generation: 0, column: 2.5 },
+      { id: "you", label: "אתה", code: "QSSC", pv: 2000, generation: 0, column: 3 },
       
       // רגל 1 - רגל PB מוסמכת (SP שביצע הסמכה)
-      { id: "leg1", label: "רגל PB", code: "SP", pv: 3000, generation: 1, column: 0, isPBLeg: true, pbQualified: true },
-      { id: "leg1_sub1", label: "זכיין", code: "P+", pv: 2500, generation: 2, column: 0 },
-      { id: "leg1_sub2", label: "זכיין", code: "P", pv: 2000, generation: 2, column: 0.5 },
-      { id: "leg1_sub3", label: "לקוח", code: "Client", pv: 1500, generation: 3, column: 0 },
+      { id: "leg1", label: "רגל PB", code: "SP", pv: 5000, generation: 1, column: 0, isPBLeg: true, pbQualified: true },
+      { id: "leg1_sub1", label: "זכיין", code: "P+", pv: 3500, generation: 2, column: 0 },
+      { id: "leg1_sub2", label: "זכיין", code: "P", pv: 2500, generation: 2, column: 1.5 },
+      { id: "leg1_sub3", label: "לקוח", code: "Client", pv: 2000, generation: 3, column: 0 },
       
       // רגל 2
-      { id: "leg2", label: "זכיין", code: "P+", pv: 3500, generation: 1, column: 1.5 },
-      { id: "leg2_sub1", label: "זכיין", code: "P", pv: 2000, generation: 2, column: 1.5 },
+      { id: "leg2", label: "זכיין", code: "P+", pv: 4000, generation: 1, column: 3 },
+      { id: "leg2_sub1", label: "זכיין", code: "P", pv: 2500, generation: 2, column: 3 },
       
       // רגל 3
-      { id: "leg3", label: "זכיין", code: "P", pv: 2800, generation: 1, column: 3 },
-      { id: "leg3_sub1", label: "לקוח", code: "Client", pv: 1200, generation: 2, column: 3 },
+      { id: "leg3", label: "זכיין", code: "P", pv: 3000, generation: 1, column: 5 },
+      { id: "leg3_sub1", label: "לקוח", code: "Client", pv: 1500, generation: 2, column: 5 },
       
       // רגל 4
-      { id: "leg4", label: "זכיין", code: "P", pv: 2500, generation: 1, column: 4 },
+      { id: "leg4", label: "זכיין", code: "P", pv: 2500, generation: 1, column: 7 },
       
       // רגל 5 - לקוחות
-      { id: "leg5", label: "לקוח", code: "Client", pv: 2000, generation: 1, column: 5 }
+      { id: "leg5", label: "לקוח", code: "Client", pv: 2000, generation: 1, column: 9 }
     ],
     edges: [
       {from:"you",to:"leg1"}, {from:"you",to:"leg2"}, {from:"you",to:"leg3"}, {from:"you",to:"leg4"}, {from:"you",to:"leg5"},
@@ -465,37 +465,34 @@ window.RANK_TREES = {
     title: "מבנה SSC - Senior Sales Coordinator",
     highlightId: "you",
     nodes: [
-      { id: "you", label: "אתה", code: "SSC", pv: 2000, generation: 0, column: 3 },
+      { id: "you", label: "אתה", code: "SSC", pv: 3000, generation: 0, column: 4 },
       
       // רגל PB 1 - SC מוסמך
-      { id: "leg1", label: "רגל PB 1", code: "SC", pv: 5000, generation: 1, column: 0, isPBLeg: true, pbQualified: true },
-      { id: "leg1_sub1", label: "זכיין", code: "P+", pv: 3000, generation: 2, column: 0 },
-      { id: "leg1_sub2", label: "זכיין", code: "P", pv: 2500, generation: 2, column: 0.5 },
-      { id: "leg1_sub3", label: "לקוח", code: "Client", pv: 2000, generation: 3, column: 0 },
+      { id: "leg1", label: "רגל PB 1", code: "SC", pv: 8000, generation: 1, column: 0, isPBLeg: true, pbQualified: true },
+      { id: "leg1_sub1", label: "זכיין", code: "P+", pv: 4000, generation: 2, column: 0 },
+      { id: "leg1_sub2", label: "זכיין", code: "P", pv: 3500, generation: 2, column: 1.5 },
+      { id: "leg1_sub3", label: "לקוח", code: "Client", pv: 2500, generation: 3, column: 0 },
       
       // רגל PB 2 - SP מוסמך
-      { id: "leg2", label: "רגל PB 2", code: "SP", pv: 4500, generation: 1, column: 1.5, isPBLeg: true, pbQualified: true },
-      { id: "leg2_sub1", label: "זכיין", code: "P+", pv: 3500, generation: 2, column: 1.5 },
-      { id: "leg2_sub2", label: "זכיין", code: "P", pv: 2000, generation: 2, column: 2 },
-      { id: "leg2_sub3", label: "לקוח", code: "Client", pv: 1500, generation: 3, column: 1.5 },
+      { id: "leg2", label: "רגל PB 2", code: "SP", pv: 7000, generation: 1, column: 3, isPBLeg: true, pbQualified: true },
+      { id: "leg2_sub1", label: "זכיין", code: "P+", pv: 4500, generation: 2, column: 3 },
+      { id: "leg2_sub2", label: "זכיין", code: "P", pv: 3000, generation: 2, column: 4.5 },
+      { id: "leg2_sub3", label: "לקוח", code: "Client", pv: 2000, generation: 3, column: 3 },
       
       // רגל 3
-      { id: "leg3", label: "זכיין", code: "P+", pv: 4000, generation: 1, column: 3 },
-      { id: "leg3_sub1", label: "זכיין", code: "P", pv: 3000, generation: 2, column: 3 },
-      { id: "leg3_sub2", label: "לקוח", code: "Client", pv: 2000, generation: 3, column: 3 },
+      { id: "leg3", label: "זכיין", code: "P+", pv: 5000, generation: 1, column: 6 },
+      { id: "leg3_sub1", label: "זכיין", code: "P", pv: 4000, generation: 2, column: 6 },
+      { id: "leg3_sub2", label: "לקוח", code: "Client", pv: 2500, generation: 3, column: 6 },
       
       // רגל 4
-      { id: "leg4", label: "זכיין", code: "P", pv: 5000, generation: 1, column: 4.5 },
-      { id: "leg4_sub1", label: "זכיין", code: "P", pv: 3000, generation: 2, column: 4.5 },
+      { id: "leg4", label: "זכיין", code: "P", pv: 4000, generation: 1, column: 8 },
+      { id: "leg4_sub1", label: "זכיין", code: "P", pv: 3000, generation: 2, column: 8 },
       
-      // רגל 5
-      { id: "leg5", label: "זכיין", code: "P", pv: 4000, generation: 1, column: 5.5 },
-      
-      // רגל 6 - לקוחות
-      { id: "leg6", label: "לקוח", code: "Client", pv: 3500, generation: 1, column: 6.5 }
+      // לקוחות
+      { id: "leg5", label: "לקוח", code: "Client", pv: 3000, generation: 1, column: 10 }
     ],
     edges: [
-      {from:"you",to:"leg1"}, {from:"you",to:"leg2"}, {from:"you",to:"leg3"}, {from:"you",to:"leg4"}, {from:"you",to:"leg5"}, {from:"you",to:"leg6"},
+      {from:"you",to:"leg1"}, {from:"you",to:"leg2"}, {from:"you",to:"leg3"}, {from:"you",to:"leg4"}, {from:"you",to:"leg5"},
       {from:"leg1",to:"leg1_sub1"}, {from:"leg1",to:"leg1_sub2"}, {from:"leg1_sub1",to:"leg1_sub3"},
       {from:"leg2",to:"leg2_sub1"}, {from:"leg2",to:"leg2_sub2"}, {from:"leg2_sub1",to:"leg2_sub3"},
       {from:"leg3",to:"leg3_sub1"}, {from:"leg3_sub1",to:"leg3_sub2"},
@@ -516,45 +513,40 @@ window.RANK_TREES = {
     title: "מבנה QNMD - Qualifying National Marketing Director",
     highlightId: "you",
     nodes: [
-      { id: "you", label: "אתה", code: "QNMD", pv: 3000, generation: 0, column: 3.5 },
+      { id: "you", label: "אתה", code: "QNMD", pv: 5000, generation: 0, column: 5 },
       
       // רגל PB 1 - SSC
-      { id: "leg1", label: "רגל PB 1", code: "SSC", pv: 8000, generation: 1, column: 0, isPBLeg: true, pbQualified: true },
-      { id: "leg1_sub1", label: "SC", code: "SC", pv: 5000, generation: 2, column: 0 },
-      { id: "leg1_sub2", label: "זכיין", code: "P+", pv: 3000, generation: 3, column: 0 },
+      { id: "leg1", label: "רגל PB 1", code: "SSC", pv: 15000, generation: 1, column: 0, isPBLeg: true, pbQualified: true },
+      { id: "leg1_sub1", label: "SC", code: "SC", pv: 8000, generation: 2, column: 0 },
+      { id: "leg1_sub2", label: "זכיין", code: "P+", pv: 5000, generation: 3, column: 0 },
       
       // רגל PB 2 - SC
-      { id: "leg2", label: "רגל PB 2", code: "SC", pv: 7000, generation: 1, column: 1.5, isPBLeg: true, pbQualified: true },
-      { id: "leg2_sub1", label: "SP", code: "SP", pv: 4000, generation: 2, column: 1.5 },
-      { id: "leg2_sub2", label: "זכיין", code: "P+", pv: 3500, generation: 3, column: 1.5 },
+      { id: "leg2", label: "רגל PB 2", code: "SC", pv: 12000, generation: 1, column: 2.5, isPBLeg: true, pbQualified: true },
+      { id: "leg2_sub1", label: "SP", code: "SP", pv: 6000, generation: 2, column: 2.5 },
+      { id: "leg2_sub2", label: "זכיין", code: "P+", pv: 4500, generation: 3, column: 2.5 },
       
       // רגל PB 3 - SP
-      { id: "leg3", label: "רגל PB 3", code: "SP", pv: 6000, generation: 1, column: 3, isPBLeg: true, pbQualified: true },
-      { id: "leg3_sub1", label: "זכיין", code: "P+", pv: 4000, generation: 2, column: 3 },
-      { id: "leg3_sub2", label: "זכיין", code: "P", pv: 3000, generation: 2, column: 3.5 },
+      { id: "leg3", label: "רגל PB 3", code: "SP", pv: 10000, generation: 1, column: 5, isPBLeg: true, pbQualified: true },
+      { id: "leg3_sub1", label: "זכיין", code: "P+", pv: 6000, generation: 2, column: 5 },
+      { id: "leg3_sub2", label: "זכיין", code: "P", pv: 4000, generation: 2, column: 6.5 },
       
       // רגל 4
-      { id: "leg4", label: "זכיין", code: "P+", pv: 8000, generation: 1, column: 4.5 },
-      { id: "leg4_sub1", label: "זכיין", code: "P", pv: 5000, generation: 2, column: 4.5 },
-      { id: "leg4_sub2", label: "לקוח", code: "Client", pv: 3000, generation: 3, column: 4.5 },
+      { id: "leg4", label: "זכיין", code: "P+", pv: 12000, generation: 1, column: 8 },
+      { id: "leg4_sub1", label: "זכיין", code: "P", pv: 7000, generation: 2, column: 8 },
+      { id: "leg4_sub2", label: "לקוח", code: "Client", pv: 4000, generation: 3, column: 8 },
       
       // רגל 5
-      { id: "leg5", label: "זכיין", code: "P", pv: 10000, generation: 1, column: 6 },
-      { id: "leg5_sub1", label: "זכיין", code: "P", pv: 6000, generation: 2, column: 6 },
-      
-      // רגל 6
-      { id: "leg6", label: "זכיין", code: "P", pv: 8000, generation: 1, column: 7 },
+      { id: "leg5", label: "זכיין", code: "P", pv: 8000, generation: 1, column: 10 },
       
       // לקוחות
-      { id: "leg7", label: "לקוח", code: "Client", pv: 5000, generation: 1, column: 8 }
+      { id: "leg6", label: "לקוח", code: "Client", pv: 5000, generation: 1, column: 12 }
     ],
     edges: [
-      {from:"you",to:"leg1"}, {from:"you",to:"leg2"}, {from:"you",to:"leg3"}, {from:"you",to:"leg4"}, {from:"you",to:"leg5"}, {from:"you",to:"leg6"}, {from:"you",to:"leg7"},
+      {from:"you",to:"leg1"}, {from:"you",to:"leg2"}, {from:"you",to:"leg3"}, {from:"you",to:"leg4"}, {from:"you",to:"leg5"}, {from:"you",to:"leg6"},
       {from:"leg1",to:"leg1_sub1"}, {from:"leg1_sub1",to:"leg1_sub2"},
       {from:"leg2",to:"leg2_sub1"}, {from:"leg2_sub1",to:"leg2_sub2"},
       {from:"leg3",to:"leg3_sub1"}, {from:"leg3",to:"leg3_sub2"},
-      {from:"leg4",to:"leg4_sub1"}, {from:"leg4_sub1",to:"leg4_sub2"},
-      {from:"leg5",to:"leg5_sub1"}
+      {from:"leg4",to:"leg4_sub1"}, {from:"leg4_sub1",to:"leg4_sub2"}
     ],
     notes: [
       "⭐ יעד: 111,000 נקודות פייליין.",
@@ -571,42 +563,41 @@ window.RANK_TREES = {
     title: "מבנה NMD - National Marketing Director",
     highlightId: "you",
     nodes: [
-      { id: "you", label: "אתה", code: "NMD", pv: 5000, generation: 0, column: 4 },
+      { id: "you", label: "אתה", code: "NMD", pv: 8000, generation: 0, column: 6 },
       
       // רגל PB+POB 1 - QNMD
-      { id: "leg1", label: "רגל PB+POB", code: "QNMD", pv: 15000, generation: 1, column: 0, isPBLeg: true, isPOBLeg: true, pbQualified: true },
-      { id: "leg1_sub1", label: "SSC", code: "SSC", pv: 8000, generation: 2, column: 0 },
-      { id: "leg1_sub2", label: "SC", code: "SC", pv: 5000, generation: 3, column: 0 },
+      { id: "leg1", label: "רגל PB+POB", code: "QNMD", pv: 30000, generation: 1, column: 0, isPBLeg: true, isPOBLeg: true, pbQualified: true },
+      { id: "leg1_sub1", label: "SSC", code: "SSC", pv: 15000, generation: 2, column: 0 },
+      { id: "leg1_sub2", label: "SC", code: "SC", pv: 8000, generation: 3, column: 0 },
       
       // רגל PB+POB 2 - SSC
-      { id: "leg2", label: "רגל PB+POB", code: "SSC", pv: 12000, generation: 1, column: 1.5, isPBLeg: true, isPOBLeg: true, pbQualified: true },
-      { id: "leg2_sub1", label: "SC", code: "SC", pv: 6000, generation: 2, column: 1.5 },
-      { id: "leg2_sub2", label: "SP", code: "SP", pv: 4000, generation: 3, column: 1.5 },
+      { id: "leg2", label: "רגל PB+POB", code: "SSC", pv: 25000, generation: 1, column: 2.5, isPBLeg: true, isPOBLeg: true, pbQualified: true },
+      { id: "leg2_sub1", label: "SC", code: "SC", pv: 12000, generation: 2, column: 2.5 },
+      { id: "leg2_sub2", label: "SP", code: "SP", pv: 7000, generation: 3, column: 2.5 },
       
       // רגל PB 3 - SC
-      { id: "leg3", label: "רגל PB", code: "SC", pv: 10000, generation: 1, column: 3, isPBLeg: true, pbQualified: true },
-      { id: "leg3_sub1", label: "SP", code: "SP", pv: 5000, generation: 2, column: 3 },
-      { id: "leg3_sub2", label: "P+", code: "P+", pv: 4000, generation: 3, column: 3 },
+      { id: "leg3", label: "רגל PB", code: "SC", pv: 18000, generation: 1, column: 5, isPBLeg: true, pbQualified: true },
+      { id: "leg3_sub1", label: "SP", code: "SP", pv: 9000, generation: 2, column: 5 },
+      { id: "leg3_sub2", label: "P+", code: "P+", pv: 6000, generation: 3, column: 5 },
       
       // רגל PB 4 - SP
-      { id: "leg4", label: "רגל PB", code: "SP", pv: 8000, generation: 1, column: 4.5, isPBLeg: true, pbQualified: true },
-      { id: "leg4_sub1", label: "P+", code: "P+", pv: 5000, generation: 2, column: 4.5 },
-      { id: "leg4_sub2", label: "P", code: "P", pv: 4000, generation: 3, column: 4.5 },
+      { id: "leg4", label: "רגל PB", code: "SP", pv: 15000, generation: 1, column: 7.5, isPBLeg: true, pbQualified: true },
+      { id: "leg4_sub1", label: "P+", code: "P+", pv: 8000, generation: 2, column: 7.5 },
+      { id: "leg4_sub2", label: "P", code: "P", pv: 5000, generation: 3, column: 7.5 },
       
       // רגל PB 5 - SP
-      { id: "leg5", label: "רגל PB", code: "SP", pv: 7000, generation: 1, column: 6, isPBLeg: true, pbQualified: true },
-      { id: "leg5_sub1", label: "P+", code: "P+", pv: 4500, generation: 2, column: 6 },
+      { id: "leg5", label: "רגל PB", code: "SP", pv: 12000, generation: 1, column: 10, isPBLeg: true, pbQualified: true },
+      { id: "leg5_sub1", label: "P+", code: "P+", pv: 7000, generation: 2, column: 10 },
       
       // רגליים נוספות
-      { id: "leg6", label: "זכיין", code: "P+", pv: 15000, generation: 1, column: 7 },
-      { id: "leg6_sub1", label: "P", code: "P", pv: 8000, generation: 2, column: 7 },
+      { id: "leg6", label: "זכיין", code: "P+", pv: 20000, generation: 1, column: 12.5 },
+      { id: "leg6_sub1", label: "P", code: "P", pv: 10000, generation: 2, column: 12.5 },
       
-      { id: "leg7", label: "זכיין", code: "P", pv: 12000, generation: 1, column: 8 },
-      
-      { id: "leg8", label: "לקוח", code: "Client", pv: 8000, generation: 1, column: 9 }
+      // לקוחות
+      { id: "leg7", label: "לקוח", code: "Client", pv: 10000, generation: 1, column: 15 }
     ],
     edges: [
-      {from:"you",to:"leg1"}, {from:"you",to:"leg2"}, {from:"you",to:"leg3"}, {from:"you",to:"leg4"}, {from:"you",to:"leg5"}, {from:"you",to:"leg6"}, {from:"you",to:"leg7"}, {from:"you",to:"leg8"},
+      {from:"you",to:"leg1"}, {from:"you",to:"leg2"}, {from:"you",to:"leg3"}, {from:"you",to:"leg4"}, {from:"you",to:"leg5"}, {from:"you",to:"leg6"}, {from:"you",to:"leg7"},
       {from:"leg1",to:"leg1_sub1"}, {from:"leg1_sub1",to:"leg1_sub2"},
       {from:"leg2",to:"leg2_sub1"}, {from:"leg2_sub1",to:"leg2_sub2"},
       {from:"leg3",to:"leg3_sub1"}, {from:"leg3_sub1",to:"leg3_sub2"},
@@ -630,42 +621,41 @@ window.RANK_TREES = {
     title: "מבנה IMD - International Marketing Director",
     highlightId: "you",
     nodes: [
-      { id: "you", label: "אתה", code: "IMD", pv: 8000, generation: 0, column: 4.5 },
+      { id: "you", label: "אתה", code: "IMD", pv: 15000, generation: 0, column: 6 },
       
       // רגל PB+POB 1 - NMD
-      { id: "leg1", label: "רגל PB+POB", code: "NMD", pv: 25000, generation: 1, column: 0, isPBLeg: true, isPOBLeg: true, pbQualified: true },
-      { id: "leg1_sub1", label: "QNMD", code: "QNMD", pv: 15000, generation: 2, column: 0 },
-      { id: "leg1_sub2", label: "SSC", code: "SSC", pv: 10000, generation: 3, column: 0 },
+      { id: "leg1", label: "רגל PB+POB", code: "NMD", pv: 60000, generation: 1, column: 0, isPBLeg: true, isPOBLeg: true, pbQualified: true },
+      { id: "leg1_sub1", label: "QNMD", code: "QNMD", pv: 30000, generation: 2, column: 0 },
+      { id: "leg1_sub2", label: "SSC", code: "SSC", pv: 18000, generation: 3, column: 0 },
       
       // רגל PB+POB 2 - QNMD
-      { id: "leg2", label: "רגל PB+POB", code: "QNMD", pv: 20000, generation: 1, column: 1.5, isPBLeg: true, isPOBLeg: true, pbQualified: true },
-      { id: "leg2_sub1", label: "SSC", code: "SSC", pv: 12000, generation: 2, column: 1.5 },
-      { id: "leg2_sub2", label: "SC", code: "SC", pv: 8000, generation: 3, column: 1.5 },
+      { id: "leg2", label: "רגל PB+POB", code: "QNMD", pv: 50000, generation: 1, column: 2.5, isPBLeg: true, isPOBLeg: true, pbQualified: true },
+      { id: "leg2_sub1", label: "SSC", code: "SSC", pv: 25000, generation: 2, column: 2.5 },
+      { id: "leg2_sub2", label: "SC", code: "SC", pv: 15000, generation: 3, column: 2.5 },
       
       // רגל PB+POB 3 - SSC
-      { id: "leg3", label: "רגל PB+POB", code: "SSC", pv: 18000, generation: 1, column: 3, isPBLeg: true, isPOBLeg: true, pbQualified: true },
-      { id: "leg3_sub1", label: "SC", code: "SC", pv: 10000, generation: 2, column: 3 },
-      { id: "leg3_sub2", label: "SP", code: "SP", pv: 6000, generation: 3, column: 3 },
+      { id: "leg3", label: "רגל PB+POB", code: "SSC", pv: 40000, generation: 1, column: 5, isPBLeg: true, isPOBLeg: true, pbQualified: true },
+      { id: "leg3_sub1", label: "SC", code: "SC", pv: 20000, generation: 2, column: 5 },
+      { id: "leg3_sub2", label: "SP", code: "SP", pv: 12000, generation: 3, column: 5 },
       
       // רגל PB 4 - SC
-      { id: "leg4", label: "רגל PB", code: "SC", pv: 15000, generation: 1, column: 4.5, isPBLeg: true, pbQualified: true },
-      { id: "leg4_sub1", label: "SP", code: "SP", pv: 8000, generation: 2, column: 4.5 },
-      { id: "leg4_sub2", label: "P+", code: "P+", pv: 5000, generation: 3, column: 4.5 },
+      { id: "leg4", label: "רגל PB", code: "SC", pv: 30000, generation: 1, column: 7.5, isPBLeg: true, pbQualified: true },
+      { id: "leg4_sub1", label: "SP", code: "SP", pv: 15000, generation: 2, column: 7.5 },
+      { id: "leg4_sub2", label: "P+", code: "P+", pv: 10000, generation: 3, column: 7.5 },
       
       // רגל PB 5 - SP
-      { id: "leg5", label: "רגל PB", code: "SP", pv: 12000, generation: 1, column: 6, isPBLeg: true, pbQualified: true },
-      { id: "leg5_sub1", label: "P+", code: "P+", pv: 7000, generation: 2, column: 6 },
+      { id: "leg5", label: "רגל PB", code: "SP", pv: 25000, generation: 1, column: 10, isPBLeg: true, pbQualified: true },
+      { id: "leg5_sub1", label: "P+", code: "P+", pv: 14000, generation: 2, column: 10 },
       
       // רגליים נוספות
-      { id: "leg6", label: "זכיין", code: "P+", pv: 25000, generation: 1, column: 7.5 },
-      { id: "leg6_sub1", label: "P", code: "P", pv: 15000, generation: 2, column: 7.5 },
+      { id: "leg6", label: "זכיין", code: "P+", pv: 35000, generation: 1, column: 12.5 },
+      { id: "leg6_sub1", label: "P", code: "P", pv: 20000, generation: 2, column: 12.5 },
       
-      { id: "leg7", label: "זכיין", code: "P", pv: 20000, generation: 1, column: 9 },
-      
-      { id: "leg8", label: "לקוח", code: "Client", pv: 10000, generation: 1, column: 10 }
+      // לקוחות
+      { id: "leg7", label: "לקוח", code: "Client", pv: 15000, generation: 1, column: 15 }
     ],
     edges: [
-      {from:"you",to:"leg1"}, {from:"you",to:"leg2"}, {from:"you",to:"leg3"}, {from:"you",to:"leg4"}, {from:"you",to:"leg5"}, {from:"you",to:"leg6"}, {from:"you",to:"leg7"}, {from:"you",to:"leg8"},
+      {from:"you",to:"leg1"}, {from:"you",to:"leg2"}, {from:"you",to:"leg3"}, {from:"you",to:"leg4"}, {from:"you",to:"leg5"}, {from:"you",to:"leg6"}, {from:"you",to:"leg7"},
       {from:"leg1",to:"leg1_sub1"}, {from:"leg1_sub1",to:"leg1_sub2"},
       {from:"leg2",to:"leg2_sub1"}, {from:"leg2_sub1",to:"leg2_sub2"},
       {from:"leg3",to:"leg3_sub1"}, {from:"leg3_sub1",to:"leg3_sub2"},
@@ -689,32 +679,32 @@ window.RANK_TREES = {
     title: "מבנה EMD - Executive Marketing Director",
     highlightId: "you",
     nodes: [
-      { id: "you", label: "אתה", code: "EMD", pv: 10000, generation: 0, column: 5 },
+      { id: "you", label: "אתה", code: "EMD", pv: 20000, generation: 0, column: 6 },
       
       // רגל PB+POB 1 - IMD
-      { id: "leg1", label: "רגל PB+POB", code: "IMD", pv: 40000, generation: 1, column: 0, isPBLeg: true, isPOBLeg: true, pbQualified: true },
-      { id: "leg1_sub1", label: "NMD", code: "NMD", pv: 25000, generation: 2, column: 0 },
+      { id: "leg1", label: "רגל PB+POB", code: "IMD", pv: 90000, generation: 1, column: 0, isPBLeg: true, isPOBLeg: true, pbQualified: true },
+      { id: "leg1_sub1", label: "NMD", code: "NMD", pv: 50000, generation: 2, column: 0 },
       
       // רגל PB+POB 2 - NMD
-      { id: "leg2", label: "רגל PB+POB", code: "NMD", pv: 35000, generation: 1, column: 1.5, isPBLeg: true, isPOBLeg: true, pbQualified: true },
-      { id: "leg2_sub1", label: "QNMD", code: "QNMD", pv: 20000, generation: 2, column: 1.5 },
+      { id: "leg2", label: "רגל PB+POB", code: "NMD", pv: 75000, generation: 1, column: 2.5, isPBLeg: true, isPOBLeg: true, pbQualified: true },
+      { id: "leg2_sub1", label: "QNMD", code: "QNMD", pv: 40000, generation: 2, column: 2.5 },
       
       // רגל PB+POB 3 - QNMD
-      { id: "leg3", label: "רגל PB+POB", code: "QNMD", pv: 30000, generation: 1, column: 3, isPBLeg: true, isPOBLeg: true, pbQualified: true },
-      { id: "leg3_sub1", label: "SSC", code: "SSC", pv: 18000, generation: 2, column: 3 },
+      { id: "leg3", label: "רגל PB+POB", code: "QNMD", pv: 60000, generation: 1, column: 5, isPBLeg: true, isPOBLeg: true, pbQualified: true },
+      { id: "leg3_sub1", label: "SSC", code: "SSC", pv: 35000, generation: 2, column: 5 },
       
       // רגל PB+POB 4 - SSC
-      { id: "leg4", label: "רגל PB+POB", code: "SSC", pv: 25000, generation: 1, column: 4.5, isPBLeg: true, isPOBLeg: true, pbQualified: true },
-      { id: "leg4_sub1", label: "SC", code: "SC", pv: 15000, generation: 2, column: 4.5 },
+      { id: "leg4", label: "רגל PB+POB", code: "SSC", pv: 50000, generation: 1, column: 7.5, isPBLeg: true, isPOBLeg: true, pbQualified: true },
+      { id: "leg4_sub1", label: "SC", code: "SC", pv: 28000, generation: 2, column: 7.5 },
       
       // רגל PB 5 - SC
-      { id: "leg5", label: "רגל PB", code: "SC", pv: 20000, generation: 1, column: 6, isPBLeg: true, pbQualified: true },
-      { id: "leg5_sub1", label: "SP", code: "SP", pv: 12000, generation: 2, column: 6 },
+      { id: "leg5", label: "רגל PB", code: "SC", pv: 40000, generation: 1, column: 10, isPBLeg: true, pbQualified: true },
+      { id: "leg5_sub1", label: "SP", code: "SP", pv: 22000, generation: 2, column: 10 },
       
       // רגליים נוספות
-      { id: "leg6", label: "זכיין", code: "P+", pv: 40000, generation: 1, column: 7.5 },
-      { id: "leg7", label: "זכיין", code: "P", pv: 35000, generation: 1, column: 9 },
-      { id: "leg8", label: "לקוח", code: "Client", pv: 15000, generation: 1, column: 10.5 }
+      { id: "leg6", label: "זכיין", code: "P+", pv: 55000, generation: 1, column: 12.5 },
+      { id: "leg7", label: "זכיין", code: "P", pv: 45000, generation: 1, column: 15 },
+      { id: "leg8", label: "לקוח", code: "Client", pv: 20000, generation: 1, column: 17.5 }
     ],
     edges: [
       {from:"you",to:"leg1"}, {from:"you",to:"leg2"}, {from:"you",to:"leg3"}, {from:"you",to:"leg4"}, {from:"you",to:"leg5"}, {from:"you",to:"leg6"}, {from:"you",to:"leg7"}, {from:"you",to:"leg8"},
@@ -740,32 +730,32 @@ window.RANK_TREES = {
     title: "מבנה PMD - Presidential Marketing Director",
     highlightId: "you",
     nodes: [
-      { id: "you", label: "אתה", code: "PMD", pv: 15000, generation: 0, column: 5 },
+      { id: "you", label: "אתה", code: "PMD", pv: 25000, generation: 0, column: 6 },
       
       // רגל PB+POB 1 - EMD
-      { id: "leg1", label: "רגל PB+POB", code: "EMD", pv: 60000, generation: 1, column: 0, isPBLeg: true, isPOBLeg: true, pbQualified: true },
-      { id: "leg1_sub1", label: "IMD", code: "IMD", pv: 40000, generation: 2, column: 0 },
+      { id: "leg1", label: "רגל PB+POB", code: "EMD", pv: 120000, generation: 1, column: 0, isPBLeg: true, isPOBLeg: true, pbQualified: true },
+      { id: "leg1_sub1", label: "IMD", code: "IMD", pv: 70000, generation: 2, column: 0 },
       
       // רגל PB+POB 2 - IMD
-      { id: "leg2", label: "רגל PB+POB", code: "IMD", pv: 50000, generation: 1, column: 1.5, isPBLeg: true, isPOBLeg: true, pbQualified: true },
-      { id: "leg2_sub1", label: "NMD", code: "NMD", pv: 30000, generation: 2, column: 1.5 },
+      { id: "leg2", label: "רגל PB+POB", code: "IMD", pv: 100000, generation: 1, column: 2.5, isPBLeg: true, isPOBLeg: true, pbQualified: true },
+      { id: "leg2_sub1", label: "NMD", code: "NMD", pv: 55000, generation: 2, column: 2.5 },
       
       // רגל PB+POB 3 - NMD
-      { id: "leg3", label: "רגל PB+POB", code: "NMD", pv: 45000, generation: 1, column: 3, isPBLeg: true, isPOBLeg: true, pbQualified: true },
-      { id: "leg3_sub1", label: "QNMD", code: "QNMD", pv: 25000, generation: 2, column: 3 },
+      { id: "leg3", label: "רגל PB+POB", code: "NMD", pv: 85000, generation: 1, column: 5, isPBLeg: true, isPOBLeg: true, pbQualified: true },
+      { id: "leg3_sub1", label: "QNMD", code: "QNMD", pv: 45000, generation: 2, column: 5 },
       
       // רגל PB+POB 4 - QNMD
-      { id: "leg4", label: "רגל PB+POB", code: "QNMD", pv: 40000, generation: 1, column: 4.5, isPBLeg: true, isPOBLeg: true, pbQualified: true },
-      { id: "leg4_sub1", label: "SSC", code: "SSC", pv: 22000, generation: 2, column: 4.5 },
+      { id: "leg4", label: "רגל PB+POB", code: "QNMD", pv: 70000, generation: 1, column: 7.5, isPBLeg: true, isPOBLeg: true, pbQualified: true },
+      { id: "leg4_sub1", label: "SSC", code: "SSC", pv: 38000, generation: 2, column: 7.5 },
       
       // רגל PB+POB 5 - SSC
-      { id: "leg5", label: "רגל PB+POB", code: "SSC", pv: 35000, generation: 1, column: 6, isPBLeg: true, isPOBLeg: true, pbQualified: true },
-      { id: "leg5_sub1", label: "SC", code: "SC", pv: 20000, generation: 2, column: 6 },
+      { id: "leg5", label: "רגל PB+POB", code: "SSC", pv: 60000, generation: 1, column: 10, isPBLeg: true, isPOBLeg: true, pbQualified: true },
+      { id: "leg5_sub1", label: "SC", code: "SC", pv: 32000, generation: 2, column: 10 },
       
       // רגליים נוספות
-      { id: "leg6", label: "זכיין", code: "SC", pv: 50000, generation: 1, column: 7.5 },
-      { id: "leg7", label: "זכיין", code: "P+", pv: 45000, generation: 1, column: 9 },
-      { id: "leg8", label: "לקוח", code: "Client", pv: 20000, generation: 1, column: 10.5 }
+      { id: "leg6", label: "זכיין", code: "SC", pv: 70000, generation: 1, column: 12.5 },
+      { id: "leg7", label: "זכיין", code: "P+", pv: 60000, generation: 1, column: 15 },
+      { id: "leg8", label: "לקוח", code: "Client", pv: 25000, generation: 1, column: 17.5 }
     ],
     edges: [
       {from:"you",to:"leg1"}, {from:"you",to:"leg2"}, {from:"you",to:"leg3"}, {from:"you",to:"leg4"}, {from:"you",to:"leg5"}, {from:"you",to:"leg6"}, {from:"you",to:"leg7"}, {from:"you",to:"leg8"},
@@ -791,41 +781,41 @@ window.RANK_TREES = {
     title: "מבנה PMD+ - Presidential Marketing Director Plus",
     highlightId: "you",
     nodes: [
-      { id: "you", label: "אתה", code: "PMD+", pv: 20000, generation: 0, column: 5.5 },
+      { id: "you", label: "אתה", code: "PMD+", pv: 35000, generation: 0, column: 7 },
       
       // רגל PB+POB 1 - PMD
-      { id: "leg1", label: "רגל PB+POB", code: "PMD", pv: 100000, generation: 1, column: 0, isPBLeg: true, isPOBLeg: true, pbQualified: true },
-      { id: "leg1_sub1", label: "EMD", code: "EMD", pv: 60000, generation: 2, column: 0 },
+      { id: "leg1", label: "רגל PB+POB", code: "PMD", pv: 180000, generation: 1, column: 0, isPBLeg: true, isPOBLeg: true, pbQualified: true },
+      { id: "leg1_sub1", label: "EMD", code: "EMD", pv: 100000, generation: 2, column: 0 },
       
       // רגל PB+POB 2 - EMD
-      { id: "leg2", label: "רגל PB+POB", code: "EMD", pv: 80000, generation: 1, column: 1.5, isPBLeg: true, isPOBLeg: true, pbQualified: true },
-      { id: "leg2_sub1", label: "IMD", code: "IMD", pv: 50000, generation: 2, column: 1.5 },
+      { id: "leg2", label: "רגל PB+POB", code: "EMD", pv: 150000, generation: 1, column: 2.5, isPBLeg: true, isPOBLeg: true, pbQualified: true },
+      { id: "leg2_sub1", label: "IMD", code: "IMD", pv: 85000, generation: 2, column: 2.5 },
       
       // רגל PB+POB 3 - IMD
-      { id: "leg3", label: "רגל PB+POB", code: "IMD", pv: 70000, generation: 1, column: 3, isPBLeg: true, isPOBLeg: true, pbQualified: true },
-      { id: "leg3_sub1", label: "NMD", code: "NMD", pv: 40000, generation: 2, column: 3 },
+      { id: "leg3", label: "רגל PB+POB", code: "IMD", pv: 130000, generation: 1, column: 5, isPBLeg: true, isPOBLeg: true, pbQualified: true },
+      { id: "leg3_sub1", label: "NMD", code: "NMD", pv: 70000, generation: 2, column: 5 },
       
       // רגל PB+POB 4 - NMD
-      { id: "leg4", label: "רגל PB+POB", code: "NMD", pv: 60000, generation: 1, column: 4.5, isPBLeg: true, isPOBLeg: true, pbQualified: true },
-      { id: "leg4_sub1", label: "QNMD", code: "QNMD", pv: 35000, generation: 2, column: 4.5 },
+      { id: "leg4", label: "רגל PB+POB", code: "NMD", pv: 110000, generation: 1, column: 7.5, isPBLeg: true, isPOBLeg: true, pbQualified: true },
+      { id: "leg4_sub1", label: "QNMD", code: "QNMD", pv: 60000, generation: 2, column: 7.5 },
       
       // רגל PB+POB 5 - QNMD
-      { id: "leg5", label: "רגל PB+POB", code: "QNMD", pv: 55000, generation: 1, column: 6, isPBLeg: true, isPOBLeg: true, pbQualified: true },
-      { id: "leg5_sub1", label: "SSC", code: "SSC", pv: 30000, generation: 2, column: 6 },
+      { id: "leg5", label: "רגל PB+POB", code: "QNMD", pv: 95000, generation: 1, column: 10, isPBLeg: true, isPOBLeg: true, pbQualified: true },
+      { id: "leg5_sub1", label: "SSC", code: "SSC", pv: 50000, generation: 2, column: 10 },
       
       // רגל PB+POB 6 - SSC
-      { id: "leg6", label: "רגל PB+POB", code: "SSC", pv: 50000, generation: 1, column: 7.5, isPBLeg: true, isPOBLeg: true, pbQualified: true },
-      { id: "leg6_sub1", label: "SC", code: "SC", pv: 28000, generation: 2, column: 7.5 },
+      { id: "leg6", label: "רגל PB+POB", code: "SSC", pv: 80000, generation: 1, column: 12.5, isPBLeg: true, isPOBLeg: true, pbQualified: true },
+      { id: "leg6_sub1", label: "SC", code: "SC", pv: 45000, generation: 2, column: 12.5 },
       
       // רגל PB 7 - SC
-      { id: "leg7", label: "רגל PB", code: "SC", pv: 45000, generation: 1, column: 9, isPBLeg: true, pbQualified: true },
+      { id: "leg7", label: "רגל PB", code: "SC", pv: 70000, generation: 1, column: 15, isPBLeg: true, pbQualified: true },
       
       // רגל PB 8 - SP
-      { id: "leg8", label: "רגל PB", code: "SP", pv: 40000, generation: 1, column: 10.5, isPBLeg: true, pbQualified: true },
+      { id: "leg8", label: "רגל PB", code: "SP", pv: 60000, generation: 1, column: 17.5, isPBLeg: true, pbQualified: true },
       
       // רגליים נוספות
-      { id: "leg9", label: "זכיין", code: "P+", pv: 60000, generation: 1, column: 12 },
-      { id: "leg10", label: "לקוח", code: "Client", pv: 25000, generation: 1, column: 13 }
+      { id: "leg9", label: "זכיין", code: "P+", pv: 80000, generation: 1, column: 20 },
+      { id: "leg10", label: "לקוח", code: "Client", pv: 35000, generation: 1, column: 22.5 }
     ],
     edges: [
       {from:"you",to:"leg1"}, {from:"you",to:"leg2"}, {from:"you",to:"leg3"}, {from:"you",to:"leg4"}, {from:"you",to:"leg5"}, {from:"you",to:"leg6"}, {from:"you",to:"leg7"}, {from:"you",to:"leg8"}, {from:"you",to:"leg9"}, {from:"you",to:"leg10"},
